@@ -17,6 +17,12 @@ notealong/
 
 Requirements: macOS 13+, Homebrew, Python 3.11, Node 20+.
 
+**Quick way:** `./setup.sh` once (installs everything below and downloads the models), then `./start.sh`
+whenever you want to use the app. It starts both servers and prints the link (http://localhost:3000);
+Ctrl-C stops them. Logs go to `logs/`.
+
+**By hand:**
+
 ```bash
 # 1. System tools (ffmpeg is built with Rubber Band, which handles key changes)
 brew install ffmpeg python@3.11 node
