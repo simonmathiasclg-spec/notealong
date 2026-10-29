@@ -1,0 +1,71 @@
+import type { ProgressSnapshot, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
+
+export const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+async function j<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    let msg = res.statusText;
+    try {
+      const body = await res.json();
+      msg = body.detail ?? msg;
+    } catch {}
+    throw new Error(msg || `Request failed (${res.status})`);
+  }
+  return res.json() as Promise<T>;
+}
+
+export const api = {
+  health: () => fetch(`${API}/api/health`).then(j<{ ok: boolean }>),
+  listSongs: () => fetch(`${API}/api/songs`, { cache: "no-store" }).then(j<SongSummary[]>),
+  getSong: (id: string) => fetch(`${API}/api/songs/${id}`, { cache: "no-store" }).then(j<Song>),
+  upload: (file: File, opts: { instrument?: string; detail_level?: string } = {}, onProgress?: (p: number) => void) =>
+    new Promise<Song>((resolve, reject) => {
+      const fd = new FormData();
+      fd.append("file", file);
+      if (opts.instrument) fd.append("instrument", opts.instrument);
+      if (opts.detail_level) fd.append("detail_level", opts.detail_level);
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${API}/api/songs`);
+      xhr.upload.onprogress = (e) => e.lengthComputable && onProgress?.(e.loaded / e.total);
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(xhr.responseText));
+        else {
+          let msg = "Upload failed";
+          try { msg = JSON.parse(xhr.responseText).detail ?? msg; } catch {}
+          reject(new Error(msg));
+        }
+      };
+      xhr.onerror = () => reject(new Error("Could not reach the processing service. Is it running?"));
+      xhr.send(fd);
+    }),
+  patchSong: (id: string, patch: Partial<{ title: string; artist: string; words: Word[]; notes: Note[]; lines: Line[]; user: UserSession; language_override: string }>) =>
+    fetch(`${API}/api/songs/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) }).then(j<Song>),
+  deleteSong: (id: string) => fetch(`${API}/api/songs/${id}`, { method: "DELETE" }).then(j<{ ok: boolean }>),
+  rerun: (id: string, step: string, params: { detail_level?: string; language?: string } = {}) =>
+    fetch(`${API}/api/songs/${id}/steps/${step}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(params) }).then(j<ProgressSnapshot>),
+  pasteLyrics: (id: string, text: string) =>
+    fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
+  getPastedLyrics: (id: string) => fetch(`${API}/api/songs/${id}/lyrics`).then(j<{ text: string }>),
+  progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
+  audioUrl: (id: string, stem: "backing" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
+  progressStream: (id: string, onSnapshot: (s: ProgressSnapshot) => void, onEnd: () => void) => {
+    const es = new EventSource(`${API}/api/songs/${id}/progress`);
+    es.onmessage = (e) => onSnapshot(JSON.parse(e.data));
+    es.addEventListener("end", () => { es.close(); onEnd(); });
+    es.onerror = () => { es.close(); onEnd(); };
+    return () => es.close();
+  },
+};
+
+export function formatTime(s: number): string {
+  if (!isFinite(s) || s < 0) s = 0;
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+}
+
+export function formatDuration(s: number): string {
+  if (s < 60) return `${Math.round(s)}s`;
+  const m = Math.round(s / 60);
+  return `about ${m} min`;
+}

@@ -1,0 +1,16 @@
+# data
+library/
+service/models/*.th
+service/models/*.bin
+service/models/*.pt
+service/models/*.yaml
+# python
+service/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# node
+web/node_modules/
+web/.next/
+web/next-env.d.ts
+.DS_Store
