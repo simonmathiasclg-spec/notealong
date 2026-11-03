@@ -42,7 +42,7 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
 
   return (
     <div className="flex min-h-full flex-col">
-      <AppHeader right={<Link href="/" className="btn btn-ghost"><ArrowLeft className="h-4 w-4" /> Your songs</Link>} />
+      <AppHeader right={<Link href="/my-songs" className="btn btn-ghost"><ArrowLeft className="h-4 w-4" /> My songs</Link>} />
       <main className="mx-auto w-full max-w-lg flex-1 px-5 py-10">
         <div className="label mb-2">{failed ? "Something went wrong" : "Getting your song ready"}</div>
         <h1 className="font-display text-3xl font-extrabold tracking-tight">{song.title}</h1>
@@ -70,7 +70,7 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
 
         {!failed ? (
           <p className="mt-5 text-sm text-muted">
-            {eta > 0 ? `Roughly ${formatDuration(eta)} to go. ` : ""}You can go back to your songs; this keeps running in the background.
+            {eta > 0 ? `Roughly ${formatDuration(eta)} to go. ` : ""}This keeps running in the background, so you can <Link href="/" className="underline">play something from Discover</Link> while you wait.
           </p>
         ) : (
           <div className="mt-5 space-y-3">

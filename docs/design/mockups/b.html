@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction B — Songbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F4F3EE;--paper2:#EBEAE3;--ink:#141412;--muted:#6E6D66;--faint:#A9A8A0;--rule:#D6D5CC;--blue:#1F3BD6;--blue-soft:#E4E8FB;--blue-ink:#0F1F7A}
+*{box-sizing:border-box;margin:0}body{background:var(--paper);color:var(--ink);font-family:"Schibsted Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.screen{width:1440px;height:900px;position:relative;overflow:hidden;background:var(--paper)}
+.rail{position:absolute;left:0;top:0;bottom:0;width:72px;border-right:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;padding:20px 0;gap:8px;background:var(--paper)}
+.rail .logo{width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:800;margin-bottom:18px}
+.rail .r{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--muted);font-size:18px}.rail .r.on{background:var(--ink);color:var(--paper)}
+.rail .spacer{flex:1}
+/* player */
+.hdr{position:absolute;left:72px;right:0;top:0;height:92px;border-bottom:1px solid var(--rule);display:flex;align-items:center;padding:0 40px;gap:24px}
+.hdr .title{font-weight:700;font-size:22px;letter-spacing:-.01em}.hdr .meta{color:var(--muted);font-size:14px;margin-top:2px}
+.hdr .ctl{margin-left:auto;display:flex;align-items:center;gap:14px}
+.btn{border:1.5px solid var(--ink);border-radius:8px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;background:transparent}.btn.solid{background:var(--ink);color:var(--paper)}.btn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.progress{position:absolute;left:72px;right:0;top:92px;height:4px;background:var(--paper2)}.progress .f{height:100%;width:23%;background:var(--blue)}.progress .m{position:absolute;top:-6px;width:1px;height:16px;background:var(--faint)}
+.sheet{position:absolute;left:72px;right:0;top:96px;bottom:0;padding:70px 60px 0 160px;display:flex;flex-direction:column;gap:46px}
+.l{display:flex;align-items:flex-end;gap:.5em;position:relative}.l .t{position:absolute;left:-90px;bottom:.2em;font-size:13px;color:var(--faint);font-variant-numeric:tabular-nums;width:60px;text-align:right}
+.w{display:flex;flex-direction:column;align-items:flex-start;gap:.3em}.keys{display:flex;gap:.12em}
+.k{width:1.9em;height:1.9em;border-radius:.2em;display:grid;place-items:center;font-weight:700;font-size:.42em;background:var(--blue-soft);color:var(--blue-ink);line-height:1}
+.cur{font-size:54px;font-weight:700;letter-spacing:-.025em}.cur .w{position:relative}.cur .w.on{color:var(--blue)}.cur .w.on:after{content:"";position:absolute;left:0;right:0;bottom:-.08em;height:.06em;background:var(--blue)}.cur .w.done{color:var(--muted)}
+.cur .k.on{background:var(--blue);color:#fff;transform:translateY(-.1em)}.cur .k.done{opacity:.5}
+.far{font-size:30px;font-weight:500;color:var(--muted)}.far .k{background:var(--paper2);color:var(--muted);font-size:.45em}.far.prev{opacity:.55}
+.foot{position:absolute;left:72px;right:0;bottom:0;height:88px;border-top:1px solid var(--rule);display:flex;align-items:center;padding:0 40px;gap:18px;background:var(--paper)}
+.play{width:56px;height:56px;border-radius:12px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.foot .t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}.foot .sep{width:1px;height:28px;background:var(--rule);margin:0 8px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:8px;overflow:hidden}.seg span{padding:8px 14px;font-size:13px;font-weight:600;border-right:1.5px solid var(--ink)}.seg span:last-child{border:0}.seg span.on{background:var(--ink);color:var(--paper)}
+/* discover */
+.side{position:absolute;left:72px;top:0;bottom:0;width:260px;border-right:1px solid var(--rule);padding:36px 28px}
+.side h4{font-size:12px;font-weight:700;color:var(--muted);margin:26px 0 10px;letter-spacing:.02em}.side h4:first-child{margin-top:0}
+.side a{display:block;padding:7px 10px;border-radius:6px;font-size:15px;color:var(--ink)}.side a.on{background:var(--ink);color:var(--paper);font-weight:600}
+.main{position:absolute;left:332px;right:0;top:0;bottom:0;padding:36px 48px;overflow:hidden}
+.main .top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:34px}
+.main h1{font-size:44px;font-weight:800;letter-spacing:-.03em}.main .lead{color:var(--muted);font-size:16px;margin-top:6px}
+.srch{width:320px;padding:11px 14px;border:1.5px solid var(--ink);border-radius:8px;font-size:15px;color:var(--muted)}
+.feature{display:grid;grid-template-columns:260px 1fr;gap:34px;padding:28px;border:1.5px solid var(--ink);border-radius:16px;margin-bottom:38px;background:#fff}
+.feature img{width:260px;height:260px;border-radius:10px;display:block}.feature .e{font-size:13px;font-weight:700;color:var(--blue)}.feature h2{font-size:46px;font-weight:800;letter-spacing:-.03em;margin:6px 0 12px}.feature p{font-size:16px;color:var(--muted);line-height:1.5;max-width:560px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:26px 22px}.c img{width:100%;border-radius:10px;display:block;border:1.5px solid var(--ink)}.c .n{font-weight:700;font-size:15px;margin-top:10px}.c .m{font-size:13px;color:var(--muted);margin-top:2px}
+.main h3{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid var(--ink)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--blue-soft);color:var(--blue-ink);margin-right:6px}
+</style></head><body>
+<div class="screen">
+ <div class="rail"><div class="logo">♪</div><div class="r on">◉</div><div class="r">♫</div><div class="spacer"></div><div class="r">☾</div><div class="r">?</div></div>
+ <div class="hdr"><div><div class="title">Danny Boy</div><div class="meta">Traditional · D major · for alto sax</div></div>
+  <div class="ctl"><span class="btn">🎷 Alto sax</span><span class="btn">Key: as written ▾</span><span class="btn">Edit</span><span class="btn solid">Settings</span></div></div>
+ <div class="progress"><div class="f"></div><div class="m" style="left:8%"></div><div class="m" style="left:23%"></div><div class="m" style="left:39%"></div><div class="m" style="left:55%"></div><div class="m" style="left:71%"></div></div>
+ <div class="sheet">
+  <div class="l far prev"><span class="t">0:18</span><div class="w"><div class="keys"><div class="k">A</div><div class="k">B</div></div>from</div><div class="w"><div class="keys"><div class="k">C♯</div></div>glen</div><div class="w"><div class="keys"><div class="k">D</div></div>to</div><div class="w"><div class="keys"><div class="k">E</div></div>glen,</div><div class="w"><div class="keys"><div class="k">D</div></div>and</div><div class="w"><div class="keys"><div class="k">C♯</div></div>down</div><div class="w"><div class="keys"><div class="k">B</div></div>the</div><div class="w"><div class="keys"><div class="k">A</div></div>mountain</div><div class="w"><div class="keys"><div class="k">G♯</div><div class="k">A</div></div>side</div></div>
+  <div class="l cur"><span class="t" style="color:var(--blue);font-weight:700">0:31</span><div class="w done"><div class="keys"><div class="k done">E</div></div>The</div><div class="w done"><div class="keys"><div class="k done">A</div></div>sum</div><div class="w on"><div class="keys"><div class="k on">B</div></div>mer's</div><div class="w"><div class="keys"><div class="k">C♯</div></div>gone,</div><div class="w"><div class="keys"><div class="k">D</div><div class="k">C♯</div></div>and</div><div class="w"><div class="keys"><div class="k">B</div></div>all</div><div class="w"><div class="keys"><div class="k">A</div></div>the</div><div class="w"><div class="keys"><div class="k">F♯</div></div>flowers</div><div class="w"><div class="keys"><div class="k">E</div></div>are</div><div class="w"><div class="keys"><div class="k">A</div></div>dying</div></div>
+  <div class="l far"><span class="t">0:44</span><div class="w"><div class="keys"><div class="k">E</div></div>'Tis</div><div class="w"><div class="keys"><div class="k">A</div></div>you,</div><div class="w"><div class="keys"><div class="k">B</div></div>'tis</div><div class="w"><div class="keys"><div class="k">C♯</div></div>you</div><div class="w"><div class="keys"><div class="k">D</div></div>must</div><div class="w"><div class="keys"><div class="k">E</div></div>go</div><div class="w"><div class="keys"><div class="k">D</div></div>and</div><div class="w"><div class="keys"><div class="k">C♯</div></div>I</div><div class="w"><div class="keys"><div class="k">B</div></div>must</div><div class="w"><div class="keys"><div class="k">A</div></div>bide</div></div>
+  <div class="l far" style="opacity:.6"><span class="t">0:57</span><div class="w"><div class="keys"><div class="k">A</div></div>But</div><div class="w"><div class="keys"><div class="k">C♯</div></div>come</div><div class="w"><div class="keys"><div class="k">E</div></div>ye</div><div class="w"><div class="keys"><div class="k">F♯</div></div>back</div><div class="w"><div class="keys"><div class="k">E</div></div>when</div><div class="w"><div class="keys"><div class="k">D</div></div>summer's</div><div class="w"><div class="keys"><div class="k">B</div></div>in</div><div class="w"><div class="keys"><div class="k">A</div></div>the</div><div class="w"><div class="keys"><div class="k">E</div><div class="k">D</div></div>meadow</div></div>
+ </div>
+ <div class="foot"><div class="play">▶</div><span class="t">0:31 / 1:58</span><div class="sep"></div><div class="seg"><span>Slower</span><span class="on">Normal</span></div><div class="seg"><span>Lower</span><span class="on">Key as written</span><span>Higher</span></div><div class="seg"><span>Loop this line</span></div><span style="margin-left:auto;font-size:13px;color:var(--muted)">Space to play · ← → lines · L loop · F focus</span></div>
+</div>
+
+<div class="screen">
+ <div class="rail"><div class="logo">♪</div><div class="r on">◉</div><div class="r">♫</div><div class="spacer"></div><div class="r">☾</div><div class="r">?</div></div>
+ <div class="side"><h4>Browse</h4><a class="on">All songs</a><a>Great for beginners</a><a>Real recordings</a><h4>Difficulty</h4><a>Easy</a><a>Medium</a><a>Hard</a><h4>Genre</h4><a>Children's</a><a>Christmas</a><a>Folk</a><a>Hymn</a><a>Latin</a><a>Pop</a><h4>Culture</h4><a>American</a><a>English</a><a>Irish</a><a>Italian</a><a>Japanese</a><a>Korean</a><a>Mexican</a></div>
+ <div class="main">
+  <div class="top"><div><h1>Discover</h1><div class="lead">Forty-nine songs you can play right now. Tap one and it starts.</div></div><div style="display:flex;gap:10px"><div class="srch">Search by title, country or style</div><span class="btn blue">＋ Add a song</span></div></div>
+  <div class="feature"><img src="covers/danny-boy.svg"><div><div class="e">THIS WEEK</div><h2>Danny Boy</h2><p>The Londonderry Air, played the way you know it. A slow, generous melody that sits beautifully on the alto sax.</p><p style="margin-top:10px"><span class="tag">MEDIUM</span><span class="tag">IRELAND</span><span class="tag">1:58</span></p><p style="margin-top:22px"><span class="btn solid">▶ Play</span>&nbsp;&nbsp;<span class="btn">Print sheet</span></p></div></div>
+  <h3>Great for beginners</h3>
+  <div class="grid">
+   <div class="c"><img src="covers/twinkle-twinkle-little-star.svg"><div class="n">Twinkle, Twinkle, Little Star</div><div class="m">Easy · 0:35</div></div>
+   <div class="c"><img src="covers/happy-birthday.svg"><div class="n">Happy Birthday to You</div><div class="m">Easy · 0:34</div></div>
+   <div class="c"><img src="covers/amazing-grace.svg"><div class="n">Amazing Grace</div><div class="m">Easy · 1:20</div></div>
+   <div class="c"><img src="covers/swing-low-sweet-chariot.svg"><div class="n">Swing Low, Sweet Chariot</div><div class="m">Easy · 1:05</div></div>
+   <div class="c"><img src="covers/ode-to-joy.svg"><div class="n">Ode to Joy</div><div class="m">Easy · 0:58</div></div>
+  </div>
+ </div>
+</div>
+</body></html>

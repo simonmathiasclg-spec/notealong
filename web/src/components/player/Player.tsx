@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Check, HelpCircle, Loader2, Maximize2, Minimize2, Pencil, Redo2, Settings2, Undo2 } from "lucide-react";
-import { api } from "@/lib/api";
+import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
 import { buildDisplayLines, currentLineIndex, type DisplayLine } from "@/lib/display";
 import { getInstrument } from "@/lib/instruments";
@@ -289,6 +289,8 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const exportMusicXml = () => downloadText(`${song.title}.musicxml`, songToMusicXml(song, session.instrument, session.key_shift, octaveShift), "application/vnd.recordare.musicxml+xml");
 
   const editingNote = noteAnchor ? noteInfo.get(noteAnchor.id) : null;
+  const catalog = isCatalogSong(song);
+  const backHref = catalog ? "/" : "/my-songs";
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-bg">
@@ -296,7 +298,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
       <AnimatePresence initial={false}>
         {!focus && (
           <motion.header initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} className="no-print flex items-center gap-2 px-3 py-2 sm:px-5">
-            <Link href="/" className="btn btn-ghost btn-icon" aria-label="Back to your songs"><ArrowLeft className="h-5 w-5" /></Link>
+            <Link href={backHref} className="btn btn-ghost btn-icon" aria-label={catalog ? "Back to Discover" : "Back to my songs"}><ArrowLeft className="h-5 w-5" /></Link>
             <div className="min-w-0 flex-1">
               <div className="truncate font-display text-base font-bold leading-tight sm:text-lg">{song.title}</div>
               <div className="truncate text-xs text-muted">{song.artist ?? ""}{song.artist && song.key ? " · " : ""}{song.key ? keyName(song.key, session.key_shift) : ""}{session.key_shift !== 0 ? ` (${session.key_shift > 0 ? "+" : ""}${session.key_shift})` : ""}</div>
@@ -390,6 +392,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         onPasteLyrics={async (text) => { setBusy("Lining up your lyrics…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
         onReprocess={async () => { await api.rerun(song.id, "all"); await reload(); }}
         onExportPdf={exportPdf} onExportMusicXml={exportMusicXml}
+        catalog={song.catalog ?? null}
       />
       <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
 

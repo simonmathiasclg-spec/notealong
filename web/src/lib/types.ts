@@ -43,6 +43,40 @@ export type UserSession = {
   script: "original" | "roman";
 };
 
+export type Difficulty = "easy" | "medium" | "hard";
+
+/** One built-in song in catalog/catalog.json (public domain or Creative Commons). */
+export type CatalogEntry = {
+  id: string;
+  title: string;
+  artist: string;
+  origin?: string;
+  culture?: string;
+  genre: string;
+  language?: string;
+  difficulty: Difficulty;
+  duration: number;
+  key?: string | null;
+  tempo_bpm?: number | null;
+  year?: string | number | null;
+  licence: { name: string; url?: string | null };
+  attribution: string;
+  source: { kind: "traditional" | "cc"; url?: string | null };
+  cover: string;
+  cover_url: string;
+  tags: string[];
+  featured?: boolean;
+  beginner?: boolean;
+  access: "free" | "paid";
+  note_count?: number;
+  word_count?: number;
+};
+
+export type Catalog = { version: number; songs: CatalogEntry[] };
+
+/** The current plan (no accounts yet; mirrors service/notealong/entitlements.py). */
+export type Entitlements = { plan: string; uploads: { used: number; limit: number | null; remaining: number | null }; catalog: "free" };
+
 export type Song = {
   schema_version: number;
   id: string;
@@ -53,7 +87,9 @@ export type Song = {
   created_at: string;
   updated_at: string;
   status: "processing" | "ready" | "failed";
-  source: { filename?: string; format?: string };
+  source: { kind?: "upload" | "catalog"; origin?: "traditional" | "cc"; url?: string; filename?: string; format?: string };
+  /** Present for built-in songs only. */
+  catalog?: CatalogEntry | null;
   files: Record<string, string>;
   language: { detected?: string | null; override?: string | null; script: "latin" | "other" };
   key?: KeyInfo | null;

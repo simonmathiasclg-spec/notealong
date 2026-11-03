@@ -1,0 +1,954 @@
+{
+ "schema_version": 1,
+ "id": "aura-lee",
+ "title": "Aura Lee",
+ "artist": "George R. Poulton",
+ "duration": 51.429,
+ "tempo_bpm": 84.0,
+ "created_at": "2026-11-02T21:47:11.676605+00:00",
+ "updated_at": "2026-11-02T21:47:11.676615+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "en",
+  "override": null,
+  "script": "latin"
+ },
+ "key": {
+  "tonic": 7,
+  "mode": "major",
+  "name": "G major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "When",
+   "roman": null,
+   "start": 2.857,
+   "end": 3.571,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "the",
+   "roman": null,
+   "start": 3.571,
+   "end": 4.286,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "blackbird",
+   "roman": null,
+   "start": 4.286,
+   "end": 5.714,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "in",
+   "roman": null,
+   "start": 5.714,
+   "end": 6.429,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "the",
+   "roman": null,
+   "start": 6.429,
+   "end": 7.143,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "spring,",
+   "roman": null,
+   "start": 7.143,
+   "end": 8.571,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "on",
+   "roman": null,
+   "start": 8.571,
+   "end": 9.286,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "the",
+   "roman": null,
+   "start": 9.286,
+   "end": 10.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "willow",
+   "roman": null,
+   "start": 10.0,
+   "end": 11.429,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "tree,",
+   "roman": null,
+   "start": 11.429,
+   "end": 14.286,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "sat",
+   "roman": null,
+   "start": 14.286,
+   "end": 15.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "and",
+   "roman": null,
+   "start": 15.0,
+   "end": 15.714,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "rocked,",
+   "roman": null,
+   "start": 15.714,
+   "end": 16.429,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "I",
+   "roman": null,
+   "start": 16.429,
+   "end": 17.143,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "heard",
+   "roman": null,
+   "start": 17.143,
+   "end": 17.857,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "him",
+   "roman": null,
+   "start": 17.857,
+   "end": 18.571,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "sing,",
+   "roman": null,
+   "start": 18.571,
+   "end": 20.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "singing",
+   "roman": null,
+   "start": 20.0,
+   "end": 21.429,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "Aura",
+   "roman": null,
+   "start": 21.429,
+   "end": 22.857,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "Lee.",
+   "roman": null,
+   "start": 22.857,
+   "end": 25.714,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "Aura",
+   "roman": null,
+   "start": 25.714,
+   "end": 27.143,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "Lee,",
+   "roman": null,
+   "start": 27.143,
+   "end": 28.571,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "Aura",
+   "roman": null,
+   "start": 28.571,
+   "end": 30.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "Lee,",
+   "roman": null,
+   "start": 30.0,
+   "end": 31.429,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "maid",
+   "roman": null,
+   "start": 31.429,
+   "end": 32.143,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "of",
+   "roman": null,
+   "start": 32.143,
+   "end": 32.857,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "golden",
+   "roman": null,
+   "start": 32.857,
+   "end": 34.286,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "hair;",
+   "roman": null,
+   "start": 34.286,
+   "end": 37.143,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "sunshine",
+   "roman": null,
+   "start": 37.143,
+   "end": 38.571,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "came",
+   "roman": null,
+   "start": 38.571,
+   "end": 39.286,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "along",
+   "roman": null,
+   "start": 39.286,
+   "end": 40.714,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "with",
+   "roman": null,
+   "start": 40.714,
+   "end": 41.429,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "thee,",
+   "roman": null,
+   "start": 41.429,
+   "end": 42.5,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "and",
+   "roman": null,
+   "start": 42.5,
+   "end": 42.857,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "swallows",
+   "roman": null,
+   "start": 42.857,
+   "end": 44.286,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "in",
+   "roman": null,
+   "start": 44.286,
+   "end": 45.357,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w36",
+   "text": "the",
+   "roman": null,
+   "start": 45.357,
+   "end": 45.714,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w37",
+   "text": "air.",
+   "roman": null,
+   "start": 45.714,
+   "end": 48.571,
+   "line": 7,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 2.857,
+   "end": 8.571
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 8.571,
+   "end": 14.286
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 14.286,
+   "end": 20.0
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 20.0,
+   "end": 25.714
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 25.714,
+   "end": 31.429
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 31.429,
+   "end": 37.143
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 37.143,
+   "end": 42.857
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 42.857,
+   "end": 48.571
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 2.857,
+   "end": 3.571,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 3.571,
+   "end": 4.286,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 4.286,
+   "end": 5.0,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 5.0,
+   "end": 5.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 5.714,
+   "end": 6.429,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 6.429,
+   "end": 7.143,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 7.143,
+   "end": 8.571,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 8.571,
+   "end": 9.286,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 9.286,
+   "end": 10.0,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 10.0,
+   "end": 10.714,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 10.714,
+   "end": 11.429,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 11.429,
+   "end": 14.286,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 14.286,
+   "end": 15.0,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 15.0,
+   "end": 15.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 15.714,
+   "end": 16.429,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 16.429,
+   "end": 17.143,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 17.143,
+   "end": 17.857,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 17.857,
+   "end": 18.571,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 18.571,
+   "end": 20.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 20.0,
+   "end": 20.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 20.714,
+   "end": 21.429,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 21.429,
+   "end": 22.143,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 22.143,
+   "end": 22.857,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 22.857,
+   "end": 25.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 25.714,
+   "end": 26.786,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 26.786,
+   "end": 27.143,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 27.143,
+   "end": 28.571,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 28.571,
+   "end": 29.643,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 29.643,
+   "end": 30.0,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 30.0,
+   "end": 31.429,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 31.429,
+   "end": 32.143,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 32.143,
+   "end": 32.857,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 32.857,
+   "end": 33.571,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 33.571,
+   "end": 34.286,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 34.286,
+   "end": 37.143,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 37.143,
+   "end": 37.857,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 37.857,
+   "end": 38.571,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 38.571,
+   "end": 39.286,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 39.286,
+   "end": 40.0,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 40.0,
+   "end": 40.714,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 40.714,
+   "end": 41.429,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 41.429,
+   "end": 42.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 42.5,
+   "end": 42.857,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 42.857,
+   "end": 43.571,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 43.571,
+   "end": 44.286,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 44.286,
+   "end": 45.357,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 45.357,
+   "end": 45.714,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n47",
+   "start": 45.714,
+   "end": 48.571,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 7,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "original"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

@@ -13,8 +13,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
-from . import library
-from .config import DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
+from . import entitlements, library
+from .catalog import store as catalog_store
+from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
 from .jobs import manager, recover_interrupted
 from .pipeline import audio as audio_mod
 from .pipeline.runner import STEP_ORDER, run_paste_lyrics
@@ -34,20 +35,49 @@ def _startup() -> None:
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "library": str(LIBRARY_DIR), "steps": processing_steps(), "detail_levels": list(DETAIL_LEVELS)}
+    return {"ok": True, "library": str(LIBRARY_DIR), "catalog": str(CATALOG_DIR), "catalog_songs": len(catalog_store.load_index()["songs"]),
+            "steps": processing_steps(), "detail_levels": list(DETAIL_LEVELS)}
+
+
+@app.get("/api/me")
+def me():
+    """The current plan and limits (no accounts yet; see entitlements.py)."""
+    return entitlements.current()
+
+
+@app.get("/api/catalog")
+def get_catalog():
+    """Built-in songs: the index with one entry per song (see catalog/catalog.json)."""
+    data = catalog_store.load_index()
+    for s in data["songs"]:
+        s["cover_url"] = f"/api/catalog/{s['id']}/cover"
+    return data
+
+
+@app.get("/api/catalog/{song_id}/cover")
+def get_cover(song_id: str):
+    try:
+        p = library.song_dir(song_id) / "cover.svg"
+    except ValueError:
+        raise HTTPException(404, "Song not found")
+    if not library.is_catalog(song_id) or not p.exists():
+        raise HTTPException(404, "No cover")
+    return FileResponse(p, media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=86400"})
+
+
+def _summary(s: Song) -> dict:
+    d = s.model_dump()
+    for k in ("words", "notes", "lines"):
+        d.pop(k, None)
+    d["word_count"] = len(s.words)
+    d["note_count"] = len(s.notes)
+    return d
 
 
 @app.get("/api/songs")
 def list_songs():
-    out = []
-    for s in library.list_songs():
-        d = s.model_dump()
-        for k in ("words", "notes", "lines"):
-            d.pop(k, None)
-        d["word_count"] = len(s.words)
-        d["note_count"] = len(s.notes)
-        out.append(d)
-    return out
+    """The user's own songs (uploads). Built-in songs are under /api/catalog."""
+    return [_summary(s) for s in library.list_songs()]
 
 
 def _guess_title(filename: str) -> tuple[str, Optional[str]]:
@@ -66,6 +96,10 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
     ext = Path(file.filename or "").suffix.lower()
     if ext not in ALLOWED_EXT:
         raise HTTPException(400, "Please upload an MP3, WAV or M4A file.")
+    try:
+        entitlements.check_upload_allowed()
+    except entitlements.UploadLimitReached as e:
+        raise HTTPException(402, str(e))
     guessed_title, guessed_artist = _guess_title(file.filename or "song")
     song_id = library.new_song_id(title or guessed_title)
     d = library.song_dir(song_id)
@@ -85,7 +119,7 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
         id=song_id, title=title or info.get("title") or guessed_title,
         artist=artist or info.get("artist") or guessed_artist,
         duration=round(info["duration"], 3), created_at=library.now_iso(), updated_at=library.now_iso(),
-        source={"filename": file.filename, "format": ext.lstrip(".")},
+        source={"kind": "upload", "filename": file.filename, "format": ext.lstrip(".")},
         files={"original": original.name},
     )
     song.settings.detail_level = detail_level if detail_level in DETAIL_LEVELS else "balanced"
@@ -100,10 +134,14 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
 
 @app.get("/api/songs/{song_id}")
 def get_song(song_id: str):
+    """A song with everything the player needs. Works for uploads and catalog songs."""
     try:
-        return library.load_song(song_id).model_dump()
+        d = library.load_song(song_id).model_dump()
     except (FileNotFoundError, ValueError):
         raise HTTPException(404, "Song not found")
+    if library.is_catalog(song_id):
+        d["catalog"] = catalog_store.entry(song_id)
+    return d
 
 
 class SongPatch(BaseModel):
@@ -134,15 +172,27 @@ def patch_song(song_id: str, patch: SongPatch):
         if patch.language_override is not None:
             s.language.override = patch.language_override or None
     try:
-        return library.update_song(song_id, upd).model_dump()
-    except FileNotFoundError:
+        d = library.update_song(song_id, upd).model_dump()
+    except (FileNotFoundError, ValueError):
         raise HTTPException(404, "Song not found")
+    if library.is_catalog(song_id):
+        d["catalog"] = catalog_store.entry(song_id)
+    return d
 
 
 @app.delete("/api/songs/{song_id}")
 def delete_song(song_id: str):
-    library.delete_song(song_id)
+    """Deletes an upload; for a built-in song, resets your settings and note edits."""
+    try:
+        library.delete_song(song_id)
+    except ValueError:
+        raise HTTPException(404, "Song not found")
     return {"ok": True}
+
+
+def _not_catalog(song_id: str) -> None:
+    if library.is_catalog(song_id):
+        raise HTTPException(400, "Built-in songs are already checked by hand and can't be processed again.")
 
 
 @app.get("/api/songs/{song_id}/progress")
@@ -185,7 +235,11 @@ class StepParams(BaseModel):
 def rerun_step(song_id: str, step: str, params: StepParams | None = None):
     """Re-run one step (or 'all'). Later steps that depend on it run again too."""
     params = params or StepParams()
-    song = library.load_song(song_id)
+    _not_catalog(song_id)
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
     if step == "all":
         steps = list(STEP_ORDER)
     elif step == "stems":
@@ -222,6 +276,7 @@ class LyricsBody(BaseModel):
 @app.post("/api/songs/{song_id}/lyrics")
 def paste_lyrics(song_id: str, body: LyricsBody):
     """Use pasted lyrics instead of the transcription (aligned to the audio)."""
+    _not_catalog(song_id)
     try:
         run_paste_lyrics(song_id, body.text)
     except FileNotFoundError:
@@ -244,7 +299,10 @@ async def get_audio(song_id: str, stem: str, shift: int = 0):
     created on first request and cached in the song folder."""
     if stem not in ("backing", "vocals", "original"):
         raise HTTPException(404, "Unknown stem")
-    song = library.load_song(song_id)
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
     d = library.song_dir(song_id)
     if stem == "original":
         return FileResponse(d / song.files["original"])
@@ -263,9 +321,8 @@ async def get_audio(song_id: str, stem: str, shift: int = 0):
 
 
 async def _shifted_render(song_id: str, stem: str, shift: int) -> Path:
-    d = library.song_dir(song_id)
-    base = d / f"{stem}.{STEM_FORMAT}"
-    target = d / f"shift_{stem}_{shift:+d}.{STEM_FORMAT}"
+    base = library.song_dir(song_id) / f"{stem}.{STEM_FORMAT}"
+    target = library.render_dir(song_id) / f"shift_{stem}_{shift:+d}.{STEM_FORMAT}"
     if target.exists():
         return target
     lock = _render_locks.setdefault(f"{song_id}:{stem}:{shift}", asyncio.Lock())

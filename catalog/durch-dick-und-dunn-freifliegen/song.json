@@ -1,0 +1,3598 @@
+{
+ "schema_version": 1,
+ "id": "durch-dick-und-dunn-freifliegen",
+ "title": "Freifliegen",
+ "artist": "Durch Dick und Dünn",
+ "duration": 250.256,
+ "tempo_bpm": 117.5,
+ "created_at": "2026-11-02T21:18:26.392583+00:00",
+ "updated_at": "2026-11-02T21:18:26.392595+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "cc",
+  "url": "https://www.jamendo.com/track/34276/freifliegen/lyrics",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "de",
+  "override": null,
+  "script": "latin"
+ },
+ "key": {
+  "tonic": 4,
+  "mode": "minor",
+  "name": "E minor",
+  "confidence": 0.899
+ },
+ "words": [
+  {
+   "id": "w1",
+   "text": "ich",
+   "roman": null,
+   "start": 22.668,
+   "end": 22.962,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "will",
+   "roman": null,
+   "start": 22.962,
+   "end": 23.423,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "entfliehen",
+   "roman": null,
+   "start": 23.423,
+   "end": 24.726,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "dem",
+   "roman": null,
+   "start": 25.549,
+   "end": 26.092,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "käfig",
+   "roman": null,
+   "start": 26.092,
+   "end": 26.885,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "der",
+   "roman": null,
+   "start": 26.885,
+   "end": 27.398,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "mich",
+   "roman": null,
+   "start": 27.398,
+   "end": 27.835,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "hält",
+   "roman": null,
+   "start": 27.972,
+   "end": 29.557,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "lass'",
+   "roman": null,
+   "start": 30.329,
+   "end": 30.512,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "dich",
+   "roman": null,
+   "start": 30.573,
+   "end": 30.852,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "allein",
+   "roman": null,
+   "start": 30.852,
+   "end": 31.33,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "zurück",
+   "roman": null,
+   "start": 31.432,
+   "end": 33.382,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "folge",
+   "roman": null,
+   "start": 34.002,
+   "end": 34.596,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "dem",
+   "roman": null,
+   "start": 34.596,
+   "end": 34.86,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "was",
+   "roman": null,
+   "start": 34.86,
+   "end": 35.383,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "mich",
+   "roman": null,
+   "start": 35.383,
+   "end": 35.901,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "ruft",
+   "roman": null,
+   "start": 35.901,
+   "end": 37.44,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "nächte",
+   "roman": null,
+   "start": 38.531,
+   "end": 39.081,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "lang",
+   "roman": null,
+   "start": 39.081,
+   "end": 39.39,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "geredet",
+   "roman": null,
+   "start": 39.39,
+   "end": 41.458,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "geweint",
+   "roman": null,
+   "start": 41.77,
+   "end": 42.518,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "geschworen",
+   "roman": null,
+   "start": 42.518,
+   "end": 43.314,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "versöhnt",
+   "roman": null,
+   "start": 43.314,
+   "end": 45.496,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "gesteh",
+   "roman": null,
+   "start": 46.256,
+   "end": 46.817,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "doch",
+   "roman": null,
+   "start": 46.817,
+   "end": 47.081,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "endlich",
+   "roman": null,
+   "start": 47.081,
+   "end": 47.964,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "ein",
+   "roman": null,
+   "start": 47.964,
+   "end": 49.387,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "all",
+   "roman": null,
+   "start": 50.042,
+   "end": 50.372,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "das",
+   "roman": null,
+   "start": 50.372,
+   "end": 50.829,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "macht",
+   "roman": null,
+   "start": 50.905,
+   "end": 51.281,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "nicht",
+   "roman": null,
+   "start": 51.426,
+   "end": 51.779,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "frei",
+   "roman": null,
+   "start": 51.952,
+   "end": 53.12,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "ich",
+   "roman": null,
+   "start": 53.812,
+   "end": 54.018,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "folge",
+   "roman": null,
+   "start": 54.018,
+   "end": 55.055,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "meinem",
+   "roman": null,
+   "start": 55.055,
+   "end": 55.721,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w36",
+   "text": "herzen",
+   "roman": null,
+   "start": 55.781,
+   "end": 57.026,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w37",
+   "text": "woher",
+   "roman": null,
+   "start": 57.747,
+   "end": 58.977,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w38",
+   "text": "es",
+   "roman": null,
+   "start": 59.077,
+   "end": 59.582,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w39",
+   "text": "auch",
+   "roman": null,
+   "start": 59.582,
+   "end": 59.858,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w40",
+   "text": "ruft",
+   "roman": null,
+   "start": 59.858,
+   "end": 60.617,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w41",
+   "text": "und",
+   "roman": null,
+   "start": 61.753,
+   "end": 62.012,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w42",
+   "text": "flieg",
+   "roman": null,
+   "start": 62.012,
+   "end": 62.366,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w43",
+   "text": "mich",
+   "roman": null,
+   "start": 62.366,
+   "end": 62.842,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w44",
+   "text": "frei",
+   "roman": null,
+   "start": 62.842,
+   "end": 63.258,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w45",
+   "text": "von",
+   "roman": null,
+   "start": 63.553,
+   "end": 63.954,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w46",
+   "text": "jedem",
+   "roman": null,
+   "start": 63.954,
+   "end": 64.838,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w47",
+   "text": "zwang",
+   "roman": null,
+   "start": 64.838,
+   "end": 65.255,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w48",
+   "text": "ein",
+   "roman": null,
+   "start": 65.547,
+   "end": 65.906,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w49",
+   "text": "käfig",
+   "roman": null,
+   "start": 66.026,
+   "end": 66.856,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w50",
+   "text": "ist",
+   "roman": null,
+   "start": 66.856,
+   "end": 67.344,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w51",
+   "text": "zu",
+   "roman": null,
+   "start": 67.344,
+   "end": 67.799,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w52",
+   "text": "klein",
+   "roman": null,
+   "start": 67.799,
+   "end": 69.039,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w53",
+   "text": "für",
+   "roman": null,
+   "start": 69.79,
+   "end": 70.039,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w54",
+   "text": "das",
+   "roman": null,
+   "start": 70.039,
+   "end": 70.43,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w55",
+   "text": "was",
+   "roman": null,
+   "start": 70.537,
+   "end": 70.795,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w56",
+   "text": "ich",
+   "roman": null,
+   "start": 70.795,
+   "end": 71.062,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w57",
+   "text": "leben",
+   "roman": null,
+   "start": 71.062,
+   "end": 71.924,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w58",
+   "text": "will",
+   "roman": null,
+   "start": 71.924,
+   "end": 72.604,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w59",
+   "text": "leben",
+   "roman": null,
+   "start": 73.956,
+   "end": 76.031,
+   "line": 13,
+   "confidence": 1.0
+  },
+  {
+   "id": "w60",
+   "text": "will",
+   "roman": null,
+   "start": 76.031,
+   "end": 77.186,
+   "line": 13,
+   "confidence": 1.0
+  },
+  {
+   "id": "w61",
+   "text": "ich",
+   "roman": null,
+   "start": 78.602,
+   "end": 78.91,
+   "line": 14,
+   "confidence": 1.0
+  },
+  {
+   "id": "w62",
+   "text": "würde",
+   "roman": null,
+   "start": 78.91,
+   "end": 79.267,
+   "line": 14,
+   "confidence": 1.0
+  },
+  {
+   "id": "w63",
+   "text": "viel",
+   "roman": null,
+   "start": 79.385,
+   "end": 79.878,
+   "line": 14,
+   "confidence": 1.0
+  },
+  {
+   "id": "w64",
+   "text": "geben",
+   "roman": null,
+   "start": 79.878,
+   "end": 81.651,
+   "line": 14,
+   "confidence": 1.0
+  },
+  {
+   "id": "w65",
+   "text": "könnt",
+   "roman": null,
+   "start": 82.545,
+   "end": 82.885,
+   "line": 15,
+   "confidence": 1.0
+  },
+  {
+   "id": "w66",
+   "text": "ich",
+   "roman": null,
+   "start": 82.885,
+   "end": 83.175,
+   "line": 15,
+   "confidence": 1.0
+  },
+  {
+   "id": "w67",
+   "text": "dir",
+   "roman": null,
+   "start": 83.383,
+   "end": 83.756,
+   "line": 15,
+   "confidence": 1.0
+  },
+  {
+   "id": "w68",
+   "text": "schmerz",
+   "roman": null,
+   "start": 83.881,
+   "end": 84.363,
+   "line": 15,
+   "confidence": 1.0
+  },
+  {
+   "id": "w69",
+   "text": "ersparen",
+   "roman": null,
+   "start": 84.363,
+   "end": 85.404,
+   "line": 15,
+   "confidence": 1.0
+  },
+  {
+   "id": "w70",
+   "text": "doch",
+   "roman": null,
+   "start": 85.989,
+   "end": 86.207,
+   "line": 16,
+   "confidence": 1.0
+  },
+  {
+   "id": "w71",
+   "text": "dies",
+   "roman": null,
+   "start": 86.359,
+   "end": 86.761,
+   "line": 16,
+   "confidence": 1.0
+  },
+  {
+   "id": "w72",
+   "text": "geb",
+   "roman": null,
+   "start": 86.851,
+   "end": 87.34,
+   "line": 16,
+   "confidence": 1.0
+  },
+  {
+   "id": "w73",
+   "text": "ich",
+   "roman": null,
+   "start": 87.34,
+   "end": 87.785,
+   "line": 16,
+   "confidence": 1.0
+  },
+  {
+   "id": "w74",
+   "text": "nicht",
+   "roman": null,
+   "start": 87.934,
+   "end": 89.417,
+   "line": 16,
+   "confidence": 1.0
+  },
+  {
+   "id": "w75",
+   "text": "meine",
+   "roman": null,
+   "start": 89.773,
+   "end": 90.077,
+   "line": 17,
+   "confidence": 1.0
+  },
+  {
+   "id": "w76",
+   "text": "freiheit",
+   "roman": null,
+   "start": 90.077,
+   "end": 91.007,
+   "line": 17,
+   "confidence": 1.0
+  },
+  {
+   "id": "w77",
+   "text": "gehört",
+   "roman": null,
+   "start": 91.317,
+   "end": 91.942,
+   "line": 17,
+   "confidence": 1.0
+  },
+  {
+   "id": "w78",
+   "text": "mir",
+   "roman": null,
+   "start": 91.942,
+   "end": 93.309,
+   "line": 17,
+   "confidence": 1.0
+  },
+  {
+   "id": "w79",
+   "text": "greif",
+   "roman": null,
+   "start": 126.847,
+   "end": 127.268,
+   "line": 19,
+   "confidence": 1.0
+  },
+  {
+   "id": "w80",
+   "text": "die",
+   "roman": null,
+   "start": 127.408,
+   "end": 127.767,
+   "line": 19,
+   "confidence": 1.0
+  },
+  {
+   "id": "w81",
+   "text": "chance",
+   "roman": null,
+   "start": 127.887,
+   "end": 129.842,
+   "line": 19,
+   "confidence": 1.0
+  },
+  {
+   "id": "w82",
+   "text": "fasse",
+   "roman": null,
+   "start": 130.781,
+   "end": 131.837,
+   "line": 20,
+   "confidence": 1.0
+  },
+  {
+   "id": "w83",
+   "text": "mut",
+   "roman": null,
+   "start": 131.837,
+   "end": 133.313,
+   "line": 20,
+   "confidence": 1.0
+  },
+  {
+   "id": "w84",
+   "text": "befreie",
+   "roman": null,
+   "start": 133.805,
+   "end": 135.375,
+   "line": 21,
+   "confidence": 1.0
+  },
+  {
+   "id": "w85",
+   "text": "dich",
+   "roman": null,
+   "start": 135.375,
+   "end": 135.933,
+   "line": 21,
+   "confidence": 1.0
+  },
+  {
+   "id": "w86",
+   "text": "auch",
+   "roman": null,
+   "start": 135.933,
+   "end": 137.45,
+   "line": 21,
+   "confidence": 1.0
+  },
+  {
+   "id": "w87",
+   "text": "befreie",
+   "roman": null,
+   "start": 137.752,
+   "end": 138.873,
+   "line": 22,
+   "confidence": 1.0
+  },
+  {
+   "id": "w88",
+   "text": "dich",
+   "roman": null,
+   "start": 138.873,
+   "end": 139.587,
+   "line": 22,
+   "confidence": 1.0
+  },
+  {
+   "id": "w89",
+   "text": "von",
+   "roman": null,
+   "start": 139.587,
+   "end": 140.089,
+   "line": 22,
+   "confidence": 1.0
+  },
+  {
+   "id": "w90",
+   "text": "mir",
+   "roman": null,
+   "start": 140.089,
+   "end": 147.801,
+   "line": 22,
+   "confidence": 1.0
+  },
+  {
+   "id": "w91",
+   "text": "ich",
+   "roman": null,
+   "start": 149.73,
+   "end": 149.92,
+   "line": 24,
+   "confidence": 1.0
+  },
+  {
+   "id": "w92",
+   "text": "folge",
+   "roman": null,
+   "start": 150.024,
+   "end": 150.953,
+   "line": 24,
+   "confidence": 1.0
+  },
+  {
+   "id": "w93",
+   "text": "meinem",
+   "roman": null,
+   "start": 151.005,
+   "end": 151.777,
+   "line": 24,
+   "confidence": 1.0
+  },
+  {
+   "id": "w94",
+   "text": "herzen",
+   "roman": null,
+   "start": 151.829,
+   "end": 153.112,
+   "line": 24,
+   "confidence": 1.0
+  },
+  {
+   "id": "w95",
+   "text": "woher",
+   "roman": null,
+   "start": 153.786,
+   "end": 155.083,
+   "line": 25,
+   "confidence": 1.0
+  },
+  {
+   "id": "w96",
+   "text": "es",
+   "roman": null,
+   "start": 155.083,
+   "end": 155.492,
+   "line": 25,
+   "confidence": 1.0
+  },
+  {
+   "id": "w97",
+   "text": "auch",
+   "roman": null,
+   "start": 155.614,
+   "end": 156.015,
+   "line": 25,
+   "confidence": 1.0
+  },
+  {
+   "id": "w98",
+   "text": "ruft",
+   "roman": null,
+   "start": 156.015,
+   "end": 156.7,
+   "line": 25,
+   "confidence": 1.0
+  },
+  {
+   "id": "w99",
+   "text": "und",
+   "roman": null,
+   "start": 157.797,
+   "end": 158.07,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w100",
+   "text": "flieg",
+   "roman": null,
+   "start": 158.07,
+   "end": 158.366,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w101",
+   "text": "mich",
+   "roman": null,
+   "start": 158.366,
+   "end": 158.839,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w102",
+   "text": "frei",
+   "roman": null,
+   "start": 158.839,
+   "end": 159.332,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w103",
+   "text": "von",
+   "roman": null,
+   "start": 159.502,
+   "end": 160.009,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w104",
+   "text": "jedem",
+   "roman": null,
+   "start": 160.009,
+   "end": 160.807,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w105",
+   "text": "zwang",
+   "roman": null,
+   "start": 160.807,
+   "end": 161.292,
+   "line": 26,
+   "confidence": 1.0
+  },
+  {
+   "id": "w106",
+   "text": "ein",
+   "roman": null,
+   "start": 161.498,
+   "end": 162.052,
+   "line": 27,
+   "confidence": 1.0
+  },
+  {
+   "id": "w107",
+   "text": "käfig",
+   "roman": null,
+   "start": 162.052,
+   "end": 162.885,
+   "line": 27,
+   "confidence": 1.0
+  },
+  {
+   "id": "w108",
+   "text": "ist",
+   "roman": null,
+   "start": 162.885,
+   "end": 163.379,
+   "line": 27,
+   "confidence": 1.0
+  },
+  {
+   "id": "w109",
+   "text": "zu",
+   "roman": null,
+   "start": 163.379,
+   "end": 163.764,
+   "line": 27,
+   "confidence": 1.0
+  },
+  {
+   "id": "w110",
+   "text": "klein",
+   "roman": null,
+   "start": 163.892,
+   "end": 165.065,
+   "line": 27,
+   "confidence": 1.0
+  },
+  {
+   "id": "w111",
+   "text": "für",
+   "roman": null,
+   "start": 165.77,
+   "end": 166.085,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w112",
+   "text": "das",
+   "roman": null,
+   "start": 166.085,
+   "end": 166.451,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w113",
+   "text": "was",
+   "roman": null,
+   "start": 166.522,
+   "end": 166.786,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w114",
+   "text": "ich",
+   "roman": null,
+   "start": 166.786,
+   "end": 167.036,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w115",
+   "text": "leben",
+   "roman": null,
+   "start": 167.036,
+   "end": 167.909,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w116",
+   "text": "will",
+   "roman": null,
+   "start": 167.909,
+   "end": 168.678,
+   "line": 28,
+   "confidence": 1.0
+  },
+  {
+   "id": "w117",
+   "text": "leben",
+   "roman": null,
+   "start": 169.987,
+   "end": 172.028,
+   "line": 29,
+   "confidence": 1.0
+  },
+  {
+   "id": "w118",
+   "text": "will",
+   "roman": null,
+   "start": 172.028,
+   "end": 173.424,
+   "line": 29,
+   "confidence": 1.0
+  },
+  {
+   "id": "w119",
+   "text": "erfüllung",
+   "roman": null,
+   "start": 174.33,
+   "end": 175.096,
+   "line": 30,
+   "confidence": 1.0
+  },
+  {
+   "id": "w120",
+   "text": "deiner",
+   "roman": null,
+   "start": 175.096,
+   "end": 175.723,
+   "line": 30,
+   "confidence": 1.0
+  },
+  {
+   "id": "w121",
+   "text": "träume",
+   "roman": null,
+   "start": 175.932,
+   "end": 177.437,
+   "line": 30,
+   "confidence": 1.0
+  },
+  {
+   "id": "w122",
+   "text": "will",
+   "roman": null,
+   "start": 178.57,
+   "end": 178.887,
+   "line": 31,
+   "confidence": 1.0
+  },
+  {
+   "id": "w123",
+   "text": "ich",
+   "roman": null,
+   "start": 178.887,
+   "end": 179.288,
+   "line": 31,
+   "confidence": 1.0
+  },
+  {
+   "id": "w124",
+   "text": "dir",
+   "roman": null,
+   "start": 179.422,
+   "end": 179.934,
+   "line": 31,
+   "confidence": 1.0
+  },
+  {
+   "id": "w125",
+   "text": "wünschen",
+   "roman": null,
+   "start": 179.934,
+   "end": 181.566,
+   "line": 31,
+   "confidence": 1.0
+  },
+  {
+   "id": "w126",
+   "text": "erbaue",
+   "roman": null,
+   "start": 181.847,
+   "end": 182.354,
+   "line": 32,
+   "confidence": 1.0
+  },
+  {
+   "id": "w127",
+   "text": "dir",
+   "roman": null,
+   "start": 182.354,
+   "end": 182.629,
+   "line": 32,
+   "confidence": 1.0
+  },
+  {
+   "id": "w128",
+   "text": "eine",
+   "roman": null,
+   "start": 182.629,
+   "end": 182.857,
+   "line": 32,
+   "confidence": 1.0
+  },
+  {
+   "id": "w129",
+   "text": "neue",
+   "roman": null,
+   "start": 182.857,
+   "end": 183.75,
+   "line": 32,
+   "confidence": 1.0
+  },
+  {
+   "id": "w130",
+   "text": "welt",
+   "roman": null,
+   "start": 183.928,
+   "end": 185.165,
+   "line": 32,
+   "confidence": 1.0
+  },
+  {
+   "id": "w131",
+   "text": "einen",
+   "roman": null,
+   "start": 185.789,
+   "end": 186.006,
+   "line": 33,
+   "confidence": 1.0
+  },
+  {
+   "id": "w132",
+   "text": "käfig",
+   "roman": null,
+   "start": 186.129,
+   "end": 186.717,
+   "line": 33,
+   "confidence": 1.0
+  },
+  {
+   "id": "w133",
+   "text": "der",
+   "roman": null,
+   "start": 186.913,
+   "end": 187.422,
+   "line": 33,
+   "confidence": 1.0
+  },
+  {
+   "id": "w134",
+   "text": "sie",
+   "roman": null,
+   "start": 187.422,
+   "end": 188.003,
+   "line": 33,
+   "confidence": 1.0
+  },
+  {
+   "id": "w135",
+   "text": "hält",
+   "roman": null,
+   "start": 188.003,
+   "end": 189.946,
+   "line": 33,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 22.668,
+   "end": 24.726
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 25.549,
+   "end": 29.557
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 30.329,
+   "end": 33.382
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 34.002,
+   "end": 37.44
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 38.531,
+   "end": 41.458
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 41.77,
+   "end": 45.496
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 46.256,
+   "end": 49.387
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 50.042,
+   "end": 53.12
+  },
+  {
+   "index": 8,
+   "kind": "lyric",
+   "start": 53.812,
+   "end": 57.026
+  },
+  {
+   "index": 9,
+   "kind": "lyric",
+   "start": 57.747,
+   "end": 60.617
+  },
+  {
+   "index": 10,
+   "kind": "lyric",
+   "start": 61.753,
+   "end": 65.255
+  },
+  {
+   "index": 11,
+   "kind": "lyric",
+   "start": 65.547,
+   "end": 69.039
+  },
+  {
+   "index": 12,
+   "kind": "lyric",
+   "start": 69.79,
+   "end": 72.604
+  },
+  {
+   "index": 13,
+   "kind": "lyric",
+   "start": 73.956,
+   "end": 77.186
+  },
+  {
+   "index": 14,
+   "kind": "lyric",
+   "start": 78.602,
+   "end": 81.651
+  },
+  {
+   "index": 15,
+   "kind": "lyric",
+   "start": 82.545,
+   "end": 85.404
+  },
+  {
+   "index": 16,
+   "kind": "lyric",
+   "start": 85.989,
+   "end": 89.417
+  },
+  {
+   "index": 17,
+   "kind": "lyric",
+   "start": 89.773,
+   "end": 93.309
+  },
+  {
+   "index": 18,
+   "kind": "instrumental",
+   "start": 93.64,
+   "end": 93.776
+  },
+  {
+   "index": 19,
+   "kind": "lyric",
+   "start": 126.847,
+   "end": 129.842
+  },
+  {
+   "index": 20,
+   "kind": "lyric",
+   "start": 130.781,
+   "end": 133.313
+  },
+  {
+   "index": 21,
+   "kind": "lyric",
+   "start": 133.805,
+   "end": 137.45
+  },
+  {
+   "index": 22,
+   "kind": "lyric",
+   "start": 137.752,
+   "end": 147.801
+  },
+  {
+   "index": 23,
+   "kind": "instrumental",
+   "start": 148.0,
+   "end": 148.122
+  },
+  {
+   "index": 24,
+   "kind": "lyric",
+   "start": 149.73,
+   "end": 153.112
+  },
+  {
+   "index": 25,
+   "kind": "lyric",
+   "start": 153.786,
+   "end": 156.7
+  },
+  {
+   "index": 26,
+   "kind": "lyric",
+   "start": 157.797,
+   "end": 161.292
+  },
+  {
+   "index": 27,
+   "kind": "lyric",
+   "start": 161.498,
+   "end": 165.065
+  },
+  {
+   "index": 28,
+   "kind": "lyric",
+   "start": 165.77,
+   "end": 168.678
+  },
+  {
+   "index": 29,
+   "kind": "lyric",
+   "start": 169.987,
+   "end": 173.424
+  },
+  {
+   "index": 30,
+   "kind": "lyric",
+   "start": 174.33,
+   "end": 177.437
+  },
+  {
+   "index": 31,
+   "kind": "lyric",
+   "start": 178.57,
+   "end": 181.566
+  },
+  {
+   "index": 32,
+   "kind": "lyric",
+   "start": 181.847,
+   "end": 185.165
+  },
+  {
+   "index": 33,
+   "kind": "lyric",
+   "start": 185.789,
+   "end": 189.946
+  },
+  {
+   "index": 34,
+   "kind": "instrumental",
+   "start": 193.26,
+   "end": 193.477
+  },
+  {
+   "index": 35,
+   "kind": "instrumental",
+   "start": 197.85,
+   "end": 200.692
+  }
+ ],
+ "notes": [
+  {
+   "id": "n1",
+   "start": 22.96,
+   "end": 23.397,
+   "midi": 64,
+   "confidence": 0.823,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 23.4,
+   "end": 23.675,
+   "midi": 64,
+   "confidence": 0.828,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 23.97,
+   "end": 24.617,
+   "midi": 62,
+   "confidence": 0.706,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 25.55,
+   "end": 26.139,
+   "midi": 62,
+   "confidence": 0.797,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 26.14,
+   "end": 26.279,
+   "midi": 63,
+   "confidence": 0.411,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 26.28,
+   "end": 26.894,
+   "midi": 64,
+   "confidence": 0.636,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 26.9,
+   "end": 27.347,
+   "midi": 64,
+   "confidence": 0.697,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 27.41,
+   "end": 27.776,
+   "midi": 62,
+   "confidence": 0.553,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 27.99,
+   "end": 28.149,
+   "midi": 65,
+   "confidence": 0.471,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 28.15,
+   "end": 29.892,
+   "midi": 66,
+   "confidence": 0.898,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 30.85,
+   "end": 31.517,
+   "midi": 66,
+   "confidence": 0.787,
+   "word": "w11",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 31.52,
+   "end": 31.913,
+   "midi": 67,
+   "confidence": 0.794,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 31.98,
+   "end": 33.434,
+   "midi": 64,
+   "confidence": 0.879,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 34.06,
+   "end": 34.213,
+   "midi": 66,
+   "confidence": 0.604,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 34.22,
+   "end": 34.608,
+   "midi": 67,
+   "confidence": 0.809,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 34.61,
+   "end": 34.887,
+   "midi": 67,
+   "confidence": 0.844,
+   "word": "w14",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 34.89,
+   "end": 35.223,
+   "midi": 67,
+   "confidence": 0.69,
+   "word": "w15",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 35.56,
+   "end": 35.734,
+   "midi": 69,
+   "confidence": 0.679,
+   "word": "w16",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 35.94,
+   "end": 37.523,
+   "midi": 67,
+   "confidence": 0.884,
+   "word": "w17",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 38.81,
+   "end": 39.185,
+   "midi": 64,
+   "confidence": 0.673,
+   "word": "w18",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 39.19,
+   "end": 39.545,
+   "midi": 63,
+   "confidence": 0.831,
+   "word": "w19",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 39.55,
+   "end": 39.801,
+   "midi": 65,
+   "confidence": 0.718,
+   "word": "w20",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 39.89,
+   "end": 40.347,
+   "midi": 62,
+   "confidence": 0.706,
+   "word": "w20",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 40.38,
+   "end": 41.392,
+   "midi": 59,
+   "confidence": 0.884,
+   "word": "w20",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 41.84,
+   "end": 42.067,
+   "midi": 62,
+   "confidence": 0.787,
+   "word": "w21",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 42.23,
+   "end": 42.566,
+   "midi": 64,
+   "confidence": 0.526,
+   "word": "w21",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 42.57,
+   "end": 43.286,
+   "midi": 64,
+   "confidence": 0.797,
+   "word": "w22",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 43.36,
+   "end": 43.844,
+   "midi": 62,
+   "confidence": 0.705,
+   "word": "w23",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n54",
+   "start": 43.98,
+   "end": 45.715,
+   "midi": 66,
+   "confidence": 0.87,
+   "word": "w23",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n61",
+   "start": 46.72,
+   "end": 46.922,
+   "midi": 66,
+   "confidence": 0.853,
+   "word": "w25",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n62",
+   "start": 47.1,
+   "end": 47.572,
+   "midi": 66,
+   "confidence": 0.691,
+   "word": "w26",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n64",
+   "start": 47.58,
+   "end": 47.806,
+   "midi": 67,
+   "confidence": 0.79,
+   "word": "w26",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n65",
+   "start": 47.95,
+   "end": 49.455,
+   "midi": 64,
+   "confidence": 0.837,
+   "word": "w27",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n70",
+   "start": 50.06,
+   "end": 50.373,
+   "midi": 67,
+   "confidence": 0.701,
+   "word": "w28",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n71",
+   "start": 50.38,
+   "end": 50.756,
+   "midi": 67,
+   "confidence": 0.837,
+   "word": "w29",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n73",
+   "start": 50.92,
+   "end": 51.197,
+   "midi": 67,
+   "confidence": 0.734,
+   "word": "w30",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n74",
+   "start": 51.45,
+   "end": 51.686,
+   "midi": 67,
+   "confidence": 0.671,
+   "word": "w31",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n75",
+   "start": 51.95,
+   "end": 52.093,
+   "midi": 66,
+   "confidence": 0.697,
+   "word": "w32",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n76",
+   "start": 52.1,
+   "end": 52.522,
+   "midi": 67,
+   "confidence": 0.745,
+   "word": "w32",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n77",
+   "start": 52.53,
+   "end": 52.882,
+   "midi": 68,
+   "confidence": 0.7,
+   "word": "w32",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n78",
+   "start": 54.11,
+   "end": 54.334,
+   "midi": 63,
+   "confidence": 0.627,
+   "word": "w34",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n79",
+   "start": 54.34,
+   "end": 54.59,
+   "midi": 60,
+   "confidence": 0.846,
+   "word": "w34",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n80",
+   "start": 54.59,
+   "end": 55.066,
+   "midi": 64,
+   "confidence": 0.777,
+   "word": "w34",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n82",
+   "start": 55.07,
+   "end": 55.414,
+   "midi": 60,
+   "confidence": 0.745,
+   "word": "w35",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n84",
+   "start": 55.92,
+   "end": 56.042,
+   "midi": 59,
+   "confidence": 0.594,
+   "word": "w36",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n85",
+   "start": 56.05,
+   "end": 56.182,
+   "midi": 62,
+   "confidence": 0.603,
+   "word": "w36",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n86",
+   "start": 56.47,
+   "end": 56.809,
+   "midi": 59,
+   "confidence": 0.656,
+   "word": "w36",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n88",
+   "start": 56.81,
+   "end": 57.169,
+   "midi": 55,
+   "confidence": 0.513,
+   "word": "w36",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n89",
+   "start": 57.87,
+   "end": 58.215,
+   "midi": 60,
+   "confidence": 0.56,
+   "word": "w37",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n90",
+   "start": 58.24,
+   "end": 58.761,
+   "midi": 62,
+   "confidence": 0.741,
+   "word": "w37",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n93",
+   "start": 59.09,
+   "end": 59.411,
+   "midi": 62,
+   "confidence": 0.643,
+   "word": "w38",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n94",
+   "start": 59.6,
+   "end": 59.76,
+   "midi": 60,
+   "confidence": 0.483,
+   "word": "w39",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n95",
+   "start": 60.08,
+   "end": 60.248,
+   "midi": 64,
+   "confidence": 0.738,
+   "word": "w40",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n96",
+   "start": 60.25,
+   "end": 60.445,
+   "midi": 65,
+   "confidence": 0.64,
+   "word": "w40",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n97",
+   "start": 61.74,
+   "end": 61.956,
+   "midi": 64,
+   "confidence": 0.713,
+   "word": "w41",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n98",
+   "start": 62.08,
+   "end": 62.304,
+   "midi": 69,
+   "confidence": 0.758,
+   "word": "w42",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n99",
+   "start": 62.4,
+   "end": 62.687,
+   "midi": 69,
+   "confidence": 0.757,
+   "word": "w43",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n100",
+   "start": 62.92,
+   "end": 63.175,
+   "midi": 69,
+   "confidence": 0.721,
+   "word": "w44",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n101",
+   "start": 63.23,
+   "end": 63.546,
+   "midi": 62,
+   "confidence": 0.356,
+   "word": "w44",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n102",
+   "start": 63.55,
+   "end": 63.989,
+   "midi": 62,
+   "confidence": 0.723,
+   "word": "w45",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n103",
+   "start": 63.99,
+   "end": 64.14,
+   "midi": 60,
+   "confidence": 0.42,
+   "word": "w46",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n104",
+   "start": 64.14,
+   "end": 64.291,
+   "midi": 68,
+   "confidence": 0.68,
+   "word": "w46",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n105",
+   "start": 64.3,
+   "end": 64.558,
+   "midi": 67,
+   "confidence": 0.719,
+   "word": "w46",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n106",
+   "start": 64.56,
+   "end": 64.767,
+   "midi": 65,
+   "confidence": 0.584,
+   "word": "w46",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n107",
+   "start": 64.86,
+   "end": 65.324,
+   "midi": 60,
+   "confidence": 0.666,
+   "word": "w47",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n109",
+   "start": 65.56,
+   "end": 65.987,
+   "midi": 62,
+   "confidence": 0.771,
+   "word": "w48",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n113",
+   "start": 66.57,
+   "end": 66.881,
+   "midi": 64,
+   "confidence": 0.554,
+   "word": "w49",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n115",
+   "start": 67.35,
+   "end": 67.741,
+   "midi": 60,
+   "confidence": 0.722,
+   "word": "w51",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n116",
+   "start": 67.85,
+   "end": 68.926,
+   "midi": 59,
+   "confidence": 0.73,
+   "word": "w52",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n120",
+   "start": 68.93,
+   "end": 69.065,
+   "midi": 62,
+   "confidence": 0.555,
+   "word": "w52",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n121",
+   "start": 69.84,
+   "end": 70.088,
+   "midi": 62,
+   "confidence": 0.532,
+   "word": "w53",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n122",
+   "start": 70.23,
+   "end": 70.622,
+   "midi": 62,
+   "confidence": 0.383,
+   "word": "w54",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n123",
+   "start": 70.63,
+   "end": 70.808,
+   "midi": 65,
+   "confidence": 0.564,
+   "word": "w55",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n124",
+   "start": 70.81,
+   "end": 70.947,
+   "midi": 65,
+   "confidence": 0.522,
+   "word": "w56",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n125",
+   "start": 71.04,
+   "end": 71.58,
+   "midi": 69,
+   "confidence": 0.865,
+   "word": "w57",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n126",
+   "start": 71.58,
+   "end": 71.808,
+   "midi": 65,
+   "confidence": 0.745,
+   "word": "w57",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n127",
+   "start": 71.87,
+   "end": 72.005,
+   "midi": 60,
+   "confidence": 0.381,
+   "word": "w58",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n128",
+   "start": 72.01,
+   "end": 72.376,
+   "midi": 64,
+   "confidence": 0.638,
+   "word": "w58",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n129",
+   "start": 73.8,
+   "end": 76.048,
+   "midi": 66,
+   "confidence": 0.903,
+   "word": "w59",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n137",
+   "start": 76.05,
+   "end": 76.501,
+   "midi": 67,
+   "confidence": 0.805,
+   "word": "w60",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n139",
+   "start": 76.51,
+   "end": 76.953,
+   "midi": 66,
+   "confidence": 0.868,
+   "word": "w60",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n142",
+   "start": 76.96,
+   "end": 77.081,
+   "midi": 67,
+   "confidence": 0.456,
+   "word": "w60",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n143",
+   "start": 77.1,
+   "end": 77.394,
+   "midi": 66,
+   "confidence": 0.86,
+   "word": "w60",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n145",
+   "start": 79.06,
+   "end": 79.242,
+   "midi": 63,
+   "confidence": 0.611,
+   "word": "w62",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n146",
+   "start": 79.25,
+   "end": 79.556,
+   "midi": 64,
+   "confidence": 0.7,
+   "word": "w63",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n147",
+   "start": 79.56,
+   "end": 79.812,
+   "midi": 65,
+   "confidence": 0.738,
+   "word": "w63",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n148",
+   "start": 79.86,
+   "end": 80.392,
+   "midi": 62,
+   "confidence": 0.855,
+   "word": "w64",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n150",
+   "start": 80.4,
+   "end": 80.892,
+   "midi": 59,
+   "confidence": 0.846,
+   "word": "w64",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n152",
+   "start": 80.94,
+   "end": 81.473,
+   "midi": 59,
+   "confidence": 0.793,
+   "word": "w64",
+   "line": 14,
+   "edited": false
+  },
+  {
+   "id": "n155",
+   "start": 82.55,
+   "end": 82.692,
+   "midi": 63,
+   "confidence": 0.834,
+   "word": "w65",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n156",
+   "start": 82.7,
+   "end": 82.971,
+   "midi": 64,
+   "confidence": 0.761,
+   "word": "w65",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n157",
+   "start": 82.98,
+   "end": 83.145,
+   "midi": 64,
+   "confidence": 0.841,
+   "word": "w66",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n158",
+   "start": 83.38,
+   "end": 83.739,
+   "midi": 62,
+   "confidence": 0.835,
+   "word": "w67",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n160",
+   "start": 83.91,
+   "end": 84.319,
+   "midi": 66,
+   "confidence": 0.75,
+   "word": "w68",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n161",
+   "start": 84.38,
+   "end": 84.853,
+   "midi": 67,
+   "confidence": 0.811,
+   "word": "w69",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n162",
+   "start": 84.86,
+   "end": 84.993,
+   "midi": 65,
+   "confidence": 0.464,
+   "word": "w69",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n163",
+   "start": 85.11,
+   "end": 85.248,
+   "midi": 66,
+   "confidence": 0.625,
+   "word": "w69",
+   "line": 15,
+   "edited": false
+  },
+  {
+   "id": "n164",
+   "start": 85.81,
+   "end": 85.934,
+   "midi": 58,
+   "confidence": 0.565,
+   "word": "w70",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n165",
+   "start": 86.36,
+   "end": 86.851,
+   "midi": 66,
+   "confidence": 0.868,
+   "word": "w71",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n167",
+   "start": 86.86,
+   "end": 87.48,
+   "midi": 66,
+   "confidence": 0.808,
+   "word": "w72",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n168",
+   "start": 87.48,
+   "end": 87.735,
+   "midi": 67,
+   "confidence": 0.732,
+   "word": "w73",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n169",
+   "start": 87.81,
+   "end": 88.71,
+   "midi": 64,
+   "confidence": 0.882,
+   "word": "w74",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n172",
+   "start": 88.84,
+   "end": 89.279,
+   "midi": 64,
+   "confidence": 0.754,
+   "word": "w74",
+   "line": 16,
+   "edited": false
+  },
+  {
+   "id": "n174",
+   "start": 89.7,
+   "end": 90.047,
+   "midi": 64,
+   "confidence": 0.552,
+   "word": "w75",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n176",
+   "start": 90.12,
+   "end": 90.395,
+   "midi": 67,
+   "confidence": 0.675,
+   "word": "w76",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n177",
+   "start": 90.46,
+   "end": 90.906,
+   "midi": 67,
+   "confidence": 0.569,
+   "word": "w76",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n178",
+   "start": 91.32,
+   "end": 91.604,
+   "midi": 66,
+   "confidence": 0.517,
+   "word": "w77",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n179",
+   "start": 91.95,
+   "end": 92.08,
+   "midi": 66,
+   "confidence": 0.682,
+   "word": "w78",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n180",
+   "start": 92.08,
+   "end": 92.695,
+   "midi": 67,
+   "confidence": 0.83,
+   "word": "w78",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n183",
+   "start": 92.7,
+   "end": 93.148,
+   "midi": 68,
+   "confidence": 0.854,
+   "word": "w78",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n185",
+   "start": 93.15,
+   "end": 93.416,
+   "midi": 67,
+   "confidence": 0.625,
+   "word": "w78",
+   "line": 17,
+   "edited": false
+  },
+  {
+   "id": "n186",
+   "start": 93.64,
+   "end": 93.776,
+   "midi": 68,
+   "confidence": 0.363,
+   "word": null,
+   "line": 18,
+   "edited": false
+  },
+  {
+   "id": "n187",
+   "start": 126.86,
+   "end": 127.024,
+   "midi": 63,
+   "confidence": 0.41,
+   "word": "w79",
+   "line": 19,
+   "edited": false
+  },
+  {
+   "id": "n188",
+   "start": 127.03,
+   "end": 127.258,
+   "midi": 64,
+   "confidence": 0.542,
+   "word": "w79",
+   "line": 19,
+   "edited": false
+  },
+  {
+   "id": "n189",
+   "start": 127.39,
+   "end": 127.862,
+   "midi": 65,
+   "confidence": 0.796,
+   "word": "w80",
+   "line": 19,
+   "edited": false
+  },
+  {
+   "id": "n191",
+   "start": 127.94,
+   "end": 129.674,
+   "midi": 64,
+   "confidence": 0.794,
+   "word": "w81",
+   "line": 19,
+   "edited": false
+  },
+  {
+   "id": "n194",
+   "start": 130.82,
+   "end": 131.359,
+   "midi": 64,
+   "confidence": 0.773,
+   "word": "w82",
+   "line": 20,
+   "edited": false
+  },
+  {
+   "id": "n196",
+   "start": 131.36,
+   "end": 131.904,
+   "midi": 65,
+   "confidence": 0.735,
+   "word": "w82",
+   "line": 20,
+   "edited": false
+  },
+  {
+   "id": "n198",
+   "start": 131.91,
+   "end": 133.276,
+   "midi": 64,
+   "confidence": 0.864,
+   "word": "w83",
+   "line": 20,
+   "edited": false
+  },
+  {
+   "id": "n204",
+   "start": 133.76,
+   "end": 133.926,
+   "midi": 64,
+   "confidence": 0.508,
+   "word": "w84",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n205",
+   "start": 134.06,
+   "end": 135.378,
+   "midi": 64,
+   "confidence": 0.868,
+   "word": "w84",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n209",
+   "start": 135.38,
+   "end": 135.518,
+   "midi": 64,
+   "confidence": 0.596,
+   "word": "w85",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n210",
+   "start": 135.52,
+   "end": 135.878,
+   "midi": 65,
+   "confidence": 0.799,
+   "word": "w85",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n212",
+   "start": 135.94,
+   "end": 136.818,
+   "midi": 64,
+   "confidence": 0.799,
+   "word": "w86",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n213",
+   "start": 136.89,
+   "end": 137.783,
+   "midi": 64,
+   "confidence": 0.731,
+   "word": "w86",
+   "line": 21,
+   "edited": false
+  },
+  {
+   "id": "n216",
+   "start": 137.79,
+   "end": 137.946,
+   "midi": 64,
+   "confidence": 0.361,
+   "word": "w87",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n217",
+   "start": 138.11,
+   "end": 138.944,
+   "midi": 69,
+   "confidence": 0.889,
+   "word": "w87",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n219",
+   "start": 138.95,
+   "end": 139.526,
+   "midi": 69,
+   "confidence": 0.804,
+   "word": "w88",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n221",
+   "start": 139.57,
+   "end": 140.083,
+   "midi": 71,
+   "confidence": 0.753,
+   "word": "w89",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n223",
+   "start": 140.09,
+   "end": 142.766,
+   "midi": 69,
+   "confidence": 0.897,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n232",
+   "start": 143.14,
+   "end": 143.557,
+   "midi": 67,
+   "confidence": 0.433,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n235",
+   "start": 144.05,
+   "end": 144.172,
+   "midi": 63,
+   "confidence": 0.392,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n237",
+   "start": 146.26,
+   "end": 147.217,
+   "midi": 69,
+   "confidence": 0.858,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n241",
+   "start": 147.22,
+   "end": 147.344,
+   "midi": 70,
+   "confidence": 0.745,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n242",
+   "start": 147.35,
+   "end": 147.994,
+   "midi": 69,
+   "confidence": 0.896,
+   "word": "w90",
+   "line": 22,
+   "edited": false
+  },
+  {
+   "id": "n245",
+   "start": 148.0,
+   "end": 148.122,
+   "midi": 69,
+   "confidence": 0.441,
+   "word": null,
+   "line": 23,
+   "edited": false
+  },
+  {
+   "id": "n246",
+   "start": 149.71,
+   "end": 149.877,
+   "midi": 62,
+   "confidence": 0.622,
+   "word": "w91",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n247",
+   "start": 150.24,
+   "end": 150.422,
+   "midi": 64,
+   "confidence": 0.549,
+   "word": "w92",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n248",
+   "start": 150.59,
+   "end": 150.759,
+   "midi": 64,
+   "confidence": 0.809,
+   "word": "w92",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n249",
+   "start": 150.89,
+   "end": 151.631,
+   "midi": 64,
+   "confidence": 0.881,
+   "word": "w93",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n252",
+   "start": 151.88,
+   "end": 152.212,
+   "midi": 62,
+   "confidence": 0.724,
+   "word": "w94",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n253",
+   "start": 152.52,
+   "end": 152.676,
+   "midi": 55,
+   "confidence": 0.365,
+   "word": "w94",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n254",
+   "start": 152.68,
+   "end": 153.083,
+   "midi": 59,
+   "confidence": 0.718,
+   "word": "w94",
+   "line": 24,
+   "edited": false
+  },
+  {
+   "id": "n256",
+   "start": 153.79,
+   "end": 154.024,
+   "midi": 59,
+   "confidence": 0.529,
+   "word": "w95",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n257",
+   "start": 154.1,
+   "end": 154.221,
+   "midi": 61,
+   "confidence": 0.427,
+   "word": "w95",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n258",
+   "start": 154.48,
+   "end": 154.895,
+   "midi": 63,
+   "confidence": 0.632,
+   "word": "w95",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n259",
+   "start": 154.9,
+   "end": 155.035,
+   "midi": 62,
+   "confidence": 0.579,
+   "word": "w95",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n260",
+   "start": 155.13,
+   "end": 155.43,
+   "midi": 62,
+   "confidence": 0.45,
+   "word": "w96",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n261",
+   "start": 155.56,
+   "end": 155.744,
+   "midi": 57,
+   "confidence": 0.507,
+   "word": "w97",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n262",
+   "start": 156.0,
+   "end": 156.173,
+   "midi": 63,
+   "confidence": 0.673,
+   "word": "w98",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n263",
+   "start": 156.18,
+   "end": 156.51,
+   "midi": 64,
+   "confidence": 0.63,
+   "word": "w98",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n265",
+   "start": 157.78,
+   "end": 157.962,
+   "midi": 64,
+   "confidence": 0.691,
+   "word": "w99",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n266",
+   "start": 158.13,
+   "end": 158.427,
+   "midi": 69,
+   "confidence": 0.404,
+   "word": "w100",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n267",
+   "start": 158.43,
+   "end": 158.682,
+   "midi": 69,
+   "confidence": 0.717,
+   "word": "w101",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n268",
+   "start": 158.86,
+   "end": 159.183,
+   "midi": 62,
+   "confidence": 0.35,
+   "word": "w102",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n269",
+   "start": 159.59,
+   "end": 159.937,
+   "midi": 69,
+   "confidence": 0.597,
+   "word": "w103",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n271",
+   "start": 160.09,
+   "end": 160.68,
+   "midi": 67,
+   "confidence": 0.634,
+   "word": "w104",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n273",
+   "start": 160.89,
+   "end": 161.076,
+   "midi": 60,
+   "confidence": 0.633,
+   "word": "w105",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n274",
+   "start": 161.08,
+   "end": 161.262,
+   "midi": 64,
+   "confidence": 0.599,
+   "word": "w105",
+   "line": 26,
+   "edited": false
+  },
+  {
+   "id": "n275",
+   "start": 161.5,
+   "end": 161.959,
+   "midi": 59,
+   "confidence": 0.645,
+   "word": "w106",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n277",
+   "start": 162.03,
+   "end": 162.202,
+   "midi": 63,
+   "confidence": 0.486,
+   "word": "w107",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n278",
+   "start": 162.21,
+   "end": 162.853,
+   "midi": 64,
+   "confidence": 0.542,
+   "word": "w107",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n280",
+   "start": 162.86,
+   "end": 163.133,
+   "midi": 64,
+   "confidence": 0.679,
+   "word": "w108",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n281",
+   "start": 163.39,
+   "end": 163.725,
+   "midi": 64,
+   "confidence": 0.721,
+   "word": "w109",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n283",
+   "start": 163.85,
+   "end": 164.77,
+   "midi": 59,
+   "confidence": 0.691,
+   "word": "w110",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n285",
+   "start": 164.77,
+   "end": 164.945,
+   "midi": 62,
+   "confidence": 0.686,
+   "word": "w110",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n286",
+   "start": 164.95,
+   "end": 165.073,
+   "midi": 61,
+   "confidence": 0.53,
+   "word": "w110",
+   "line": 27,
+   "edited": false
+  },
+  {
+   "id": "n287",
+   "start": 165.79,
+   "end": 166.222,
+   "midi": 62,
+   "confidence": 0.597,
+   "word": "w111",
+   "line": 28,
+   "edited": false
+  },
+  {
+   "id": "n288",
+   "start": 166.56,
+   "end": 166.908,
+   "midi": 64,
+   "confidence": 0.548,
+   "word": "w113",
+   "line": 28,
+   "edited": false
+  },
+  {
+   "id": "n290",
+   "start": 167.19,
+   "end": 167.535,
+   "midi": 69,
+   "confidence": 0.802,
+   "word": "w115",
+   "line": 28,
+   "edited": false
+  },
+  {
+   "id": "n291",
+   "start": 167.59,
+   "end": 167.791,
+   "midi": 65,
+   "confidence": 0.68,
+   "word": "w115",
+   "line": 28,
+   "edited": false
+  },
+  {
+   "id": "n294",
+   "start": 169.83,
+   "end": 172.043,
+   "midi": 66,
+   "confidence": 0.871,
+   "word": "w117",
+   "line": 29,
+   "edited": false
+  },
+  {
+   "id": "n299",
+   "start": 172.05,
+   "end": 172.58,
+   "midi": 60,
+   "confidence": 0.49,
+   "word": "w118",
+   "line": 29,
+   "edited": false
+  },
+  {
+   "id": "n300",
+   "start": 172.58,
+   "end": 173.588,
+   "midi": 66,
+   "confidence": 0.877,
+   "word": "w118",
+   "line": 29,
+   "edited": false
+  },
+  {
+   "id": "n302",
+   "start": 174.78,
+   "end": 175.122,
+   "midi": 64,
+   "confidence": 0.838,
+   "word": "w119",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n303",
+   "start": 175.13,
+   "end": 175.598,
+   "midi": 64,
+   "confidence": 0.813,
+   "word": "w120",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n304",
+   "start": 175.6,
+   "end": 175.795,
+   "midi": 65,
+   "confidence": 0.536,
+   "word": "w120",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n305",
+   "start": 175.95,
+   "end": 176.515,
+   "midi": 62,
+   "confidence": 0.743,
+   "word": "w121",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n307",
+   "start": 176.52,
+   "end": 176.969,
+   "midi": 59,
+   "confidence": 0.831,
+   "word": "w121",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n309",
+   "start": 177.06,
+   "end": 177.526,
+   "midi": 59,
+   "confidence": 0.801,
+   "word": "w121",
+   "line": 30,
+   "edited": false
+  },
+  {
+   "id": "n310",
+   "start": 178.75,
+   "end": 178.886,
+   "midi": 64,
+   "confidence": 0.694,
+   "word": "w122",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n311",
+   "start": 178.89,
+   "end": 179.374,
+   "midi": 64,
+   "confidence": 0.727,
+   "word": "w123",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n312",
+   "start": 179.41,
+   "end": 179.908,
+   "midi": 62,
+   "confidence": 0.834,
+   "word": "w124",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n314",
+   "start": 180.06,
+   "end": 180.372,
+   "midi": 66,
+   "confidence": 0.828,
+   "word": "w125",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n315",
+   "start": 180.38,
+   "end": 180.662,
+   "midi": 67,
+   "confidence": 0.841,
+   "word": "w125",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n316",
+   "start": 180.67,
+   "end": 180.791,
+   "midi": 66,
+   "confidence": 0.616,
+   "word": "w125",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n317",
+   "start": 180.9,
+   "end": 181.07,
+   "midi": 65,
+   "confidence": 0.773,
+   "word": "w125",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n318",
+   "start": 181.07,
+   "end": 181.558,
+   "midi": 66,
+   "confidence": 0.673,
+   "word": "w125",
+   "line": 31,
+   "edited": false
+  },
+  {
+   "id": "n319",
+   "start": 181.9,
+   "end": 182.08,
+   "midi": 54,
+   "confidence": 0.388,
+   "word": "w126",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n320",
+   "start": 182.35,
+   "end": 182.637,
+   "midi": 66,
+   "confidence": 0.68,
+   "word": "w127",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n321",
+   "start": 182.64,
+   "end": 182.836,
+   "midi": 66,
+   "confidence": 0.576,
+   "word": "w128",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n322",
+   "start": 182.84,
+   "end": 183.521,
+   "midi": 66,
+   "confidence": 0.85,
+   "word": "w129",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n323",
+   "start": 183.53,
+   "end": 183.811,
+   "midi": 67,
+   "confidence": 0.618,
+   "word": "w129",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n324",
+   "start": 183.96,
+   "end": 185.02,
+   "midi": 64,
+   "confidence": 0.706,
+   "word": "w130",
+   "line": 32,
+   "edited": false
+  },
+  {
+   "id": "n326",
+   "start": 185.81,
+   "end": 186.076,
+   "midi": 64,
+   "confidence": 0.688,
+   "word": "w131",
+   "line": 33,
+   "edited": false
+  },
+  {
+   "id": "n327",
+   "start": 186.19,
+   "end": 186.786,
+   "midi": 67,
+   "confidence": 0.751,
+   "word": "w132",
+   "line": 33,
+   "edited": false
+  },
+  {
+   "id": "n329",
+   "start": 186.79,
+   "end": 187.61,
+   "midi": 67,
+   "confidence": 0.652,
+   "word": "w133",
+   "line": 33,
+   "edited": false
+  },
+  {
+   "id": "n331",
+   "start": 187.62,
+   "end": 187.912,
+   "midi": 69,
+   "confidence": 0.772,
+   "word": "w134",
+   "line": 33,
+   "edited": false
+  },
+  {
+   "id": "n332",
+   "start": 188.01,
+   "end": 189.701,
+   "midi": 67,
+   "confidence": 0.838,
+   "word": "w135",
+   "line": 33,
+   "edited": false
+  },
+  {
+   "id": "n336",
+   "start": 193.26,
+   "end": 193.477,
+   "midi": 71,
+   "confidence": 0.621,
+   "word": null,
+   "line": 34,
+   "edited": false
+  },
+  {
+   "id": "n337",
+   "start": 197.85,
+   "end": 197.996,
+   "midi": 78,
+   "confidence": 0.471,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n338",
+   "start": 198.33,
+   "end": 198.495,
+   "midi": 81,
+   "confidence": 0.421,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n339",
+   "start": 198.5,
+   "end": 198.646,
+   "midi": 81,
+   "confidence": 0.458,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n340",
+   "start": 198.65,
+   "end": 198.821,
+   "midi": 77,
+   "confidence": 0.485,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n341",
+   "start": 198.83,
+   "end": 199.274,
+   "midi": 81,
+   "confidence": 0.388,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n342",
+   "start": 199.28,
+   "end": 199.715,
+   "midi": 77,
+   "confidence": 0.529,
+   "word": null,
+   "line": 35,
+   "edited": false
+  },
+  {
+   "id": "n343",
+   "start": 200.49,
+   "end": 200.692,
+   "midi": 77,
+   "confidence": 0.445,
+   "word": null,
+   "line": 35,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {
+   "min_note_len": 0.12,
+   "merge_gap": 0.08,
+   "min_confidence": 0.35,
+   "min_relative_amp": 0.3,
+   "neighbour_semitones": 2,
+   "octave_bias": 0.5,
+   "continuity_bonus": 0.2,
+   "leap_penalty": 0.015,
+   "min_level_db": -32,
+   "pitch_min": 40,
+   "pitch_max": 86
+  },
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "original"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

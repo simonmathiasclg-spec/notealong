@@ -1,4 +1,4 @@
-import type { ProgressSnapshot, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
+import type { Catalog, Entitlements, ProgressSnapshot, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
 
 export const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -17,6 +17,9 @@ async function j<T>(res: Response): Promise<T> {
 export const api = {
   health: () => fetch(`${API}/api/health`).then(j<{ ok: boolean }>),
   listSongs: () => fetch(`${API}/api/songs`, { cache: "no-store" }).then(j<SongSummary[]>),
+  catalog: () => fetch(`${API}/api/catalog`, { cache: "no-store" }).then(j<Catalog>),
+  me: () => fetch(`${API}/api/me`, { cache: "no-store" }).then(j<Entitlements>),
+  coverUrl: (id: string) => `${API}/api/catalog/${id}/cover`,
   getSong: (id: string) => fetch(`${API}/api/songs/${id}`, { cache: "no-store" }).then(j<Song>),
   upload: (file: File, opts: { instrument?: string; detail_level?: string } = {}, onProgress?: (p: number) => void) =>
     new Promise<Song>((resolve, reject) => {
@@ -62,6 +65,10 @@ export function formatTime(s: number): string {
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, "0")}`;
+}
+
+export function isCatalogSong(song: Pick<Song, "source" | "catalog"> | null | undefined): boolean {
+  return !!song && (song.source?.kind === "catalog" || !!song.catalog);
 }
 
 export function formatDuration(s: number): string {

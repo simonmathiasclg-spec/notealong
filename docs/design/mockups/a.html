@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction A — Stage</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C0E14;--surface:#151821;--line:#262B38;--fg:#F4EFE4;--muted:#9AA0AD;--faint:#5C6270;--now:#FF6B57;--now-soft:rgba(255,107,87,.16);--key:#1E222D;--key-line:#333948}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.screen{width:1440px;height:900px;position:relative;overflow:hidden;background:var(--bg)}
+.lyric{font-family:Fraunces,serif;font-variation-settings:"opsz" 144;font-weight:350;letter-spacing:-.01em}
+/* player */
+.spot{position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 0%,rgba(255,150,110,.14),transparent 70%)}
+.top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:22px 32px}
+.top .t{display:flex;align-items:center;gap:16px}.top h1{font-family:Fraunces,serif;font-weight:500;font-size:20px;letter-spacing:-.01em}.top .sub{color:var(--muted);font-size:13px;margin-top:2px}
+.ic{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;color:var(--muted);border:1px solid transparent}.ic:hover{border-color:var(--line)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);color:var(--fg);font-size:13px;font-weight:500;background:var(--surface)}
+.stage{position:absolute;inset:120px 90px 150px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:44px;text-align:center}
+.line{display:flex;gap:.45em;align-items:flex-end;justify-content:center}
+.w{display:flex;flex-direction:column;align-items:center;gap:.28em}
+.keys{display:flex;gap:.16em}
+.k{font-family:Inter;font-weight:600;border-radius:.42em;border:1.5px solid var(--key-line);background:var(--key);display:grid;place-items:center;line-height:1}
+.cur .k{width:2.3em;height:2.3em;font-size:.4em}.cur{font-size:66px;color:#FFFDF8}.cur .w{color:#EFE9DC}.cur .w.on{color:var(--now)}.cur .w.done{color:var(--muted)}
+.k.on{background:var(--now);border-color:var(--now);color:#1a0d0a;box-shadow:0 0 0 6px var(--now-soft),0 0 40px rgba(255,107,87,.35);transform:scale(1.1)}.k.done{opacity:.45}
+.far{font-size:34px;color:var(--muted)}.far .k{width:2.1em;height:2.1em;font-size:.44em;opacity:.8}.far.prev{opacity:.45}.far.next2{opacity:.5;font-size:28px}
+.bottom{position:absolute;left:0;right:0;bottom:0;padding:0 32px 34px;display:flex;flex-direction:column;gap:18px;align-items:center}
+.string{width:100%;height:2px;background:var(--line);position:relative;border-radius:2px}.string .fill{position:absolute;left:0;top:0;height:100%;width:23%;background:var(--now);border-radius:2px}.string .head{position:absolute;left:23%;top:50%;width:12px;height:12px;border-radius:50%;background:var(--now);transform:translate(-50%,-50%);box-shadow:0 0 0 5px var(--now-soft)}
+.string .tick{position:absolute;top:-4px;width:1px;height:10px;background:var(--faint)}
+.transport{display:flex;align-items:center;gap:28px;width:100%;justify-content:center;position:relative}
+.time{position:absolute;left:0;color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}.time.r{left:auto;right:0}
+.play{width:72px;height:72px;border-radius:50%;background:var(--fg);display:grid;place-items:center;box-shadow:0 10px 40px rgba(255,255,255,.12)}
+.play svg{fill:#0C0E14;margin-left:4px}
+.small{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--muted);border:1px solid var(--line)}
+/* discover */
+.nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:26px 48px}
+.brand{font-family:Fraunces,serif;font-weight:600;font-size:22px;display:flex;align-items:center;gap:10px}.brand i{width:28px;height:28px;border-radius:8px;background:var(--now);display:inline-block}
+.tabs{display:flex;gap:28px;font-size:15px;color:var(--muted)}.tabs b{color:var(--fg);font-weight:600;position:relative}.tabs b:after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;background:var(--now)}
+.search{width:300px;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:14px}
+.hero{position:absolute;top:100px;left:48px;right:48px;height:270px;border-radius:24px;overflow:hidden;display:flex;align-items:center;gap:40px;padding:36px;background:linear-gradient(90deg,#1B1F2B,#101219)}
+.hero img{width:200px;height:200px;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.hero .eyebrow{color:var(--now);font-size:13px;font-weight:600;letter-spacing:.02em}.hero h2{font-family:Fraunces,serif;font-weight:400;font-size:58px;letter-spacing:-.02em;margin:8px 0 10px}.hero p{color:var(--muted);font-size:16px;max-width:520px;line-height:1.5}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;background:var(--now);color:#1a0d0a;font-weight:600;padding:14px 22px;border-radius:999px;font-size:15px}
+.shelf{position:absolute;left:48px;right:48px}.shelf h3{font-family:Fraunces,serif;font-weight:500;font-size:24px;margin-bottom:16px;display:flex;align-items:baseline;gap:14px}.shelf h3 span{font-family:Inter;font-size:13px;color:var(--muted);font-weight:400}
+.row{display:grid;grid-template-columns:repeat(8,1fr);gap:18px}.tile img{width:100%;border-radius:14px;display:block}.tile .n{font-weight:600;font-size:14px;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile .m{font-size:12px;color:var(--muted);margin-top:3px}
+.lvl{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4CC38A;margin-right:6px;vertical-align:middle}.lvl.m{background:#F5B942}.lvl.h{background:var(--now)}
+</style></head><body>
+<div class="screen" id="player"><div class="spot"></div>
+ <div class="top"><div class="t"><div class="ic">←</div><div><h1>Danny Boy</h1><div class="sub">Traditional · Ireland · alto sax</div></div></div>
+  <div style="display:flex;gap:8px;align-items:center"><span class="chip">🎷 Alto sax</span><div class="ic">✎</div><div class="ic">⤢</div><div class="ic">☾</div><div class="ic">⚙</div></div></div>
+ <div class="stage">
+  <div class="line far prev"><div class="w"><div class="keys"><div class="k">A</div><div class="k">B</div></div>from</div><div class="w"><div class="keys"><div class="k">C♯</div></div>glen</div><div class="w"><div class="keys"><div class="k">D</div></div>to</div><div class="w"><div class="keys"><div class="k">E</div></div>glen,</div><div class="w"><div class="keys"><div class="k">D</div></div>and</div><div class="w"><div class="keys"><div class="k">C♯</div></div>down</div><div class="w"><div class="keys"><div class="k">B</div></div>the</div><div class="w"><div class="keys"><div class="k">A</div><div class="k">G♯</div></div>mountain</div><div class="w"><div class="keys"><div class="k">A</div></div>side</div></div>
+  <div class="line cur lyric"><div class="w done"><div class="keys"><div class="k done">E</div></div>The</div><div class="w on"><div class="keys"><div class="k done">A</div><div class="k on">B</div></div>summer's</div><div class="w"><div class="keys"><div class="k">C♯</div></div>gone,</div><div class="w"><div class="keys"><div class="k">D</div><div class="k">C♯</div></div>and</div><div class="w"><div class="keys"><div class="k">B</div></div>all</div><div class="w"><div class="keys"><div class="k">A</div></div>the</div><div class="w"><div class="keys"><div class="k">F♯</div></div>flowers</div><div class="w"><div class="keys"><div class="k">E</div></div>are</div><div class="w"><div class="keys"><div class="k">A</div></div>dying</div></div>
+  <div class="line far next"><div class="w"><div class="keys"><div class="k">E</div></div>'Tis</div><div class="w"><div class="keys"><div class="k">A</div></div>you,</div><div class="w"><div class="keys"><div class="k">B</div></div>'tis</div><div class="w"><div class="keys"><div class="k">C♯</div></div>you</div><div class="w"><div class="keys"><div class="k">D</div></div>must</div><div class="w"><div class="keys"><div class="k">E</div></div>go</div><div class="w"><div class="keys"><div class="k">D</div></div>and</div><div class="w"><div class="keys"><div class="k">C♯</div></div>I</div><div class="w"><div class="keys"><div class="k">B</div></div>must</div><div class="w"><div class="keys"><div class="k">A</div></div>bide</div></div>
+  <div class="line far next2"><div class="w"><div class="keys"><div class="k">A</div></div>But</div><div class="w"><div class="keys"><div class="k">C♯</div></div>come</div><div class="w"><div class="keys"><div class="k">E</div></div>ye</div><div class="w"><div class="keys"><div class="k">F♯</div></div>back</div><div class="w"><div class="keys"><div class="k">E</div></div>when</div><div class="w"><div class="keys"><div class="k">D</div><div class="k">C♯</div></div>summer's</div><div class="w"><div class="keys"><div class="k">B</div></div>in</div><div class="w"><div class="keys"><div class="k">A</div></div>the</div><div class="w"><div class="keys"><div class="k">E</div><div class="k">D</div></div>meadow</div></div>
+ </div>
+ <div class="bottom">
+  <div class="string"><div class="fill"></div><div class="head"></div><div class="tick" style="left:8%"></div><div class="tick" style="left:23%"></div><div class="tick" style="left:39%"></div><div class="tick" style="left:55%"></div><div class="tick" style="left:71%"></div><div class="tick" style="left:86%"></div></div>
+  <div class="transport"><span class="time">0:31</span><div class="small">⟲</div><div class="small">‹</div><div class="play"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="small">›</div><div class="small">½</div><span class="time r">1:58</span></div>
+ </div>
+</div>
+
+<div class="screen" id="discover">
+ <div class="nav"><div class="brand"><i></i>NoteAlong</div><div class="tabs"><b>Discover</b><span>My songs</span></div><div style="display:flex;gap:12px;align-items:center"><div class="search">Search songs</div><span class="chip">＋ Add a song</span></div></div>
+ <div class="hero"><img src="covers/danny-boy.svg"><div><div class="eyebrow">Tonight's pick</div><h2>Danny Boy</h2><p>The Londonderry Air, played the way you know it. A slow, generous melody that sits beautifully on the alto sax. Medium · 1:58 · D major.</p><div class="cta">▶ Play now</div></div></div>
+ <div class="shelf" style="top:404px"><h3>Great for beginners <span>Few notes, no big jumps</span></h3><div class="row">
+  <div class="tile"><img src="covers/twinkle-twinkle-little-star.svg"><div class="n">Twinkle, Twinkle, Little Star</div><div class="m"><i class="lvl"></i>Easy · 0:35</div></div>
+  <div class="tile"><img src="covers/happy-birthday.svg"><div class="n">Happy Birthday to You</div><div class="m"><i class="lvl"></i>Easy · 0:34</div></div>
+  <div class="tile"><img src="covers/amazing-grace.svg"><div class="n">Amazing Grace</div><div class="m"><i class="lvl"></i>Easy · 1:20</div></div>
+  <div class="tile"><img src="covers/swing-low-sweet-chariot.svg"><div class="n">Swing Low, Sweet Chariot</div><div class="m"><i class="lvl"></i>Easy · 1:05</div></div>
+  <div class="tile"><img src="covers/ode-to-joy.svg"><div class="n">Ode to Joy</div><div class="m"><i class="lvl"></i>Easy · 0:58</div></div>
+  <div class="tile"><img src="covers/sakura-sakura.svg"><div class="n">Sakura Sakura</div><div class="m"><i class="lvl"></i>Easy · 0:52</div></div>
+  <div class="tile"><img src="covers/arirang.svg"><div class="n">Arirang</div><div class="m"><i class="lvl"></i>Easy · 1:10</div></div>
+  <div class="tile"><img src="covers/scarborough-fair.svg"><div class="n">Scarborough Fair</div><div class="m"><i class="lvl m"></i>Medium · 1:30</div></div>
+ </div></div>
+ <div class="shelf" style="top:690px"><h3>Holidays and celebrations</h3><div class="row">
+  <div class="tile"><img src="covers/silent-night.svg"><div class="n">Silent Night</div><div class="m"><i class="lvl m"></i>Medium · 1:15</div></div>
+  <div class="tile"><img src="covers/jingle-bells.svg"><div class="n">Jingle Bells</div><div class="m"><i class="lvl"></i>Easy · 0:48</div></div>
+  <div class="tile"><img src="covers/hava-nagila.svg"><div class="n">Hava Nagila</div><div class="m"><i class="lvl m"></i>Medium · 1:30</div></div>
+  <div class="tile"><img src="covers/la-cucaracha.svg"><div class="n">La Cucaracha</div><div class="m"><i class="lvl m"></i>Medium · 0:50</div></div>
+  <div class="tile"><img src="covers/bella-ciao.svg"><div class="n">Bella Ciao</div><div class="m"><i class="lvl m"></i>Medium · 1:12</div></div>
+  <div class="tile"><img src="covers/greensleeves.svg"><div class="n">Greensleeves</div><div class="m"><i class="lvl m"></i>Medium · 1:40</div></div>
+  <div class="tile"><img src="covers/cortez-feel-stripped.svg"><div class="n">Feel (Stripped)</div><div class="m"><i class="lvl h"></i>Hard · 4:00</div></div>
+  <div class="tile"><img src="covers/ode-to-joy.svg"><div class="n">Ode to Joy</div><div class="m"><i class="lvl"></i>Easy · 0:58</div></div>
+ </div></div>
+</div>
+</body></html>

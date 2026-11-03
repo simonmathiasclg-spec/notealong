@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeScript } from "@/components/ThemeScript";
+import { UploadsProvider } from "@/lib/uploads";
 
 export const metadata: Metadata = {
   title: "NoteAlong",
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <ThemeScript />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col"><UploadsProvider>{children}</UploadsProvider></body>
     </html>
   );
 }

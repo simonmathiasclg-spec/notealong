@@ -5,7 +5,7 @@ import { ChevronRight, Download, FileText, Loader2, Minus, Plus, RotateCcw, X } 
 import { getInstrument } from "@/lib/instruments";
 import { keyName, keyShiftLabel } from "@/lib/notes";
 import { formatTime } from "@/lib/api";
-import type { Notation, OctaveMode, Song, UserSession } from "@/lib/types";
+import type { CatalogEntry, Notation, OctaveMode, Song, UserSession } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { Modal } from "../Modal";
 import { InstrumentPicker } from "../InstrumentPicker";
@@ -35,6 +35,8 @@ type Props = {
   onExportPdf: () => void;
   onExportMusicXml: () => void;
   keyLoading: boolean;
+  /** Set for built-in songs: shows attribution and hides reprocessing. */
+  catalog?: CatalogEntry | null;
 };
 
 function Row({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
@@ -120,7 +122,7 @@ export function SettingsPanel(p: Props) {
                       <input type="range" min={0} max={1} step={0.05} value={session.backing_volume} onChange={(e) => update({ backing_volume: Number(e.target.value) })} />
                     </label>
                     <label className="flex items-center justify-between text-sm">
-                      <span>Hear the original singer quietly</span>
+                      <span>{p.catalog?.source.kind === "traditional" ? "Hear the melody quietly" : "Hear the original singer quietly"}</span>
                       <input type="checkbox" className="h-5 w-5 accent-accent" checked={session.guide_vocal} onChange={(e) => update({ guide_vocal: e.target.checked })} />
                     </label>
                     {session.guide_vocal && (
@@ -150,14 +152,14 @@ export function SettingsPanel(p: Props) {
                   </div>
                 </Row>
 
-                <Row label="Detail" hint={p.busy === "cleanup" ? "updating…" : "How many notes to show"}>
+                {!p.catalog && <Row label="Detail" hint={p.busy === "cleanup" ? "updating…" : "How many notes to show"}>
                   <div className="seg w-full">
                     {["simple", "balanced", "detailed"].map((d) => (
                       <button key={d} className="flex-1 capitalize" aria-pressed={song.settings.detail_level === d} disabled={!!p.busy} onClick={() => p.onDetailLevel(d)}>{d}</button>
                     ))}
                   </div>
                   <p className="mt-1 text-xs text-faint">Simple leaves out quick slides and runs. Detailed keeps them.</p>
-                </Row>
+                </Row>}
 
                 <Row label="Lyrics">
                   <div className="space-y-3">
@@ -167,13 +169,14 @@ export function SettingsPanel(p: Props) {
                         <button className="flex-1" aria-pressed={session.script === "roman"} onClick={() => update({ script: "roman" })}>Romanized</button>
                       </div>
                     )}
-                    <label className="block text-sm">
+                    {!p.catalog && <label className="block text-sm">
                       <div className="mb-1 flex justify-between"><span>Language</span>{song.language.detected && <span className="text-muted">detected: {song.language.detected}</span>}</div>
                       <select className="w-full rounded-lg border border-border bg-elev px-2 py-1.5 text-sm" value={song.language.override ?? ""} disabled={!!p.busy} onChange={(e) => p.onLanguage(e.target.value)}>
                         {LANGUAGES.map(([c, n]) => <option key={c} value={c}>{n}</option>)}
                       </select>
-                    </label>
-                    <button className="btn w-full justify-center" onClick={() => setLyricsOpen(true)}><FileText className="h-4 w-4" /> {song.settings.lyrics_source === "pasted" ? "Edit pasted lyrics" : "Paste the correct lyrics"}</button>
+                    </label>}
+                    {!p.catalog && <button className="btn w-full justify-center" onClick={() => setLyricsOpen(true)}><FileText className="h-4 w-4" /> {song.settings.lyrics_source === "pasted" ? "Edit pasted lyrics" : "Paste the correct lyrics"}</button>}
+                    {p.catalog && song.language.script !== "other" && <p className="text-sm text-faint">Words and notes for this song were checked by hand.</p>}
                   </div>
                 </Row>
 
@@ -184,10 +187,20 @@ export function SettingsPanel(p: Props) {
                   </div>
                 </Row>
 
-                <Row label="Processing" hint={song.settings.whisper_model ?? undefined}>
-                  <button className="btn w-full justify-center" disabled={!!p.busy} onClick={p.onReprocess}><RotateCcw className="h-4 w-4" /> Run everything again</button>
-                  <p className="mt-1 text-xs text-faint">Takes a few minutes. Your note edits will be replaced.</p>
-                </Row>
+                {p.catalog ? (
+                  <Row label="About this song">
+                    <p className="text-sm text-muted">{p.catalog.attribution}</p>
+                    <p className="mt-2 text-xs text-faint">
+                      {p.catalog.licence.url ? <a href={p.catalog.licence.url} target="_blank" rel="noreferrer" className="underline">{p.catalog.licence.name}</a> : p.catalog.licence.name}
+                      {p.catalog.source.url && <> · <a href={p.catalog.source.url} target="_blank" rel="noreferrer" className="underline">Source</a></>}
+                    </p>
+                  </Row>
+                ) : (
+                  <Row label="Processing" hint={song.settings.whisper_model ?? undefined}>
+                    <button className="btn w-full justify-center" disabled={!!p.busy} onClick={p.onReprocess}><RotateCcw className="h-4 w-4" /> Run everything again</button>
+                    <p className="mt-1 text-xs text-faint">Takes a few minutes. Your note edits will be replaced.</p>
+                  </Row>
+                )}
               </div>
             </motion.aside>
           </>

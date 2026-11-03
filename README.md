@@ -7,9 +7,12 @@ plain note names (C, D♯, G…) above each word while the backing track plays. 
 ```
 notealong/
 ├── service/     Python processing service (FastAPI): Demucs → Basic Pitch → cleanup → Whisper → alignment
-├── web/         Next.js app (library, processing view, player, edit mode, print/export)
-├── library/     Your songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
-├── docs/        Screenshots of every screen
+│   └── notealong/catalog/   tools that build and import the built-in songs
+├── web/         Next.js app (Discover, My songs, processing view, player, edit mode, print/export)
+├── catalog/     Built-in songs that ship with the app (public domain + Creative Commons), see below
+│   └── songs/   hand-authored melodies in a small text format (*.song)
+├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
+├── docs/        Screenshots (before/after), design principles and the three design directions
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
 
@@ -62,19 +65,73 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
 ## Using it
 
 1. Pick your instrument (alto sax is preselected). You can change it any time from the player.
-2. Add a song (button or drag a file anywhere on the library page). Processing continues even if you
-   leave the page.
-3. Open the song: press play (or space). After a short count-in the backing track plays and the current
+2. **Discover** lists the built-in songs: tap one and it plays straight away. Browse by difficulty, genre or
+   culture, or search. **My songs** holds what you add yourself.
+3. Add a song (button or drag a file anywhere). Processing continues even if you leave the page, so you can
+   play something from Discover while you wait.
+4. Open the song: press play (or space). After a short count-in the backing track plays and the current
    word and note light up. Notes above words are what you finger on your instrument.
-4. Side panel (⚙︎): key (higher/lower), octave, speed, loop, backing volume, quiet guide vocal, note
+5. Side panel (⚙︎): key (higher/lower), octave, speed, loop, backing volume, quiet guide vocal, note
    names (C♯ / D♭ / Do Re Mi / Sa Re Ga), detail level, lyric language and script, paste the correct lyrics,
    export (PDF sheet, MusicXML).
-5. Edit mode (✎ or `E`): click a note to move it up or down a semitone or delete it; click a word to fix
+6. Edit mode (✎ or `E`): click a note to move it up or down a semitone or delete it; click a word to fix
    its text or add a note. Undo/redo. Edits are saved to `song.json`.
-6. Focus mode (`F`) hides everything except play/pause. `?` shows all shortcuts.
+7. Focus mode (`F`) hides everything except play/pause. `?` shows all shortcuts.
 
 Octave markers: ▲ after a note means the higher version of that note on your instrument, ▼ the lower
 one. A dashed red note is outside your instrument's range; use the octave control or a different key.
+
+## The built-in catalog (Discover)
+
+`catalog/catalog.json` is the index; every song lives in `catalog/<id>/` with `song.json` (the same format
+the pipeline produces), `backing.mp3`, `vocals.mp3` (the guide melody or the separated singer), `cover.svg`
+(generated abstract art) and `catalog.json` (title, artist, origin, genre, difficulty, duration, key, tempo,
+licence, attribution, tags). Only songs that are legal to ship are included: public-domain melodies and
+words, or recordings under CC0, CC BY or CC BY-SA (never NonCommercial or NoDerivatives).
+
+Two kinds of song:
+
+- **Hand-authored public-domain classics** in `catalog/songs/*.song`, a small text format: header, chords
+  per bar, then lyric lines with one note per syllable (see `catalog/songs/README.md`). The build turns each
+  file into exact note data, renders a backing track (chords, bass, light percussion) and a guide melody with
+  FluidSynth and the MIT-licensed MuseScore General soundfont, generates cover art and rates the difficulty
+  from the note range, number of different notes, speed and jumps.
+- **Creative Commons recordings** imported with `import_cc`: the recording goes through the normal pipeline
+  (Demucs, Basic Pitch, cleanup), then every note is checked against a second pitch tracker (pYIN) and clear
+  mistakes are fixed or dropped, exactly as a careful edit-mode pass would do. Hand-made word timings can be
+  supplied instead of Whisper. Artist, source and licence are stored and shown on the song page.
+
+Built-in songs are read-only: your settings and any note fixes for them are kept in `library/.catalog/`, and
+key-shifted renders in `library/.cache/`. "Delete" on a built-in song only resets those.
+
+### Adding a song to the catalog
+
+```bash
+cd service && source .venv/bin/activate
+brew install fluid-synth                      # once; the soundfont (~40 MB) downloads on first build
+
+# A public-domain song: write catalog/songs/<id>.song, then
+python -m notealong.catalog.build --check      # parse every file, report problems
+python -m notealong.catalog.build              # build what changed (audio, song.json, cover, index)
+
+# A Creative Commons recording (CC0 / CC BY / CC BY-SA only)
+python -m notealong.catalog.import_cc --audio ~/Downloads/song.mp3 --id artist-song \
+    --title "Song" --artist "Artist" --source-url https://www.jamendo.com/track/123 \
+    --licence "CC BY 4.0" --licence-url https://creativecommons.org/licenses/by/4.0/ \
+    --genre Pop --language en [--lyrics lyrics.txt --words words.csv]
+python -m notealong.catalog.build --rerate     # optional: recompute difficulty ratings and the index
+```
+
+The web app reads the index from `GET /api/catalog`; a catalog song opens through the same
+`/api/songs/{id}` endpoints as an upload, so every player feature works on it.
+
+### Plans and limits (not built yet, designed for)
+
+`service/notealong/entitlements.py` is the one place that knows what the current user may do. There are no
+accounts, so everyone is on the "local" plan with no limits; `GET /api/me` reports the plan and upload
+counts, and the upload endpoint asks `check_upload_allowed()` first. The planned paywall (3 free uploads,
+unlimited for subscribers, catalog always free) only needs that module to read a signed-in user's plan.
+Set `NOTEALONG_FREE_UPLOADS=3` to try the limit today.
 
 ## How it works
 

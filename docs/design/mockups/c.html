@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction C — Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#121520;--tint:#2A1F4D;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--line:rgba(255,255,255,.1);--fg:#F2F3F7;--muted:#A3A8B8;--faint:#60667A;--acc:#9C8CFF;--acc2:#5BE0C8}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--fg);font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.screen{width:1440px;height:900px;position:relative;overflow:hidden;background:radial-gradient(70% 60% at 20% 10%,rgba(156,140,255,.28),transparent 60%),radial-gradient(50% 50% at 90% 90%,rgba(91,224,200,.14),transparent 60%),var(--bg)}
+.disp{font-family:"Plus Jakarta Sans",sans-serif}
+.top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:18px;padding:22px 28px}
+.back{width:42px;height:42px;border-radius:14px;background:var(--glass);display:grid;place-items:center}
+.top h1{font-family:"Plus Jakarta Sans";font-weight:700;font-size:20px}.top .sub{color:var(--muted);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;background:var(--glass);font-size:13px;font-weight:500}.pill b{color:var(--acc)}
+.pills{margin-left:auto;display:flex;gap:8px}
+.river{position:absolute;left:0;right:0;top:300px;height:300px}
+.river .prev,.river .next{position:absolute;left:0;right:0;text-align:center;font-family:"Plus Jakarta Sans";font-weight:600;color:var(--muted);font-size:26px}
+.river .prev{top:-110px;opacity:.5}.river .next{bottom:-120px;opacity:.7}
+.lane{position:absolute;left:140px;right:140px;top:60px;height:190px;border-radius:28px;background:var(--glass);border:1px solid var(--line)}
+.head{position:absolute;left:38%;top:-18px;bottom:-18px;width:3px;background:var(--acc);border-radius:3px;box-shadow:0 0 24px rgba(156,140,255,.8)}
+.syl{position:absolute;top:34px;display:flex;flex-direction:column;align-items:center;gap:14px;font-family:"Plus Jakarta Sans";font-weight:700;font-size:40px;color:var(--fg)}
+.syl .n{height:54px;padding:0 20px;border-radius:999px;background:var(--glass2);display:grid;place-items:center;font-size:22px;font-weight:800;color:#fff;min-width:54px}
+.syl.done{color:var(--faint)}.syl.done .n{opacity:.4}.syl.on{color:#fff}.syl.on .n{background:var(--acc);color:#13102A;box-shadow:0 0 0 8px rgba(156,140,255,.2)}
+.syl .n.long{padding:0 44px}
+.dock{position:absolute;right:28px;top:120px;display:flex;flex-direction:column;gap:10px}
+.dock .d{width:170px;padding:14px 16px;border-radius:18px;background:var(--glass);border:1px solid var(--line)}.dock .d small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.dock .d b{font-family:"Plus Jakarta Sans";font-size:16px;font-weight:700}
+.bot{position:absolute;left:28px;right:28px;bottom:26px;display:flex;align-items:center;gap:22px}
+.play{width:68px;height:68px;border-radius:22px;background:linear-gradient(135deg,var(--acc),#7C6BF0);display:grid;place-items:center;color:#13102A;box-shadow:0 10px 30px rgba(156,140,255,.4)}
+.wave{flex:1;height:48px;display:flex;align-items:center;gap:3px}.wave i{display:block;width:4px;border-radius:2px;background:var(--faint);opacity:.6}.wave i.p{background:var(--acc);opacity:1}
+.t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}
+/* discover */
+.nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:30px;padding:26px 40px}
+.brand{font-family:"Plus Jakarta Sans";font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px}.brand i{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:inline-block}
+.seg{display:inline-flex;background:var(--glass);border-radius:14px;padding:4px}.seg span{padding:8px 16px;border-radius:11px;font-size:14px;font-weight:500;color:var(--muted)}.seg span.on{background:#fff;color:#13102A;font-weight:600}
+.chips{position:absolute;top:100px;left:40px;right:40px;display:flex;gap:8px}.chips span{padding:9px 14px;border-radius:999px;background:var(--glass);font-size:13px;font-weight:500;color:var(--muted)}.chips span.on{background:var(--acc);color:#13102A;font-weight:600}
+.bento{position:absolute;top:160px;left:40px;right:40px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;grid-template-rows:280px 260px;gap:18px}
+.cell{border-radius:24px;background:var(--glass);border:1px solid var(--line);overflow:hidden;position:relative}
+.cell.big{grid-column:1;grid-row:1/3;display:flex;flex-direction:column;justify-content:flex-end;padding:30px;background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.7)),url(covers/danny-boy.svg) center/cover}
+.cell.big .e{font-size:13px;color:var(--acc2);font-weight:600}.cell.big h2{font-family:"Plus Jakarta Sans";font-size:56px;font-weight:800;letter-spacing:-.02em;margin:6px 0 8px}.cell.big p{color:#D7DAE5;font-size:15px;max-width:460px;line-height:1.5}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:18px;background:#fff;color:#13102A;font-weight:700;padding:13px 20px;border-radius:14px;font-size:14px;width:max-content}
+.cell img{width:100%;height:100%;object-fit:cover;display:block}.cell .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.75))}.cell .cap b{font-family:"Plus Jakarta Sans";font-size:16px;display:block}.cell .cap span{font-size:12px;color:#C9CCD8}
+.cell.list{padding:20px}.cell.list h4{font-family:"Plus Jakarta Sans";font-size:16px;margin-bottom:12px}.cell.list .r{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}.cell.list .r img{width:36px;height:36px;border-radius:10px}.cell.list .r span{margin-left:auto;color:var(--muted);font-size:12px}
+.row{position:absolute;top:740px;left:40px;right:40px;display:grid;grid-template-columns:repeat(8,1fr);gap:14px}.row .s img{width:100%;border-radius:16px;display:block}.row .s b{display:block;font-size:13px;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row h3{position:absolute;top:-34px;font-family:"Plus Jakarta Sans";font-size:18px}
+</style></head><body>
+<div class="screen">
+ <div class="top"><div class="back">←</div><div><h1>Danny Boy</h1><div class="sub">Traditional · Ireland</div></div>
+  <div class="pills"><span class="pill">🎷 <b>Alto sax</b></span><span class="pill">Key <b>as written</b></span><span class="pill">Speed <b>100%</b></span><span class="pill">✎</span><span class="pill">⚙</span></div></div>
+ <div class="river">
+  <div class="prev">from glen to glen, and down the mountain side</div>
+  <div class="lane">
+   <div class="head"></div>
+   <div class="syl done" style="left:30px"><div class="n">E</div>The</div>
+   <div class="syl done" style="left:170px"><div class="n">A</div>sum</div>
+   <div class="syl on" style="left:330px"><div class="n long">B</div>mer's</div>
+   <div class="syl" style="left:560px"><div class="n long">C♯</div>gone,</div>
+   <div class="syl" style="left:790px"><div class="n">D</div>and</div>
+   <div class="syl" style="left:900px"><div class="n">C♯</div></div>
+   <div class="syl" style="left:1000px"><div class="n">B</div>all</div>
+  </div>
+  <div class="next">'tis you, 'tis you must go and I must bide</div>
+ </div>
+ <div class="dock"><div class="d"><small>Next note</small><b>C♯ · gone</b></div><div class="d"><small>Loop</small><b>This line</b></div><div class="d"><small>Guide</small><b>Melody on</b></div></div>
+ <div class="bot"><div class="play">▶</div><span class="t">0:31</span><div class="wave">
+  <i style="height:8px"class="p"></i><i style="height:14px"class="p"></i><i style="height:22px"class="p"></i><i style="height:30px"class="p"></i><i style="height:18px"class="p"></i><i style="height:26px"class="p"></i><i style="height:36px"class="p"></i><i style="height:20px"class="p"></i><i style="height:12px"class="p"></i><i style="height:24px"class="p"></i><i style="height:32px"class="p"></i><i style="height:16px"class="p"></i><i style="height:28px"class="p"></i><i style="height:40px"class="p"></i><i style="height:22px"class="p"></i><i style="height:14px"class="p"></i><i style="height:26px"class="p"></i><i style="height:34px"class="p"></i><i style="height:18px"class="p"></i><i style="height:10px"class="p"></i><i style="height:24px"class="p"></i><i style="height:30px"class="p"></i><i style="height:20px"class="p"></i><i style="height:36px"class="p"></i><i style="height:28px"></i><i style="height:16px"></i><i style="height:22px"></i><i style="height:34px"></i><i style="height:26px"></i><i style="height:12px"></i><i style="height:30px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:14px"></i><i style="height:28px"></i><i style="height:22px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:24px"></i><i style="height:32px"></i><i style="height:10px"></i><i style="height:26px"></i><i style="height:40px"></i><i style="height:20px"></i><i style="height:14px"></i><i style="height:30px"></i><i style="height:22px"></i><i style="height:16px"></i><i style="height:34px"></i><i style="height:26px"></i><i style="height:12px"></i><i style="height:28px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:24px"></i><i style="height:32px"></i><i style="height:20px"></i><i style="height:14px"></i><i style="height:30px"></i><i style="height:38px"></i><i style="height:22px"></i><i style="height:16px"></i><i style="height:26px"></i><i style="height:34px"></i><i style="height:12px"></i><i style="height:28px"></i><i style="height:20px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:24px"></i><i style="height:30px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:32px"></i><i style="height:26px"></i><i style="height:10px"></i><i style="height:28px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:16px"></i><i style="height:34px"></i><i style="height:22px"></i><i style="height:12px"></i><i style="height:30px"></i><i style="height:24px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:32px"></i><i style="height:20px"></i><i style="height:28px"></i><i style="height:10px"></i><i style="height:22px"></i><i style="height:34px"></i><i style="height:16px"></i><i style="height:30px"></i><i style="height:24px"></i><i style="height:12px"></i><i style="height:26px"></i>
+ </div><span class="t">1:58</span></div>
+</div>
+
+<div class="screen">
+ <div class="nav"><div class="brand"><i></i>NoteAlong</div><div class="seg"><span class="on">Discover</span><span>My songs</span></div><span class="pill" style="margin-left:auto">🔍 Search</span><span class="pill">🎷 Alto sax</span><span class="pill" style="background:#fff;color:#13102A;font-weight:600">＋ Add a song</span></div>
+ <div class="chips"><span class="on">All</span><span>Easy</span><span>Medium</span><span>Hard</span><span>Children's</span><span>Christmas</span><span>Folk</span><span>Hymn</span><span>Latin</span><span>Pop</span><span>Real recordings</span></div>
+ <div class="bento">
+  <div class="cell big"><div class="e">CONTINUE</div><h2>Danny Boy</h2><p>You were at 0:31. The Londonderry Air, played the way you know it. Medium · D major · 1:58.</p><div class="cta">▶ Keep playing</div></div>
+  <div class="cell"><img src="covers/happy-birthday.svg"><div class="cap"><b>Happy Birthday</b><span>Easy · 0:34</span></div></div>
+  <div class="cell"><img src="covers/amazing-grace.svg"><div class="cap"><b>Amazing Grace</b><span>Easy · 1:20</span></div></div>
+  <div class="cell list"><h4>Great for beginners</h4><div class="r"><img src="covers/twinkle-twinkle-little-star.svg">Twinkle, Twinkle<span>0:35</span></div><div class="r"><img src="covers/ode-to-joy.svg">Ode to Joy<span>0:58</span></div><div class="r"><img src="covers/sakura-sakura.svg">Sakura Sakura<span>0:52</span></div><div class="r"><img src="covers/arirang.svg">Arirang<span>1:10</span></div></div>
+  <div class="cell"><img src="covers/silent-night.svg"><div class="cap"><b>Silent Night</b><span>Medium · 1:15</span></div></div>
+  <div class="cell"><img src="covers/la-cucaracha.svg"><div class="cap"><b>La Cucaracha</b><span>Medium · 0:50</span></div></div>
+  <div class="cell"><img src="covers/cortez-feel-stripped.svg"><div class="cap"><b>Feel (Stripped)</b><span>Hard · real recording</span></div></div>
+ </div>
+ <div class="row"><h3>Holidays and celebrations</h3>
+  <div class="s"><img src="covers/jingle-bells.svg"><b>Jingle Bells</b></div><div class="s"><img src="covers/hava-nagila.svg"><b>Hava Nagila</b></div><div class="s"><img src="covers/bella-ciao.svg"><b>Bella Ciao</b></div><div class="s"><img src="covers/greensleeves.svg"><b>Greensleeves</b></div><div class="s"><img src="covers/scarborough-fair.svg"><b>Scarborough Fair</b></div><div class="s"><img src="covers/swing-low-sweet-chariot.svg"><b>Swing Low</b></div><div class="s"><img src="covers/twinkle-twinkle-little-star.svg"><b>Twinkle</b></div><div class="s"><img src="covers/silent-night.svg"><b>Silent Night</b></div>
+ </div>
+</div>
+</body></html>

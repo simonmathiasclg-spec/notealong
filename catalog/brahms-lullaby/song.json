@@ -1,0 +1,966 @@
+{
+ "schema_version": 1,
+ "id": "brahms-lullaby",
+ "title": "Brahms' Lullaby (Wiegenlied)",
+ "artist": "Johannes Brahms",
+ "duration": 40.5,
+ "tempo_bpm": 80.0,
+ "created_at": "2026-11-03T03:34:03.498083+00:00",
+ "updated_at": "2026-11-03T03:34:03.498099+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "en",
+  "override": null,
+  "script": "latin"
+ },
+ "key": {
+  "tonic": 3,
+  "mode": "major",
+  "name": "Eb major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "Lullaby",
+   "roman": null,
+   "start": 1.5,
+   "end": 3.375,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "and",
+   "roman": null,
+   "start": 3.375,
+   "end": 3.75,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "good",
+   "roman": null,
+   "start": 3.75,
+   "end": 4.5,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "night,",
+   "roman": null,
+   "start": 4.5,
+   "end": 5.25,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "With",
+   "roman": null,
+   "start": 6.0,
+   "end": 6.75,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "roses",
+   "roman": null,
+   "start": 6.75,
+   "end": 8.625,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "bedight,",
+   "roman": null,
+   "start": 8.625,
+   "end": 10.5,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "With",
+   "roman": null,
+   "start": 10.5,
+   "end": 11.25,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "lilies",
+   "roman": null,
+   "start": 11.25,
+   "end": 12.75,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "o'erspread",
+   "roman": null,
+   "start": 12.75,
+   "end": 14.25,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "Is",
+   "roman": null,
+   "start": 15.0,
+   "end": 15.75,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "baby's",
+   "roman": null,
+   "start": 15.75,
+   "end": 17.25,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "wee",
+   "roman": null,
+   "start": 17.25,
+   "end": 18.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "bed.",
+   "roman": null,
+   "start": 18.0,
+   "end": 18.75,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "Lay",
+   "roman": null,
+   "start": 19.5,
+   "end": 19.875,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "thee",
+   "roman": null,
+   "start": 19.875,
+   "end": 20.25,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "down",
+   "roman": null,
+   "start": 20.25,
+   "end": 21.75,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "now",
+   "roman": null,
+   "start": 21.75,
+   "end": 22.125,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "and",
+   "roman": null,
+   "start": 22.125,
+   "end": 22.5,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "rest,",
+   "roman": null,
+   "start": 22.5,
+   "end": 24.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "May",
+   "roman": null,
+   "start": 24.0,
+   "end": 24.375,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "thy",
+   "roman": null,
+   "start": 24.375,
+   "end": 24.75,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "slumber",
+   "roman": null,
+   "start": 24.75,
+   "end": 26.25,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "be",
+   "roman": null,
+   "start": 26.25,
+   "end": 27.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "blest.",
+   "roman": null,
+   "start": 27.0,
+   "end": 28.5,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "Lay",
+   "roman": null,
+   "start": 28.5,
+   "end": 28.875,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "thee",
+   "roman": null,
+   "start": 28.875,
+   "end": 29.25,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "down",
+   "roman": null,
+   "start": 29.25,
+   "end": 30.75,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "now",
+   "roman": null,
+   "start": 30.75,
+   "end": 31.125,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "and",
+   "roman": null,
+   "start": 31.125,
+   "end": 31.5,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "rest,",
+   "roman": null,
+   "start": 31.5,
+   "end": 33.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "May",
+   "roman": null,
+   "start": 33.0,
+   "end": 33.375,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "thy",
+   "roman": null,
+   "start": 33.375,
+   "end": 33.75,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "slumber",
+   "roman": null,
+   "start": 33.75,
+   "end": 35.25,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "be",
+   "roman": null,
+   "start": 35.25,
+   "end": 36.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "blest.",
+   "roman": null,
+   "start": 36.0,
+   "end": 38.25,
+   "line": 7,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 1.5,
+   "end": 5.25
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 6.0,
+   "end": 10.5
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 10.5,
+   "end": 14.25
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 15.0,
+   "end": 18.75
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 19.5,
+   "end": 24.0
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 24.0,
+   "end": 28.5
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 28.5,
+   "end": 33.0
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 33.0,
+   "end": 38.25
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 1.5,
+   "end": 1.875,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 1.875,
+   "end": 2.25,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 2.25,
+   "end": 3.375,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 3.375,
+   "end": 3.75,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 3.75,
+   "end": 4.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 4.5,
+   "end": 5.25,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 6.0,
+   "end": 6.375,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 6.375,
+   "end": 6.75,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 6.75,
+   "end": 7.5,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 7.5,
+   "end": 8.625,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 8.625,
+   "end": 9.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 9.0,
+   "end": 9.75,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 9.75,
+   "end": 10.5,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 10.5,
+   "end": 10.875,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 10.875,
+   "end": 11.25,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 11.25,
+   "end": 12.0,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 12.0,
+   "end": 12.75,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 12.75,
+   "end": 13.125,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 13.125,
+   "end": 13.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 13.5,
+   "end": 14.25,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 15.0,
+   "end": 15.375,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 15.375,
+   "end": 15.75,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 15.75,
+   "end": 16.125,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 16.125,
+   "end": 16.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 16.5,
+   "end": 17.25,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 17.25,
+   "end": 18.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 18.0,
+   "end": 18.75,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 19.5,
+   "end": 19.875,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 19.875,
+   "end": 20.25,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 20.25,
+   "end": 21.75,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 21.75,
+   "end": 22.125,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 22.125,
+   "end": 22.5,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 22.5,
+   "end": 24.0,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 24.0,
+   "end": 24.375,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 24.375,
+   "end": 24.75,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 24.75,
+   "end": 25.5,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 25.5,
+   "end": 26.25,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 26.25,
+   "end": 27.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 27.0,
+   "end": 28.5,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 28.5,
+   "end": 28.875,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 28.875,
+   "end": 29.25,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 29.25,
+   "end": 30.75,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 30.75,
+   "end": 31.125,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 31.125,
+   "end": 31.5,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n47",
+   "start": 31.5,
+   "end": 33.0,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 33.0,
+   "end": 33.375,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 33.375,
+   "end": 33.75,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 33.75,
+   "end": 34.5,
+   "midi": 68,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n51",
+   "start": 34.5,
+   "end": 35.25,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n52",
+   "start": 35.25,
+   "end": 36.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 36.0,
+   "end": 38.25,
+   "midi": 63,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 7,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "original"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

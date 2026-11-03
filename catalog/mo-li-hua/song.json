@@ -1,0 +1,2282 @@
+{
+ "schema_version": 1,
+ "id": "mo-li-hua",
+ "title": "Mo Li Hua (Jasmine Flower)",
+ "artist": "Traditional",
+ "duration": 78.261,
+ "tempo_bpm": 92.0,
+ "created_at": "2026-11-02T21:49:03.775543+00:00",
+ "updated_at": "2026-11-02T21:49:03.775554+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "zh",
+  "override": null,
+  "script": "other"
+ },
+ "key": {
+  "tonic": 2,
+  "mode": "major",
+  "name": "D major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "好",
+   "roman": "hǎo",
+   "start": 2.609,
+   "end": 3.261,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "一",
+   "roman": "yī",
+   "start": 3.261,
+   "end": 3.587,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "朵",
+   "roman": "duǒ",
+   "start": 3.587,
+   "end": 3.913,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "美",
+   "roman": "měi",
+   "start": 3.913,
+   "end": 4.565,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "丽",
+   "roman": "lì",
+   "start": 4.565,
+   "end": 4.891,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "的",
+   "roman": "de",
+   "start": 4.891,
+   "end": 5.217,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 5.217,
+   "end": 7.174,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "好",
+   "roman": "hǎo",
+   "start": 7.826,
+   "end": 8.478,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "一",
+   "roman": "yī",
+   "start": 8.478,
+   "end": 8.804,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "朵",
+   "roman": "duǒ",
+   "start": 8.804,
+   "end": 9.13,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "美",
+   "roman": "měi",
+   "start": 9.13,
+   "end": 9.783,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "丽",
+   "roman": "lì",
+   "start": 9.783,
+   "end": 10.109,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "的",
+   "roman": "de",
+   "start": 10.109,
+   "end": 10.435,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 10.435,
+   "end": 12.391,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "芬",
+   "roman": "fēn",
+   "start": 13.043,
+   "end": 13.696,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "芳",
+   "roman": "fāng",
+   "start": 13.696,
+   "end": 14.348,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "美",
+   "roman": "měi",
+   "start": 14.348,
+   "end": 15.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "丽",
+   "roman": "lì",
+   "start": 15.0,
+   "end": 15.652,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "满",
+   "roman": "mǎn",
+   "start": 15.652,
+   "end": 16.304,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "枝",
+   "roman": "zhī",
+   "start": 16.304,
+   "end": 16.957,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "桠",
+   "roman": "yā",
+   "start": 16.957,
+   "end": 18.261,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "又",
+   "roman": "yòu",
+   "start": 18.261,
+   "end": 18.913,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "香",
+   "roman": "xiāng",
+   "start": 18.913,
+   "end": 19.565,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "又",
+   "roman": "yòu",
+   "start": 19.565,
+   "end": 20.217,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "白",
+   "roman": "bái",
+   "start": 20.217,
+   "end": 20.87,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "人",
+   "roman": "rén",
+   "start": 20.87,
+   "end": 21.522,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "人",
+   "roman": "rén",
+   "start": 21.522,
+   "end": 22.174,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "夸",
+   "roman": "kuā",
+   "start": 22.174,
+   "end": 23.478,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "让",
+   "roman": "ràng",
+   "start": 23.478,
+   "end": 24.13,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "我",
+   "roman": "wǒ",
+   "start": 24.13,
+   "end": 24.783,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "来",
+   "roman": "lái",
+   "start": 24.783,
+   "end": 25.761,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "将",
+   "roman": "jiāng",
+   "start": 25.761,
+   "end": 26.087,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "你",
+   "roman": "nǐ",
+   "start": 26.087,
+   "end": 26.739,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "摘",
+   "roman": "zhāi",
+   "start": 26.739,
+   "end": 27.391,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "下",
+   "roman": "xià",
+   "start": 27.391,
+   "end": 28.696,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "送",
+   "roman": "sòng",
+   "start": 28.696,
+   "end": 29.348,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w36",
+   "text": "给",
+   "roman": "gěi",
+   "start": 29.348,
+   "end": 30.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w37",
+   "text": "别",
+   "roman": "bié",
+   "start": 30.0,
+   "end": 30.652,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w38",
+   "text": "人",
+   "roman": "rén",
+   "start": 30.652,
+   "end": 31.304,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w39",
+   "text": "家",
+   "roman": "jiā",
+   "start": 31.304,
+   "end": 32.609,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w40",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 32.609,
+   "end": 34.891,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w41",
+   "text": "呀",
+   "roman": "ya",
+   "start": 34.891,
+   "end": 35.217,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w42",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 35.217,
+   "end": 37.826,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w43",
+   "text": "好",
+   "roman": "hǎo",
+   "start": 39.13,
+   "end": 39.783,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w44",
+   "text": "一",
+   "roman": "yī",
+   "start": 39.783,
+   "end": 40.109,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w45",
+   "text": "朵",
+   "roman": "duǒ",
+   "start": 40.109,
+   "end": 40.435,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w46",
+   "text": "美",
+   "roman": "měi",
+   "start": 40.435,
+   "end": 41.087,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w47",
+   "text": "丽",
+   "roman": "lì",
+   "start": 41.087,
+   "end": 41.413,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w48",
+   "text": "的",
+   "roman": "de",
+   "start": 41.413,
+   "end": 41.739,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w49",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 41.739,
+   "end": 43.696,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w50",
+   "text": "好",
+   "roman": "hǎo",
+   "start": 44.348,
+   "end": 45.0,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w51",
+   "text": "一",
+   "roman": "yī",
+   "start": 45.0,
+   "end": 45.326,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w52",
+   "text": "朵",
+   "roman": "duǒ",
+   "start": 45.326,
+   "end": 45.652,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w53",
+   "text": "美",
+   "roman": "měi",
+   "start": 45.652,
+   "end": 46.304,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w54",
+   "text": "丽",
+   "roman": "lì",
+   "start": 46.304,
+   "end": 46.63,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w55",
+   "text": "的",
+   "roman": "de",
+   "start": 46.63,
+   "end": 46.957,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w56",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 46.957,
+   "end": 48.913,
+   "line": 8,
+   "confidence": 1.0
+  },
+  {
+   "id": "w57",
+   "text": "芬",
+   "roman": "fēn",
+   "start": 49.565,
+   "end": 50.217,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w58",
+   "text": "芳",
+   "roman": "fāng",
+   "start": 50.217,
+   "end": 50.87,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w59",
+   "text": "美",
+   "roman": "měi",
+   "start": 50.87,
+   "end": 51.522,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w60",
+   "text": "丽",
+   "roman": "lì",
+   "start": 51.522,
+   "end": 52.174,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w61",
+   "text": "满",
+   "roman": "mǎn",
+   "start": 52.174,
+   "end": 52.826,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w62",
+   "text": "枝",
+   "roman": "zhī",
+   "start": 52.826,
+   "end": 53.478,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w63",
+   "text": "桠",
+   "roman": "yā",
+   "start": 53.478,
+   "end": 54.783,
+   "line": 9,
+   "confidence": 1.0
+  },
+  {
+   "id": "w64",
+   "text": "又",
+   "roman": "yòu",
+   "start": 54.783,
+   "end": 55.435,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w65",
+   "text": "香",
+   "roman": "xiāng",
+   "start": 55.435,
+   "end": 56.087,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w66",
+   "text": "又",
+   "roman": "yòu",
+   "start": 56.087,
+   "end": 56.739,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w67",
+   "text": "白",
+   "roman": "bái",
+   "start": 56.739,
+   "end": 57.391,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w68",
+   "text": "人",
+   "roman": "rén",
+   "start": 57.391,
+   "end": 58.043,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w69",
+   "text": "人",
+   "roman": "rén",
+   "start": 58.043,
+   "end": 58.696,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w70",
+   "text": "夸",
+   "roman": "kuā",
+   "start": 58.696,
+   "end": 60.0,
+   "line": 10,
+   "confidence": 1.0
+  },
+  {
+   "id": "w71",
+   "text": "让",
+   "roman": "ràng",
+   "start": 60.0,
+   "end": 60.652,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w72",
+   "text": "我",
+   "roman": "wǒ",
+   "start": 60.652,
+   "end": 61.304,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w73",
+   "text": "来",
+   "roman": "lái",
+   "start": 61.304,
+   "end": 62.283,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w74",
+   "text": "将",
+   "roman": "jiāng",
+   "start": 62.283,
+   "end": 62.609,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w75",
+   "text": "你",
+   "roman": "nǐ",
+   "start": 62.609,
+   "end": 63.261,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w76",
+   "text": "摘",
+   "roman": "zhāi",
+   "start": 63.261,
+   "end": 63.913,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w77",
+   "text": "下",
+   "roman": "xià",
+   "start": 63.913,
+   "end": 65.217,
+   "line": 11,
+   "confidence": 1.0
+  },
+  {
+   "id": "w78",
+   "text": "送",
+   "roman": "sòng",
+   "start": 65.217,
+   "end": 65.87,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w79",
+   "text": "给",
+   "roman": "gěi",
+   "start": 65.87,
+   "end": 66.522,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w80",
+   "text": "别",
+   "roman": "bié",
+   "start": 66.522,
+   "end": 67.174,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w81",
+   "text": "人",
+   "roman": "rén",
+   "start": 67.174,
+   "end": 67.826,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w82",
+   "text": "家",
+   "roman": "jiā",
+   "start": 67.826,
+   "end": 69.13,
+   "line": 12,
+   "confidence": 1.0
+  },
+  {
+   "id": "w83",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 69.13,
+   "end": 71.413,
+   "line": 13,
+   "confidence": 1.0
+  },
+  {
+   "id": "w84",
+   "text": "呀",
+   "roman": "ya",
+   "start": 71.413,
+   "end": 71.739,
+   "line": 13,
+   "confidence": 1.0
+  },
+  {
+   "id": "w85",
+   "text": "茉莉花",
+   "roman": "mòlihuā",
+   "start": 71.739,
+   "end": 74.348,
+   "line": 13,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 2.609,
+   "end": 7.174
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 7.826,
+   "end": 12.391
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 13.043,
+   "end": 18.261
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 18.261,
+   "end": 23.478
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 23.478,
+   "end": 28.696
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 28.696,
+   "end": 32.609
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 32.609,
+   "end": 37.826
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 39.13,
+   "end": 43.696
+  },
+  {
+   "index": 8,
+   "kind": "lyric",
+   "start": 44.348,
+   "end": 48.913
+  },
+  {
+   "index": 9,
+   "kind": "lyric",
+   "start": 49.565,
+   "end": 54.783
+  },
+  {
+   "index": 10,
+   "kind": "lyric",
+   "start": 54.783,
+   "end": 60.0
+  },
+  {
+   "index": 11,
+   "kind": "lyric",
+   "start": 60.0,
+   "end": 65.217
+  },
+  {
+   "index": 12,
+   "kind": "lyric",
+   "start": 65.217,
+   "end": 69.13
+  },
+  {
+   "index": 13,
+   "kind": "lyric",
+   "start": 69.13,
+   "end": 74.348
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 2.609,
+   "end": 3.261,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 3.261,
+   "end": 3.587,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 3.587,
+   "end": 3.913,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 3.913,
+   "end": 4.239,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 4.239,
+   "end": 4.565,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 4.565,
+   "end": 4.891,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 4.891,
+   "end": 5.217,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 5.217,
+   "end": 5.87,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 5.87,
+   "end": 6.196,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 6.196,
+   "end": 6.522,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 6.522,
+   "end": 7.174,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 7.826,
+   "end": 8.478,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 8.478,
+   "end": 8.804,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 8.804,
+   "end": 9.13,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 9.13,
+   "end": 9.457,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 9.457,
+   "end": 9.783,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 9.783,
+   "end": 10.109,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 10.109,
+   "end": 10.435,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 10.435,
+   "end": 11.087,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 11.087,
+   "end": 11.413,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 11.413,
+   "end": 11.739,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 11.739,
+   "end": 12.391,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 13.043,
+   "end": 13.696,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 13.696,
+   "end": 14.348,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 14.348,
+   "end": 15.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 15.0,
+   "end": 15.326,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 15.326,
+   "end": 15.652,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 15.652,
+   "end": 16.304,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 16.304,
+   "end": 16.957,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 16.957,
+   "end": 18.261,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 18.261,
+   "end": 18.913,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 18.913,
+   "end": 19.239,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 19.239,
+   "end": 19.565,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 19.565,
+   "end": 20.217,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 20.217,
+   "end": 20.543,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 20.543,
+   "end": 20.87,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 20.87,
+   "end": 21.522,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 21.522,
+   "end": 21.848,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 21.848,
+   "end": 22.174,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 22.174,
+   "end": 23.478,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 23.478,
+   "end": 23.804,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 23.804,
+   "end": 24.13,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 24.13,
+   "end": 24.457,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 24.457,
+   "end": 24.783,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 24.783,
+   "end": 25.761,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n47",
+   "start": 25.761,
+   "end": 26.087,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 26.087,
+   "end": 26.739,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 26.739,
+   "end": 27.065,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 27.065,
+   "end": 27.391,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n51",
+   "start": 27.391,
+   "end": 28.696,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n52",
+   "start": 28.696,
+   "end": 29.348,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 29.348,
+   "end": 29.674,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n54",
+   "start": 29.674,
+   "end": 30.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n55",
+   "start": 30.0,
+   "end": 30.326,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n56",
+   "start": 30.326,
+   "end": 30.652,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n57",
+   "start": 30.652,
+   "end": 30.978,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n58",
+   "start": 30.978,
+   "end": 31.304,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n59",
+   "start": 31.304,
+   "end": 32.609,
+   "midi": 57,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n60",
+   "start": 32.609,
+   "end": 33.261,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w40",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n61",
+   "start": 33.261,
+   "end": 33.913,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w40",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n62",
+   "start": 33.913,
+   "end": 34.891,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w40",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n63",
+   "start": 34.891,
+   "end": 35.217,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n64",
+   "start": 35.217,
+   "end": 35.543,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n65",
+   "start": 35.543,
+   "end": 35.87,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n66",
+   "start": 35.87,
+   "end": 36.196,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n67",
+   "start": 36.196,
+   "end": 36.522,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n68",
+   "start": 36.522,
+   "end": 37.826,
+   "midi": 57,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n70",
+   "start": 39.13,
+   "end": 39.783,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n71",
+   "start": 39.783,
+   "end": 40.109,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w44",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n72",
+   "start": 40.109,
+   "end": 40.435,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w45",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n73",
+   "start": 40.435,
+   "end": 40.761,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w46",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n74",
+   "start": 40.761,
+   "end": 41.087,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w46",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n75",
+   "start": 41.087,
+   "end": 41.413,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n76",
+   "start": 41.413,
+   "end": 41.739,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w48",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n77",
+   "start": 41.739,
+   "end": 42.391,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w49",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n78",
+   "start": 42.391,
+   "end": 42.717,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w49",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n79",
+   "start": 42.717,
+   "end": 43.043,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w49",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n80",
+   "start": 43.043,
+   "end": 43.696,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w49",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n82",
+   "start": 44.348,
+   "end": 45.0,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w50",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n83",
+   "start": 45.0,
+   "end": 45.326,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w51",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n84",
+   "start": 45.326,
+   "end": 45.652,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w52",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n85",
+   "start": 45.652,
+   "end": 45.978,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w53",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n86",
+   "start": 45.978,
+   "end": 46.304,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w53",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n87",
+   "start": 46.304,
+   "end": 46.63,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w54",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n88",
+   "start": 46.63,
+   "end": 46.957,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w55",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n89",
+   "start": 46.957,
+   "end": 47.609,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w56",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n90",
+   "start": 47.609,
+   "end": 47.935,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w56",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n91",
+   "start": 47.935,
+   "end": 48.261,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w56",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n92",
+   "start": 48.261,
+   "end": 48.913,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w56",
+   "line": 8,
+   "edited": false
+  },
+  {
+   "id": "n94",
+   "start": 49.565,
+   "end": 50.217,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w57",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n95",
+   "start": 50.217,
+   "end": 50.87,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w58",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n96",
+   "start": 50.87,
+   "end": 51.522,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w59",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n97",
+   "start": 51.522,
+   "end": 51.848,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w60",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n98",
+   "start": 51.848,
+   "end": 52.174,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w60",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n99",
+   "start": 52.174,
+   "end": 52.826,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w61",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n100",
+   "start": 52.826,
+   "end": 53.478,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w62",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n101",
+   "start": 53.478,
+   "end": 54.783,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w63",
+   "line": 9,
+   "edited": false
+  },
+  {
+   "id": "n102",
+   "start": 54.783,
+   "end": 55.435,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w64",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n103",
+   "start": 55.435,
+   "end": 55.761,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w65",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n104",
+   "start": 55.761,
+   "end": 56.087,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w65",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n105",
+   "start": 56.087,
+   "end": 56.739,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w66",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n106",
+   "start": 56.739,
+   "end": 57.065,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w67",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n107",
+   "start": 57.065,
+   "end": 57.391,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w67",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n108",
+   "start": 57.391,
+   "end": 58.043,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w68",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n109",
+   "start": 58.043,
+   "end": 58.37,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w69",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n110",
+   "start": 58.37,
+   "end": 58.696,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w69",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n111",
+   "start": 58.696,
+   "end": 60.0,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w70",
+   "line": 10,
+   "edited": false
+  },
+  {
+   "id": "n112",
+   "start": 60.0,
+   "end": 60.326,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w71",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n113",
+   "start": 60.326,
+   "end": 60.652,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w71",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n114",
+   "start": 60.652,
+   "end": 60.978,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w72",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n115",
+   "start": 60.978,
+   "end": 61.304,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w72",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n116",
+   "start": 61.304,
+   "end": 62.283,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w73",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n117",
+   "start": 62.283,
+   "end": 62.609,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w74",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n118",
+   "start": 62.609,
+   "end": 63.261,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w75",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n119",
+   "start": 63.261,
+   "end": 63.587,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w76",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n120",
+   "start": 63.587,
+   "end": 63.913,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w76",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n121",
+   "start": 63.913,
+   "end": 65.217,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w77",
+   "line": 11,
+   "edited": false
+  },
+  {
+   "id": "n122",
+   "start": 65.217,
+   "end": 65.87,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w78",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n123",
+   "start": 65.87,
+   "end": 66.196,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w79",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n124",
+   "start": 66.196,
+   "end": 66.522,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w79",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n125",
+   "start": 66.522,
+   "end": 66.848,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w80",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n126",
+   "start": 66.848,
+   "end": 67.174,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w80",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n127",
+   "start": 67.174,
+   "end": 67.5,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w81",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n128",
+   "start": 67.5,
+   "end": 67.826,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w81",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n129",
+   "start": 67.826,
+   "end": 69.13,
+   "midi": 57,
+   "confidence": 1.0,
+   "word": "w82",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n130",
+   "start": 69.13,
+   "end": 69.783,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w83",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n131",
+   "start": 69.783,
+   "end": 70.435,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w83",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n132",
+   "start": 70.435,
+   "end": 71.413,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w83",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n133",
+   "start": 71.413,
+   "end": 71.739,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w84",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n134",
+   "start": 71.739,
+   "end": 72.065,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w85",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n135",
+   "start": 72.065,
+   "end": 72.391,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w85",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n136",
+   "start": 72.391,
+   "end": 72.717,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w85",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n137",
+   "start": 72.717,
+   "end": 73.043,
+   "midi": 59,
+   "confidence": 1.0,
+   "word": "w85",
+   "line": 13,
+   "edited": false
+  },
+  {
+   "id": "n138",
+   "start": 73.043,
+   "end": 74.348,
+   "midi": 57,
+   "confidence": 1.0,
+   "word": "w85",
+   "line": 13,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "roman"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

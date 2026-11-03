@@ -15,6 +15,8 @@ REPO_DIR = SERVICE_DIR.parent
 
 # Where songs are stored: library/<song-id>/...
 LIBRARY_DIR = Path(os.environ.get("NOTEALONG_LIBRARY", REPO_DIR / "library")).resolve()
+# Built-in songs (public domain + Creative Commons): catalog/<song-id>/... and catalog/catalog.json
+CATALOG_DIR = Path(os.environ.get("NOTEALONG_CATALOG", REPO_DIR / "catalog")).resolve()
 # Local model weights (optional; otherwise the libraries download them on first use)
 MODELS_DIR = Path(os.environ.get("NOTEALONG_MODELS", SERVICE_DIR / "models")).resolve()
 

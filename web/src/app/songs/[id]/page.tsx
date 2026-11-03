@@ -32,7 +32,7 @@ export default function SongPage({ params }: { params: Promise<{ id: string }> }
           <AlertCircle className="mx-auto mb-3 h-8 w-8 text-danger" />
           <div className="font-semibold">Couldn&apos;t open this song</div>
           <div className="mt-1 text-sm text-muted">{error}</div>
-          <Link href="/" className="btn mt-6"><ArrowLeft className="h-4 w-4" /> Back to your songs</Link>
+          <Link href="/" className="btn mt-6"><ArrowLeft className="h-4 w-4" /> Back to Discover</Link>
         </div>
       </div>
     );
