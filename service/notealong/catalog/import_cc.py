@@ -37,7 +37,7 @@ from ..pipeline.romanize import is_latin_script, romanize_words
 from ..pipeline.stems import separate
 from ..schemas import KeyInfo, Line, Note, SCHEMA_VERSION, Song, StepState, Word
 from .build import write_index
-from .cover import cover_svg
+from .cover import cover_hues, cover_svg
 from .difficulty import rate_difficulty
 from .verify import drop_outliers, review_notes
 
@@ -168,7 +168,7 @@ def main(argv: list[str] | None = None) -> int:
         "language": a.language, "difficulty": rating, "difficulty_details": details, "duration": duration,
         "key": key["name"] if key else None, "tempo_bpm": tempo, "year": a.year,
         "licence": {"name": a.licence, "url": a.licence_url}, "attribution": attribution,
-        "source": {"kind": "cc", "url": a.source_url}, "cover": "cover.svg",
+        "source": {"kind": "cc", "url": a.source_url}, "cover": "cover.svg", "accent_hue": cover_hues(a.id, a.genre)[0],
         "tags": [t.strip() for t in a.tags.split(",") if t.strip()], "featured": a.featured, "beginner": rating == "easy",
         "access": "free", "note_count": len(notes), "word_count": len(words), "review": report,
     }

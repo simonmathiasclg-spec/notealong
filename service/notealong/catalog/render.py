@@ -28,8 +28,8 @@ def check_tools() -> None:
             raise RuntimeError(f"{tool} is not installed (brew install {'fluid-synth' if tool == 'fluidsynth' else 'ffmpeg'})")
 
 
-def render_midi(midi_path: Path, out_mp3: Path, gain: float = 0.7, bitrate: str = "128k",
-                fade_out: float = 0.0, duration: float | None = None, loudness: float = -16.0) -> None:
+def render_midi(midi_path: Path, out_mp3: Path, gain: float = 0.7, bitrate: str = "96k",
+                fade_out: float = 0.0, duration: float | None = None, loudness: float = -16.0, mono: bool = False) -> None:
     """MIDI -> wav (FluidSynth) -> mp3 (ffmpeg), trimmed to `duration` with an optional fade."""
     check_tools()
     sf = ensure_soundfont()
@@ -46,5 +46,7 @@ def render_midi(midi_path: Path, out_mp3: Path, gain: float = 0.7, bitrate: str 
             cmd += ["-t", f"{duration:.3f}"]
         if af:
             cmd += ["-af", ",".join(af)]
+        if mono:
+            cmd += ["-ac", "1"]
         cmd += ["-codec:a", "libmp3lame", "-b:a", bitrate, str(out_mp3)]
         subprocess.run(cmd, check=True)

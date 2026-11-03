@@ -20,7 +20,7 @@ from pathlib import Path
 from ..config import CATALOG_DIR
 from ..schemas import KeyInfo, Line, Note, SCHEMA_VERSION, Song, StepState, Word
 from .arrange import Arranger, VOICE_OOHS, FLUTE, CLARINET
-from .cover import cover_svg
+from .cover import cover_hues, cover_svg
 from .difficulty import rate_difficulty
 from .dsl import SongFormatError, SongSpec, load_song_file
 
@@ -89,7 +89,8 @@ def catalog_meta(spec: SongSpec, song: Song) -> dict:
         "difficulty": rating, "difficulty_details": details, "duration": song.duration, "key": spec.key_name,
         "tempo_bpm": song.tempo_bpm, "year": m.get("year"), "licence": {"name": "Public domain", "url": None},
         "attribution": m.get("attribution", "Traditional; public domain."), "source": {"kind": "traditional", "url": m.get("source_url")},
-        "cover": "cover.svg", "tags": tags, "featured": m.get("featured", "").lower() in ("yes", "true", "1"),
+        "cover": "cover.svg", "accent_hue": cover_hues(spec.id, m.get("genre", "Folk"))[0],
+        "tags": tags, "featured": m.get("featured", "").lower() in ("yes", "true", "1"),
         "beginner": m.get("beginner", "").lower() in ("yes", "true", "1") or rating == "easy", "access": "free",
         "note_count": len(song.notes), "word_count": len(song.words),
     }
@@ -111,8 +112,9 @@ def build_song(path: Path, force: bool = False, audio: bool = True) -> dict:
             g = Path(td) / "guide.mid"
             arr.backing().write(str(b))
             arr.guide(GUIDE_PROGRAMS.get(spec.meta.get("guide", "ooh"), VOICE_OOHS)).write(str(g))
-            render_midi(b, out / "backing.mp3", gain=0.75, fade_out=1.5, duration=duration)
-            render_midi(g, out / "vocals.mp3", gain=0.9, fade_out=0.5, duration=duration)
+            # synthesized tracks compress very well: 96 kbps stereo for the band, 64 kbps mono for the guide
+            render_midi(b, out / "backing.mp3", gain=0.75, fade_out=1.5, duration=duration, bitrate="96k")
+            render_midi(g, out / "vocals.mp3", gain=0.9, fade_out=0.5, duration=duration, bitrate="64k", mono=True)
     song = spec_to_song(spec, arr, duration)
     if stale or not meta_path.exists():
         (out / "song.json").write_text(song.model_dump_json(indent=1), encoding="utf-8")
@@ -150,6 +152,7 @@ def main(argv: list[str] | None = None) -> int:
                 meta = json.loads(mp.read_text(encoding="utf-8"))
                 notes = json.loads(sp.read_text(encoding="utf-8"))["notes"]
                 meta["difficulty"], meta["difficulty_details"] = rate_difficulty(notes)
+                meta["accent_hue"] = cover_hues(d.name, meta.get("genre", "Folk"))[0]
                 meta["beginner"] = meta.get("beginner", False) or meta["difficulty"] == "easy"
                 meta["note_count"] = len(notes)
                 mp.write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")

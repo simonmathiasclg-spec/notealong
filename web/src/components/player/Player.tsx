@@ -2,13 +2,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Check, HelpCircle, Loader2, Maximize2, Minimize2, Pencil, Redo2, Settings2, Undo2 } from "lucide-react";
+import { ArrowLeft, Check, HelpCircle, Loader2, Maximize2, Minimize2, Pencil, Redo2, SlidersHorizontal, Undo2 } from "lucide-react";
 import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
 import { buildDisplayLines, currentLineIndex, type DisplayLine } from "@/lib/display";
 import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/lib/notes";
-import { useCountInPref, useInstrumentPref } from "@/lib/prefs";
+import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
+import { accentFor, accentVars } from "@/lib/color";
+import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
 import type { Note, Song, UserSession, Word } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
@@ -291,35 +293,42 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const editingNote = noteAnchor ? noteInfo.get(noteAnchor.id) : null;
   const catalog = isCatalogSong(song);
   const backHref = catalog ? "/" : "/my-songs";
+  // The accent takes the song's own hue (from its cover art); uploads keep the default.
+  const [theme] = useTheme();
+  const accent = useMemo(() => accentFor(song.catalog?.accent_hue ?? null, theme === "light" ? "light" : "dark"), [song.catalog?.accent_hue, theme]);
+  const subtitle = [
+    song.catalog ? (song.artist === "Traditional" ? `Traditional${cultureOf(song.catalog) ? `, ${cultureOf(song.catalog)}` : ""}` : song.artist) : song.artist,
+    song.key ? `${keyName(song.key, session.key_shift)}${session.key_shift !== 0 ? ` (${session.key_shift > 0 ? "+" : ""}${session.key_shift})` : ""}` : null,
+  ].filter(Boolean).join(" · ");
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-bg">
+    <div className="spotlight flex h-dvh flex-col overflow-hidden bg-bg" style={accentVars(accent) as React.CSSProperties}>
       {/* Top bar */}
       <AnimatePresence initial={false}>
         {!focus && (
-          <motion.header initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} className="no-print flex items-center gap-2 px-3 py-2 sm:px-5">
-            <Link href={backHref} className="btn btn-ghost btn-icon" aria-label={catalog ? "Back to Discover" : "Back to my songs"}><ArrowLeft className="h-5 w-5" /></Link>
+          <motion.header initial={{ y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} className="no-print flex items-center gap-3 px-3 py-3 sm:px-5">
+            <Link href={backHref} className="btn btn-ghost btn-icon" aria-label={catalog ? "Back to Discover" : "Back to my songs"} data-tip={catalog ? "Discover" : "My songs"}><ArrowLeft className="h-5 w-5" /></Link>
             <div className="min-w-0 flex-1">
-              <div className="truncate font-display text-base font-bold leading-tight sm:text-lg">{song.title}</div>
-              <div className="truncate text-xs text-muted">{song.artist ?? ""}{song.artist && song.key ? " · " : ""}{song.key ? keyName(song.key, session.key_shift) : ""}{session.key_shift !== 0 ? ` (${session.key_shift > 0 ? "+" : ""}${session.key_shift})` : ""}</div>
+              <h1 className="display-md truncate text-[1.1rem] sm:text-[1.25rem]">{song.title}</h1>
+              <div className="truncate text-[13px] text-muted">{subtitle}</div>
             </div>
             {editing ? (
               <div className="flex items-center gap-1">
-                <span className="mr-2 hidden text-xs text-muted sm:inline">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3 w-3" /> Saved</span> : "Click a note to move it, a word to fix it or add a note"}</span>
-                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} title="Undo"><Undo2 className="h-5 w-5" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} title="Redo"><Redo2 className="h-5 w-5" /></button>
+                <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : "Click a note to move it, or a word to fix it"}</span>
+                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo"><Undo2 className="h-5 w-5" /></button>
+                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo"><Redo2 className="h-5 w-5" /></button>
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
               </div>
             ) : (
               <div className="flex items-center gap-1">
-                <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} title="Change instrument">
-                  <span className="text-accent-strong"><InstrumentIcon icon={instrument.icon} className="h-5 w-5" /></span> {instrument.name}
+                <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument">
+                  <span className="text-accent"><InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" /></span> {instrument.name}
                 </button>
-                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} title="Fix notes or words (E)" aria-label="Edit"><Pencil className="h-5 w-5" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={() => setFocus(true)} title="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-5 w-5" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={() => setHelpOpen(true)} title="Help (?)" aria-label="Help"><HelpCircle className="h-5 w-5" /></button>
+                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" /></button>
+                <button className="btn btn-ghost btn-icon" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" /></button>
+                <button className="btn btn-ghost btn-icon" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" /></button>
                 <ThemeToggle />
-                <button className={`btn btn-icon ${settingsOpen ? "bg-sunken" : ""}`} onClick={() => setSettingsOpen((v) => !v)} title="Settings" aria-label="Settings"><Settings2 className="h-5 w-5" /></button>
+                <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" /></button>
               </div>
             )}
           </motion.header>
@@ -327,7 +336,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
       </AnimatePresence>
 
       {/* Stage */}
-      <main className={`relative min-h-0 flex-1 transition-[margin] ${settingsOpen && !focus ? "lg:mr-[22rem]" : ""}`}>
+      <main className={`relative min-h-0 flex-1 transition-[margin] duration-300 ${settingsOpen && !focus ? "lg:mr-[22.5rem]" : ""}`}>
         <LyricStage
           lines={lines} currentLine={cursor.line} currentWordId={cursor.word} currentNoteId={cursor.note} time={time}
           noteInfo={noteInfo} script={session.script} editing={editing}
@@ -339,21 +348,24 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         {/* overlays */}
         <AnimatePresence>
           {engineState.countingIn !== null && (
-            <motion.div key={engineState.countingIn} initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.3, opacity: 0 }} className="pointer-events-none absolute inset-0 grid place-items-center">
-              <div className="grid h-40 w-40 place-items-center rounded-full bg-accent font-display text-7xl font-extrabold text-accent-fg shadow-card">{engineState.countingIn}</div>
+            <motion.div key={engineState.countingIn} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.25, opacity: 0 }} transition={{ type: "spring", stiffness: 500, damping: 30 }} className="pointer-events-none absolute inset-x-0 top-[6%] flex justify-center" aria-live="assertive">
+              <div className="display-xl grid h-28 w-28 place-items-center rounded-full bg-accent text-[4rem] text-accent-fg shadow-[0_0_0_10px_var(--ring),0_20px_60px_rgba(0,0,0,.45)]">{engineState.countingIn}</div>
             </motion.div>
           )}
         </AnimatePresence>
-        {(engineState.loading || keyLoading) && engineState.countingIn === null && (
-          <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-elev px-4 py-2 text-sm shadow-card"><span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin text-accent" /> {keyLoading ? "Preparing the new key…" : "Loading…"}</span></div>
-        )}
-        {busy && (
-          <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-elev px-4 py-2 text-sm shadow-card"><span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin text-accent" /> {busy}</span></div>
-        )}
-        {engineState.error && <div className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-danger-soft px-4 py-2 text-sm text-danger">{engineState.error}</div>}
-        {toast && <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-elev px-4 py-2 text-sm shadow-card">{toast}</div>}
+        <AnimatePresence>
+          {(((engineState.loading || keyLoading) && engineState.countingIn === null) || busy) && (
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="floating pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 px-4 py-2 text-sm" role="status">
+              <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin text-accent" /> {busy ?? (keyLoading ? "Preparing the new key…" : "Loading…")}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {engineState.error && <div className="floating absolute left-1/2 top-4 -translate-x-1/2 border-danger/40 px-4 py-2 text-sm text-danger" role="alert">{engineState.error}</div>}
+        <AnimatePresence>
+          {toast && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} className="floating absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 text-sm" role="status">{toast}</motion.div>}
+        </AnimatePresence>
         {focus && (
-          <button className="absolute right-4 top-4 btn btn-ghost btn-icon opacity-40 hover:opacity-100" onClick={() => setFocus(false)} title="Leave focus mode (F)" aria-label="Leave focus mode"><Minimize2 className="h-5 w-5" /></button>
+          <button className="btn btn-ghost btn-icon absolute right-4 top-4 opacity-40 hover:opacity-100 focus-visible:opacity-100" onClick={() => setFocus(false)} data-tip="Leave focus mode (F)" aria-label="Leave focus mode"><Minimize2 className="h-5 w-5" /></button>
         )}
         {showFingering && !editing && (
           <div className="absolute bottom-3 left-3 hidden sm:block">
@@ -361,24 +373,29 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
           </div>
         )}
         {!focus && outOfRangeCount > 0 && !editing && (
-          <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-muted">
-            <span className="text-danger">{outOfRangeCount}</span> {outOfRangeCount === 1 ? "note is" : "notes are"} outside your instrument&apos;s range · ▲ upper register · ▼ lower register
+          <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-muted">
+            <span className="text-danger">{outOfRangeCount}</span> {outOfRangeCount === 1 ? "note is" : "notes are"} too high or low for the {instrument.name.toLowerCase()}. Try the octave or key settings.
           </div>
         )}
       </main>
 
       {/* Transport */}
-      <div className={`transition-[margin] ${settingsOpen && !focus ? "lg:mr-[22rem]" : ""}`}>
+      <div className={`transition-[margin] duration-300 ${settingsOpen && !focus ? "lg:mr-[22.5rem]" : ""}`}>
         <Transport
-          playing={engineState.playing || engineState.countingIn !== null}
+          playing={engineState.playing}
+          countingIn={engineState.countingIn !== null}
           loading={!engineState.ready}
           duration={song.duration}
           getTime={() => engineRef.current?.currentTime ?? 0}
           lines={lines}
           loop={session.loop}
+          speed={session.speed}
           onToggle={togglePlay}
           onSeek={(t) => { engineRef.current?.seek(t); manualLine.current = null; }}
+          onSkip={skipLine}
           onLoop={(loop) => update({ loop })}
+          onLoopLine={loopCurrentLine}
+          onSpeed={(speed) => update({ speed })}
           focus={focus}
         />
       </div>
@@ -388,8 +405,8 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         countIn={countIn} setCountIn={setCountIn} busy={busy} keyLoading={keyLoading}
         fingering={fingeringPref === "1"} setFingering={(v) => setFingeringPref(v ? "1" : "0")}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
-        onLanguage={(lang) => runStep("Reading the lyrics again…", "lyrics", { language: lang })}
-        onPasteLyrics={async (text) => { setBusy("Lining up your lyrics…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
+        onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
+        onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
         onReprocess={async () => { await api.rerun(song.id, "all"); await reload(); }}
         onExportPdf={exportPdf} onExportMusicXml={exportMusicXml}
         catalog={song.catalog ?? null}

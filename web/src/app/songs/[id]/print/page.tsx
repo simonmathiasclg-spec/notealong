@@ -38,26 +38,26 @@ function PrintSheet({ params }: { params: Promise<{ id: string }> }) {
   if (!song || !view) return <div className="p-8 text-muted">Loading…</div>;
   return (
     <div className="mx-auto max-w-4xl bg-white px-8 py-10 text-black print:px-0 print:py-0">
-      <div className="no-print mb-6 flex items-center justify-between rounded-xl border border-border bg-bg p-3 text-sm text-fg">
-        <span>Use <b>Print → Save as PDF</b> in your browser for a PDF.</span>
-        <button className="btn btn-primary" onClick={() => window.print()}><Printer className="h-4 w-4" /> Print / Save as PDF</button>
+      <div className="no-print mb-8 flex items-center justify-between rounded-2xl border border-neutral-200 bg-neutral-50 p-3 text-sm text-neutral-700">
+        <span>Use <b>Print, then Save as PDF</b> in your browser to keep a PDF.</span>
+        <button className="btn btn-inverse" onClick={() => window.print()}><Printer className="h-4 w-4" /> Print or save as PDF</button>
       </div>
-      <header className="mb-8 border-b-2 border-black pb-4">
-        <h1 className="font-display text-4xl font-extrabold tracking-tight">{song.title}</h1>
+      <header className="mb-10 border-b border-black pb-5">
+        <h1 className="display-lg text-[2.6rem]">{song.title}</h1>
         <div className="mt-1 text-lg text-neutral-600">{song.artist ?? ""}</div>
-        <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm text-neutral-700">
-          <span><b>Instrument:</b> {view.instrument.name}</span>
-          {song.key && <span><b>Key:</b> {keyName(song.key, keyShift)}{keyShift ? ` (${keyShift > 0 ? "+" : ""}${keyShift})` : ""}</span>}
-          <span><b>Notes:</b> {notation === "sharps" ? "letters (sharps)" : notation === "flats" ? "letters (flats)" : notation === "solfege" ? "Do Re Mi" : "Sa Re Ga"}</span>
-          <span>▲ upper register · ▼ lower register</span>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm text-neutral-700">
+          <span><b>For</b> {view.instrument.name}</span>
+          {song.key && <span><b>Key</b> {keyName(song.key, keyShift)}{keyShift ? ` (${keyShift > 0 ? "+" : ""}${keyShift})` : ""}</span>}
+          <span><b>Notes</b> {notation === "sharps" ? "letters, sharps" : notation === "flats" ? "letters, flats" : notation === "solfege" ? "Do Re Mi" : "Sa Re Ga"}</span>
+          <span>▲ higher version of the note, ▼ lower</span>
         </div>
       </header>
-      <div className="space-y-7">
+      <div className="space-y-8">
         {view.lines.map((line) => (
-          <div key={line.index} className="flex flex-wrap items-end gap-x-4 gap-y-4 break-inside-avoid font-display text-[1.6rem] font-semibold leading-none">
+          <div key={line.index} className="flex flex-wrap items-end gap-x-4 gap-y-5 break-inside-avoid font-display text-[1.55rem] leading-none" style={{ fontVariationSettings: '"opsz" 48' }}>
             {line.items.map((it, i) => (
               <div key={it.word?.id ?? i} className="flex flex-col items-center gap-2">
-                <div className="flex gap-1 text-[0.95rem] font-extrabold">
+                <div className="flex gap-1 font-sans text-[0.9rem] font-bold">
                   {it.notes.map((n) => {
                     const d = view.info.get(n.id)!;
                     return (
@@ -68,13 +68,16 @@ function PrintSheet({ params }: { params: Promise<{ id: string }> }) {
                   })}
                   {it.notes.length === 0 && <span className="h-7" />}
                 </div>
-                <span className={it.word ? "" : "text-neutral-400 text-base"}>{it.word ? (script === "roman" && it.word.roman ? it.word.roman : it.word.text) : "♪"}</span>
+                <span className={it.word ? "" : "font-sans text-sm text-neutral-400"}>{it.word ? (script === "roman" && it.word.roman ? it.word.roman : it.word.text) : "no words"}</span>
               </div>
             ))}
           </div>
         ))}
       </div>
-      <footer className="mt-10 border-t border-neutral-300 pt-3 text-xs text-neutral-500">Made with NoteAlong</footer>
+      <footer className="mt-12 flex items-center justify-between border-t border-neutral-300 pt-3 text-xs text-neutral-500">
+        <span>Made with NoteAlong</span>
+        {song.catalog && <span className="max-w-xl text-right">{song.catalog.attribution}</span>}
+      </footer>
     </div>
   );
 }

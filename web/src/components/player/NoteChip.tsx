@@ -3,8 +3,9 @@ import type { DisplayNote } from "@/lib/notes";
 
 export type ChipState = "past" | "current" | "future";
 
+/** The note to play, shown above its syllable. Always a bold sans letter, never the lyric serif. */
 export function NoteChip({ note, state, size, onClick, title }: { note: DisplayNote; state: ChipState; size: "lg" | "md" | "sm"; onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; title?: string }) {
-  const sizes = { lg: "h-[2.4em] min-w-[2.4em] px-[.45em] text-[0.46em]", md: "h-[2.3em] min-w-[2.3em] px-[.4em] text-[0.5em]", sm: "h-[2.2em] min-w-[2.2em] px-[.35em] text-[0.5em]" };
+  const sizes = { lg: "h-[2.15em] min-w-[2.15em] px-[.38em] text-[0.52em]", md: "h-[2.1em] min-w-[2.1em] px-[.34em] text-[0.58em]", sm: "h-[2.1em] min-w-[2.1em] px-[.34em] text-[0.56em]" };
   const label = note.label;
   const accidental = label.length > 1 && (label.endsWith("#") || label.endsWith("b")) && /^[A-G]/.test(label);
   return (
@@ -16,10 +17,11 @@ export function NoteChip({ note, state, size, onClick, title }: { note: DisplayN
       title={title ?? note.outOfRangeReason ?? undefined}
       onClick={onClick}
       tabIndex={onClick ? 0 : -1}
+      aria-label={`${label}${note.octaveMark === "up" ? " upper" : note.octaveMark === "down" ? " lower" : ""}${note.outOfRange ? ", outside your instrument's range" : ""}`}
     >
-      {note.octaveMark === "down" && <span className="mr-[.05em] text-[.55em] opacity-70" aria-label="lower register">▼</span>}
-      <span>{accidental ? <>{label[0]}<span className="text-[.75em] align-top">{label[1] === "#" ? "♯" : "♭"}</span></> : label}</span>
-      {note.octaveMark === "up" && <span className="ml-[.05em] text-[.55em] opacity-70" aria-label="upper register">▲</span>}
+      {note.octaveMark === "down" && <span className="mr-[.06em] text-[.5em] opacity-70" aria-hidden="true">▼</span>}
+      <span>{accidental ? <>{label[0]}<span className="align-top text-[.72em]">{label[1] === "#" ? "♯" : "♭"}</span></> : label}</span>
+      {note.octaveMark === "up" && <span className="ml-[.06em] text-[.5em] opacity-70" aria-hidden="true">▲</span>}
     </button>
   );
 }

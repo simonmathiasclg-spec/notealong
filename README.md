@@ -12,7 +12,7 @@ notealong/
 ├── catalog/     Built-in songs that ship with the app (public domain + Creative Commons), see below
 │   └── songs/   hand-authored melodies in a small text format (*.song)
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
-├── docs/        Screenshots (before/after), design principles and the three design directions
+├── docs/        Screenshots (screenshots/before, screenshots/after), design principles and the three design directions
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
 
@@ -80,6 +80,16 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
 
 Octave markers: ▲ after a note means the higher version of that note on your instrument, ▼ the lower
 one. A dashed red note is outside your instrument's range; use the octave control or a different key.
+
+## Design
+
+The look is the "Stage" direction (`docs/design/`): a dark, cinematic stage by default and a light
+"house lights" theme, Fraunces for lyrics and titles, Inter for controls and for the note letters, and one
+accent colour that means "now". On a built-in song the accent takes the hue of the song's cover art
+(`web/src/lib/color.ts` keeps it readable on both themes); uploads keep the default coral. Cover art is
+generated per song from its id (`service/notealong/catalog/cover.py`). The five principles behind the
+screens are in `docs/design/PRINCIPLES.md`; `docs/screenshots/before` and `docs/screenshots/after` show
+every screen before and after the redesign.
 
 ## The built-in catalog (Discover)
 

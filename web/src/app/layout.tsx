@@ -2,13 +2,14 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeScript } from "@/components/ThemeScript";
 import { UploadsProvider } from "@/lib/uploads";
+import { Motion } from "@/components/Motion";
 
 export const metadata: Metadata = {
   title: "NoteAlong",
-  description: "Turn any song into a play-along screen for your instrument.",
+  description: "See which note to play for every word of a song, while the backing track plays.",
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0c0e14" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <ThemeScript />
       </head>
-      <body className="min-h-full flex flex-col"><UploadsProvider>{children}</UploadsProvider></body>
+      <body className="min-h-full flex flex-col">
+        <Motion><UploadsProvider>{children}</UploadsProvider></Motion>
+      </body>
     </html>
   );
 }

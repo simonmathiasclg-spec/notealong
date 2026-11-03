@@ -67,3 +67,11 @@ export function buildShelves(songs: CatalogEntry[], minPerGenre = 3): Shelf[] {
 export function pickFeatured(songs: CatalogEntry[]): CatalogEntry | null {
   return songs.find((s) => s.featured && s.difficulty !== "hard") ?? songs.find((s) => s.difficulty === "easy") ?? songs[0] ?? null;
 }
+
+/** "Tonight's pick": a featured song that changes every day, never a hard one. */
+export function pickTonight(songs: CatalogEntry[], date = new Date()): CatalogEntry | null {
+  const pool = songs.filter((s) => s.featured && s.difficulty !== "hard");
+  if (pool.length === 0) return pickFeatured(songs);
+  const day = Math.floor(date.getTime() / 86_400_000);
+  return pool[day % pool.length];
+}

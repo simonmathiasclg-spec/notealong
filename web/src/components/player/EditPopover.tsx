@@ -9,7 +9,8 @@ function usePosition(anchor: Anchor) {
   useEffect(() => {
     if (!anchor) return setPos(null);
     const r = anchor.el.getBoundingClientRect();
-    setPos({ left: Math.max(8, Math.min(window.innerWidth - 180, r.left + r.width / 2 - 85)), top: r.bottom + 8 });
+    // above the chip, so the word under it stays readable
+    setPos({ left: Math.max(8, Math.min(window.innerWidth - 200, r.left + r.width / 2 - 95)), top: Math.max(8, r.top - 58) });
   }, [anchor]);
   return pos;
 }
@@ -32,11 +33,11 @@ export function NotePopover({ anchor, label, onUp, onDown, onDelete, onClose }: 
   }, [anchor, onUp, onDown, onDelete, onClose]);
   if (!anchor || !pos) return null;
   return (
-    <div ref={ref} className="card fixed z-40 flex items-center gap-1 p-1.5" style={{ left: pos.left, top: pos.top }} role="dialog" aria-label="Edit note">
-      <span className="px-2 font-display text-sm font-bold">{label}</span>
-      <button className="btn btn-ghost btn-icon" onClick={onUp} title="Higher (↑)"><ArrowUp className="h-4 w-4" /></button>
-      <button className="btn btn-ghost btn-icon" onClick={onDown} title="Lower (↓)"><ArrowDown className="h-4 w-4" /></button>
-      <button className="btn btn-ghost btn-icon text-danger" onClick={onDelete} title="Remove (Delete)"><Trash2 className="h-4 w-4" /></button>
+    <div ref={ref} className="floating fixed z-40 flex items-center gap-1 p-1.5" style={{ left: pos.left, top: pos.top }} role="dialog" aria-label="Change this note">
+      <span className="px-2.5 text-sm font-bold">{label}</span>
+      <button className="btn btn-ghost btn-icon" onClick={onUp} data-tip="Higher (↑)" aria-label="Higher"><ArrowUp className="h-4 w-4" /></button>
+      <button className="btn btn-ghost btn-icon" onClick={onDown} data-tip="Lower (↓)" aria-label="Lower"><ArrowDown className="h-4 w-4" /></button>
+      <button className="btn btn-ghost btn-icon text-danger" onClick={onDelete} data-tip="Remove (Delete)" aria-label="Remove"><Trash2 className="h-4 w-4" /></button>
     </div>
   );
 }
@@ -56,13 +57,14 @@ export function WordPopover({ anchor, value, onSave, onAddNote, onClose }: { anc
   return (
     <form
       ref={ref}
-      className="card fixed z-40 flex items-center gap-2 p-1.5" style={{ left: pos.left, top: pos.top }}
+      className="floating fixed z-40 flex items-center gap-2 p-1.5" style={{ left: pos.left, top: pos.top }}
       onSubmit={(e) => { e.preventDefault(); onSave(text.trim() || value); onClose(); }}
+      aria-label="Fix this word"
     >
       <input autoFocus value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === "Escape" && onClose()}
-        className="w-36 rounded-lg border border-border bg-elev px-2 py-1 font-display text-sm font-bold" aria-label="Word text" />
-      <button type="submit" className="btn btn-primary py-1 text-xs">Save</button>
-      <button type="button" className="btn py-1 text-xs" onClick={() => { onAddNote(); onClose(); }} title="Add another note to this word"><Plus className="h-3.5 w-3.5" /> Note</button>
+        className="field h-9 w-40 rounded-xl text-sm font-medium" aria-label="Word" />
+      <button type="submit" className="btn btn-primary btn-sm">Save</button>
+      <button type="button" className="btn btn-sm" onClick={() => { onAddNote(); onClose(); }} data-tip="Add another note to this word"><Plus className="h-3.5 w-3.5" /> Note</button>
     </form>
   );
 }

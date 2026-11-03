@@ -30,6 +30,14 @@ def hsl(h: float, s: float, l: float, a: float = 1.0) -> str:
     return f"hsl({h % 360:.0f} {s:.0f}% {l:.0f}% / {a:.2f})" if a < 1 else f"hsl({h % 360:.0f} {s:.0f}% {l:.0f}%)"
 
 
+def cover_hues(song_id: str, genre: str = "Folk") -> tuple[int, int]:
+    """(base hue, accent hue) of a song's cover, 0..359. The app tints the player with the base hue."""
+    r = _rng(song_id)
+    base = HUE_BY_GENRE.get(genre, 200) + (r() - 0.5) * 24
+    accent = base + 150 + (r() - 0.5) * 60
+    return int(base) % 360, int(accent) % 360
+
+
 def cover_svg(song_id: str, genre: str = "Folk", title: str = "", size: int = 600) -> str:
     r = _rng(song_id)
     base = HUE_BY_GENRE.get(genre, 200) + (r() - 0.5) * 24

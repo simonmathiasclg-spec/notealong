@@ -46,3 +46,13 @@ describe("catalog helpers", () => {
     expect(pickFeatured([])).toBeNull();
   });
 });
+
+describe("tonight's pick", () => {
+  it("rotates daily through featured songs and never picks a hard one", async () => {
+    const { pickTonight } = await import("../catalog");
+    const a = pickTonight(songs, new Date(2026, 0, 1));
+    const b = pickTonight(songs, new Date(2026, 0, 2));
+    expect(a && b && a.id !== b.id).toBe(true);
+    expect([a?.id, b?.id].sort()).toEqual(["danny", "twinkle"]);
+  });
+});

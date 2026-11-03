@@ -35,7 +35,7 @@ export function hasChosenInstrument(): boolean {
 }
 
 export function useTheme(): [string, () => void] {
-  const [theme, setTheme] = usePref(KEY_THEME, "light");
+  const [theme, setTheme] = usePref(KEY_THEME, "dark");
   useEffect(() => {
     const current = document.documentElement.dataset.theme;
     if (current && current !== theme && read(KEY_THEME) === null) setTheme(current);

@@ -64,6 +64,8 @@ export type CatalogEntry = {
   source: { kind: "traditional" | "cc"; url?: string | null };
   cover: string;
   cover_url: string;
+  /** Hue (0-359) of the cover art; the player tints its accent with it. */
+  accent_hue?: number;
   tags: string[];
   featured?: boolean;
   beginner?: boolean;
