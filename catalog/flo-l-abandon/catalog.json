@@ -8,11 +8,11 @@
  "language": "fr",
  "difficulty": "easy",
  "difficulty_details": {
-  "range": 8,
+  "range": 9,
   "distinct": 6,
-  "notes_per_second": 1.7,
-  "big_leaps": 0.05,
-  "shortest": 0.12,
+  "notes_per_second": 1.96,
+  "big_leaps": 0.06,
+  "shortest": 0.1,
   "score": 2.0
  },
  "duration": 209.699,
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": true,
  "access": "free",
- "note_count": 312,
+ "note_count": 359,
  "word_count": 341,
  "review": {
-  "checked": 330,
-  "dropped": 0,
+  "checked": 406,
+  "dropped": 2,
   "octave_fixed": 3,
-  "pitch_fixed": 3,
-  "kept": 324,
+  "pitch_fixed": 2,
+  "kept": 399,
   "outliers_dropped": 0,
   "held": {
-   "before": 330,
-   "same_pitch": 15,
+   "before": 404,
+   "same_pitch": 39,
    "wobbles": 0,
-   "bends": 3,
-   "after": 312
+   "bends": 6,
+   "after": 359
   }
  },
  "accent_hue": 86,

@@ -8,11 +8,11 @@
  "language": "pt",
  "difficulty": "hard",
  "difficulty_details": {
-  "range": 20,
+  "range": 21,
   "distinct": 15,
-  "notes_per_second": 1.36,
-  "big_leaps": 0.21,
-  "shortest": 0.12,
+  "notes_per_second": 1.67,
+  "big_leaps": 0.16,
+  "shortest": 0.08,
   "score": 9.0
  },
  "duration": 260.342,
@@ -39,21 +39,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 328,
+ "note_count": 403,
  "word_count": 330,
  "review": {
-  "checked": 380,
-  "dropped": 7,
-  "octave_fixed": 26,
-  "pitch_fixed": 8,
-  "kept": 339,
+  "checked": 486,
+  "dropped": 9,
+  "octave_fixed": 27,
+  "pitch_fixed": 7,
+  "kept": 443,
   "outliers_dropped": 0,
   "held": {
-   "before": 373,
-   "same_pitch": 42,
-   "wobbles": 0,
-   "bends": 3,
-   "after": 328
+   "before": 477,
+   "same_pitch": 64,
+   "wobbles": 2,
+   "bends": 6,
+   "after": 403
   }
  },
  "lyrics": "transcribed",

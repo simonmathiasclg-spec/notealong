@@ -8,12 +8,12 @@
  "language": "es",
  "difficulty": "hard",
  "difficulty_details": {
-  "range": 17,
+  "range": 14,
   "distinct": 9,
-  "notes_per_second": 1.71,
+  "notes_per_second": 1.83,
   "big_leaps": 0.05,
-  "shortest": 0.12,
-  "score": 7.0
+  "shortest": 0.1,
+  "score": 6.0
  },
  "duration": 261.6,
  "key": "D minor",
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 394,
+ "note_count": 422,
  "word_count": 334,
  "review": {
-  "checked": 500,
-  "dropped": 74,
+  "checked": 557,
+  "dropped": 85,
   "octave_fixed": 1,
-  "pitch_fixed": 2,
-  "kept": 423,
+  "pitch_fixed": 1,
+  "kept": 470,
   "outliers_dropped": 0,
   "held": {
-   "before": 426,
-   "same_pitch": 32,
+   "before": 472,
+   "same_pitch": 50,
    "wobbles": 0,
    "bends": 0,
-   "after": 394
+   "after": 422
   }
  },
  "accent_hue": 160,

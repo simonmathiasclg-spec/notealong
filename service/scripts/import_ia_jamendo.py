@@ -57,7 +57,7 @@ BAD_TITLE = re.compile(r"instrumental|intro\b|outro\b|interlude|remix|\blive\b|c
                        r"loops|samples|\bvol\b|karaoke|sample pack", re.I)
 # Albums that carry a CC licence on Jamendo but are by well-known signed artists or are plainly other people's songs:
 # the uploader may not have had the right to grant that licence, so they are never used.
-BLOCKED = {"jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980", "jamendo-211902", "jamendo-115079", "jamendo-489247"}
+BLOCKED = {"jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980", "jamendo-211902", "jamendo-115079", "jamendo-489247", "jamendo-114476"}
 PER_GENRE = {"Pop": 9, "Rock": 8, "Folk": 7, "Acoustic": 7, "Soul & R&B": 6, "Latin": 6, "Indie": 5, "Blues": 4, "Reggae": 4,
              "Country": 4, "Chanson": 5, "Jazz": 3, "World": 4}
 
@@ -125,6 +125,11 @@ def pick_track(meta: dict) -> dict | None:
         if not (130 <= dur <= 290) or BAD_TITLE.search(title) or BAD_TITLE.search(f["name"]):
             continue
         best = {"name": f["name"], "title": re.sub(r"^\d+\s*[-.]\s*", "", title).strip(), "duration": dur, "artist": f.get("artist") or f.get("creator")}
+        who = str(best["artist"] or meta.get("metadata", {}).get("creator") or "")
+        if who:
+            t = re.sub(rf"^{re.escape(who)}\s*[-:]\s*", "", best["title"], flags=re.I)
+            t = re.sub(rf"\s*-\s*{re.escape(who)}$", "", t, flags=re.I)
+            best["title"] = t.strip() or best["title"]
         break
     return best
 
@@ -281,7 +286,7 @@ def main() -> int:
                 print(f"-- {ident} {artist} - {track['title']}: no clear vocals ({presence:.0%})", flush=True)
                 mp3.unlink(missing_ok=True)
                 continue
-            sid = slug(f"{artist} {track['title']}")[:60].strip("-")
+            sid = slug(f"{artist} {track['title']}")[:60].strip("-") or slug(ident)   # titles with no Latin letters
             source = f"https://archive.org/details/{ident}"
             args = import_cc.build_parser().parse_args([
                 "--audio", str(mp3), "--id", sid, "--title", track["title"], "--artist", artist, "--source-url", source,
@@ -306,7 +311,7 @@ def main() -> int:
             log({**entry, "decision": "added"})
             print(f"++ [{done}/{a.want}] {sid}: {genre}, {m.get('language')}, {len(song['notes'])} notes, {len(song['words'])} words, {lic[0]}", flush=True)
             write_index()
-        except Exception as e:   # one bad album must not stop the run
+        except (Exception, SystemExit) as e:   # one bad album must not stop the run
             log({**entry, "decision": "error", "reason": f"{type(e).__name__}: {str(e)[:200]}"})
             print(f"!! {ident}: {type(e).__name__}: {str(e)[:160]}", flush=True)
     write_index()

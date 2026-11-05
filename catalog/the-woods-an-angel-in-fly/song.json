@@ -28,7 +28,7 @@
   "tonic": 11,
   "mode": "major",
   "name": "B major",
-  "confidence": 0.398
+  "confidence": 0.413
  },
  "words": [
   {
@@ -1174,7 +1174,17 @@
    "edited": false
   },
   {
-   "id": "n4",
+   "id": "n2",
+   "start": 33.9,
+   "end": 34.016,
+   "midi": 63,
+   "confidence": 0.37,
+   "word": "w3",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n3",
    "start": 34.16,
    "end": 34.318,
    "midi": 65,
@@ -1184,9 +1194,9 @@
    "edited": false
   },
   {
-   "id": "n5",
+   "id": "n4",
    "start": 34.32,
-   "end": 35.921,
+   "end": 35.817,
    "midi": 66,
    "confidence": 0.742,
    "word": "w4",
@@ -1194,10 +1204,20 @@
    "edited": false
   },
   {
+   "id": "n5",
+   "start": 35.82,
+   "end": 35.921,
+   "midi": 66,
+   "confidence": 0.549,
+   "word": "w5",
+   "line": 2,
+   "edited": false
+  },
+  {
    "id": "n6",
    "start": 36.11,
    "end": 36.328,
-   "midi": 61,
+   "midi": 63,
    "confidence": 0.594,
    "word": "w5",
    "line": 2,
@@ -1205,6 +1225,16 @@
   },
   {
    "id": "n7",
+   "start": 36.47,
+   "end": 36.571,
+   "midi": 59,
+   "confidence": 0.428,
+   "word": "w5",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n8",
    "start": 37.94,
    "end": 38.442,
    "midi": 63,
@@ -1234,7 +1264,7 @@
    "edited": false
   },
   {
-   "id": "n13",
+   "id": "n11",
    "start": 39.82,
    "end": 40.219,
    "midi": 66,
@@ -1244,7 +1274,7 @@
    "edited": false
   },
   {
-   "id": "n14",
+   "id": "n12",
    "start": 40.22,
    "end": 40.812,
    "midi": 66,
@@ -1254,7 +1284,7 @@
    "edited": false
   },
   {
-   "id": "n17",
+   "id": "n13",
    "start": 40.89,
    "end": 41.276,
    "midi": 61,
@@ -1264,9 +1294,9 @@
    "edited": false
   },
   {
-   "id": "n18",
+   "id": "n14",
    "start": 41.28,
-   "end": 41.566,
+   "end": 41.951,
    "midi": 61,
    "confidence": 0.809,
    "word": "w11",
@@ -1274,18 +1304,28 @@
    "edited": false
   },
   {
-   "id": "n19",
-   "start": 41.57,
+   "id": "n15",
+   "start": 41.96,
    "end": 42.357,
    "midi": 61,
-   "confidence": 0.807,
+   "confidence": 0.681,
    "word": "w11",
    "line": 2,
    "edited": false
   },
   {
-   "id": "n22",
+   "id": "n16",
    "start": 45.7,
+   "end": 45.808,
+   "midi": 63,
+   "confidence": 0.785,
+   "word": "w12",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 45.81,
    "end": 46.121,
    "midi": 63,
    "confidence": 0.809,
@@ -1294,7 +1334,7 @@
    "edited": false
   },
   {
-   "id": "n23",
+   "id": "n18",
    "start": 46.13,
    "end": 46.725,
    "midi": 64,
@@ -1304,7 +1344,7 @@
    "edited": false
   },
   {
-   "id": "n25",
+   "id": "n19",
    "start": 46.76,
    "end": 47.27,
    "midi": 66,
@@ -1314,7 +1354,7 @@
    "edited": false
   },
   {
-   "id": "n26",
+   "id": "n20",
    "start": 47.33,
    "end": 47.63,
    "midi": 64,
@@ -1324,7 +1364,7 @@
    "edited": false
   },
   {
-   "id": "n28",
+   "id": "n21",
    "start": 47.64,
    "end": 48.862,
    "midi": 66,
@@ -1334,7 +1374,7 @@
    "edited": false
   },
   {
-   "id": "n33",
+   "id": "n22",
    "start": 48.89,
    "end": 49.141,
    "midi": 61,
@@ -1344,7 +1384,7 @@
    "edited": false
   },
   {
-   "id": "n34",
+   "id": "n23",
    "start": 49.3,
    "end": 50.431,
    "midi": 61,
@@ -1354,7 +1394,17 @@
    "edited": false
   },
   {
-   "id": "n38",
+   "id": "n24",
+   "start": 52.29,
+   "end": 52.406,
+   "midi": 54,
+   "confidence": 0.615,
+   "word": "w17",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n25",
    "start": 52.57,
    "end": 52.743,
    "midi": 61,
@@ -1364,7 +1414,7 @@
    "edited": false
   },
   {
-   "id": "n39",
+   "id": "n26",
    "start": 52.9,
    "end": 53.056,
    "midi": 63,
@@ -1374,7 +1424,7 @@
    "edited": false
   },
   {
-   "id": "n40",
+   "id": "n27",
    "start": 53.06,
    "end": 53.696,
    "midi": 64,
@@ -1384,7 +1434,7 @@
    "edited": false
   },
   {
-   "id": "n42",
+   "id": "n28",
    "start": 53.74,
    "end": 53.87,
    "midi": 63,
@@ -1394,7 +1444,7 @@
    "edited": false
   },
   {
-   "id": "n43",
+   "id": "n29",
    "start": 53.88,
    "end": 54.346,
    "midi": 63,
@@ -1404,7 +1454,7 @@
    "edited": false
   },
   {
-   "id": "n44",
+   "id": "n30",
    "start": 54.37,
    "end": 54.76,
    "midi": 61,
@@ -1414,7 +1464,7 @@
    "edited": false
   },
   {
-   "id": "n46",
+   "id": "n31",
    "start": 54.76,
    "end": 56.112,
    "midi": 59,
@@ -1424,7 +1474,7 @@
    "edited": false
   },
   {
-   "id": "n49",
+   "id": "n32",
    "start": 62.38,
    "end": 62.502,
    "midi": 66,
@@ -1434,7 +1484,7 @@
    "edited": false
   },
   {
-   "id": "n50",
+   "id": "n33",
    "start": 62.55,
    "end": 62.873,
    "midi": 64,
@@ -1444,7 +1494,7 @@
    "edited": false
   },
   {
-   "id": "n51",
+   "id": "n34",
    "start": 62.88,
    "end": 63.488,
    "midi": 66,
@@ -1454,7 +1504,7 @@
    "edited": false
   },
   {
-   "id": "n52",
+   "id": "n35",
    "start": 63.49,
    "end": 64.163,
    "midi": 66,
@@ -1464,7 +1514,7 @@
    "edited": false
   },
   {
-   "id": "n55",
+   "id": "n36",
    "start": 64.17,
    "end": 64.326,
    "midi": 63,
@@ -1474,7 +1524,7 @@
    "edited": false
   },
   {
-   "id": "n56",
+   "id": "n37",
    "start": 64.47,
    "end": 64.627,
    "midi": 64,
@@ -1484,7 +1534,7 @@
    "edited": false
   },
   {
-   "id": "n57",
+   "id": "n38",
    "start": 64.63,
    "end": 65.394,
    "midi": 66,
@@ -1494,7 +1544,7 @@
    "edited": false
   },
   {
-   "id": "n61",
+   "id": "n39",
    "start": 65.4,
    "end": 65.732,
    "midi": 67,
@@ -1504,7 +1554,7 @@
    "edited": false
   },
   {
-   "id": "n62",
+   "id": "n40",
    "start": 65.92,
    "end": 66.091,
    "midi": 66,
@@ -1514,7 +1564,7 @@
    "edited": false
   },
   {
-   "id": "n63",
+   "id": "n41",
    "start": 66.15,
    "end": 66.591,
    "midi": 62,
@@ -1524,7 +1574,7 @@
    "edited": false
   },
   {
-   "id": "n64",
+   "id": "n42",
    "start": 66.6,
    "end": 66.823,
    "midi": 61,
@@ -1534,7 +1584,7 @@
    "edited": false
   },
   {
-   "id": "n65",
+   "id": "n43",
    "start": 68.27,
    "end": 68.879,
    "midi": 63,
@@ -1544,7 +1594,7 @@
    "edited": false
   },
   {
-   "id": "n68",
+   "id": "n44",
    "start": 68.9,
    "end": 69.612,
    "midi": 64,
@@ -1554,7 +1604,7 @@
    "edited": false
   },
   {
-   "id": "n69",
+   "id": "n45",
    "start": 69.62,
    "end": 70.134,
    "midi": 66,
@@ -1564,7 +1614,7 @@
    "edited": false
   },
   {
-   "id": "n70",
+   "id": "n46",
    "start": 70.22,
    "end": 70.436,
    "midi": 65,
@@ -1574,7 +1624,7 @@
    "edited": false
   },
   {
-   "id": "n71",
+   "id": "n47",
    "start": 70.44,
    "end": 71.121,
    "midi": 66,
@@ -1584,7 +1634,7 @@
    "edited": false
   },
   {
-   "id": "n73",
+   "id": "n48",
    "start": 71.24,
    "end": 71.365,
    "midi": 67,
@@ -1594,7 +1644,7 @@
    "edited": false
   },
   {
-   "id": "n74",
+   "id": "n49",
    "start": 71.42,
    "end": 71.564,
    "midi": 66,
@@ -1604,7 +1654,7 @@
    "edited": false
   },
   {
-   "id": "n75",
+   "id": "n50",
    "start": 71.92,
    "end": 72.62,
    "midi": 61,
@@ -1614,7 +1664,7 @@
    "edited": false
   },
   {
-   "id": "n78",
+   "id": "n51",
    "start": 72.63,
    "end": 73.328,
    "midi": 61,
@@ -1624,7 +1674,7 @@
    "edited": false
   },
   {
-   "id": "n81",
+   "id": "n52",
    "start": 75.86,
    "end": 75.99,
    "midi": 66,
@@ -1634,7 +1684,7 @@
    "edited": false
   },
   {
-   "id": "n82",
+   "id": "n53",
    "start": 75.99,
    "end": 76.175,
    "midi": 68,
@@ -1644,7 +1694,7 @@
    "edited": false
   },
   {
-   "id": "n83",
+   "id": "n54",
    "start": 76.18,
    "end": 76.442,
    "midi": 68,
@@ -1654,7 +1704,7 @@
    "edited": false
   },
   {
-   "id": "n84",
+   "id": "n55",
    "start": 76.45,
    "end": 77.034,
    "midi": 66,
@@ -1664,7 +1714,7 @@
    "edited": false
   },
   {
-   "id": "n86",
+   "id": "n56",
    "start": 77.1,
    "end": 77.709,
    "midi": 64,
@@ -1674,17 +1724,17 @@
    "edited": false
   },
   {
-   "id": "n88",
+   "id": "n57",
    "start": 77.71,
    "end": 78.197,
    "midi": 65,
    "confidence": 0.554,
+   "edited": true,
    "word": "w33",
-   "line": 10,
-   "edited": true
+   "line": 10
   },
   {
-   "id": "n89",
+   "id": "n58",
    "start": 78.2,
    "end": 79.311,
    "midi": 66,
@@ -1694,7 +1744,7 @@
    "edited": false
   },
   {
-   "id": "n91",
+   "id": "n59",
    "start": 79.36,
    "end": 80.299,
    "midi": 61,
@@ -1704,7 +1754,7 @@
    "edited": false
   },
   {
-   "id": "n95",
+   "id": "n60",
    "start": 83.17,
    "end": 83.401,
    "midi": 63,
@@ -1714,7 +1764,7 @@
    "edited": false
   },
   {
-   "id": "n96",
+   "id": "n61",
    "start": 83.41,
    "end": 83.553,
    "midi": 63,
@@ -1724,7 +1774,7 @@
    "edited": false
   },
   {
-   "id": "n97",
+   "id": "n62",
    "start": 83.56,
    "end": 83.994,
    "midi": 64,
@@ -1734,7 +1784,7 @@
    "edited": false
   },
   {
-   "id": "n98",
+   "id": "n63",
    "start": 84.0,
    "end": 84.493,
    "midi": 63,
@@ -1744,7 +1794,7 @@
    "edited": false
   },
   {
-   "id": "n100",
+   "id": "n64",
    "start": 84.58,
    "end": 85.69,
    "midi": 61,
@@ -1754,7 +1804,7 @@
    "edited": false
   },
   {
-   "id": "n102",
+   "id": "n65",
    "start": 85.7,
    "end": 86.155,
    "midi": 59,
@@ -1764,7 +1814,7 @@
    "edited": false
   },
   {
-   "id": "n104",
+   "id": "n66",
    "start": 91.04,
    "end": 91.173,
    "midi": 62,
@@ -1774,7 +1824,7 @@
    "edited": false
   },
   {
-   "id": "n105",
+   "id": "n67",
    "start": 91.18,
    "end": 91.37,
    "midi": 63,
@@ -1784,7 +1834,7 @@
    "edited": false
   },
   {
-   "id": "n106",
+   "id": "n68",
    "start": 91.38,
    "end": 91.615,
    "midi": 63,
@@ -1794,7 +1844,7 @@
    "edited": false
   },
   {
-   "id": "n107",
+   "id": "n69",
    "start": 91.62,
    "end": 92.033,
    "midi": 64,
@@ -1804,7 +1854,7 @@
    "edited": false
   },
   {
-   "id": "n109",
+   "id": "n70",
    "start": 92.04,
    "end": 92.254,
    "midi": 64,
@@ -1814,9 +1864,9 @@
    "edited": false
   },
   {
-   "id": "n110",
+   "id": "n71",
    "start": 92.29,
-   "end": 92.788,
+   "end": 92.393,
    "midi": 66,
    "confidence": 0.791,
    "word": "w41",
@@ -1824,7 +1874,17 @@
    "edited": false
   },
   {
-   "id": "n111",
+   "id": "n72",
+   "start": 92.4,
+   "end": 92.788,
+   "midi": 66,
+   "confidence": 0.644,
+   "word": "w42",
+   "line": 12,
+   "edited": false
+  },
+  {
+   "id": "n73",
    "start": 92.86,
    "end": 93.602,
    "midi": 66,
@@ -1834,7 +1894,7 @@
    "edited": false
   },
   {
-   "id": "n113",
+   "id": "n74",
    "start": 93.61,
    "end": 94.287,
    "midi": 66,
@@ -1844,7 +1904,7 @@
    "edited": false
   },
   {
-   "id": "n115",
+   "id": "n75",
    "start": 94.29,
    "end": 94.461,
    "midi": 64,
@@ -1854,7 +1914,7 @@
    "edited": false
   },
   {
-   "id": "n117",
+   "id": "n76",
    "start": 95.01,
    "end": 95.507,
    "midi": 61,
@@ -1864,7 +1924,7 @@
    "edited": false
   },
   {
-   "id": "n119",
+   "id": "n77",
    "start": 95.51,
    "end": 95.914,
    "midi": 64,
@@ -1874,7 +1934,7 @@
    "edited": false
   },
   {
-   "id": "n120",
+   "id": "n78",
    "start": 98.62,
    "end": 98.829,
    "midi": 68,
@@ -1884,7 +1944,7 @@
    "edited": false
   },
   {
-   "id": "n121",
+   "id": "n79",
    "start": 98.96,
    "end": 99.329,
    "midi": 66,
@@ -1894,7 +1954,7 @@
    "edited": false
   },
   {
-   "id": "n123",
+   "id": "n80",
    "start": 99.33,
    "end": 99.678,
    "midi": 66,
@@ -1904,7 +1964,7 @@
    "edited": false
   },
   {
-   "id": "n124",
+   "id": "n81",
    "start": 99.81,
    "end": 100.119,
    "midi": 64,
@@ -1914,7 +1974,7 @@
    "edited": false
   },
   {
-   "id": "n126",
+   "id": "n82",
    "start": 100.12,
    "end": 100.27,
    "midi": 64,
@@ -1924,7 +1984,7 @@
    "edited": false
   },
   {
-   "id": "n127",
+   "id": "n83",
    "start": 100.4,
    "end": 100.827,
    "midi": 64,
@@ -1934,7 +1994,7 @@
    "edited": false
   },
   {
-   "id": "n129",
+   "id": "n84",
    "start": 100.83,
    "end": 101.92,
    "midi": 66,
@@ -1944,7 +2004,7 @@
    "edited": false
   },
   {
-   "id": "n134",
+   "id": "n85",
    "start": 101.92,
    "end": 102.11,
    "midi": 63,
@@ -1954,7 +2014,7 @@
    "edited": false
   },
   {
-   "id": "n135",
+   "id": "n86",
    "start": 102.11,
    "end": 102.454,
    "midi": 59,
@@ -1964,37 +2024,37 @@
    "edited": false
   },
   {
-   "id": "n136",
+   "id": "n87",
    "start": 102.46,
    "end": 102.686,
    "midi": 47,
    "confidence": 0.853,
+   "edited": true,
    "word": "w49",
-   "line": 13,
-   "edited": true
+   "line": 13
   },
   {
-   "id": "n137",
+   "id": "n88",
    "start": 102.69,
    "end": 102.965,
    "midi": 47,
    "confidence": 0.722,
+   "edited": true,
    "word": "w49",
-   "line": 13,
-   "edited": true
+   "line": 13
   },
   {
-   "id": "n138",
+   "id": "n89",
    "start": 102.97,
    "end": 103.651,
    "midi": 47,
    "confidence": 0.702,
+   "edited": true,
    "word": "w49",
-   "line": 13,
-   "edited": true
+   "line": 13
   },
   {
-   "id": "n139",
+   "id": "n90",
    "start": 103.66,
    "end": 103.964,
    "midi": 59,
@@ -2004,7 +2064,7 @@
    "edited": false
   },
   {
-   "id": "n141",
+   "id": "n91",
    "start": 106.19,
    "end": 106.531,
    "midi": 63,
@@ -2014,7 +2074,7 @@
    "edited": false
   },
   {
-   "id": "n142",
+   "id": "n92",
    "start": 106.54,
    "end": 106.775,
    "midi": 63,
@@ -2024,7 +2084,7 @@
    "edited": false
   },
   {
-   "id": "n143",
+   "id": "n93",
    "start": 106.78,
    "end": 107.38,
    "midi": 64,
@@ -2034,7 +2094,7 @@
    "edited": false
   },
   {
-   "id": "n144",
+   "id": "n94",
    "start": 107.4,
    "end": 108.019,
    "midi": 66,
@@ -2044,7 +2104,7 @@
    "edited": false
   },
   {
-   "id": "n145",
+   "id": "n95",
    "start": 108.08,
    "end": 108.45,
    "midi": 64,
@@ -2054,7 +2114,7 @@
    "edited": false
   },
   {
-   "id": "n147",
+   "id": "n96",
    "start": 108.45,
    "end": 109.495,
    "midi": 66,
@@ -2064,7 +2124,7 @@
    "edited": false
   },
   {
-   "id": "n150",
+   "id": "n97",
    "start": 109.56,
    "end": 109.843,
    "midi": 64,
@@ -2074,17 +2134,17 @@
    "edited": false
   },
   {
-   "id": "n151",
+   "id": "n98",
    "start": 109.85,
-   "end": 110.261,
+   "end": 110.145,
    "midi": 49,
    "confidence": 0.705,
+   "edited": true,
    "word": null,
-   "line": 16,
-   "edited": true
+   "line": 16
   },
   {
-   "id": "n152",
+   "id": "n99",
    "start": 110.27,
    "end": 111.319,
    "midi": 64,
@@ -2094,7 +2154,7 @@
    "edited": false
   },
   {
-   "id": "n153",
+   "id": "n100",
    "start": 112.98,
    "end": 113.165,
    "midi": 61,
@@ -2104,7 +2164,7 @@
    "edited": false
   },
   {
-   "id": "n154",
+   "id": "n101",
    "start": 113.17,
    "end": 113.514,
    "midi": 61,
@@ -2114,7 +2174,7 @@
    "edited": false
   },
   {
-   "id": "n156",
+   "id": "n102",
    "start": 113.52,
    "end": 113.735,
    "midi": 63,
@@ -2124,7 +2184,7 @@
    "edited": false
   },
   {
-   "id": "n157",
+   "id": "n103",
    "start": 113.74,
    "end": 113.897,
    "midi": 63,
@@ -2134,7 +2194,7 @@
    "edited": false
   },
   {
-   "id": "n158",
+   "id": "n104",
    "start": 113.9,
    "end": 114.222,
    "midi": 64,
@@ -2144,7 +2204,7 @@
    "edited": false
   },
   {
-   "id": "n159",
+   "id": "n105",
    "start": 114.36,
    "end": 114.966,
    "midi": 63,
@@ -2154,7 +2214,7 @@
    "edited": false
   },
   {
-   "id": "n161",
+   "id": "n106",
    "start": 114.97,
    "end": 115.257,
    "midi": 61,
@@ -2164,7 +2224,7 @@
    "edited": false
   },
   {
-   "id": "n162",
+   "id": "n107",
    "start": 115.26,
    "end": 115.443,
    "midi": 60,
@@ -2174,7 +2234,7 @@
    "edited": false
   },
   {
-   "id": "n163",
+   "id": "n108",
    "start": 115.52,
    "end": 115.977,
    "midi": 61,
@@ -2184,7 +2244,7 @@
    "edited": false
   },
   {
-   "id": "n165",
+   "id": "n109",
    "start": 115.98,
    "end": 116.325,
    "midi": 59,
@@ -2194,7 +2254,7 @@
    "edited": false
   },
   {
-   "id": "n167",
+   "id": "n110",
    "start": 116.33,
    "end": 116.917,
    "midi": 59,
@@ -2204,7 +2264,7 @@
    "edited": false
   },
   {
-   "id": "n169",
+   "id": "n111",
    "start": 117.57,
    "end": 117.708,
    "midi": 62,
@@ -2214,7 +2274,7 @@
    "edited": false
   },
   {
-   "id": "n170",
+   "id": "n112",
    "start": 117.71,
    "end": 117.859,
    "midi": 64,
@@ -2224,7 +2284,7 @@
    "edited": false
   },
   {
-   "id": "n171",
+   "id": "n113",
    "start": 117.86,
    "end": 118.126,
    "midi": 63,
@@ -2234,7 +2294,7 @@
    "edited": false
   },
   {
-   "id": "n172",
+   "id": "n114",
    "start": 118.13,
    "end": 118.741,
    "midi": 63,
@@ -2244,7 +2304,7 @@
    "edited": false
   },
   {
-   "id": "n174",
+   "id": "n115",
    "start": 118.94,
    "end": 119.671,
    "midi": 61,
@@ -2254,7 +2314,7 @@
    "edited": false
   },
   {
-   "id": "n176",
+   "id": "n116",
    "start": 119.73,
    "end": 119.904,
    "midi": 59,
@@ -2264,7 +2324,7 @@
    "edited": false
   },
   {
-   "id": "n177",
+   "id": "n117",
    "start": 119.99,
    "end": 120.24,
    "midi": 58,
@@ -2274,7 +2334,7 @@
    "edited": false
   },
   {
-   "id": "n178",
+   "id": "n118",
    "start": 120.25,
    "end": 120.449,
    "midi": 59,
@@ -2284,7 +2344,7 @@
    "edited": false
   },
   {
-   "id": "n179",
+   "id": "n119",
    "start": 134.59,
    "end": 134.785,
    "midi": 64,
@@ -2294,7 +2354,7 @@
    "edited": false
   },
   {
-   "id": "n180",
+   "id": "n120",
    "start": 134.79,
    "end": 136.319,
    "midi": 66,
@@ -2304,7 +2364,7 @@
    "edited": false
   },
   {
-   "id": "n185",
+   "id": "n121",
    "start": 136.44,
    "end": 136.795,
    "midi": 64,
@@ -2314,7 +2374,7 @@
    "edited": false
   },
   {
-   "id": "n186",
+   "id": "n122",
    "start": 136.8,
    "end": 137.946,
    "midi": 66,
@@ -2324,7 +2384,7 @@
    "edited": false
   },
   {
-   "id": "n191",
+   "id": "n123",
    "start": 138.12,
    "end": 138.247,
    "midi": 63,
@@ -2334,7 +2394,7 @@
    "edited": false
   },
   {
-   "id": "n192",
+   "id": "n124",
    "start": 138.25,
    "end": 138.398,
    "midi": 61,
@@ -2344,7 +2404,7 @@
    "edited": false
   },
   {
-   "id": "n193",
+   "id": "n125",
    "start": 138.4,
    "end": 138.781,
    "midi": 63,
@@ -2354,7 +2414,7 @@
    "edited": false
   },
   {
-   "id": "n195",
+   "id": "n126",
    "start": 140.41,
    "end": 140.873,
    "midi": 63,
@@ -2364,7 +2424,7 @@
    "edited": false
   },
   {
-   "id": "n197",
+   "id": "n127",
    "start": 140.89,
    "end": 141.454,
    "midi": 64,
@@ -2374,7 +2434,7 @@
    "edited": false
   },
   {
-   "id": "n199",
+   "id": "n128",
    "start": 141.46,
    "end": 141.71,
    "midi": 66,
@@ -2384,7 +2444,7 @@
    "edited": false
   },
   {
-   "id": "n200",
+   "id": "n129",
    "start": 141.71,
    "end": 142.093,
    "midi": 66,
@@ -2394,18 +2454,18 @@
    "edited": false
   },
   {
-   "id": "n201",
+   "id": "n130",
    "start": 142.12,
-   "end": 142.29,
-   "midi": 65,
+   "end": 142.22,
+   "midi": 64,
    "confidence": 0.494,
    "word": "w65",
    "line": 23,
    "edited": false
   },
   {
-   "id": "n202",
-   "start": 142.3,
+   "id": "n131",
+   "start": 142.23,
    "end": 142.441,
    "midi": 66,
    "confidence": 0.712,
@@ -2414,7 +2474,7 @@
    "edited": false
   },
   {
-   "id": "n203",
+   "id": "n132",
    "start": 142.45,
    "end": 142.94,
    "midi": 66,
@@ -2424,7 +2484,7 @@
    "edited": false
   },
   {
-   "id": "n205",
+   "id": "n133",
    "start": 142.95,
    "end": 143.232,
    "midi": 66,
@@ -2434,7 +2494,7 @@
    "edited": false
   },
   {
-   "id": "n207",
+   "id": "n134",
    "start": 143.36,
    "end": 143.801,
    "midi": 61,
@@ -2444,7 +2504,7 @@
    "edited": false
   },
   {
-   "id": "n209",
+   "id": "n135",
    "start": 143.82,
    "end": 143.952,
    "midi": 59,
@@ -2454,7 +2514,7 @@
    "edited": false
   },
   {
-   "id": "n210",
+   "id": "n136",
    "start": 144.08,
    "end": 144.741,
    "midi": 61,
@@ -2464,7 +2524,7 @@
    "edited": false
   },
   {
-   "id": "n213",
+   "id": "n137",
    "start": 147.98,
    "end": 148.296,
    "midi": 63,
@@ -2474,7 +2534,7 @@
    "edited": false
   },
   {
-   "id": "n214",
+   "id": "n138",
    "start": 148.3,
    "end": 149.052,
    "midi": 64,
@@ -2484,7 +2544,7 @@
    "edited": false
   },
   {
-   "id": "n217",
+   "id": "n139",
    "start": 149.06,
    "end": 149.563,
    "midi": 66,
@@ -2494,7 +2554,7 @@
    "edited": false
   },
   {
-   "id": "n219",
+   "id": "n140",
    "start": 149.71,
    "end": 150.19,
    "midi": 64,
@@ -2504,7 +2564,7 @@
    "edited": false
   },
   {
-   "id": "n220",
+   "id": "n141",
    "start": 150.2,
    "end": 150.364,
    "midi": 66,
@@ -2514,7 +2574,7 @@
    "edited": false
   },
   {
-   "id": "n221",
+   "id": "n142",
    "start": 150.37,
    "end": 151.062,
    "midi": 66,
@@ -2524,27 +2584,27 @@
    "edited": false
   },
   {
-   "id": "n223",
+   "id": "n143",
    "start": 151.26,
-   "end": 151.945,
+   "end": 151.782,
    "midi": 61,
-   "confidence": 0.775,
+   "confidence": 0.732,
    "word": "w71",
    "line": 24,
    "edited": false
   },
   {
-   "id": "n224",
-   "start": 151.95,
+   "id": "n144",
+   "start": 151.79,
    "end": 152.595,
    "midi": 61,
-   "confidence": 0.591,
+   "confidence": 0.775,
    "word": "w72",
    "line": 24,
    "edited": false
   },
   {
-   "id": "n226",
+   "id": "n145",
    "start": 154.83,
    "end": 155.059,
    "midi": 61,
@@ -2554,7 +2614,7 @@
    "edited": false
   },
   {
-   "id": "n227",
+   "id": "n146",
    "start": 155.1,
    "end": 155.279,
    "midi": 63,
@@ -2564,7 +2624,7 @@
    "edited": false
   },
   {
-   "id": "n228",
+   "id": "n147",
    "start": 155.28,
    "end": 155.465,
    "midi": 63,
@@ -2574,7 +2634,7 @@
    "edited": false
   },
   {
-   "id": "n229",
+   "id": "n148",
    "start": 155.47,
    "end": 155.639,
    "midi": 63,
@@ -2584,7 +2644,7 @@
    "edited": false
   },
   {
-   "id": "n230",
+   "id": "n149",
    "start": 155.64,
    "end": 156.057,
    "midi": 64,
@@ -2594,7 +2654,7 @@
    "edited": false
   },
   {
-   "id": "n232",
+   "id": "n150",
    "start": 156.1,
    "end": 156.707,
    "midi": 63,
@@ -2604,17 +2664,27 @@
    "edited": false
   },
   {
-   "id": "n234",
+   "id": "n151",
    "start": 156.71,
-   "end": 157.37,
+   "end": 157.219,
    "midi": 61,
-   "confidence": 0.733,
+   "confidence": 0.565,
    "word": "w76",
    "line": 25,
    "edited": false
   },
   {
-   "id": "n235",
+   "id": "n152",
+   "start": 157.27,
+   "end": 157.37,
+   "midi": 61,
+   "confidence": 0.733,
+   "word": "w77",
+   "line": 25,
+   "edited": false
+  },
+  {
+   "id": "n153",
    "start": 157.38,
    "end": 157.672,
    "midi": 61,
@@ -2624,7 +2694,7 @@
    "edited": false
   },
   {
-   "id": "n236",
+   "id": "n154",
    "start": 157.72,
    "end": 158.543,
    "midi": 59,
@@ -2634,7 +2704,7 @@
    "edited": false
   },
   {
-   "id": "n239",
+   "id": "n155",
    "start": 158.61,
    "end": 158.903,
    "midi": 60,
@@ -2644,7 +2714,7 @@
    "edited": false
   },
   {
-   "id": "n240",
+   "id": "n156",
    "start": 163.09,
    "end": 163.748,
    "midi": 63,
@@ -2654,7 +2724,7 @@
    "edited": false
   },
   {
-   "id": "n243",
+   "id": "n157",
    "start": 163.75,
    "end": 164.201,
    "midi": 64,
@@ -2664,7 +2734,7 @@
    "edited": false
   },
   {
-   "id": "n244",
+   "id": "n158",
    "start": 164.23,
    "end": 164.491,
    "midi": 66,
@@ -2674,7 +2744,7 @@
    "edited": false
   },
   {
-   "id": "n245",
+   "id": "n159",
    "start": 164.5,
    "end": 165.99,
    "midi": 66,
@@ -2684,7 +2754,7 @@
    "edited": false
   },
   {
-   "id": "n249",
+   "id": "n160",
    "start": 165.99,
    "end": 166.454,
    "midi": 66,
@@ -2694,7 +2764,7 @@
    "edited": false
   },
   {
-   "id": "n251",
+   "id": "n161",
    "start": 166.46,
    "end": 166.617,
    "midi": 61,
@@ -2704,7 +2774,7 @@
    "edited": false
   },
   {
-   "id": "n252",
+   "id": "n162",
    "start": 166.62,
    "end": 167.663,
    "midi": 61,
@@ -2714,7 +2784,7 @@
    "edited": false
   },
   {
-   "id": "n257",
+   "id": "n163",
    "start": 167.76,
    "end": 167.895,
    "midi": 62,
@@ -2724,7 +2794,7 @@
    "edited": false
   },
   {
-   "id": "n258",
+   "id": "n164",
    "start": 170.55,
    "end": 170.811,
    "midi": 68,
@@ -2734,7 +2804,7 @@
    "edited": false
   },
   {
-   "id": "n259",
+   "id": "n165",
    "start": 170.93,
    "end": 171.183,
    "midi": 66,
@@ -2744,7 +2814,7 @@
    "edited": false
   },
   {
-   "id": "n260",
+   "id": "n166",
    "start": 171.19,
    "end": 171.671,
    "midi": 66,
@@ -2754,7 +2824,7 @@
    "edited": false
   },
   {
-   "id": "n261",
+   "id": "n167",
    "start": 171.78,
    "end": 172.286,
    "midi": 64,
@@ -2764,7 +2834,7 @@
    "edited": false
   },
   {
-   "id": "n262",
+   "id": "n168",
    "start": 172.41,
    "end": 172.832,
    "midi": 64,
@@ -2774,7 +2844,7 @@
    "edited": false
   },
   {
-   "id": "n264",
+   "id": "n169",
    "start": 172.84,
    "end": 173.054,
    "midi": 59,
@@ -2784,7 +2854,7 @@
    "edited": false
   },
   {
-   "id": "n265",
+   "id": "n170",
    "start": 173.06,
    "end": 173.948,
    "midi": 66,
@@ -2794,7 +2864,7 @@
    "edited": false
   },
   {
-   "id": "n269",
+   "id": "n171",
    "start": 173.96,
    "end": 176.19,
    "midi": 59,
@@ -2804,7 +2874,7 @@
    "edited": false
   },
   {
-   "id": "n278",
+   "id": "n172",
    "start": 178.13,
    "end": 178.269,
    "midi": 61,
@@ -2814,7 +2884,7 @@
    "edited": false
   },
   {
-   "id": "n279",
+   "id": "n173",
    "start": 178.27,
    "end": 178.793,
    "midi": 63,
@@ -2824,7 +2894,7 @@
    "edited": false
   },
   {
-   "id": "n280",
+   "id": "n174",
    "start": 178.8,
    "end": 179.397,
    "midi": 64,
@@ -2834,7 +2904,7 @@
    "edited": false
   },
   {
-   "id": "n281",
+   "id": "n175",
    "start": 179.42,
    "end": 180.0,
    "midi": 66,
@@ -2844,7 +2914,7 @@
    "edited": false
   },
   {
-   "id": "n282",
+   "id": "n176",
    "start": 180.1,
    "end": 180.418,
    "midi": 65,
@@ -2854,7 +2924,7 @@
    "edited": false
   },
   {
-   "id": "n283",
+   "id": "n177",
    "start": 180.42,
    "end": 181.743,
    "midi": 66,
@@ -2864,27 +2934,47 @@
    "edited": false
   },
   {
-   "id": "n291",
+   "id": "n178",
    "start": 182.11,
+   "end": 182.266,
+   "midi": 49,
+   "confidence": 0.669,
+   "edited": true,
+   "word": "w93",
+   "line": 30
+  },
+  {
+   "id": "n179",
+   "start": 182.27,
+   "end": 182.382,
+   "midi": 49,
+   "confidence": 0.647,
+   "edited": true,
+   "word": "w93",
+   "line": 30
+  },
+  {
+   "id": "n180",
+   "start": 182.39,
    "end": 182.556,
    "midi": 49,
    "confidence": 0.694,
+   "edited": true,
    "word": "w93",
-   "line": 30,
-   "edited": true
+   "line": 30
   },
   {
-   "id": "n292",
+   "id": "n181",
    "start": 182.56,
    "end": 182.765,
    "midi": 49,
    "confidence": 0.641,
+   "edited": true,
    "word": "w93",
-   "line": 30,
-   "edited": true
+   "line": 30
   },
   {
-   "id": "n293",
+   "id": "n182",
    "start": 182.77,
    "end": 182.894,
    "midi": 61,
@@ -2894,7 +2984,7 @@
    "edited": false
   },
   {
-   "id": "n294",
+   "id": "n183",
    "start": 182.9,
    "end": 183.103,
    "midi": 56,
@@ -2904,7 +2994,7 @@
    "edited": false
   },
   {
-   "id": "n295",
+   "id": "n184",
    "start": 183.58,
    "end": 183.753,
    "midi": 61,
@@ -2914,7 +3004,7 @@
    "edited": false
   },
   {
-   "id": "n296",
+   "id": "n185",
    "start": 185.25,
    "end": 185.507,
    "midi": 61,
@@ -2924,7 +3014,7 @@
    "edited": false
   },
   {
-   "id": "n297",
+   "id": "n186",
    "start": 185.57,
    "end": 185.867,
    "midi": 63,
@@ -2934,7 +3024,7 @@
    "edited": false
   },
   {
-   "id": "n299",
+   "id": "n187",
    "start": 185.87,
    "end": 186.343,
    "midi": 64,
@@ -2944,7 +3034,7 @@
    "edited": false
   },
   {
-   "id": "n301",
+   "id": "n188",
    "start": 186.36,
    "end": 186.89,
    "midi": 63,
@@ -2954,7 +3044,7 @@
    "edited": false
   },
   {
-   "id": "n302",
+   "id": "n189",
    "start": 186.97,
    "end": 187.297,
    "midi": 61,
@@ -2964,7 +3054,7 @@
    "edited": false
   },
   {
-   "id": "n303",
+   "id": "n190",
    "start": 187.3,
    "end": 187.506,
    "midi": 59,
@@ -2974,7 +3064,7 @@
    "edited": false
   },
   {
-   "id": "n304",
+   "id": "n191",
    "start": 187.59,
    "end": 187.97,
    "midi": 61,
@@ -2984,7 +3074,7 @@
    "edited": false
   },
   {
-   "id": "n306",
+   "id": "n192",
    "start": 188.0,
    "end": 188.179,
    "midi": 59,
@@ -2994,7 +3084,7 @@
    "edited": false
   },
   {
-   "id": "n307",
+   "id": "n193",
    "start": 188.23,
    "end": 188.539,
    "midi": 59,
@@ -3004,7 +3094,7 @@
    "edited": false
   },
   {
-   "id": "n308",
+   "id": "n194",
    "start": 189.03,
    "end": 189.365,
    "midi": 54,
@@ -3014,7 +3104,7 @@
    "edited": false
   },
   {
-   "id": "n309",
+   "id": "n195",
    "start": 189.56,
    "end": 189.701,
    "midi": 61,
@@ -3024,7 +3114,7 @@
    "edited": false
   },
   {
-   "id": "n310",
+   "id": "n196",
    "start": 189.72,
    "end": 190.108,
    "midi": 64,
@@ -3034,7 +3124,7 @@
    "edited": false
   },
   {
-   "id": "n311",
+   "id": "n197",
    "start": 190.11,
    "end": 190.688,
    "midi": 63,
@@ -3044,7 +3134,7 @@
    "edited": false
   },
   {
-   "id": "n313",
+   "id": "n198",
    "start": 190.8,
    "end": 191.154,
    "midi": 61,
@@ -3054,7 +3144,7 @@
    "edited": false
   },
   {
-   "id": "n314",
+   "id": "n199",
    "start": 191.16,
    "end": 191.386,
    "midi": 59,
@@ -3064,7 +3154,7 @@
    "edited": false
   },
   {
-   "id": "n315",
+   "id": "n200",
    "start": 191.47,
    "end": 191.607,
    "midi": 69,
@@ -3074,7 +3164,7 @@
    "edited": false
   },
   {
-   "id": "n316",
+   "id": "n201",
    "start": 191.61,
    "end": 195.32,
    "midi": 71,
@@ -3084,7 +3174,7 @@
    "edited": false
   },
   {
-   "id": "n324",
+   "id": "n202",
    "start": 195.32,
    "end": 195.824,
    "midi": 59,
@@ -3094,17 +3184,17 @@
    "edited": false
   },
   {
-   "id": "n326",
+   "id": "n203",
    "start": 263.67,
    "end": 263.81,
    "midi": 62,
    "confidence": 0.456,
+   "edited": true,
    "word": null,
-   "line": 34,
-   "edited": true
+   "line": 34
   },
   {
-   "id": "n327",
+   "id": "n204",
    "start": 263.81,
    "end": 264.018,
    "midi": 62,
@@ -3114,7 +3204,7 @@
    "edited": false
   },
   {
-   "id": "n328",
+   "id": "n205",
    "start": 264.02,
    "end": 264.216,
    "midi": 74,
@@ -3124,7 +3214,7 @@
    "edited": false
   },
   {
-   "id": "n330",
+   "id": "n206",
    "start": 264.43,
    "end": 264.576,
    "midi": 60,
@@ -3134,7 +3224,7 @@
    "edited": false
   },
   {
-   "id": "n331",
+   "id": "n207",
    "start": 264.65,
    "end": 264.797,
    "midi": 59,
@@ -3147,7 +3237,7 @@
  "settings": {
   "detail_level": "balanced",
   "cleanup": {
-   "min_note_len": 0.12,
+   "min_note_len": 0.1,
    "merge_gap": 0.08,
    "min_confidence": 0.35,
    "min_relative_amp": 0.3,

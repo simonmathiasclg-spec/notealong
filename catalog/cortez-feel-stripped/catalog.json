@@ -9,11 +9,11 @@
  "difficulty": "medium",
  "difficulty_details": {
   "range": 14,
-  "distinct": 9,
-  "notes_per_second": 1.46,
-  "big_leaps": 0.05,
-  "shortest": 0.12,
-  "score": 5.0
+  "distinct": 8,
+  "notes_per_second": 1.59,
+  "big_leaps": 0.04,
+  "shortest": 0.1,
+  "score": 4.0
  },
  "duration": 240.562,
  "key": "E major",
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 309,
+ "note_count": 337,
  "word_count": 355,
  "review": {
-  "checked": 443,
-  "dropped": 0,
+  "checked": 517,
+  "dropped": 4,
   "octave_fixed": 0,
   "pitch_fixed": 0,
-  "kept": 443,
+  "kept": 513,
   "outliers_dropped": 0,
   "held": {
-   "before": 443,
-   "same_pitch": 131,
+   "before": 513,
+   "same_pitch": 173,
    "wobbles": 0,
    "bends": 3,
-   "after": 309
+   "after": 337
   }
  },
  "accent_hue": 338,

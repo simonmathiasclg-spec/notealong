@@ -1,7 +1,70 @@
 {
  "version": 1,
- "generated_at": "2026-11-05T13:10:04.867364+00:00",
+ "generated_at": "2026-11-05T14:18:56.654710+00:00",
  "songs": [
+  {
+   "id": "a-jovian-night-03-fool-in-modern-times",
+   "title": "Fool In Modern Times",
+   "artist": "A Jovian Night",
+   "origin": "",
+   "culture": "",
+   "genre": "Indie",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 6,
+    "distinct": 7,
+    "notes_per_second": 2.41,
+    "big_leaps": 0.02,
+    "shortest": 0.07,
+    "score": 4.0
+   },
+   "duration": 240.98,
+   "key": "Ab major",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Fool In Modern Times\" by A Jovian Night, from the album \"A Jovian Night - 03 - Fool In Modern Times\". CC BY 3.0. Published on Jamendo (album 233060); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-233060"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "jamendo",
+    "indie",
+    "indierock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 322,
+   "word_count": 197,
+   "review": {
+    "checked": 477,
+    "dropped": 3,
+    "octave_fixed": 0,
+    "pitch_fixed": 4,
+    "kept": 470,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 473,
+     "same_pitch": 133,
+     "wobbles": 3,
+     "bends": 12,
+     "after": 322
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -2.15,
+   "language_probability": 0.9618945121765137,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
   {
    "id": "a-la-nanita-nana",
    "title": "A la nanita nana",
@@ -97,6 +160,73 @@
    "popularity": 0
   },
   {
+   "id": "abrids-take-a-seat",
+   "title": "take a seat",
+   "artist": "Abrids",
+   "origin": "",
+   "culture": "",
+   "genre": "Indie",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 9,
+    "notes_per_second": 2.91,
+    "big_leaps": 0.02,
+    "shortest": 0.07,
+    "score": 5.0
+   },
+   "duration": 153.267,
+   "key": "G minor",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"take a seat\" by Abrids, from the album \"Fashion Reptile\". CC BY 3.0. Published on Jamendo (album 109838); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-109838"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 190,
+   "tags": [
+    "jamendo",
+    "drums",
+    "electricguitar",
+    "energetic",
+    "grunge",
+    "indie",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 277,
+   "word_count": 223,
+   "review": {
+    "checked": 354,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 0,
+    "kept": 354,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 354,
+     "same_pitch": 54,
+     "wobbles": 2,
+     "bends": 19,
+     "after": 277
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.43,
+   "language_probability": 0.622290849685669,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "adragante-le-manoir",
    "title": "le manoir",
    "artist": "Adragante",
@@ -108,9 +238,9 @@
    "difficulty_details": {
     "range": 14,
     "distinct": 12,
-    "notes_per_second": 1.07,
-    "big_leaps": 0.1,
-    "shortest": 0.12,
+    "notes_per_second": 1.34,
+    "big_leaps": 0.08,
+    "shortest": 0.09,
     "score": 6.0
    },
    "duration": 156.282,
@@ -139,21 +269,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 153,
+   "note_count": 192,
    "word_count": 176,
    "review": {
-    "checked": 162,
-    "dropped": 1,
-    "octave_fixed": 7,
+    "checked": 213,
+    "dropped": 3,
+    "octave_fixed": 10,
     "pitch_fixed": 2,
-    "kept": 152,
+    "kept": 198,
     "outliers_dropped": 0,
     "held": {
-     "before": 161,
-     "same_pitch": 6,
+     "before": 210,
+     "same_pitch": 14,
      "wobbles": 0,
-     "bends": 2,
-     "after": 153
+     "bends": 4,
+     "after": 192
     }
    },
    "lyrics": "transcribed",
@@ -172,11 +302,11 @@
    "language": "pt",
    "difficulty": "hard",
    "difficulty_details": {
-    "range": 20,
+    "range": 21,
     "distinct": 15,
-    "notes_per_second": 1.36,
-    "big_leaps": 0.21,
-    "shortest": 0.12,
+    "notes_per_second": 1.67,
+    "big_leaps": 0.16,
+    "shortest": 0.08,
     "score": 9.0
    },
    "duration": 260.342,
@@ -203,26 +333,160 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 328,
+   "note_count": 403,
    "word_count": 330,
    "review": {
-    "checked": 380,
-    "dropped": 7,
-    "octave_fixed": 26,
-    "pitch_fixed": 8,
-    "kept": 339,
+    "checked": 486,
+    "dropped": 9,
+    "octave_fixed": 27,
+    "pitch_fixed": 7,
+    "kept": 443,
     "outliers_dropped": 0,
     "held": {
-     "before": 373,
-     "same_pitch": 42,
-     "wobbles": 0,
-     "bends": 3,
-     "after": 328
+     "before": 477,
+     "same_pitch": 64,
+     "wobbles": 2,
+     "bends": 6,
+     "after": 403
     }
    },
    "lyrics": "transcribed",
    "gain_db": 6.06,
    "language_probability": 0.8382667899131775,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "al-ryden-quiet-haven",
+   "title": "Quiet haven",
+   "artist": "Al Ryden",
+   "origin": "",
+   "culture": "",
+   "genre": "World",
+   "language": "ru",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 1.91,
+    "big_leaps": 0.02,
+    "shortest": 0.06,
+    "score": 4.0
+   },
+   "duration": 251.986,
+   "key": "G major",
+   "tempo_bpm": 161.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Quiet haven\" by Al Ryden, from the album \"ROCK hovering over the abyss\". CC BY 3.0. Published on Jamendo (album 149239); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-149239"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 207,
+   "tags": [
+    "jamendo",
+    "60s",
+    "70s",
+    "electricguitar",
+    "guitar",
+    "neutral",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 368,
+   "word_count": 148,
+   "review": {
+    "checked": 624,
+    "dropped": 8,
+    "octave_fixed": 0,
+    "pitch_fixed": 0,
+    "kept": 616,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 616,
+     "same_pitch": 216,
+     "wobbles": 9,
+     "bends": 14,
+     "after": 368
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.24,
+   "language_probability": 0.6631483435630798,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "alobi-alobi-e-menestrello",
+   "title": "alobi e menestrello",
+   "artist": "Alobi",
+   "origin": "",
+   "culture": "",
+   "genre": "World",
+   "language": "it",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 8,
+    "notes_per_second": 1.03,
+    "big_leaps": 0.03,
+    "shortest": 0.1,
+    "score": 4.0
+   },
+   "duration": 233.665,
+   "key": "A minor",
+   "tempo_bpm": 92.3,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"alobi e menestrello\" by Alobi, from the album \"Alobi e Menestrello\". CC BY 3.0. Published on Jamendo (album 139914); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-139914"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 194,
+   "tags": [
+    "jamendo",
+    "energetic",
+    "guitar",
+    "peaceful",
+    "pop",
+    "rock",
+    "strings"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 220,
+   "word_count": 133,
+   "review": {
+    "checked": 274,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 1,
+    "kept": 273,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 274,
+     "same_pitch": 51,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 220
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -3.85,
+   "language_probability": 0.7648497819900513,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -376,15 +640,15 @@
    "language": "ru",
    "difficulty": "hard",
    "difficulty_details": {
-    "range": 17,
+    "range": 19,
     "distinct": 13,
-    "notes_per_second": 1.45,
-    "big_leaps": 0.2,
-    "shortest": 0.12,
+    "notes_per_second": 2.2,
+    "big_leaps": 0.15,
+    "shortest": 0.07,
     "score": 9.0
    },
    "duration": 195.14,
-   "key": "C minor",
+   "key": "G minor",
    "tempo_bpm": 152.0,
    "year": null,
    "licence": {
@@ -407,21 +671,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 276,
+   "note_count": 418,
    "word_count": 232,
    "review": {
-    "checked": 310,
-    "dropped": 10,
-    "octave_fixed": 16,
+    "checked": 530,
+    "dropped": 19,
+    "octave_fixed": 32,
     "pitch_fixed": 2,
-    "kept": 282,
-    "outliers_dropped": 2,
+    "kept": 477,
+    "outliers_dropped": 1,
     "held": {
-     "before": 298,
-     "same_pitch": 22,
-     "wobbles": 0,
-     "bends": 0,
-     "after": 276
+     "before": 510,
+     "same_pitch": 80,
+     "wobbles": 3,
+     "bends": 6,
+     "after": 418
     }
    },
    "lyrics": "transcribed",
@@ -849,6 +1113,138 @@
    "popularity": 0
   },
   {
+   "id": "berkley-mallin-caught-on-the-wire",
+   "title": "Caught on the Wire",
+   "artist": "Berkley Mallin",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 13,
+    "notes_per_second": 1.59,
+    "big_leaps": 0.06,
+    "shortest": 0.08,
+    "score": 6.0
+   },
+   "duration": 200.0,
+   "key": "G major",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Caught on the Wire\" by Berkley Mallin, from the album \"Caught on the Wire\". CC BY 3.0. Published on Jamendo (album 291627); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-291627"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 138,
+   "tags": [
+    "jamendo",
+    "folk",
+    "guitar",
+    "happy",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 271,
+   "word_count": 198,
+   "review": {
+    "checked": 364,
+    "dropped": 3,
+    "octave_fixed": 0,
+    "pitch_fixed": 2,
+    "kept": 359,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 361,
+     "same_pitch": 81,
+     "wobbles": 1,
+     "bends": 7,
+     "after": 271
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.09,
+   "language_probability": 0.9670881628990173,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "betp5-tool-and-die",
+   "title": "Tool and Die",
+   "artist": "BETP5",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.5,
+    "big_leaps": 0.17,
+    "shortest": 0.09,
+    "score": 4.0
+   },
+   "duration": 233.08,
+   "key": "D major",
+   "tempo_bpm": 117.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Tool and Die\" by BETP5, from the album \"Arrow Songs\". CC BY 3.0. Published on Jamendo (album 158541); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-158541"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 149,
+   "tags": [
+    "jamendo",
+    "avroarrow",
+    "folk",
+    "happy",
+    "neutral",
+    "pop",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 314,
+   "word_count": 274,
+   "review": {
+    "checked": 437,
+    "dropped": 9,
+    "octave_fixed": 9,
+    "pitch_fixed": 1,
+    "kept": 418,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 427,
+     "same_pitch": 110,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 314
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.26,
+   "language_probability": 0.9710249900817871,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "billie-billie-oh-my-love",
    "title": "Oh My Love",
    "artist": "Billie",
@@ -859,10 +1255,10 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 8,
-    "distinct": 9,
-    "notes_per_second": 1.16,
-    "big_leaps": 0.05,
-    "shortest": 0.12,
+    "distinct": 10,
+    "notes_per_second": 1.5,
+    "big_leaps": 0.04,
+    "shortest": 0.08,
     "score": 3.0
    },
    "duration": 152.424,
@@ -890,21 +1286,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 160,
+   "note_count": 206,
    "word_count": 118,
    "review": {
-    "checked": 194,
+    "checked": 289,
     "dropped": 0,
     "octave_fixed": 0,
     "pitch_fixed": 1,
-    "kept": 193,
+    "kept": 288,
     "outliers_dropped": 0,
     "held": {
-     "before": 194,
-     "same_pitch": 28,
-     "wobbles": 1,
-     "bends": 4,
-     "after": 160
+     "before": 289,
+     "same_pitch": 68,
+     "wobbles": 2,
+     "bends": 11,
+     "after": 206
     }
    },
    "lyrics": "transcribed",
@@ -923,11 +1319,11 @@
    "language": "ru",
    "difficulty": "hard",
    "difficulty_details": {
-    "range": 16,
-    "distinct": 12,
-    "notes_per_second": 0.79,
-    "big_leaps": 0.14,
-    "shortest": 0.12,
+    "range": 17,
+    "distinct": 11,
+    "notes_per_second": 1.32,
+    "big_leaps": 0.13,
+    "shortest": 0.07,
     "score": 8.0
    },
    "duration": 200.818,
@@ -955,21 +1351,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 124,
+   "note_count": 206,
    "word_count": 169,
    "review": {
-    "checked": 165,
-    "dropped": 29,
+    "checked": 306,
+    "dropped": 60,
     "octave_fixed": 4,
     "pitch_fixed": 0,
-    "kept": 132,
-    "outliers_dropped": 0,
+    "kept": 242,
+    "outliers_dropped": 1,
     "held": {
-     "before": 136,
-     "same_pitch": 12,
+     "before": 245,
+     "same_pitch": 35,
      "wobbles": 0,
-     "bends": 0,
-     "after": 124
+     "bends": 4,
+     "after": 206
     }
    },
    "lyrics": "transcribed",
@@ -1130,11 +1526,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 14,
-    "distinct": 9,
-    "notes_per_second": 1.46,
-    "big_leaps": 0.05,
-    "shortest": 0.12,
-    "score": 5.0
+    "distinct": 8,
+    "notes_per_second": 1.59,
+    "big_leaps": 0.04,
+    "shortest": 0.1,
+    "score": 4.0
    },
    "duration": 240.562,
    "key": "E major",
@@ -1156,27 +1552,92 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 309,
+   "note_count": 337,
    "word_count": 355,
    "review": {
-    "checked": 443,
-    "dropped": 0,
+    "checked": 517,
+    "dropped": 4,
     "octave_fixed": 0,
     "pitch_fixed": 0,
-    "kept": 443,
+    "kept": 513,
     "outliers_dropped": 0,
     "held": {
-     "before": 443,
-     "same_pitch": 131,
+     "before": 513,
+     "same_pitch": 173,
      "wobbles": 0,
      "bends": 3,
-     "after": 309
+     "after": 337
     }
    },
    "accent_hue": 338,
    "added": "2026-11-02",
    "popularity": 0,
    "lyrics": "annotated"
+  },
+  {
+   "id": "dan-falvey-when-diamonds-turn-to-dust",
+   "title": "When diamonds turn to dust",
+   "artist": "Dan Falvey",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 15,
+    "notes_per_second": 1.41,
+    "big_leaps": 0.09,
+    "shortest": 0.08,
+    "score": 7.0
+   },
+   "duration": 219.968,
+   "key": "B major",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"When diamonds turn to dust\" by Dan Falvey, from the album \"When diamonds turn to dust\". CC BY 3.0. Published on Jamendo (album 282418); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-282418"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 155,
+   "tags": [
+    "jamendo",
+    "folk",
+    "pop",
+    "sad",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 230,
+   "word_count": 136,
+   "review": {
+    "checked": 324,
+    "dropped": 1,
+    "octave_fixed": 12,
+    "pitch_fixed": 3,
+    "kept": 308,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 322,
+     "same_pitch": 69,
+     "wobbles": 6,
+     "bends": 11,
+     "after": 230
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.96,
+   "language_probability": 0.6674045324325562,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "danny-boy",
@@ -1223,6 +1684,70 @@
    "note_count": 90,
    "word_count": 74,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "david-crowe-david-crowe-eternity",
+   "title": "Eternity",
+   "artist": "David Crowe",
+   "origin": "",
+   "culture": "",
+   "genre": "Soul & R&B",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 8,
+    "notes_per_second": 1.58,
+    "big_leaps": 0.02,
+    "shortest": 0.09,
+    "score": 3.0
+   },
+   "duration": 130.738,
+   "key": "A minor",
+   "tempo_bpm": 117.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Eternity\" by David Crowe, from the album \"Eternity\". CC BY 3.0. Published on Jamendo (album 338461); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-338461"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 190,
+   "tags": [
+    "jamendo",
+    "pop",
+    "rnb",
+    "soul"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 153,
+   "word_count": 82,
+   "review": {
+    "checked": 214,
+    "dropped": 2,
+    "octave_fixed": 0,
+    "pitch_fixed": 0,
+    "kept": 212,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 212,
+     "same_pitch": 57,
+     "wobbles": 0,
+     "bends": 2,
+     "after": 153
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -2.22,
+   "language_probability": 0.8237486481666565,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -1330,10 +1855,10 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 13,
-    "distinct": 11,
-    "notes_per_second": 1.62,
+    "distinct": 12,
+    "notes_per_second": 2.16,
     "big_leaps": 0.07,
-    "shortest": 0.12,
+    "shortest": 0.08,
     "score": 7.0
    },
    "duration": 206.722,
@@ -1363,21 +1888,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 259,
+   "note_count": 345,
    "word_count": 137,
    "review": {
-    "checked": 353,
-    "dropped": 2,
-    "octave_fixed": 4,
+    "checked": 496,
+    "dropped": 4,
+    "octave_fixed": 14,
     "pitch_fixed": 1,
-    "kept": 346,
+    "kept": 477,
     "outliers_dropped": 0,
     "held": {
-     "before": 351,
-     "same_pitch": 81,
-     "wobbles": 2,
+     "before": 492,
+     "same_pitch": 120,
+     "wobbles": 10,
      "bends": 7,
-     "after": 259
+     "after": 345
     }
    },
    "lyrics": "transcribed",
@@ -1442,12 +1967,12 @@
    "language": "en",
    "difficulty": "hard",
    "difficulty_details": {
-    "range": 16,
-    "distinct": 7,
-    "notes_per_second": 1.03,
-    "big_leaps": 0.14,
-    "shortest": 0.12,
-    "score": 6.0
+    "range": 19,
+    "distinct": 11,
+    "notes_per_second": 1.19,
+    "big_leaps": 0.16,
+    "shortest": 0.1,
+    "score": 8.0
    },
    "duration": 238.787,
    "key": "C major",
@@ -1476,21 +2001,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 202,
+   "note_count": 234,
    "word_count": 226,
    "review": {
-    "checked": 260,
-    "dropped": 17,
-    "octave_fixed": 12,
-    "pitch_fixed": 0,
-    "kept": 231,
-    "outliers_dropped": 3,
+    "checked": 330,
+    "dropped": 27,
+    "octave_fixed": 14,
+    "pitch_fixed": 1,
+    "kept": 288,
+    "outliers_dropped": 2,
     "held": {
-     "before": 240,
-     "same_pitch": 36,
+     "before": 301,
+     "same_pitch": 63,
      "wobbles": 0,
-     "bends": 2,
-     "after": 202
+     "bends": 4,
+     "after": 234
     }
    },
    "lyrics": "transcribed",
@@ -1697,11 +2222,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 12,
-    "distinct": 10,
-    "notes_per_second": 1.17,
-    "big_leaps": 0.06,
-    "shortest": 0.12,
-    "score": 4.0
+    "distinct": 11,
+    "notes_per_second": 1.36,
+    "big_leaps": 0.07,
+    "shortest": 0.08,
+    "score": 5.0
    },
    "duration": 250.256,
    "key": "E minor",
@@ -1723,21 +2248,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 208,
+   "note_count": 242,
    "word_count": 135,
    "review": {
-    "checked": 346,
-    "dropped": 6,
-    "octave_fixed": 1,
-    "pitch_fixed": 0,
-    "kept": 339,
+    "checked": 436,
+    "dropped": 11,
+    "octave_fixed": 2,
+    "pitch_fixed": 2,
+    "kept": 421,
     "outliers_dropped": 1,
     "held": {
-     "before": 339,
-     "same_pitch": 120,
-     "wobbles": 1,
-     "bends": 9,
-     "after": 208
+     "before": 424,
+     "same_pitch": 161,
+     "wobbles": 4,
+     "bends": 13,
+     "after": 242
     }
    },
    "accent_hue": 11,
@@ -1794,6 +2319,73 @@
    "popularity": 0
   },
   {
+   "id": "ellis-band-just-be",
+   "title": "Just Be",
+   "artist": "Ellis band",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "ru",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 12,
+    "notes_per_second": 2.28,
+    "big_leaps": 0.04,
+    "shortest": 0.07,
+    "score": 7.0
+   },
+   "duration": 219.747,
+   "key": "D major",
+   "tempo_bpm": 136.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Just Be\" by Ellis band, from the album \"Just Be\". CC BY 3.0. Published on Jamendo (album 143629); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-143629"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 153,
+   "tags": [
+    "jamendo",
+    "electricguitar",
+    "folk",
+    "guitar",
+    "happy",
+    "love",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 428,
+   "word_count": 209,
+   "review": {
+    "checked": 596,
+    "dropped": 0,
+    "octave_fixed": 5,
+    "pitch_fixed": 0,
+    "kept": 591,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 596,
+     "same_pitch": 150,
+     "wobbles": 2,
+     "bends": 14,
+     "after": 428
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.06,
+   "language_probability": 0.926423966884613,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "evergreen-machine-heartless",
    "title": "Heartless",
    "artist": "Evergreen Machine",
@@ -1804,10 +2396,10 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 19,
-    "distinct": 13,
-    "notes_per_second": 1.78,
-    "big_leaps": 0.13,
-    "shortest": 0.12,
+    "distinct": 15,
+    "notes_per_second": 2.21,
+    "big_leaps": 0.12,
+    "shortest": 0.07,
     "score": 9.0
    },
    "duration": 246.0,
@@ -1837,21 +2429,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 383,
+   "note_count": 475,
    "word_count": 288,
    "review": {
-    "checked": 530,
-    "dropped": 11,
-    "octave_fixed": 13,
+    "checked": 752,
+    "dropped": 22,
+    "octave_fixed": 21,
     "pitch_fixed": 2,
-    "kept": 504,
-    "outliers_dropped": 0,
+    "kept": 707,
+    "outliers_dropped": 1,
     "held": {
-     "before": 519,
-     "same_pitch": 122,
-     "wobbles": 0,
-     "bends": 14,
-     "after": 383
+     "before": 729,
+     "same_pitch": 245,
+     "wobbles": 1,
+     "bends": 7,
+     "after": 475
     }
    },
    "lyrics": "transcribed",
@@ -1870,11 +2462,11 @@
    "language": "fr",
    "difficulty": "easy",
    "difficulty_details": {
-    "range": 8,
+    "range": 9,
     "distinct": 6,
-    "notes_per_second": 1.7,
-    "big_leaps": 0.05,
-    "shortest": 0.12,
+    "notes_per_second": 1.96,
+    "big_leaps": 0.06,
+    "shortest": 0.1,
     "score": 2.0
    },
    "duration": 209.699,
@@ -1897,21 +2489,21 @@
    "featured": false,
    "beginner": true,
    "access": "free",
-   "note_count": 312,
+   "note_count": 359,
    "word_count": 341,
    "review": {
-    "checked": 330,
-    "dropped": 0,
+    "checked": 406,
+    "dropped": 2,
     "octave_fixed": 3,
-    "pitch_fixed": 3,
-    "kept": 324,
+    "pitch_fixed": 2,
+    "kept": 399,
     "outliers_dropped": 0,
     "held": {
-     "before": 330,
-     "same_pitch": 15,
+     "before": 404,
+     "same_pitch": 39,
      "wobbles": 0,
-     "bends": 3,
-     "after": 312
+     "bends": 6,
+     "after": 359
     }
    },
    "accent_hue": 86,
@@ -2115,9 +2707,9 @@
    "difficulty_details": {
     "range": 9,
     "distinct": 9,
-    "notes_per_second": 1.7,
-    "big_leaps": 0.08,
-    "shortest": 0.12,
+    "notes_per_second": 1.94,
+    "big_leaps": 0.07,
+    "shortest": 0.08,
     "score": 4.0
    },
    "duration": 198.975,
@@ -2147,21 +2739,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 336,
+   "note_count": 382,
    "word_count": 272,
    "review": {
-    "checked": 390,
+    "checked": 495,
     "dropped": 0,
     "octave_fixed": 0,
-    "pitch_fixed": 6,
-    "kept": 384,
+    "pitch_fixed": 5,
+    "kept": 490,
     "outliers_dropped": 0,
     "held": {
-     "before": 390,
-     "same_pitch": 53,
-     "wobbles": 0,
-     "bends": 1,
-     "after": 336
+     "before": 495,
+     "same_pitch": 108,
+     "wobbles": 1,
+     "bends": 3,
+     "after": 382
     }
    },
    "lyrics": "transcribed",
@@ -2182,9 +2774,9 @@
    "difficulty_details": {
     "range": 10,
     "distinct": 7,
-    "notes_per_second": 1.06,
-    "big_leaps": 0.09,
-    "shortest": 0.12,
+    "notes_per_second": 1.28,
+    "big_leaps": 0.07,
+    "shortest": 0.08,
     "score": 3.0
    },
    "duration": 190.153,
@@ -2212,21 +2804,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 173,
+   "note_count": 209,
    "word_count": 91,
    "review": {
-    "checked": 272,
-    "dropped": 3,
+    "checked": 393,
+    "dropped": 12,
     "octave_fixed": 6,
-    "pitch_fixed": 0,
-    "kept": 263,
-    "outliers_dropped": 0,
+    "pitch_fixed": 1,
+    "kept": 374,
+    "outliers_dropped": 1,
     "held": {
-     "before": 269,
-     "same_pitch": 92,
-     "wobbles": 0,
-     "bends": 4,
-     "after": 173
+     "before": 380,
+     "same_pitch": 156,
+     "wobbles": 4,
+     "bends": 7,
+     "after": 209
     }
    },
    "lyrics": "transcribed",
@@ -2666,13 +3258,13 @@
    "difficulty_details": {
     "range": 10,
     "distinct": 8,
-    "notes_per_second": 0.95,
-    "big_leaps": 0.1,
-    "shortest": 0.12,
+    "notes_per_second": 1.04,
+    "big_leaps": 0.08,
+    "shortest": 0.1,
     "score": 3.0
    },
    "duration": 184.204,
-   "key": "F major",
+   "key": "D minor",
    "tempo_bpm": 95.7,
    "year": null,
    "licence": {
@@ -2698,21 +3290,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 144,
+   "note_count": 157,
    "word_count": 80,
    "review": {
-    "checked": 230,
+    "checked": 261,
     "dropped": 0,
     "octave_fixed": 0,
-    "pitch_fixed": 6,
-    "kept": 224,
+    "pitch_fixed": 8,
+    "kept": 253,
     "outliers_dropped": 0,
     "held": {
-     "before": 230,
-     "same_pitch": 83,
+     "before": 261,
+     "same_pitch": 100,
      "wobbles": 1,
-     "bends": 1,
-     "after": 144
+     "bends": 2,
+     "after": 157
     }
    },
    "lyrics": "transcribed",
@@ -2969,9 +3561,9 @@
    "difficulty_details": {
     "range": 17,
     "distinct": 9,
-    "notes_per_second": 1.65,
-    "big_leaps": 0.14,
-    "shortest": 0.12,
+    "notes_per_second": 2.05,
+    "big_leaps": 0.13,
+    "shortest": 0.07,
     "score": 8.0
    },
    "duration": 233.633,
@@ -2994,27 +3586,159 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 366,
+   "note_count": 456,
    "word_count": 350,
    "review": {
-    "checked": 417,
-    "dropped": 5,
-    "octave_fixed": 30,
+    "checked": 603,
+    "dropped": 11,
+    "octave_fixed": 47,
     "pitch_fixed": 0,
-    "kept": 382,
+    "kept": 545,
     "outliers_dropped": 2,
     "held": {
-     "before": 410,
-     "same_pitch": 40,
+     "before": 590,
+     "same_pitch": 122,
      "wobbles": 0,
-     "bends": 4,
-     "after": 366
+     "bends": 12,
+     "after": 456
     }
    },
    "accent_hue": 330,
    "added": "2026-11-02",
    "popularity": 0,
    "lyrics": "annotated"
+  },
+  {
+   "id": "jacky-daniel-tu-m-oublies-jacky-daniel",
+   "title": "Tu m'oublies",
+   "artist": "jacky.daniel",
+   "origin": "",
+   "culture": "",
+   "genre": "Chanson",
+   "language": "fr",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 27,
+    "distinct": 21,
+    "notes_per_second": 1.18,
+    "big_leaps": 0.16,
+    "shortest": 0.1,
+    "score": 8.0
+   },
+   "duration": 221.936,
+   "key": "D minor",
+   "tempo_bpm": 95.7,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Tu m'oublies\" by jacky.daniel, from the album \"En quelques mots\". CC BY 3.0. Published on Jamendo (album 144713); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-144713"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "jamendo",
+    "amour",
+    "chansonfrancaise",
+    "guitar",
+    "neutral",
+    "peaceful",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 244,
+   "word_count": 223,
+   "review": {
+    "checked": 324,
+    "dropped": 2,
+    "octave_fixed": 10,
+    "pitch_fixed": 2,
+    "kept": 310,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 321,
+     "same_pitch": 74,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 244
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.21,
+   "language_probability": 0.9258226752281189,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "jeff-j-yes-i-love-you",
+   "title": "Yes i love you",
+   "artist": "Jeff-J",
+   "origin": "",
+   "culture": "",
+   "genre": "Reggae",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 2.58,
+    "big_leaps": 0.07,
+    "shortest": 0.07,
+    "score": 6.0
+   },
+   "duration": 192.679,
+   "key": "G major",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Yes i love you\" by Jeff-J, from the album \"Yes i love you\". CC BY 3.0. Published on Jamendo (album 236511); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-236511"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 110,
+   "tags": [
+    "jamendo",
+    "chansonfrancaise",
+    "happy",
+    "reggae",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 445,
+   "word_count": 312,
+   "review": {
+    "checked": 642,
+    "dropped": 23,
+    "octave_fixed": 7,
+    "pitch_fixed": 1,
+    "kept": 611,
+    "outliers_dropped": 2,
+    "held": {
+     "before": 617,
+     "same_pitch": 164,
+     "wobbles": 1,
+     "bends": 6,
+     "after": 445
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -1.31,
+   "language_probability": 0.6376153826713562,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "jingle-bells",
@@ -3060,6 +3784,140 @@
    "note_count": 98,
    "word_count": 79,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "josh-bonanno-tonight",
+   "title": "Tonight",
+   "artist": "Josh Bonanno",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 20,
+    "distinct": 10,
+    "notes_per_second": 1.54,
+    "big_leaps": 0.18,
+    "shortest": 0.08,
+    "score": 7.0
+   },
+   "duration": 171.59,
+   "key": "G major",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Tonight\" by Josh Bonanno, from the album \"The Journey So Far\". CC BY 3.0. Published on Jamendo (album 143108); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-143108"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 191,
+   "tags": [
+    "jamendo",
+    "emo",
+    "guitar",
+    "love",
+    "nature",
+    "neutral",
+    "nyc"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 238,
+   "word_count": 138,
+   "review": {
+    "checked": 384,
+    "dropped": 4,
+    "octave_fixed": 46,
+    "pitch_fixed": 1,
+    "kept": 333,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 380,
+     "same_pitch": 126,
+     "wobbles": 1,
+     "bends": 14,
+     "after": 238
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.63,
+   "language_probability": 0.9373072981834412,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "josh-woodward-california-lullabye",
+   "title": "California Lullabye",
+   "artist": "Josh Woodward",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 9,
+    "notes_per_second": 1.98,
+    "big_leaps": 0.13,
+    "shortest": 0.1,
+    "score": 8.0
+   },
+   "duration": 253.767,
+   "key": "A major",
+   "tempo_bpm": 89.1,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"California Lullabye\" by Josh Woodward, from the album \"The Beautiful Machine\". CC BY 3.0. Published on Jamendo (album 135128); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-135128"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 139,
+   "tags": [
+    "jamendo",
+    "ballad",
+    "drums",
+    "electricguitar",
+    "folk",
+    "happy",
+    "peaceful"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 423,
+   "word_count": 308,
+   "review": {
+    "checked": 556,
+    "dropped": 16,
+    "octave_fixed": 40,
+    "pitch_fixed": 1,
+    "kept": 499,
+    "outliers_dropped": 2,
+    "held": {
+     "before": 538,
+     "same_pitch": 106,
+     "wobbles": 0,
+     "bends": 9,
+     "after": 423
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -1.53,
+   "language_probability": 0.9924071431159973,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -3307,9 +4165,9 @@
    "difficulty_details": {
     "range": 13,
     "distinct": 13,
-    "notes_per_second": 1.7,
-    "big_leaps": 0.04,
-    "shortest": 0.12,
+    "notes_per_second": 2.11,
+    "big_leaps": 0.03,
+    "shortest": 0.09,
     "score": 7.0
    },
    "duration": 184.203,
@@ -3332,21 +4190,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 263,
+   "note_count": 326,
    "word_count": 256,
    "review": {
-    "checked": 289,
+    "checked": 384,
     "dropped": 0,
     "octave_fixed": 1,
-    "pitch_fixed": 4,
-    "kept": 284,
+    "pitch_fixed": 3,
+    "kept": 380,
     "outliers_dropped": 0,
     "held": {
-     "before": 289,
-     "same_pitch": 24,
-     "wobbles": 0,
-     "bends": 2,
-     "after": 263
+     "before": 384,
+     "same_pitch": 49,
+     "wobbles": 2,
+     "bends": 5,
+     "after": 326
     }
    },
    "accent_hue": 56,
@@ -3600,10 +4458,10 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 16,
-    "distinct": 11,
-    "notes_per_second": 1.74,
-    "big_leaps": 0.09,
-    "shortest": 0.12,
+    "distinct": 14,
+    "notes_per_second": 2.23,
+    "big_leaps": 0.08,
+    "shortest": 0.08,
     "score": 8.0
    },
    "duration": 195.595,
@@ -3626,21 +4484,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 314,
+   "note_count": 403,
    "word_count": 319,
    "review": {
-    "checked": 365,
-    "dropped": 0,
-    "octave_fixed": 3,
-    "pitch_fixed": 12,
-    "kept": 350,
+    "checked": 486,
+    "dropped": 1,
+    "octave_fixed": 4,
+    "pitch_fixed": 9,
+    "kept": 472,
     "outliers_dropped": 0,
     "held": {
-     "before": 365,
-     "same_pitch": 44,
-     "wobbles": 1,
-     "bends": 5,
-     "after": 314
+     "before": 485,
+     "same_pitch": 70,
+     "wobbles": 2,
+     "bends": 8,
+     "after": 403
     }
    },
    "accent_hue": 323,
@@ -3659,11 +4517,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 8,
-    "distinct": 8,
-    "notes_per_second": 1.66,
+    "distinct": 9,
+    "notes_per_second": 1.91,
     "big_leaps": 0.07,
-    "shortest": 0.12,
-    "score": 3.0
+    "shortest": 0.09,
+    "score": 4.0
    },
    "duration": 225.273,
    "key": "B minor",
@@ -3685,27 +4543,157 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 339,
+   "note_count": 390,
    "word_count": 254,
    "review": {
-    "checked": 395,
+    "checked": 491,
     "dropped": 0,
     "octave_fixed": 0,
-    "pitch_fixed": 10,
-    "kept": 385,
+    "pitch_fixed": 7,
+    "kept": 484,
     "outliers_dropped": 0,
     "held": {
-     "before": 395,
-     "same_pitch": 49,
-     "wobbles": 0,
-     "bends": 7,
-     "after": 339
+     "before": 491,
+     "same_pitch": 73,
+     "wobbles": 4,
+     "bends": 20,
+     "after": 390
     }
    },
    "accent_hue": 17,
    "added": "2026-11-02",
    "popularity": 0,
    "lyrics": "annotated"
+  },
+  {
+   "id": "leo-walden-en-toute-securite",
+   "title": "En toute sécurité",
+   "artist": "Leo Walden",
+   "origin": "",
+   "culture": "",
+   "genre": "Chanson",
+   "language": "fr",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 9,
+    "notes_per_second": 2.43,
+    "big_leaps": 0.04,
+    "shortest": 0.07,
+    "score": 8.0
+   },
+   "duration": 229.297,
+   "key": "B minor",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"En toute sécurité\" by Leo Walden, from the album \"Leo Walden\". CC BY 3.0. Published on Jamendo (album 154221); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-154221"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 208,
+   "tags": [
+    "jamendo",
+    "chansonfrancaise",
+    "drums",
+    "energetic",
+    "guitar",
+    "neutral",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 545,
+   "word_count": 460,
+   "review": {
+    "checked": 659,
+    "dropped": 7,
+    "octave_fixed": 12,
+    "pitch_fixed": 1,
+    "kept": 639,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 651,
+     "same_pitch": 91,
+     "wobbles": 1,
+     "bends": 13,
+     "after": 545
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.59,
+   "language_probability": 0.9049457311630249,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "lepellec-dominique-les-brumes-reverb",
+   "title": "les brumes reverb",
+   "artist": "Lepellec dominique",
+   "origin": "",
+   "culture": "",
+   "genre": "World",
+   "language": "fr",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 0.83,
+    "big_leaps": 0.05,
+    "shortest": 0.09,
+    "score": 3.0
+   },
+   "duration": 194.467,
+   "key": "G major",
+   "tempo_bpm": 112.3,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"les brumes reverb\" by Lepellec dominique, from the album \"voice of the dream\". CC BY 3.0. Published on Jamendo (album 122609); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-122609"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "jamendo",
+    "celtic",
+    "harp"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 131,
+   "word_count": 103,
+   "review": {
+    "checked": 166,
+    "dropped": 6,
+    "octave_fixed": 1,
+    "pitch_fixed": 0,
+    "kept": 159,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 159,
+     "same_pitch": 22,
+     "wobbles": 1,
+     "bends": 4,
+     "after": 131
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 1.79,
+   "language_probability": 0.9639752507209778,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "loch-lomond",
@@ -3811,10 +4799,10 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 20,
-    "distinct": 11,
-    "notes_per_second": 1.32,
+    "distinct": 12,
+    "notes_per_second": 1.36,
     "big_leaps": 0.1,
-    "shortest": 0.14,
+    "shortest": 0.09,
     "score": 8.0
    },
    "duration": 166.014,
@@ -3837,21 +4825,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 180,
+   "note_count": 186,
    "word_count": 88,
    "review": {
-    "checked": 267,
+    "checked": 320,
     "dropped": 3,
     "octave_fixed": 2,
-    "pitch_fixed": 7,
-    "kept": 255,
+    "pitch_fixed": 6,
+    "kept": 309,
     "outliers_dropped": 0,
     "held": {
-     "before": 264,
-     "same_pitch": 84,
-     "wobbles": 0,
-     "bends": 0,
-     "after": 180
+     "before": 317,
+     "same_pitch": 126,
+     "wobbles": 1,
+     "bends": 3,
+     "after": 186
     }
    },
    "accent_hue": 154,
@@ -3870,10 +4858,10 @@
    "difficulty": "easy",
    "difficulty_details": {
     "range": 9,
-    "distinct": 5,
-    "notes_per_second": 1.7,
+    "distinct": 6,
+    "notes_per_second": 2.05,
     "big_leaps": 0.06,
-    "shortest": 0.12,
+    "shortest": 0.07,
     "score": 2.0
    },
    "duration": 180.061,
@@ -3896,21 +4884,21 @@
    "featured": false,
    "beginner": true,
    "access": "free",
-   "note_count": 239,
+   "note_count": 288,
    "word_count": 212,
    "review": {
-    "checked": 281,
-    "dropped": 7,
-    "octave_fixed": 5,
-    "pitch_fixed": 0,
-    "kept": 269,
+    "checked": 382,
+    "dropped": 11,
+    "octave_fixed": 7,
+    "pitch_fixed": 1,
+    "kept": 363,
     "outliers_dropped": 1,
     "held": {
-     "before": 273,
-     "same_pitch": 33,
+     "before": 370,
+     "same_pitch": 79,
      "wobbles": 0,
-     "bends": 1,
-     "after": 239
+     "bends": 3,
+     "after": 288
     }
    },
    "accent_hue": 205,
@@ -3977,10 +4965,10 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 12,
-    "distinct": 12,
-    "notes_per_second": 1.74,
-    "big_leaps": 0.08,
-    "shortest": 0.12,
+    "distinct": 11,
+    "notes_per_second": 2.15,
+    "big_leaps": 0.05,
+    "shortest": 0.09,
     "score": 6.0
    },
    "duration": 198.16,
@@ -4010,26 +4998,93 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 301,
+   "note_count": 371,
    "word_count": 193,
    "review": {
-    "checked": 371,
-    "dropped": 2,
+    "checked": 507,
+    "dropped": 10,
     "octave_fixed": 0,
-    "pitch_fixed": 1,
-    "kept": 368,
+    "pitch_fixed": 0,
+    "kept": 497,
     "outliers_dropped": 0,
     "held": {
-     "before": 369,
-     "same_pitch": 63,
-     "wobbles": 0,
-     "bends": 5,
-     "after": 301
+     "before": 497,
+     "same_pitch": 109,
+     "wobbles": 1,
+     "bends": 15,
+     "after": 371
     }
    },
    "lyrics": "transcribed",
    "gain_db": -6.46,
    "language_probability": 0.9683297872543335,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "melanie-ungar-what-is-love",
+   "title": "What Is Love",
+   "artist": "Melanie Ungar",
+   "origin": "",
+   "culture": "",
+   "genre": "Country",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 8,
+    "notes_per_second": 2.21,
+    "big_leaps": 0.04,
+    "shortest": 0.1,
+    "score": 4.0
+   },
+   "duration": 212.023,
+   "key": "F major",
+   "tempo_bpm": 92.3,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"What Is Love\" by Melanie Ungar, from the album \"What Is Love\". CC BY 3.0. Published on Jamendo (album 144705); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-144705"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 95,
+   "tags": [
+    "jamendo",
+    "country",
+    "county",
+    "fun",
+    "guitar",
+    "happy",
+    "love"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 454,
+   "word_count": 317,
+   "review": {
+    "checked": 576,
+    "dropped": 8,
+    "octave_fixed": 3,
+    "pitch_fixed": 1,
+    "kept": 564,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 568,
+     "same_pitch": 110,
+     "wobbles": 0,
+     "bends": 4,
+     "after": 454
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.29,
+   "language_probability": 0.9573861360549927,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -4229,12 +5284,12 @@
    "language": "es",
    "difficulty": "hard",
    "difficulty_details": {
-    "range": 17,
+    "range": 14,
     "distinct": 9,
-    "notes_per_second": 1.71,
+    "notes_per_second": 1.83,
     "big_leaps": 0.05,
-    "shortest": 0.12,
-    "score": 7.0
+    "shortest": 0.1,
+    "score": 6.0
    },
    "duration": 261.6,
    "key": "D minor",
@@ -4256,21 +5311,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 394,
+   "note_count": 422,
    "word_count": 334,
    "review": {
-    "checked": 500,
-    "dropped": 74,
+    "checked": 557,
+    "dropped": 85,
     "octave_fixed": 1,
-    "pitch_fixed": 2,
-    "kept": 423,
+    "pitch_fixed": 1,
+    "kept": 470,
     "outliers_dropped": 0,
     "held": {
-     "before": 426,
-     "same_pitch": 32,
+     "before": 472,
+     "same_pitch": 50,
      "wobbles": 0,
      "bends": 0,
-     "after": 394
+     "after": 422
     }
    },
    "accent_hue": 160,
@@ -4467,6 +5522,73 @@
    "popularity": 0
   },
   {
+   "id": "ocean-jet-ocean-jet-in-red",
+   "title": "In Red",
+   "artist": "Ocean Jet",
+   "origin": "",
+   "culture": "",
+   "genre": "Indie",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 29,
+    "distinct": 14,
+    "notes_per_second": 1.52,
+    "big_leaps": 0.12,
+    "shortest": 0.07,
+    "score": 8.0
+   },
+   "duration": 204.548,
+   "key": "Bb minor",
+   "tempo_bpm": 143.6,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"In Red\" by Ocean Jet, from the album \"Vengeance (2015)\". CC BY 3.0. Published on Jamendo (album 145552); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-145552"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "jamendo",
+    "atmospherical",
+    "dark",
+    "electropop",
+    "guitar",
+    "indie",
+    "neutral"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 281,
+   "word_count": 157,
+   "review": {
+    "checked": 397,
+    "dropped": 15,
+    "octave_fixed": 12,
+    "pitch_fixed": 1,
+    "kept": 369,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 382,
+     "same_pitch": 98,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 281
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -7.27,
+   "language_probability": 0.8660885691642761,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "ochi-chyornye",
    "title": "Ochi Chyornye (Dark Eyes)",
    "artist": "Florian Hermann / Yevhen Hrebinka",
@@ -4617,11 +5739,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 11,
-    "distinct": 9,
-    "notes_per_second": 0.83,
+    "distinct": 12,
+    "notes_per_second": 0.97,
     "big_leaps": 0.03,
-    "shortest": 0.12,
-    "score": 4.0
+    "shortest": 0.1,
+    "score": 5.0
    },
    "duration": 251.25,
    "key": "F# minor",
@@ -4650,26 +5772,93 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 156,
+   "note_count": 183,
    "word_count": 155,
    "review": {
-    "checked": 166,
+    "checked": 202,
     "dropped": 0,
     "octave_fixed": 0,
-    "pitch_fixed": 7,
-    "kept": 159,
+    "pitch_fixed": 5,
+    "kept": 197,
     "outliers_dropped": 0,
     "held": {
-     "before": 166,
-     "same_pitch": 7,
+     "before": 202,
+     "same_pitch": 14,
      "wobbles": 0,
-     "bends": 3,
-     "after": 156
+     "bends": 5,
+     "after": 183
     }
    },
    "lyrics": "transcribed",
    "gain_db": -0.0,
    "language_probability": 0.8240759968757629,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "rasmus-soderberg-favorite-shade-of-blue",
+   "title": "Favorite Shade Of Blue",
+   "artist": "Rasmus Söderberg",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 14,
+    "notes_per_second": 1.39,
+    "big_leaps": 0.06,
+    "shortest": 0.08,
+    "score": 7.0
+   },
+   "duration": 252.633,
+   "key": "E minor",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Favorite Shade Of Blue\" by Rasmus Söderberg, from the album \"All I Want Us To Know Pt.1\". CC BY 3.0. Published on Jamendo (album 152031); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-152031"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 194,
+   "tags": [
+    "jamendo",
+    "electricguitar",
+    "guitar",
+    "indie",
+    "love",
+    "peaceful",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 312,
+   "word_count": 223,
+   "review": {
+    "checked": 418,
+    "dropped": 0,
+    "octave_fixed": 3,
+    "pitch_fixed": 2,
+    "kept": 413,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 418,
+     "same_pitch": 84,
+     "wobbles": 1,
+     "bends": 20,
+     "after": 312
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -2.55,
+   "language_probability": 0.9456178545951843,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -4685,9 +5874,9 @@
    "difficulty_details": {
     "range": 12,
     "distinct": 8,
-    "notes_per_second": 1.43,
+    "notes_per_second": 1.53,
     "big_leaps": 0.05,
-    "shortest": 0.12,
+    "shortest": 0.1,
     "score": 3.0
    },
    "duration": 159.824,
@@ -4717,21 +5906,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 220,
+   "note_count": 236,
    "word_count": 115,
    "review": {
-    "checked": 345,
-    "dropped": 13,
-    "octave_fixed": 5,
+    "checked": 406,
+    "dropped": 18,
+    "octave_fixed": 6,
     "pitch_fixed": 0,
-    "kept": 327,
+    "kept": 382,
     "outliers_dropped": 0,
     "held": {
-     "before": 332,
-     "same_pitch": 106,
+     "before": 388,
+     "same_pitch": 144,
      "wobbles": 2,
-     "bends": 2,
-     "after": 220
+     "bends": 4,
+     "after": 236
     }
    },
    "lyrics": "transcribed",
@@ -4798,9 +5987,9 @@
    "difficulty_details": {
     "range": 10,
     "distinct": 6,
-    "notes_per_second": 1.78,
-    "big_leaps": 0.15,
-    "shortest": 0.12,
+    "notes_per_second": 2.14,
+    "big_leaps": 0.12,
+    "shortest": 0.07,
     "score": 4.0
    },
    "duration": 216.555,
@@ -4823,21 +6012,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 349,
+   "note_count": 420,
    "word_count": 440,
    "review": {
-    "checked": 470,
-    "dropped": 31,
-    "octave_fixed": 1,
+    "checked": 674,
+    "dropped": 51,
+    "octave_fixed": 5,
     "pitch_fixed": 0,
-    "kept": 438,
+    "kept": 618,
     "outliers_dropped": 1,
     "held": {
-     "before": 438,
-     "same_pitch": 89,
-     "wobbles": 0,
+     "before": 622,
+     "same_pitch": 198,
+     "wobbles": 2,
      "bends": 0,
-     "after": 349
+     "after": 420
     }
    },
    "accent_hue": 202,
@@ -5041,14 +6230,14 @@
    "culture": "",
    "genre": "Acoustic",
    "language": "en",
-   "difficulty": "medium",
+   "difficulty": "hard",
    "difficulty_details": {
-    "range": 15,
-    "distinct": 10,
-    "notes_per_second": 1.33,
-    "big_leaps": 0.07,
-    "shortest": 0.12,
-    "score": 5.0
+    "range": 17,
+    "distinct": 12,
+    "notes_per_second": 1.55,
+    "big_leaps": 0.06,
+    "shortest": 0.08,
+    "score": 7.0
    },
    "duration": 259.013,
    "key": "Ab major",
@@ -5077,21 +6266,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 275,
+   "note_count": 320,
    "word_count": 105,
    "review": {
-    "checked": 371,
-    "dropped": 7,
-    "octave_fixed": 12,
-    "pitch_fixed": 4,
-    "kept": 348,
+    "checked": 495,
+    "dropped": 13,
+    "octave_fixed": 19,
+    "pitch_fixed": 5,
+    "kept": 458,
     "outliers_dropped": 0,
     "held": {
-     "before": 364,
-     "same_pitch": 84,
-     "wobbles": 0,
-     "bends": 5,
-     "after": 275
+     "before": 482,
+     "same_pitch": 151,
+     "wobbles": 2,
+     "bends": 7,
+     "after": 320
     }
    },
    "lyrics": "transcribed",
@@ -5238,6 +6427,73 @@
    "note_count": 82,
    "word_count": 51,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "shor",
+   "title": "Я у себя есть.",
+   "artist": "SHOR",
+   "origin": "",
+   "culture": "",
+   "genre": "Rock",
+   "language": "ru",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 22,
+    "distinct": 11,
+    "notes_per_second": 2.32,
+    "big_leaps": 0.09,
+    "shortest": 0.06,
+    "score": 9.0
+   },
+   "duration": 239.909,
+   "key": "C# minor",
+   "tempo_bpm": 161.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Я у себя есть.\" by SHOR, from the album \"2025\". CC BY 3.0. Published on Jamendo (album 596321); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-596321"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 11,
+   "tags": [
+    "jamendo",
+    "electricguitar",
+    "guitar",
+    "happy",
+    "neutral",
+    "rock",
+    "rockabilly"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 463,
+   "word_count": 201,
+   "review": {
+    "checked": 640,
+    "dropped": 18,
+    "octave_fixed": 15,
+    "pitch_fixed": 1,
+    "kept": 606,
+    "outliers_dropped": 4,
+    "held": {
+     "before": 618,
+     "same_pitch": 145,
+     "wobbles": 2,
+     "bends": 6,
+     "after": 463
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 0.98,
+   "language_probability": 0.8810786604881287,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -5426,6 +6682,73 @@
    "popularity": 0
   },
   {
+   "id": "the-dream-pop-project-wishing-well",
+   "title": "Wishing well",
+   "artist": "The Dream Pop Project",
+   "origin": "",
+   "culture": "",
+   "genre": "Indie",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 1.25,
+    "big_leaps": 0.07,
+    "shortest": 0.1,
+    "score": 3.0
+   },
+   "duration": 192.361,
+   "key": "F# major",
+   "tempo_bpm": 107.7,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Wishing well\" by The Dream Pop Project, from the album \"Last Call\". CC BY 3.0. Published on Jamendo (album 170561); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-170561"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 203,
+   "tags": [
+    "jamendo",
+    "dreampop",
+    "guitar",
+    "indiepop",
+    "neutral",
+    "sad",
+    "synthesizer"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 169,
+   "word_count": 110,
+   "review": {
+    "checked": 319,
+    "dropped": 4,
+    "octave_fixed": 2,
+    "pitch_fixed": 1,
+    "kept": 312,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 315,
+     "same_pitch": 146,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 169
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -7.75,
+   "language_probability": 0.9101567268371582,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "the-first-noel",
    "title": "The First Noel",
    "artist": "Traditional",
@@ -5469,6 +6792,70 @@
    "note_count": 72,
    "word_count": 44,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "the-fourth-horseman-lovers-liars",
+   "title": "Lovers & Liars",
+   "artist": "The Fourth Horseman",
+   "origin": "",
+   "culture": "",
+   "genre": "Rock",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 20,
+    "distinct": 11,
+    "notes_per_second": 2.22,
+    "big_leaps": 0.06,
+    "shortest": 0.1,
+    "score": 8.0
+   },
+   "duration": 188.317,
+   "key": "A major",
+   "tempo_bpm": 99.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Lovers & Liars\" by The Fourth Horseman, from the album \"Lovers & Liars\". CC BY 3.0. Published on Jamendo (album 216191); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-216191"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 13,
+   "tags": [
+    "jamendo",
+    "alternativerock",
+    "neutral",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 384,
+   "word_count": 210,
+   "review": {
+    "checked": 536,
+    "dropped": 11,
+    "octave_fixed": 7,
+    "pitch_fixed": 1,
+    "kept": 517,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 524,
+     "same_pitch": 135,
+     "wobbles": 0,
+     "bends": 5,
+     "after": 384
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.91,
+   "language_probability": 0.9550267457962036,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -5527,11 +6914,11 @@
    "language": "en",
    "difficulty": "medium",
    "difficulty_details": {
-    "range": 19,
-    "distinct": 8,
-    "notes_per_second": 0.85,
-    "big_leaps": 0.07,
-    "shortest": 0.12,
+    "range": 18,
+    "distinct": 7,
+    "notes_per_second": 0.89,
+    "big_leaps": 0.08,
+    "shortest": 0.1,
     "score": 5.0
    },
    "duration": 274.0,
@@ -5561,21 +6948,21 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 198,
+   "note_count": 207,
    "word_count": 102,
    "review": {
-    "checked": 331,
-    "dropped": 1,
-    "octave_fixed": 8,
+    "checked": 364,
+    "dropped": 4,
+    "octave_fixed": 10,
     "pitch_fixed": 1,
-    "kept": 321,
+    "kept": 349,
     "outliers_dropped": 1,
     "held": {
-     "before": 329,
-     "same_pitch": 125,
-     "wobbles": 0,
+     "before": 359,
+     "same_pitch": 144,
+     "wobbles": 1,
      "bends": 6,
-     "after": 198
+     "after": 207
     }
    },
    "lyrics": "transcribed",
@@ -5768,6 +7155,73 @@
    "access": "free",
    "note_count": 60,
    "word_count": 40,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "vitne-masquerade",
+   "title": "Masquerade",
+   "artist": "VITNE",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 24,
+    "distinct": 11,
+    "notes_per_second": 1.5,
+    "big_leaps": 0.14,
+    "shortest": 0.1,
+    "score": 8.0
+   },
+   "duration": 227.541,
+   "key": "E major",
+   "tempo_bpm": 103.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Masquerade\" by VITNE, from the album \"Masquerade\". CC BY 3.0. Published on Jamendo (album 159742); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-159742"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 191,
+   "tags": [
+    "jamendo",
+    "flute",
+    "guitar",
+    "indie",
+    "love",
+    "motleycrue",
+    "neutral"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 335,
+   "word_count": 238,
+   "review": {
+    "checked": 524,
+    "dropped": 8,
+    "octave_fixed": 21,
+    "pitch_fixed": 1,
+    "kept": 494,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 515,
+     "same_pitch": 177,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 335
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.27,
+   "language_probability": 0.9067600965499878,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -6095,6 +7549,73 @@
    "access": "free",
    "note_count": 92,
    "word_count": 37,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "yukon-yukon-its-so-cold-without-you",
+   "title": "Its So Cold Without You",
+   "artist": "YUKON",
+   "origin": "",
+   "culture": "",
+   "genre": "Blues",
+   "language": "ru",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 9,
+    "notes_per_second": 1.1,
+    "big_leaps": 0.05,
+    "shortest": 0.07,
+    "score": 4.0
+   },
+   "duration": 241.0,
+   "key": "D minor",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Its So Cold Without You\" by YUKON, from the album \"POW-WOW HARD BOOGIE\". CC BY 3.0. Published on Jamendo (album 153317); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-153317"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 213,
+   "tags": [
+    "jamendo",
+    "bikers",
+    "blues",
+    "electricguitar",
+    "energetic",
+    "guitar",
+    "love"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 220,
+   "word_count": 157,
+   "review": {
+    "checked": 274,
+    "dropped": 22,
+    "octave_fixed": 7,
+    "pitch_fixed": 0,
+    "kept": 245,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 251,
+     "same_pitch": 26,
+     "wobbles": 1,
+     "bends": 3,
+     "after": 220
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -7.68,
+   "language_probability": 0.9470438957214355,
    "added": "2026-11-05",
    "popularity": 0
   }

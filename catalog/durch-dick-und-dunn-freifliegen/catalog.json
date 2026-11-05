@@ -9,11 +9,11 @@
  "difficulty": "medium",
  "difficulty_details": {
   "range": 12,
-  "distinct": 10,
-  "notes_per_second": 1.17,
-  "big_leaps": 0.06,
-  "shortest": 0.12,
-  "score": 4.0
+  "distinct": 11,
+  "notes_per_second": 1.36,
+  "big_leaps": 0.07,
+  "shortest": 0.08,
+  "score": 5.0
  },
  "duration": 250.256,
  "key": "E minor",
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 208,
+ "note_count": 242,
  "word_count": 135,
  "review": {
-  "checked": 346,
-  "dropped": 6,
-  "octave_fixed": 1,
-  "pitch_fixed": 0,
-  "kept": 339,
+  "checked": 436,
+  "dropped": 11,
+  "octave_fixed": 2,
+  "pitch_fixed": 2,
+  "kept": 421,
   "outliers_dropped": 1,
   "held": {
-   "before": 339,
-   "same_pitch": 120,
-   "wobbles": 1,
-   "bends": 9,
-   "after": 208
+   "before": 424,
+   "same_pitch": 161,
+   "wobbles": 4,
+   "bends": 13,
+   "after": 242
   }
  },
  "accent_hue": 11,

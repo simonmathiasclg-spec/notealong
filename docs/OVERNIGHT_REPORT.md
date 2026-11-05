@@ -1,10 +1,84 @@
 # Overnight improvement run
 
-Started 4 November 2026, late evening. This file is written as the work goes, part by part.
-Each part ends with the Python tests, the frontend tests and the production build passing, then a commit and a push.
+Started 4 November 2026, late evening; finished about 09:30 on 5 November. This file was written as the
+work went, part by part. Each part ended with the Python tests, the frontend tests and the production
+build passing, then a commit and a push.
 
-Baseline before the run: 31 Python tests, 27 frontend tests, production build passing, 59 catalog songs
-(48 hand-authored public domain, 11 Creative Commons recordings).
+## Summary
+
+| Part | Status | In one line |
+|---|---|---|
+| 1. Timing guide | done | Duration bar under every note, a line that sweeps through the words, a "get ready" outline one beat ahead, a 3-2-1 count after pauses longer than 2 s. On by default. |
+| 2. Held notes | done | Fragments of one sustained sound are joined (same pitch, scoops, tails, vibrato flips); real repeats are protected by a syllable count. 16 tests. |
+| 3. Hear it played | done | 11 sampled instruments from verified free recordings, played live in the browser at sounding pitch; every note within 16 ms of the backing track over whole songs at 1x and 0.5x. |
+| 4. Backing tracks | done | 23 band styles, intros on every song, moving bass, drum fills, a real mix at -16 LUFS; all hand-authored songs re-rendered; 10 files to listen to. |
+| 5. Catalog | done, one song short | 59 to 144 songs: +46 public domain (target 30), +39 Creative Commons recordings (target 40). Discover reworked for the larger catalog. |
+| 6. Accuracy | done | Evaluation against an independent reference; tempo-aware thresholds; note F1 0.56 to 0.61, fast songs 0.52 to 0.59, no song worse. |
+
+**Catalog, by source**
+
+| Source | Before | After |
+|---|---|---|
+| Hand-authored public-domain songs | 48 | 94 |
+| Creative Commons recordings, JamendoLyrics set (hand-timed words) | 11 | 11 |
+| Creative Commons recordings, Internet Archive mirror of Jamendo (CC BY 3.0) | 0 | 39 |
+| **Total** | **59** | **144** |
+
+19 languages, 32 easy songs, 76 medium, 36 hard.
+
+**Checks at the end:** 53 Python tests, 65 frontend tests, production build passing, lint unchanged from
+before the run (11 old findings in the original player code). All 94 rendered backing tracks pass the
+audio audit.
+
+**Licences:** every instrument recording and soundfont, with the terms it is used under and the ones that
+were rejected, is in `catalog/LICENSES.md`.
+
+### What went wrong
+
+- **About five hours were lost between roughly 01:20 and 08:10.** I ran three import processes and an
+  evaluation job at once. Each holds several gigabytes of models; together they exhausted the machine's
+  memory, swap grew to 49 GB and everything slowed to a crawl. I only saw it when a simple command took
+  an hour to return. I stopped the jobs, let the machine recover and ran one import at a time after that
+  (about a song a minute). The cost: 39 recordings instead of 40 or more, the first 11 recordings not
+  re-imported, and less time for listening-sample variety. Nothing was corrupted: half-finished imports
+  were deleted and every kept song was re-checked. The importer's documentation now says to run one at a time.
+- **Your Mac may still feel slow** until the swap drains; a restart clears it.
+- I restarted the local web and service processes during the night so they would run the new code. Both
+  are running now on the usual ports.
+
+### Things I could not do, or chose not to
+
+- **Listen.** Everything about sound was verified by measurement. `docs/listening-samples/` is there so
+  you can judge the sax tone, the band arrangements and the mix with your ears.
+- **40 recordings.** 39. Archive.org started refusing requests at the end.
+- **A person's check of the recordings' words and rights** (see Part 5).
+- **Africa, India and the Arabic-speaking world** are barely represented among the new public-domain songs:
+  the candidates lacked either a documented early origin or a score that could be checked.
+- **A real baritone sax recording.** The baritone is the tenor played a fifth lower.
+- **A hand-written answer key for accuracy.** The reference in Part 6 is built from human word timings and
+  a second pitch tracker; it is good for before/after, less so for absolute numbers.
+- No free tier, paywall, accounts or payments were built, as instructed.
+
+### Top five things I would do next
+
+1. **Have a musician write out the notes of three or four recordings.** That gives a real answer key, turns
+   Part 6 from "better by our measure" into "right", and shows where the pipeline is actually wrong.
+2. **Syllable-level word timing** (forced alignment of the lyrics to the voice). Most remaining held-note
+   mistakes come from word boundaries falling in the middle of a held note; with syllables, the
+   display could also put one letter per syllable reliably.
+3. **A rights and words review of the 39 new recordings**, then a credits page listing every Creative
+   Commons song with artist, licence and link. Needed before the app is sold.
+4. **Listen to the ten samples and tune by ear**: the sax brightness, the level of each band member, the
+   drum fills. The numbers to change are a handful of constants in `build_instruments.py` and `render.py`.
+5. **Stop accidental loops.** Dragging on the progress line creates a loop; two songs on this machine
+   have one saved over most of their length. A drag should scrub, and looping should need a deliberate
+   gesture (Shift-drag, or a "Loop" mode button).
+
+Also worth doing: re-import the first 11 recordings for matched loudness; more soul, R&B and upbeat pop
+(they may need a different source than Jamendo's CC BY catalog); a "Simple" default for fast songs if the
+extra short notes from Part 6 feel like too much.
+
+---
 
 ## Part 1: timing guide
 
@@ -414,7 +488,113 @@ documented early origin and a checkable score. That needs a person with the righ
 
 ### Creative Commons recordings
 
-(This section is being written while the last imports finish.)
+**39 added (11 before, 50 now).** One short of the 40 the brief asked for; the reason is in "What went
+wrong" at the top of this report.
+
+**Where they come from.** Jamendo's own site cannot be searched or licence-checked without an account,
+and ccMixter and the Free Music Archive still refuse scripted downloads. The Internet Archive holds a
+mirror of Jamendo albums (collection `jamendo-albums`), and each album record there carries its licence
+URL. `service/scripts/import_ia_jamendo.py` works from that:
+
+1. Only albums whose record has a CC BY or CC BY-SA licence URL (about 27,000 of 294,000 albums). The
+   licence is read a second time from the album's own metadata before anything is downloaded.
+2. Tags must suggest a song with singing (pop, rock, folk, soul, blues, reggae, latin, country, chanson,
+   and so on) and none of 60 tags that suggest otherwise (instrumental, ambient, techno, rap, metal...).
+3. One track per album, 2:10 to 4:50 long, not a remix, live take, demo or cover by its title.
+4. Two 20-second excerpts are separated; albums without a clear voice are dropped.
+5. Full import: stems, notes, review of every note against pYIN, held notes joined, words by Whisper with
+   automatic language detection. Stems are loudness-matched to the built-in tracks (128 kbps backing,
+   64 kbps mono guide vocal, so each song costs about 5 MB in the repository).
+6. Automatic judgement: dropped if there is too little singing, if it is spoken or rapped, if the melody
+   barely moves, if the second pitch tracker rejects more than 22 % of the notes, or if the language is unclear.
+7. One song per artist, capped per style so no style dominates.
+8. **I read the opening words of every imported song.** That caught two covers of famous songs that carried
+   a CC licence their uploaders had no right to give: "Peter Pan" (the words of Disney's "You Can Fly!")
+   and "My Way". Both were removed and blocked, with six more removed for unusable words or unsuitable
+   content. The MTG-Jamendo research dataset would have been a quicker way to find tracks, but its terms
+   forbid commercial use of the dataset, so it was not used.
+
+**The numbers.** 84 albums were tried: 39 kept, 10 had no clear vocals, 10 had no track of a usable length
+or title, 8 failed to download, 8 were removed by hand, 7 failed the automatic judgement, and 2 were
+second songs by an artist already in.
+
+| Style | Songs | | Language | Songs |
+|---|---|---|---|---|
+| Folk | 6 | | English | 24 |
+| Indie | 5 | | Russian | 6 |
+| Acoustic | 5 | | French | 5 |
+| Chanson | 4 | | Portuguese | 2 |
+| Country | 4 | | Italian | 1 |
+| World | 3 | | German | 1 |
+| Blues | 3 | | | |
+| Latin, Pop, Reggae, Rock | 2 each | | | |
+| Soul & R&B | 1 | | | |
+
+All 39 are CC BY 3.0. The brief asked for R&B, soul and upbeat pop in particular: those are the thinnest
+(3 songs between them). Jamendo's CC BY catalog leans to rock, folk and singer-songwriters.
+
+| Artist | Song | Style | Language | Notes | Words |
+|---|---|---|---|---|---|
+| A Jovian Night | Fool In Modern Times | Indie | en | 322 | 197 |
+| Abrids | take a seat | Indie | en | 277 | 223 |
+| Adragante | le manoir | Chanson | fr | 192 | 176 |
+| AGORA-OU-NUNCA | ASK GOD | Latin | pt | 403 | 330 |
+| Al Ryden | Quiet haven | World | ru | 368 | 148 |
+| Alobi | alobi e menestrello | World | it | 220 | 133 |
+| Anastasia Glam | Зая, еду к тебе... | Pop | ru | 418 | 232 |
+| Berkley Mallin | Caught on the Wire | Folk | en | 271 | 198 |
+| BETP5 | Tool and Die | Folk | en | 314 | 274 |
+| Billie | Oh My Love | Acoustic | en | 206 | 118 |
+| Black_Angel | Не подходи ко мне | Blues | ru | 206 | 169 |
+| Dan Falvey | When diamonds turn to dust | Folk | en | 230 | 136 |
+| David Crowe | Eternity | Soul & R&B | en | 153 | 82 |
+| Devon Elizabeth | Outta Here | Country | en | 345 | 137 |
+| Dirty Dukes | Don't Forget To Breathe | Blues | en | 234 | 226 |
+| Ellis band | Just Be | Folk | ru | 428 | 209 |
+| Evergreen Machine | Heartless | Country | en | 475 | 288 |
+| Gamssy Ghoulz | Poucet | Chanson | fr | 382 | 272 |
+| Giocol | The fool with a thousand ridiculous faces | Pop | en | 209 | 91 |
+| Heiko Sunfyah | Die Geburt | Reggae | de | 157 | 80 |
+| jacky.daniel | Tu m'oublies | Chanson | fr | 244 | 223 |
+| Jeff-J | Yes i love you | Reggae | en | 445 | 312 |
+| Josh Bonanno | Tonight | Acoustic | en | 238 | 138 |
+| Josh Woodward | California Lullabye | Folk | en | 423 | 308 |
+| Leo Walden | En toute sécurité | Chanson | fr | 545 | 460 |
+| Lepellec dominique | les brumes reverb | World | fr | 131 | 103 |
+| marcello correa e castro | TROMBADINHA | Latin | pt | 371 | 193 |
+| Melanie Ungar | What Is Love | Country | en | 454 | 317 |
+| Ocean Jet | In Red | Indie | en | 281 | 157 |
+| Prey For Penguins | The First One | Folk | en | 183 | 155 |
+| Rasmus Söderberg | Favorite Shade Of Blue | Acoustic | en | 312 | 223 |
+| Rinzo & The Hey Hey Panthers | Run run Superman | Indie | en | 236 | 115 |
+| Seth Power | Messes | Acoustic | en | 320 | 105 |
+| SHOR | Я у себя есть. | Rock | ru | 463 | 201 |
+| The Dream Pop Project | Wishing well | Indie | en | 169 | 110 |
+| The Fourth Horseman | Lovers & Liars | Rock | en | 384 | 210 |
+| The woods | An Angel In Fly | Country | en | 207 | 102 |
+| VITNE | Masquerade | Acoustic | en | 335 | 238 |
+| YUKON | Its So Cold Without You | Blues | ru | 220 | 157 |
+
+**What you should know before selling these.**
+
+- **The words are Whisper's, not checked by a person.** Several songs have long stretches where no words
+  were heard (Devon Elizabeth, Seth Power, SHOR, Rinzo, Dan Falvey: a quarter to a third of their notes
+  have no word under them). The notes there are still shown, as "no words" blocks. Settings now say this
+  plainly, and edit mode works on built-in songs.
+- **A CC licence on Jamendo is the uploader's claim.** I removed the two covers I could recognise from
+  the words. I cannot rule out a less famous cover, a sample, or words taken from a poem. "le manoir" by
+  Adragante reads like a set poem; I could not identify it. Before charging for the app, someone should
+  look through this list of 39 once.
+- **CC BY needs credit.** Artist, title, licence and source are stored for every song and shown in the
+  song's settings and on the print sheet. A credits page listing all of them would be the safe addition.
+- **Lyrics were not screened for strong language.**
+- **The first 11 recordings were not re-imported**, so they still play at their original loudness (from
+  -11 to -21 LUFS) and are 192 kbps. The 39 new ones are matched to the built-in tracks. The originals
+  are still on this machine; re-importing them is a 15-minute job.
+- Their notes were re-derived with the Part 6 settings, like every other recording.
+
+To add more, run `cd service && .venv/bin/python scripts/import_ia_jamendo.py --want 80 --max-tries 60`.
+Run one at a time (see below), and read the words of what it adds.
 
 ### Discover for a large catalog
 

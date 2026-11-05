@@ -8,11 +8,11 @@
  "language": "ru",
  "difficulty": "hard",
  "difficulty_details": {
-  "range": 16,
-  "distinct": 12,
-  "notes_per_second": 0.79,
-  "big_leaps": 0.14,
-  "shortest": 0.12,
+  "range": 17,
+  "distinct": 11,
+  "notes_per_second": 1.32,
+  "big_leaps": 0.13,
+  "shortest": 0.07,
   "score": 8.0
  },
  "duration": 200.818,
@@ -40,21 +40,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 124,
+ "note_count": 206,
  "word_count": 169,
  "review": {
-  "checked": 165,
-  "dropped": 29,
+  "checked": 306,
+  "dropped": 60,
   "octave_fixed": 4,
   "pitch_fixed": 0,
-  "kept": 132,
-  "outliers_dropped": 0,
+  "kept": 242,
+  "outliers_dropped": 1,
   "held": {
-   "before": 136,
-   "same_pitch": 12,
+   "before": 245,
+   "same_pitch": 35,
    "wobbles": 0,
-   "bends": 0,
-   "after": 124
+   "bends": 4,
+   "after": 206
   }
  },
  "lyrics": "transcribed",

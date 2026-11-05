@@ -8,15 +8,15 @@
  "language": "ru",
  "difficulty": "hard",
  "difficulty_details": {
-  "range": 17,
+  "range": 19,
   "distinct": 13,
-  "notes_per_second": 1.45,
-  "big_leaps": 0.2,
-  "shortest": 0.12,
+  "notes_per_second": 2.2,
+  "big_leaps": 0.15,
+  "shortest": 0.07,
   "score": 9.0
  },
  "duration": 195.14,
- "key": "C minor",
+ "key": "G minor",
  "tempo_bpm": 152.0,
  "year": null,
  "licence": {
@@ -39,21 +39,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 276,
+ "note_count": 418,
  "word_count": 232,
  "review": {
-  "checked": 310,
-  "dropped": 10,
-  "octave_fixed": 16,
+  "checked": 530,
+  "dropped": 19,
+  "octave_fixed": 32,
   "pitch_fixed": 2,
-  "kept": 282,
-  "outliers_dropped": 2,
+  "kept": 477,
+  "outliers_dropped": 1,
   "held": {
-   "before": 298,
-   "same_pitch": 22,
-   "wobbles": 0,
-   "bends": 0,
-   "after": 276
+   "before": 510,
+   "same_pitch": 80,
+   "wobbles": 3,
+   "bends": 6,
+   "after": 418
   }
  },
  "lyrics": "transcribed",

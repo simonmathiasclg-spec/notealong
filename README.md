@@ -103,6 +103,9 @@ every screen before and after the redesign.
 
 ## The built-in catalog (Discover)
 
+144 songs at the moment: 94 hand-authored public-domain songs and 50 Creative Commons recordings, in 19
+languages. `docs/OVERNIGHT_REPORT.md` lists what was added last, what was skipped and why.
+
 `catalog/catalog.json` is the index; every song lives in `catalog/<id>/` with `song.json` (the same format
 the pipeline produces), `backing.mp3`, `vocals.mp3` (the guide melody or the separated singer), `cover.svg`
 (generated abstract art) and `catalog.json` (title, artist, origin, genre, difficulty, duration, key, tempo,

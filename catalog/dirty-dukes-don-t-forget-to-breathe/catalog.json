@@ -8,12 +8,12 @@
  "language": "en",
  "difficulty": "hard",
  "difficulty_details": {
-  "range": 16,
-  "distinct": 7,
-  "notes_per_second": 1.03,
-  "big_leaps": 0.14,
-  "shortest": 0.12,
-  "score": 6.0
+  "range": 19,
+  "distinct": 11,
+  "notes_per_second": 1.19,
+  "big_leaps": 0.16,
+  "shortest": 0.1,
+  "score": 8.0
  },
  "duration": 238.787,
  "key": "C major",
@@ -42,21 +42,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 202,
+ "note_count": 234,
  "word_count": 226,
  "review": {
-  "checked": 260,
-  "dropped": 17,
-  "octave_fixed": 12,
-  "pitch_fixed": 0,
-  "kept": 231,
-  "outliers_dropped": 3,
+  "checked": 330,
+  "dropped": 27,
+  "octave_fixed": 14,
+  "pitch_fixed": 1,
+  "kept": 288,
+  "outliers_dropped": 2,
   "held": {
-   "before": 240,
-   "same_pitch": 36,
+   "before": 301,
+   "same_pitch": 63,
    "wobbles": 0,
-   "bends": 2,
-   "after": 202
+   "bends": 4,
+   "after": 234
   }
  },
  "lyrics": "transcribed",

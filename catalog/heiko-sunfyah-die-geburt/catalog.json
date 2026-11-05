@@ -10,13 +10,13 @@
  "difficulty_details": {
   "range": 10,
   "distinct": 8,
-  "notes_per_second": 0.95,
-  "big_leaps": 0.1,
-  "shortest": 0.12,
+  "notes_per_second": 1.04,
+  "big_leaps": 0.08,
+  "shortest": 0.1,
   "score": 3.0
  },
  "duration": 184.204,
- "key": "F major",
+ "key": "D minor",
  "tempo_bpm": 95.7,
  "year": null,
  "licence": {
@@ -42,21 +42,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 144,
+ "note_count": 157,
  "word_count": 80,
  "review": {
-  "checked": 230,
+  "checked": 261,
   "dropped": 0,
   "octave_fixed": 0,
-  "pitch_fixed": 6,
-  "kept": 224,
+  "pitch_fixed": 8,
+  "kept": 253,
   "outliers_dropped": 0,
   "held": {
-   "before": 230,
-   "same_pitch": 83,
+   "before": 261,
+   "same_pitch": 100,
    "wobbles": 1,
-   "bends": 1,
-   "after": 144
+   "bends": 2,
+   "after": 157
   }
  },
  "lyrics": "transcribed",

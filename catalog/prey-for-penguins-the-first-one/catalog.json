@@ -9,11 +9,11 @@
  "difficulty": "medium",
  "difficulty_details": {
   "range": 11,
-  "distinct": 9,
-  "notes_per_second": 0.83,
+  "distinct": 12,
+  "notes_per_second": 0.97,
   "big_leaps": 0.03,
-  "shortest": 0.12,
-  "score": 4.0
+  "shortest": 0.1,
+  "score": 5.0
  },
  "duration": 251.25,
  "key": "F# minor",
@@ -42,21 +42,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 156,
+ "note_count": 183,
  "word_count": 155,
  "review": {
-  "checked": 166,
+  "checked": 202,
   "dropped": 0,
   "octave_fixed": 0,
-  "pitch_fixed": 7,
-  "kept": 159,
+  "pitch_fixed": 5,
+  "kept": 197,
   "outliers_dropped": 0,
   "held": {
-   "before": 166,
-   "same_pitch": 7,
+   "before": 202,
+   "same_pitch": 14,
    "wobbles": 0,
-   "bends": 3,
-   "after": 156
+   "bends": 5,
+   "after": 183
   }
  },
  "lyrics": "transcribed",

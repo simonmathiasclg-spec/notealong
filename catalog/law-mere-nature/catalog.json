@@ -9,11 +9,11 @@
  "difficulty": "medium",
  "difficulty_details": {
   "range": 8,
-  "distinct": 8,
-  "notes_per_second": 1.66,
+  "distinct": 9,
+  "notes_per_second": 1.91,
   "big_leaps": 0.07,
-  "shortest": 0.12,
-  "score": 3.0
+  "shortest": 0.09,
+  "score": 4.0
  },
  "duration": 225.273,
  "key": "B minor",
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 339,
+ "note_count": 390,
  "word_count": 254,
  "review": {
-  "checked": 395,
+  "checked": 491,
   "dropped": 0,
   "octave_fixed": 0,
-  "pitch_fixed": 10,
-  "kept": 385,
+  "pitch_fixed": 7,
+  "kept": 484,
   "outliers_dropped": 0,
   "held": {
-   "before": 395,
-   "same_pitch": 49,
-   "wobbles": 0,
-   "bends": 7,
-   "after": 339
+   "before": 491,
+   "same_pitch": 73,
+   "wobbles": 4,
+   "bends": 20,
+   "after": 390
   }
  },
  "accent_hue": 17,

@@ -10,9 +10,9 @@
  "difficulty_details": {
   "range": 10,
   "distinct": 6,
-  "notes_per_second": 1.78,
-  "big_leaps": 0.15,
-  "shortest": 0.12,
+  "notes_per_second": 2.14,
+  "big_leaps": 0.12,
+  "shortest": 0.07,
   "score": 4.0
  },
  "duration": 216.555,
@@ -35,21 +35,21 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 349,
+ "note_count": 420,
  "word_count": 440,
  "review": {
-  "checked": 470,
-  "dropped": 31,
-  "octave_fixed": 1,
+  "checked": 674,
+  "dropped": 51,
+  "octave_fixed": 5,
   "pitch_fixed": 0,
-  "kept": 438,
+  "kept": 618,
   "outliers_dropped": 1,
   "held": {
-   "before": 438,
-   "same_pitch": 89,
-   "wobbles": 0,
+   "before": 622,
+   "same_pitch": 198,
+   "wobbles": 2,
    "bends": 0,
-   "after": 349
+   "after": 420
   }
  },
  "accent_hue": 202,
