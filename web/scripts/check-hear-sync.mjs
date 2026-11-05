@@ -50,6 +50,9 @@ for (const speed of speeds) {
   const avg = (a) => a.reduce((x, y) => x + y, 0) / Math.max(1, a.length);
   const drift = third ? avg(errs.slice(-third)) - avg(errs.slice(0, third)) : 0;
   const expected = info.notes.length;
+  const got = new Set(log.map((l) => l.id));
+  const missing = info.notes.filter((x) => !got.has(x.id)).map((x) => x.start.toFixed(1));
+  if (missing.length) console.log(`  not measured (${missing.length}): starts at ${missing.slice(0, 12).join(", ")}${missing.length > 12 ? " … " + missing.slice(-3).join(", ") : ""}`);
   console.log(`${song} at ${speed}x: ${n} of ${expected} notes measured (${log.length - n} joined late), mean ${mean.toFixed(1)} ms, spread ${sd.toFixed(1)} ms, worst ${worst.toFixed(1)} ms, start to end ${drift.toFixed(1)} ms`);
   if (n < expected * 0.95 || worst > 30 || Math.abs(drift) > 6) failed = true;
 }

@@ -10,12 +10,12 @@
  "difficulty_details": {
   "range": 10,
   "distinct": 8,
-  "notes_per_second": 1.87,
+  "notes_per_second": 1.88,
   "big_leaps": 0.12,
   "shortest": 0.14,
   "score": 5.0
  },
- "duration": 30.0,
+ "duration": 33.333,
  "key": "F major",
  "tempo_bpm": 108.0,
  "year": "1893",
@@ -29,6 +29,7 @@
   "url": null
  },
  "cover": "cover.svg",
+ "accent_hue": 26,
  "tags": [
   "celebration",
   "birthday",
@@ -38,6 +39,5 @@
  "beginner": true,
  "access": "free",
  "note_count": 50,
- "word_count": 32,
- "accent_hue": 26
+ "word_count": 32
 }

@@ -1,0 +1,36 @@
+{
+ "style": "gospel",
+ "intro_bars": 2,
+ "intro_seconds": 4.5,
+ "first_note": 3.75,
+ "parts": [
+  {
+   "part": "piano",
+   "role": "comp",
+   "notes": 443,
+   "raw_lufs": -30.6,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "organ",
+   "role": "pad",
+   "notes": 112,
+   "raw_lufs": -30.2,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 55,
+   "raw_lufs": -30.7,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "drums",
+   "role": "perc",
+   "notes": 326,
+   "raw_lufs": -33.2,
+   "mix_lufs": -23.5
+  }
+ ]
+}

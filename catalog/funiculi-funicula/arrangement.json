@@ -1,0 +1,43 @@
+{
+ "style": "italian",
+ "intro_bars": 4,
+ "intro_seconds": 4.8,
+ "first_note": 4.6,
+ "parts": [
+  {
+   "part": "guitar",
+   "role": "comp",
+   "notes": 438,
+   "raw_lufs": -31.2,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "mandolin",
+   "role": "comp2",
+   "notes": 690,
+   "raw_lufs": -36.5,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "accordion",
+   "role": "pad",
+   "notes": 81,
+   "raw_lufs": -36.6,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 113,
+   "raw_lufs": -28.6,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "tambourine",
+   "role": "perc",
+   "notes": 417,
+   "raw_lufs": -37.6,
+   "mix_lufs": -27.5
+  }
+ ]
+}

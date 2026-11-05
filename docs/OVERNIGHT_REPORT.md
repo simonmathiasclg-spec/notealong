@@ -237,3 +237,120 @@ wraps on a timer set for the exact moment instead of being noticed up to 0.1 s l
   tab is visible again.
 - The first note after a loop wraps can be up to about 25 ms late.
 
+
+Added after the first write-up: the same browser check on a full-length recording (Mère nature, 3:45,
+339 notes): at 1x mean -1.7 ms, spread 4.2 ms, worst 12.4 ms; at 0.5x mean -2.3 ms, spread 4.7 ms, worst
+15.5 ms. The notes at the end of the song land within 1 ms of where the notes at the start do, at both
+speeds. (A first run at 1x measured only 261 of the 339 notes because the machine was busy with another
+analysis job at the time; the repeat measured all of them.)
+
+## Part 4: much better backing tracks
+
+**What changed.** The arranger (`service/notealong/catalog/arrange.py`) and the renderer
+(`service/notealong/catalog/render.py`) were rewritten. Every hand-authored song now has a small band
+chosen for the kind of song, and all 48 were re-rendered.
+
+**Arrangements.** 23 styles, each a band of 3 to 6 players. The full table is in
+`catalog/songs/README.md`. The ones the brief named:
+
+| Style | Band |
+|---|---|
+| folk | strummed steel-string guitar, a second guitar finger-picking, upright bass, brushes and shaker |
+| gospel | piano, tonewheel organ, electric bass with walk-ups, drums with tambourine |
+| carol | strings, harp, soft choir, tubular bells, double bass, sleigh bells (bright carols) or triangle (slow ones) |
+| swing | walking bass, brushes, piano comping, horn stabs where the melody rests or holds |
+| waltz | oom-pah-pah piano, strings, upright bass, brushes |
+| latin | nylon guitar in a rumba strum, a second guitar, bass, maracas, claves, congas |
+| lullaby | soft piano arpeggios, a warm pad, music box, bass |
+
+Others: country, ballad, march, hymn, celtic, shanty, klezmer, polka, italian, asian, african, indian,
+arabic, andean, children, orchestral. Each of the 48 songs was given a style in its `.song` file
+(for example Danny Boy: celtic; Hava Nagila: klezmer; Sakura: asian; Oh Susanna: country; Ode to Joy:
+orchestral). The band never plays the melody.
+
+**Intro.** Every song now starts with an instrumental intro: two bars, one bar when a bar is longer than
+about 3 seconds, four when bars are very short. The first melody note falls between 2.1 and 6.0 s
+(median 3.75 s). The last intro bar ends with a drum fill, and in gospel the intro starts on hi-hat alone
+so the count is obvious. Together with Part 1 this means every song opens with a groove, then a
+3-2-1 count on screen, then the first note.
+
+**Played, not programmed.**
+
+- Voicings move by the smallest step from chord to chord and sit below the melody (checked by a test).
+- Bass lines move: root and fifth with a leading note into each new chord, a true walking line for swing,
+  anticipations for latin, alternating root and fifth for oom-pah styles.
+- Drum fills on the last bar of the intro, every eighth bar and the last bar of the song, with a crash on
+  the next downbeat where the kit has one. A clear final hit and a held last chord.
+- Every note is nudged in time (about 9 ms standard deviation, never more than 22 ms) and in loudness.
+  The random numbers are seeded per song, so a rebuild gives the same track.
+- Guitars are strummed string by string, down and up. Swing eighths are swung.
+
+**Sounds.** Two soundfonts, each instrument taken from the one where it is stronger: GeneralUser GS 2.0.3
+(guitars, basses, accordion, harp, brass, choir, bells, all drum kits including brushes) and MuseScore
+General (piano, strings, church organ, timpani). Licences verified and recorded in `catalog/LICENSES.md`,
+including one caveat about GeneralUser GS that you should read.
+
+**Mix and master** (all in our own code plus FFmpeg):
+
+- Each instrument is rendered on its own, then levelled by measured loudness for its role (main chord
+  instrument, second chord instrument, bass, percussion, pad, colour), panned, and sent to a shared room
+  reverb (room, club, hall or chapel depending on the style).
+- EQ: everything except bass and kick is high-passed; chord instruments and pads are cut by 2 to 3.5 dB
+  around 1.7 kHz, where a sax or voice speaks most clearly. Measured on the demo mixes: the backing has
+  3 to 7 % of its energy between 800 Hz and 3 kHz, and the added instrument takes that band up to 10 to
+  32 %. A small high shelf adds air.
+- Gentle bus compression, then loudness normalised in two passes to -16 LUFS, with a limiter. The encoded
+  file is decoded again and checked; if lossy encoding pushed a sample to full scale, the ceiling is
+  lowered and the file encoded again (this happened on one song).
+- 128 kbps stereo. The 48 backing tracks total 45 MB.
+
+**Verified by analysis** (`python -m notealong.catalog.audit`), all 48 tracks: loudness -16.9 to -16.3
+LUFS, highest true peak -0.9 dB, no clipped samples, no silent stretch anywhere inside a song, no track
+with a problem flagged. By style:
+
+| Style | Songs | LUFS | Highest true peak | Bass and sub | Low-mid | Presence | Air | First melody note |
+|---|---|---|---|---|---|---|---|---|
+| asian | 3 | -16.4 | -3.4 dB | 34 % | 42 % | 23 % | 1 % | 3.6 to 6.0 s |
+| ballad | 3 | -16.5 | -2.5 dB | 47 % | 45 % | 6 % | 2 % | 5.5 to 5.7 s |
+| carol | 8 | -16.4 | -3.3 dB | 39 % | 49 % | 9 % | 3 % | 2.2 to 5.7 s |
+| celtic | 7 | -16.4 | -3.1 dB | 51 % | 45 % | 3 % | 1 % | 2.3 to 5.2 s |
+| children | 4 | -16.5 | -2.8 dB | 49 % | 42 % | 4 % | 5 % | 4.0 to 5.0 s |
+| country | 3 | -16.4 | -3.0 dB | 59 % | 25 % | 11 % | 5 % | 2.8 to 3.3 s |
+| folk | 2 | -16.7 | -0.9 dB | 59 % | 28 % | 6 % | 7 % | 3.0 to 4.6 s |
+| gospel | 5 | -16.4 | -2.6 dB | 53 % | 42 % | 3 % | 2 % | 3.6 to 6.0 s |
+| italian | 3 | -16.4 | -3.3 dB | 37 % | 49 % | 7 % | 7 % | 3.4 to 4.6 s |
+| klezmer | 2 | -16.6 | -3.3 dB | 35 % | 37 % | 17 % | 10 % | 3.2 to 4.0 s |
+| latin | 1 | -16.4 | -2.9 dB | 51 % | 43 % | 4 % | 1 % | 2.1 s |
+| lullaby | 2 | -16.4 | -3.2 dB | 32 % | 66 % | 2 % | 0 % | 3.8 to 4.4 s |
+| march | 1 | -16.4 | -3.3 dB | 47 % | 33 % | 19 % | 1 % | 4.3 s |
+| orchestral | 1 | -16.4 | -4.2 dB | 37 % | 56 % | 6 % | 0 % | 4.8 s |
+| polka | 1 | -16.5 | -3.3 dB | 39 % | 44 % | 14 % | 2 % | 3.0 s |
+| swing | 1 | -16.5 | -1.7 dB | 58 % | 29 % | 7 % | 7 % | 2.4 s |
+| waltz | 1 | -16.5 | -3.0 dB | 48 % | 44 % | 7 % | 2 % | 2.8 s |
+
+Three tuning rounds were driven by these numbers: the bass was moved up a third and levelled without
+the loudness weighting (the lowest notes had been far too loud: up to 29 % of a track's energy sat below
+60 Hz), accompaniment voicings were moved down out of the melody's register, and tambourine, sleigh bells
+and woodblock were turned down (one klezmer track had 20 % of its energy above 3 kHz).
+
+**For your ears.** `docs/listening-samples/` has the six tracks the brief asked for (waltz, 6/8 carol,
+swing, gospel, folk, latin) and four "Hear it played" demos mixed over the new tracks, with a short
+note on what to listen for.
+
+**Tests.** The arranger tests were rewritten: every one of the 23 styles gives a full band that stays
+inside the track; the intro precedes the melody; the accompaniment stays under the top of the tune; the
+bass walks; timing is loose but never more than 30 ms off; the same seed gives the same track; fills and
+crashes mark the sections; 3/4 and 6/8 work. Python total: 52.
+
+**Limits and honest notes.**
+
+- These are still sampled instruments played by rules. They are a clear step up from one piano, with real
+  band textures, but they will not be mistaken for a studio recording. The real recordings (Part 5) are
+  the ones that sound like records.
+- Levels were set by loudness measurement per role, not by ear. If something sits wrong, the role levels
+  are six numbers at the top of `render.py`.
+- Lullabies and children's songs are deliberately mellow (little energy above 800 Hz).
+- The intro always uses the song's first chord unless a song sets `intro_chords`.
+- All note timings in the 48 songs moved because the intros got longer. Settings saved on this machine
+  for built-in songs (position, loop) refer to the old timings; a saved loop may now sit a bar early.
+

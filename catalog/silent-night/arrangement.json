@@ -1,0 +1,50 @@
+{
+ "style": "carol",
+ "intro_bars": 2,
+ "intro_seconds": 5.71,
+ "first_note": 5.71,
+ "parts": [
+  {
+   "part": "strings",
+   "role": "comp",
+   "notes": 48,
+   "raw_lufs": -33.0,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "harp",
+   "role": "comp2",
+   "notes": 91,
+   "raw_lufs": -32.5,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "choir",
+   "role": "pad",
+   "notes": 36,
+   "raw_lufs": -35.8,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bells",
+   "role": "color",
+   "notes": 10,
+   "raw_lufs": -38.8,
+   "mix_lufs": -26.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 16,
+   "raw_lufs": -31.8,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "sleigh bells",
+   "role": "perc",
+   "notes": 17,
+   "raw_lufs": -40.1,
+   "mix_lufs": -29.5
+  }
+ ]
+}

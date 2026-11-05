@@ -1,0 +1,43 @@
+{
+ "style": "celtic",
+ "intro_bars": 2,
+ "intro_seconds": 6.0,
+ "first_note": 5.25,
+ "parts": [
+  {
+   "part": "harp",
+   "role": "comp",
+   "notes": 151,
+   "raw_lufs": -31.2,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "guitar",
+   "role": "comp2",
+   "notes": 140,
+   "raw_lufs": -36.4,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 13,
+   "raw_lufs": -35.1,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 21,
+   "raw_lufs": -33.1,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "frame drum",
+   "role": "perc",
+   "notes": 115,
+   "raw_lufs": -39.5,
+   "mix_lufs": -25.5
+  }
+ ]
+}

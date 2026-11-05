@@ -106,15 +106,15 @@ def build_song(path: Path, force: bool = False, audio: bool = True) -> dict:
     arr = Arranger(spec)
     duration = arr.total_seconds()
     if stale and audio:
-        from .render import render_midi
+        from .render import render_backing, render_midi
         with tempfile.TemporaryDirectory() as td:
-            b = Path(td) / "backing.mid"
             g = Path(td) / "guide.mid"
-            arr.backing().write(str(b))
             arr.guide(GUIDE_PROGRAMS.get(spec.meta.get("guide", "ooh"), VOICE_OOHS)).write(str(g))
-            # synthesized tracks compress very well: 96 kbps stereo for the band, 64 kbps mono for the guide
-            render_midi(b, out / "backing.mp3", gain=0.75, fade_out=1.5, duration=duration, bitrate="96k")
+            # the band is mixed part by part (render.py); the quiet guide melody is a single mono track
+            parts = render_backing(arr, out / "backing.mp3", duration)
             render_midi(g, out / "vocals.mp3", gain=0.9, fade_out=0.5, duration=duration, bitrate="64k", mono=True)
+        (out / "arrangement.json").write_text(json.dumps({"style": arr.style_name, "intro_bars": arr.intro_bars,
+            "intro_seconds": round(arr.bar1, 2), "first_note": round(arr.melody_start, 2), "parts": parts}, indent=1), encoding="utf-8")
     song = spec_to_song(spec, arr, duration)
     if stale or not meta_path.exists():
         (out / "song.json").write_text(song.model_dump_json(indent=1), encoding="utf-8")
@@ -124,6 +124,14 @@ def build_song(path: Path, force: bool = False, audio: bool = True) -> dict:
     for w in spec.warnings:
         print(f"  warning [{spec.id}]: {w}")
     return json.loads(meta_path.read_text(encoding="utf-8"))
+
+
+def _build_job(args) -> tuple[str, dict | None, str | None]:
+    path, force, audio = args
+    try:
+        return path.stem, build_song(path, force=force, audio=audio), None
+    except Exception as e:   # one bad song must not stop the others
+        return path.stem, None, f"{type(e).__name__}: {e}"
 
 
 def write_index() -> list[dict]:
@@ -139,7 +147,8 @@ def write_index() -> list[dict]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--force", action="store_true")
-    ap.add_argument("--only", help="song id (file stem)")
+    ap.add_argument("--only", action="append", help="song id (file stem); may be given several times")
+    ap.add_argument("--jobs", type=int, default=1, help="render this many songs at once")
     ap.add_argument("--index", action="store_true", help="only rewrite catalog.json")
     ap.add_argument("--check", action="store_true", help="parse every .song file and report problems, no audio")
     ap.add_argument("--no-audio", action="store_true")
@@ -165,8 +174,18 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     files = sorted(SONGS_DIR.glob("*.song"))
     if a.only:
-        files = [f for f in files if f.stem == a.only]
+        files = [f for f in files if f.stem in a.only]
     bad = 0
+    if a.jobs > 1 and not a.check:
+        from multiprocessing import Pool
+        with Pool(a.jobs) as pool:
+            for stem, meta, err in pool.imap_unordered(_build_job, [(f, a.force, not a.no_audio) for f in files]):
+                if err:
+                    bad += 1
+                    print(f"FAIL {stem}: {err}", flush=True)
+                else:
+                    print(f"built {stem}: {meta['difficulty']}, {meta['duration']:.0f}s, {meta['note_count']} notes", flush=True)
+        files = []
     for f in files:
         try:
             if a.check:

@@ -3,10 +3,10 @@
  "id": "row-row-row-your-boat",
  "title": "Row, Row, Row Your Boat",
  "artist": "Traditional",
- "duration": 36.0,
+ "duration": 38.0,
  "tempo_bpm": 60.0,
- "created_at": "2026-11-03T03:46:32.325618+00:00",
- "updated_at": "2026-11-03T03:46:32.325628+00:00",
+ "created_at": "2026-11-05T05:07:04.857601+00:00",
+ "updated_at": "2026-11-05T05:07:04.857617+00:00",
  "status": "ready",
  "source": {
   "kind": "catalog",
@@ -34,8 +34,8 @@
    "id": "w0",
    "text": "Row,",
    "roman": null,
-   "start": 2.0,
-   "end": 3.0,
+   "start": 4.0,
+   "end": 5.0,
    "line": 0,
    "confidence": 1.0
   },
@@ -43,8 +43,8 @@
    "id": "w1",
    "text": "row,",
    "roman": null,
-   "start": 3.0,
-   "end": 4.0,
+   "start": 5.0,
+   "end": 6.0,
    "line": 0,
    "confidence": 1.0
   },
@@ -52,8 +52,8 @@
    "id": "w2",
    "text": "row",
    "roman": null,
-   "start": 4.0,
-   "end": 4.667,
+   "start": 6.0,
+   "end": 6.667,
    "line": 0,
    "confidence": 1.0
   },
@@ -61,8 +61,8 @@
    "id": "w3",
    "text": "your",
    "roman": null,
-   "start": 4.667,
-   "end": 5.0,
+   "start": 6.667,
+   "end": 7.0,
    "line": 0,
    "confidence": 1.0
   },
@@ -70,8 +70,8 @@
    "id": "w4",
    "text": "boat,",
    "roman": null,
-   "start": 5.0,
-   "end": 6.0,
+   "start": 7.0,
+   "end": 8.0,
    "line": 0,
    "confidence": 1.0
   },
@@ -79,8 +79,8 @@
    "id": "w5",
    "text": "Gently",
    "roman": null,
-   "start": 6.0,
-   "end": 7.0,
+   "start": 8.0,
+   "end": 9.0,
    "line": 1,
    "confidence": 1.0
   },
@@ -88,8 +88,8 @@
    "id": "w6",
    "text": "down",
    "roman": null,
-   "start": 7.0,
-   "end": 7.667,
+   "start": 9.0,
+   "end": 9.667,
    "line": 1,
    "confidence": 1.0
   },
@@ -97,8 +97,8 @@
    "id": "w7",
    "text": "the",
    "roman": null,
-   "start": 7.667,
-   "end": 8.0,
+   "start": 9.667,
+   "end": 10.0,
    "line": 1,
    "confidence": 1.0
   },
@@ -106,8 +106,8 @@
    "id": "w8",
    "text": "stream.",
    "roman": null,
-   "start": 8.0,
-   "end": 10.0,
+   "start": 10.0,
+   "end": 12.0,
    "line": 1,
    "confidence": 1.0
   },
@@ -115,31 +115,13 @@
    "id": "w9",
    "text": "Merrily,",
    "roman": null,
-   "start": 10.0,
-   "end": 11.0,
-   "line": 2,
-   "confidence": 1.0
-  },
-  {
-   "id": "w10",
-   "text": "merrily,",
-   "roman": null,
-   "start": 11.0,
-   "end": 12.0,
-   "line": 2,
-   "confidence": 1.0
-  },
-  {
-   "id": "w11",
-   "text": "merrily,",
-   "roman": null,
    "start": 12.0,
    "end": 13.0,
    "line": 2,
    "confidence": 1.0
   },
   {
-   "id": "w12",
+   "id": "w10",
    "text": "merrily,",
    "roman": null,
    "start": 13.0,
@@ -148,11 +130,29 @@
    "confidence": 1.0
   },
   {
+   "id": "w11",
+   "text": "merrily,",
+   "roman": null,
+   "start": 14.0,
+   "end": 15.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "merrily,",
+   "roman": null,
+   "start": 15.0,
+   "end": 16.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
    "id": "w13",
    "text": "Life",
    "roman": null,
-   "start": 14.0,
-   "end": 14.667,
+   "start": 16.0,
+   "end": 16.667,
    "line": 3,
    "confidence": 1.0
   },
@@ -160,8 +160,8 @@
    "id": "w14",
    "text": "is",
    "roman": null,
-   "start": 14.667,
-   "end": 15.0,
+   "start": 16.667,
+   "end": 17.0,
    "line": 3,
    "confidence": 1.0
   },
@@ -169,8 +169,8 @@
    "id": "w15",
    "text": "but",
    "roman": null,
-   "start": 15.0,
-   "end": 15.667,
+   "start": 17.0,
+   "end": 17.667,
    "line": 3,
    "confidence": 1.0
   },
@@ -178,8 +178,8 @@
    "id": "w16",
    "text": "a",
    "roman": null,
-   "start": 15.667,
-   "end": 16.0,
+   "start": 17.667,
+   "end": 18.0,
    "line": 3,
    "confidence": 1.0
   },
@@ -187,8 +187,8 @@
    "id": "w17",
    "text": "dream.",
    "roman": null,
-   "start": 16.0,
-   "end": 18.0,
+   "start": 18.0,
+   "end": 20.0,
    "line": 3,
    "confidence": 1.0
   },
@@ -196,8 +196,8 @@
    "id": "w18",
    "text": "Row,",
    "roman": null,
-   "start": 18.0,
-   "end": 19.0,
+   "start": 20.0,
+   "end": 21.0,
    "line": 4,
    "confidence": 1.0
   },
@@ -205,8 +205,8 @@
    "id": "w19",
    "text": "row,",
    "roman": null,
-   "start": 19.0,
-   "end": 20.0,
+   "start": 21.0,
+   "end": 22.0,
    "line": 4,
    "confidence": 1.0
   },
@@ -214,8 +214,8 @@
    "id": "w20",
    "text": "row",
    "roman": null,
-   "start": 20.0,
-   "end": 20.667,
+   "start": 22.0,
+   "end": 22.667,
    "line": 4,
    "confidence": 1.0
   },
@@ -223,8 +223,8 @@
    "id": "w21",
    "text": "your",
    "roman": null,
-   "start": 20.667,
-   "end": 21.0,
+   "start": 22.667,
+   "end": 23.0,
    "line": 4,
    "confidence": 1.0
   },
@@ -232,8 +232,8 @@
    "id": "w22",
    "text": "boat,",
    "roman": null,
-   "start": 21.0,
-   "end": 22.0,
+   "start": 23.0,
+   "end": 24.0,
    "line": 4,
    "confidence": 1.0
   },
@@ -241,8 +241,8 @@
    "id": "w23",
    "text": "Gently",
    "roman": null,
-   "start": 22.0,
-   "end": 23.0,
+   "start": 24.0,
+   "end": 25.0,
    "line": 5,
    "confidence": 1.0
   },
@@ -250,8 +250,8 @@
    "id": "w24",
    "text": "down",
    "roman": null,
-   "start": 23.0,
-   "end": 23.667,
+   "start": 25.0,
+   "end": 25.667,
    "line": 5,
    "confidence": 1.0
   },
@@ -259,8 +259,8 @@
    "id": "w25",
    "text": "the",
    "roman": null,
-   "start": 23.667,
-   "end": 24.0,
+   "start": 25.667,
+   "end": 26.0,
    "line": 5,
    "confidence": 1.0
   },
@@ -268,8 +268,8 @@
    "id": "w26",
    "text": "stream.",
    "roman": null,
-   "start": 24.0,
-   "end": 26.0,
+   "start": 26.0,
+   "end": 28.0,
    "line": 5,
    "confidence": 1.0
   },
@@ -277,31 +277,13 @@
    "id": "w27",
    "text": "Merrily,",
    "roman": null,
-   "start": 26.0,
-   "end": 27.0,
-   "line": 6,
-   "confidence": 1.0
-  },
-  {
-   "id": "w28",
-   "text": "merrily,",
-   "roman": null,
-   "start": 27.0,
-   "end": 28.0,
-   "line": 6,
-   "confidence": 1.0
-  },
-  {
-   "id": "w29",
-   "text": "merrily,",
-   "roman": null,
    "start": 28.0,
    "end": 29.0,
    "line": 6,
    "confidence": 1.0
   },
   {
-   "id": "w30",
+   "id": "w28",
    "text": "merrily,",
    "roman": null,
    "start": 29.0,
@@ -310,11 +292,29 @@
    "confidence": 1.0
   },
   {
+   "id": "w29",
+   "text": "merrily,",
+   "roman": null,
+   "start": 30.0,
+   "end": 31.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "merrily,",
+   "roman": null,
+   "start": 31.0,
+   "end": 32.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
    "id": "w31",
    "text": "Life",
    "roman": null,
-   "start": 30.0,
-   "end": 30.667,
+   "start": 32.0,
+   "end": 32.667,
    "line": 7,
    "confidence": 1.0
   },
@@ -322,8 +322,8 @@
    "id": "w32",
    "text": "is",
    "roman": null,
-   "start": 30.667,
-   "end": 31.0,
+   "start": 32.667,
+   "end": 33.0,
    "line": 7,
    "confidence": 1.0
   },
@@ -331,8 +331,8 @@
    "id": "w33",
    "text": "but",
    "roman": null,
-   "start": 31.0,
-   "end": 31.667,
+   "start": 33.0,
+   "end": 33.667,
    "line": 7,
    "confidence": 1.0
   },
@@ -340,8 +340,8 @@
    "id": "w34",
    "text": "a",
    "roman": null,
-   "start": 31.667,
-   "end": 32.0,
+   "start": 33.667,
+   "end": 34.0,
    "line": 7,
    "confidence": 1.0
   },
@@ -349,8 +349,8 @@
    "id": "w35",
    "text": "dream.",
    "roman": null,
-   "start": 32.0,
-   "end": 34.0,
+   "start": 34.0,
+   "end": 36.0,
    "line": 7,
    "confidence": 1.0
   }
@@ -359,57 +359,57 @@
   {
    "index": 0,
    "kind": "lyric",
-   "start": 2.0,
-   "end": 6.0
+   "start": 4.0,
+   "end": 8.0
   },
   {
    "index": 1,
    "kind": "lyric",
-   "start": 6.0,
-   "end": 10.0
+   "start": 8.0,
+   "end": 12.0
   },
   {
    "index": 2,
    "kind": "lyric",
-   "start": 10.0,
-   "end": 14.0
+   "start": 12.0,
+   "end": 16.0
   },
   {
    "index": 3,
    "kind": "lyric",
-   "start": 14.0,
-   "end": 18.0
+   "start": 16.0,
+   "end": 20.0
   },
   {
    "index": 4,
    "kind": "lyric",
-   "start": 18.0,
-   "end": 22.0
+   "start": 20.0,
+   "end": 24.0
   },
   {
    "index": 5,
    "kind": "lyric",
-   "start": 22.0,
-   "end": 26.0
+   "start": 24.0,
+   "end": 28.0
   },
   {
    "index": 6,
    "kind": "lyric",
-   "start": 26.0,
-   "end": 30.0
+   "start": 28.0,
+   "end": 32.0
   },
   {
    "index": 7,
    "kind": "lyric",
-   "start": 30.0,
-   "end": 34.0
+   "start": 32.0,
+   "end": 36.0
   }
  ],
  "notes": [
   {
    "id": "n0",
-   "start": 2.0,
-   "end": 3.0,
+   "start": 4.0,
+   "end": 5.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w0",
@@ -418,8 +418,8 @@
   },
   {
    "id": "n1",
-   "start": 3.0,
-   "end": 4.0,
+   "start": 5.0,
+   "end": 6.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w1",
@@ -428,8 +428,8 @@
   },
   {
    "id": "n2",
-   "start": 4.0,
-   "end": 4.667,
+   "start": 6.0,
+   "end": 6.667,
    "midi": 60,
    "confidence": 1.0,
    "word": "w2",
@@ -438,8 +438,8 @@
   },
   {
    "id": "n3",
-   "start": 4.667,
-   "end": 5.0,
+   "start": 6.667,
+   "end": 7.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w3",
@@ -448,8 +448,8 @@
   },
   {
    "id": "n4",
-   "start": 5.0,
-   "end": 6.0,
+   "start": 7.0,
+   "end": 8.0,
    "midi": 64,
    "confidence": 1.0,
    "word": "w4",
@@ -458,8 +458,8 @@
   },
   {
    "id": "n5",
-   "start": 6.0,
-   "end": 6.667,
+   "start": 8.0,
+   "end": 8.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w5",
@@ -468,8 +468,8 @@
   },
   {
    "id": "n6",
-   "start": 6.667,
-   "end": 7.0,
+   "start": 8.667,
+   "end": 9.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w5",
@@ -478,8 +478,8 @@
   },
   {
    "id": "n7",
-   "start": 7.0,
-   "end": 7.667,
+   "start": 9.0,
+   "end": 9.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w6",
@@ -488,8 +488,8 @@
   },
   {
    "id": "n8",
-   "start": 7.667,
-   "end": 8.0,
+   "start": 9.667,
+   "end": 10.0,
    "midi": 65,
    "confidence": 1.0,
    "word": "w7",
@@ -498,8 +498,8 @@
   },
   {
    "id": "n9",
-   "start": 8.0,
-   "end": 10.0,
+   "start": 10.0,
+   "end": 12.0,
    "midi": 67,
    "confidence": 1.0,
    "word": "w8",
@@ -508,8 +508,8 @@
   },
   {
    "id": "n10",
-   "start": 10.0,
-   "end": 10.333,
+   "start": 12.0,
+   "end": 12.333,
    "midi": 72,
    "confidence": 1.0,
    "word": "w9",
@@ -518,8 +518,8 @@
   },
   {
    "id": "n11",
-   "start": 10.333,
-   "end": 10.667,
+   "start": 12.333,
+   "end": 12.667,
    "midi": 72,
    "confidence": 1.0,
    "word": "w9",
@@ -528,8 +528,8 @@
   },
   {
    "id": "n12",
-   "start": 10.667,
-   "end": 11.0,
+   "start": 12.667,
+   "end": 13.0,
    "midi": 72,
    "confidence": 1.0,
    "word": "w9",
@@ -538,8 +538,8 @@
   },
   {
    "id": "n13",
-   "start": 11.0,
-   "end": 11.333,
+   "start": 13.0,
+   "end": 13.333,
    "midi": 67,
    "confidence": 1.0,
    "word": "w10",
@@ -548,8 +548,8 @@
   },
   {
    "id": "n14",
-   "start": 11.333,
-   "end": 11.667,
+   "start": 13.333,
+   "end": 13.667,
    "midi": 67,
    "confidence": 1.0,
    "word": "w10",
@@ -558,8 +558,8 @@
   },
   {
    "id": "n15",
-   "start": 11.667,
-   "end": 12.0,
+   "start": 13.667,
+   "end": 14.0,
    "midi": 67,
    "confidence": 1.0,
    "word": "w10",
@@ -568,8 +568,8 @@
   },
   {
    "id": "n16",
-   "start": 12.0,
-   "end": 12.333,
+   "start": 14.0,
+   "end": 14.333,
    "midi": 64,
    "confidence": 1.0,
    "word": "w11",
@@ -578,8 +578,8 @@
   },
   {
    "id": "n17",
-   "start": 12.333,
-   "end": 12.667,
+   "start": 14.333,
+   "end": 14.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w11",
@@ -588,8 +588,8 @@
   },
   {
    "id": "n18",
-   "start": 12.667,
-   "end": 13.0,
+   "start": 14.667,
+   "end": 15.0,
    "midi": 64,
    "confidence": 1.0,
    "word": "w11",
@@ -598,8 +598,8 @@
   },
   {
    "id": "n19",
-   "start": 13.0,
-   "end": 13.333,
+   "start": 15.0,
+   "end": 15.333,
    "midi": 60,
    "confidence": 1.0,
    "word": "w12",
@@ -608,8 +608,8 @@
   },
   {
    "id": "n20",
-   "start": 13.333,
-   "end": 13.667,
+   "start": 15.333,
+   "end": 15.667,
    "midi": 60,
    "confidence": 1.0,
    "word": "w12",
@@ -618,8 +618,8 @@
   },
   {
    "id": "n21",
-   "start": 13.667,
-   "end": 14.0,
+   "start": 15.667,
+   "end": 16.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w12",
@@ -628,8 +628,8 @@
   },
   {
    "id": "n22",
-   "start": 14.0,
-   "end": 14.667,
+   "start": 16.0,
+   "end": 16.667,
    "midi": 67,
    "confidence": 1.0,
    "word": "w13",
@@ -638,8 +638,8 @@
   },
   {
    "id": "n23",
-   "start": 14.667,
-   "end": 15.0,
+   "start": 16.667,
+   "end": 17.0,
    "midi": 65,
    "confidence": 1.0,
    "word": "w14",
@@ -648,8 +648,8 @@
   },
   {
    "id": "n24",
-   "start": 15.0,
-   "end": 15.667,
+   "start": 17.0,
+   "end": 17.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w15",
@@ -658,8 +658,8 @@
   },
   {
    "id": "n25",
-   "start": 15.667,
-   "end": 16.0,
+   "start": 17.667,
+   "end": 18.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w16",
@@ -668,8 +668,8 @@
   },
   {
    "id": "n26",
-   "start": 16.0,
-   "end": 18.0,
+   "start": 18.0,
+   "end": 20.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w17",
@@ -678,8 +678,8 @@
   },
   {
    "id": "n27",
-   "start": 18.0,
-   "end": 19.0,
+   "start": 20.0,
+   "end": 21.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w18",
@@ -688,8 +688,8 @@
   },
   {
    "id": "n28",
-   "start": 19.0,
-   "end": 20.0,
+   "start": 21.0,
+   "end": 22.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w19",
@@ -698,8 +698,8 @@
   },
   {
    "id": "n29",
-   "start": 20.0,
-   "end": 20.667,
+   "start": 22.0,
+   "end": 22.667,
    "midi": 60,
    "confidence": 1.0,
    "word": "w20",
@@ -708,8 +708,8 @@
   },
   {
    "id": "n30",
-   "start": 20.667,
-   "end": 21.0,
+   "start": 22.667,
+   "end": 23.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w21",
@@ -718,8 +718,8 @@
   },
   {
    "id": "n31",
-   "start": 21.0,
-   "end": 22.0,
+   "start": 23.0,
+   "end": 24.0,
    "midi": 64,
    "confidence": 1.0,
    "word": "w22",
@@ -728,8 +728,8 @@
   },
   {
    "id": "n32",
-   "start": 22.0,
-   "end": 22.667,
+   "start": 24.0,
+   "end": 24.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w23",
@@ -738,8 +738,8 @@
   },
   {
    "id": "n33",
-   "start": 22.667,
-   "end": 23.0,
+   "start": 24.667,
+   "end": 25.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w23",
@@ -748,8 +748,8 @@
   },
   {
    "id": "n34",
-   "start": 23.0,
-   "end": 23.667,
+   "start": 25.0,
+   "end": 25.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w24",
@@ -758,8 +758,8 @@
   },
   {
    "id": "n35",
-   "start": 23.667,
-   "end": 24.0,
+   "start": 25.667,
+   "end": 26.0,
    "midi": 65,
    "confidence": 1.0,
    "word": "w25",
@@ -768,8 +768,8 @@
   },
   {
    "id": "n36",
-   "start": 24.0,
-   "end": 26.0,
+   "start": 26.0,
+   "end": 28.0,
    "midi": 67,
    "confidence": 1.0,
    "word": "w26",
@@ -778,8 +778,8 @@
   },
   {
    "id": "n37",
-   "start": 26.0,
-   "end": 26.333,
+   "start": 28.0,
+   "end": 28.333,
    "midi": 72,
    "confidence": 1.0,
    "word": "w27",
@@ -788,8 +788,8 @@
   },
   {
    "id": "n38",
-   "start": 26.333,
-   "end": 26.667,
+   "start": 28.333,
+   "end": 28.667,
    "midi": 72,
    "confidence": 1.0,
    "word": "w27",
@@ -798,8 +798,8 @@
   },
   {
    "id": "n39",
-   "start": 26.667,
-   "end": 27.0,
+   "start": 28.667,
+   "end": 29.0,
    "midi": 72,
    "confidence": 1.0,
    "word": "w27",
@@ -808,8 +808,8 @@
   },
   {
    "id": "n40",
-   "start": 27.0,
-   "end": 27.333,
+   "start": 29.0,
+   "end": 29.333,
    "midi": 67,
    "confidence": 1.0,
    "word": "w28",
@@ -818,8 +818,8 @@
   },
   {
    "id": "n41",
-   "start": 27.333,
-   "end": 27.667,
+   "start": 29.333,
+   "end": 29.667,
    "midi": 67,
    "confidence": 1.0,
    "word": "w28",
@@ -828,8 +828,8 @@
   },
   {
    "id": "n42",
-   "start": 27.667,
-   "end": 28.0,
+   "start": 29.667,
+   "end": 30.0,
    "midi": 67,
    "confidence": 1.0,
    "word": "w28",
@@ -838,8 +838,8 @@
   },
   {
    "id": "n43",
-   "start": 28.0,
-   "end": 28.333,
+   "start": 30.0,
+   "end": 30.333,
    "midi": 64,
    "confidence": 1.0,
    "word": "w29",
@@ -848,8 +848,8 @@
   },
   {
    "id": "n44",
-   "start": 28.333,
-   "end": 28.667,
+   "start": 30.333,
+   "end": 30.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w29",
@@ -858,8 +858,8 @@
   },
   {
    "id": "n45",
-   "start": 28.667,
-   "end": 29.0,
+   "start": 30.667,
+   "end": 31.0,
    "midi": 64,
    "confidence": 1.0,
    "word": "w29",
@@ -868,8 +868,8 @@
   },
   {
    "id": "n46",
-   "start": 29.0,
-   "end": 29.333,
+   "start": 31.0,
+   "end": 31.333,
    "midi": 60,
    "confidence": 1.0,
    "word": "w30",
@@ -878,8 +878,8 @@
   },
   {
    "id": "n47",
-   "start": 29.333,
-   "end": 29.667,
+   "start": 31.333,
+   "end": 31.667,
    "midi": 60,
    "confidence": 1.0,
    "word": "w30",
@@ -888,8 +888,8 @@
   },
   {
    "id": "n48",
-   "start": 29.667,
-   "end": 30.0,
+   "start": 31.667,
+   "end": 32.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w30",
@@ -898,8 +898,8 @@
   },
   {
    "id": "n49",
-   "start": 30.0,
-   "end": 30.667,
+   "start": 32.0,
+   "end": 32.667,
    "midi": 67,
    "confidence": 1.0,
    "word": "w31",
@@ -908,8 +908,8 @@
   },
   {
    "id": "n50",
-   "start": 30.667,
-   "end": 31.0,
+   "start": 32.667,
+   "end": 33.0,
    "midi": 65,
    "confidence": 1.0,
    "word": "w32",
@@ -918,8 +918,8 @@
   },
   {
    "id": "n51",
-   "start": 31.0,
-   "end": 31.667,
+   "start": 33.0,
+   "end": 33.667,
    "midi": 64,
    "confidence": 1.0,
    "word": "w33",
@@ -928,8 +928,8 @@
   },
   {
    "id": "n52",
-   "start": 31.667,
-   "end": 32.0,
+   "start": 33.667,
+   "end": 34.0,
    "midi": 62,
    "confidence": 1.0,
    "word": "w34",
@@ -938,8 +938,8 @@
   },
   {
    "id": "n53",
-   "start": 32.0,
-   "end": 34.0,
+   "start": 34.0,
+   "end": 36.0,
    "midi": 60,
    "confidence": 1.0,
    "word": "w35",

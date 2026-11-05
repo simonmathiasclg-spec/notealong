@@ -29,3 +29,32 @@ Attribution is not required by any of these, but credit is given here and in the
 | Sonatina Symphonic Orchestra | Creative Commons Sampling Plus 1.0, which restricts advertising use. Not clearly compatible with a paid app. |
 | General MIDI soundfont renderings (for example midi-js-soundfonts) | Licence is fine for some (FluidR3 is MIT), but the brief asks for better than General MIDI instrument sounds. |
 
+
+## Soundfonts for the backing tracks of hand-authored songs
+
+The backing tracks in `catalog/<song>/backing.mp3` are rendered by `service/notealong/catalog/` with
+FluidSynth from two soundfonts. The soundfonts themselves are not shipped: they are downloaded to
+`service/models/` on the first build. Only the rendered music is distributed.
+
+| Soundfont | Used for | Licence / terms | Checked |
+|---|---|---|---|
+| GeneralUser GS 2.0.3, S. Christian Collins. <https://github.com/mrbumpy409/GeneralUser-GS> | guitars, banjo, mandolin, ukulele, basses, accordion, tonewheel and reed organ, harp, brass, choir, bells, mallets, koto, sitar, kalimba, all drum kits | "GeneralUser GS License v2.0": may be used "without restriction for your own music creation, private or commercial" | 4 Nov 2026, `documentation/LICENSE.txt` in the repository |
+| MuseScore General (derived from FluidR3Mono and others), MuseScore BVBA and contributors. <https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/> | grand piano, strings, pizzicato, church organ, cello and double bass, timpani, the guide melody | MIT licence | 2 Nov 2026 |
+
+Note on GeneralUser GS: its author states that some samples were collected from freely available
+soundfonts and that he cannot be completely certain of the origin of every one, although none came
+from commercial sample products and no complaint has been made since 2000. The licence explicitly
+allows commercial music made with it, which is how it is used here. If that residual uncertainty is
+not acceptable, set every `Sound("gu", …)` in `arrange.py` to an `"ms"` preset and rebuild: MuseScore
+General covers all General MIDI programs under the MIT licence.
+
+Reverb, EQ, compression and loudness normalisation are done in our own code (`render.py`) and with
+FFmpeg; no third-party impulse responses or plug-ins are used.
+
+### Considered and rejected for the backing tracks
+
+| Source | Why not |
+|---|---|
+| SGM-V2.01, Timbres of Heaven, Arachno SoundFont | Not evaluated in this run. They are popular, but I did not have a licence text for them that clearly permits commercial use, so they were left out rather than assumed. |
+| Sonatina Symphonic Orchestra | Creative Commons Sampling Plus 1.0 (advertising restriction). |
+| Commercial sample libraries of any kind | Not free to redistribute renders from without a paid licence. |

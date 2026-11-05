@@ -1,0 +1,36 @@
+{
+ "style": "klezmer",
+ "intro_bars": 4,
+ "intro_seconds": 3.64,
+ "first_note": 3.18,
+ "parts": [
+  {
+   "part": "accordion",
+   "role": "comp",
+   "notes": 327,
+   "raw_lufs": -37.7,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "mandolin",
+   "role": "comp2",
+   "notes": 442,
+   "raw_lufs": -36.3,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 109,
+   "raw_lufs": -28.0,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "tambourine",
+   "role": "perc",
+   "notes": 287,
+   "raw_lufs": -36.1,
+   "mix_lufs": -27.5
+  }
+ ]
+}

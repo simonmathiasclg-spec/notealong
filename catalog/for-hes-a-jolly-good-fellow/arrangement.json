@@ -1,0 +1,36 @@
+{
+ "style": "polka",
+ "intro_bars": 2,
+ "intro_seconds": 3.6,
+ "first_note": 3.0,
+ "parts": [
+  {
+   "part": "accordion",
+   "role": "comp",
+   "notes": 267,
+   "raw_lufs": -34.6,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "guitar",
+   "role": "comp2",
+   "notes": 129,
+   "raw_lufs": -36.4,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "tuba",
+   "role": "bass",
+   "notes": 45,
+   "raw_lufs": -32.2,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "drums",
+   "role": "perc",
+   "notes": 193,
+   "raw_lufs": -35.5,
+   "mix_lufs": -23.5
+  }
+ ]
+}
