@@ -17,6 +17,7 @@ export function HelpOverlay({ open, onClose }: { open: boolean; onClose: () => v
     <Modal open={open} onClose={onClose} title="How to read the screen">
       <div className="space-y-3 text-sm leading-relaxed text-muted">
         <p><span className="note-chip inline-flex h-6 min-w-6 px-1 align-middle text-xs" data-state="future">C</span> is the note to play, shown above each word. It lights up when it is time to play it.</p>
+        <p>The bar under a note shows how long to hold it. A line sweeps along the words: start each note when the line reaches it, and let go when its bar is full. After a long pause the next note counts you in: 3, 2, 1.</p>
         <p><span className="font-semibold text-fg">▲</span> after a note means the higher version of that note on your instrument, <span className="font-semibold text-fg">▼</span> the lower one.</p>
         <p><span className="note-chip inline-flex h-6 min-w-6 px-1 align-middle text-xs" data-range="out">C</span> A dashed red note is outside what your instrument can play. Try the octave setting or move the key.</p>
         <p>Drag across the thin line at the bottom to loop a part of the song.</p>

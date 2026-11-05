@@ -40,15 +40,19 @@ export function buildDisplayLines(song: Pick<Song, "lines" | "words" | "notes">)
   return lines;
 }
 
-/** Index of the line that should be shown as current at time t. */
-export function currentLineIndex(lines: DisplayLine[], t: number, lookahead = 0.3): number {
+/**
+ * Index of the line that should be shown as current at time t.
+ * `ahead` is how early an upcoming line may take the stage once the line
+ * before it is finished: long enough for its countdown to be seen.
+ */
+export function currentLineIndex(lines: DisplayLine[], t: number, lookahead = 0.3, ahead = 4): number {
   if (!lines.length) return 0;
   let idx = 0;
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].start - lookahead <= t) idx = i; else break;
   }
-  // Between lines: stay on the finished line briefly, then move to the next.
+  // Between lines: stay on the finished line for a moment, then move to the next.
   const cur = lines[idx];
-  if (t > cur.end + 1.0 && idx + 1 < lines.length && lines[idx + 1].start - t < 4) return idx + 1;
+  if (t > cur.end + 0.4 && idx + 1 < lines.length && lines[idx + 1].start - t < ahead) return idx + 1;
   return idx;
 }

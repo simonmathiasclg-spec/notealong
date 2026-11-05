@@ -5,6 +5,8 @@
  *   keeping the current position.
  * - A short count-in is played with the Web Audio API before starting.
  */
+import { SmoothClock } from "./clock";
+
 export type EngineState = {
   playing: boolean;
   loading: boolean;
@@ -104,10 +106,17 @@ export class AudioEngine {
   setGuideVolume(v: number) { this.vocals.volume = Math.max(0, Math.min(1, v)); }
 
   get currentTime() { return this.backing.currentTime; }
+  get rate() { return this.speed; }
+  private clock = new SmoothClock();
+  /** The position for animation and for scheduling sound: the media clock, made steady between its updates. */
+  get smoothTime() {
+    return this.clock.read(this.backing.currentTime, performance.now(), this.backing.playbackRate, this.state.playing && !this.backing.paused && !this.backing.seeking);
+  }
   seek(t: number) {
     t = Math.max(0, Math.min(this.duration || t, t));
     this.backing.currentTime = t;
     this.vocals.currentTime = t;
+    this.clock.reset();
   }
 
   private async playNow() {

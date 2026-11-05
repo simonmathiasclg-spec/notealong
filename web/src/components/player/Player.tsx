@@ -9,6 +9,7 @@ import { buildDisplayLines, currentLineIndex, type DisplayLine } from "@/lib/dis
 import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/lib/notes";
 import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
+import { beatSeconds, cueAt, type Cue } from "@/lib/timing";
 import { accentFor, accentVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
@@ -43,6 +44,8 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const [keyLoading, setKeyLoading] = useState(false);
   const [fingeringPref, setFingeringPref] = usePref("na.fingering", "0");
   const showFingering = fingeringPref === "1" && instrumentIsSax(session.instrument);
+  const [timingPref, setTimingPref] = usePref("na.timing", "1");
+  const timing = timingPref !== "0";
   const engineRef = useRef<AudioEngine | null>(null);
 
   // ---- audio engine -------------------------------------------------------
@@ -109,7 +112,10 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   }, [song.notes, time, noteInfo]);
 
   // ---- time tracking (only re-render when something visible changes) ----
-  const [cursor, setCursor] = useState<{ line: number; word: string | null; note: string | null }>({ line: 0, word: null, note: null });
+  const [cursor, setCursor] = useState<{ line: number; word: string | null; note: string | null } & Cue>({ line: 0, word: null, note: null, cue: null, countNote: null, count: null });
+  const beat = useMemo(() => beatSeconds(song.tempo_bpm), [song.tempo_bpm]);
+  const sortedNotes = useMemo(() => [...song.notes].sort((a, b) => a.start - b.start), [song.notes]);
+  const getSmoothTime = useCallback(() => engineRef.current?.smoothTime ?? 0, []);
   const manualLine = useRef<number | null>(null);
   useEffect(() => {
     let raf = 0;
@@ -121,7 +127,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         if (Math.abs(t - lastT) > 0.03) {
           lastT = t;
           setTime(t);
-          let line = currentLineIndex(lines, t);
+          let line = currentLineIndex(lines, t, 0.3, Math.max(4, beat * 3 + 0.6));
           if (manualLine.current !== null) {
             const ml = lines[manualLine.current];
             if (ml && t >= ml.start - 0.3 && t <= ml.end + 1) line = manualLine.current; else manualLine.current = null;
@@ -135,14 +141,15 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
               for (const n of it.notes) if (t >= n.start && t < n.end) note = n.id;
             }
           }
-          setCursor((c) => (c.line === line && c.word === word && c.note === note ? c : { line, word, note }));
+          const q = cueAt(sortedNotes, t, beat);
+          setCursor((c) => (c.line === line && c.word === word && c.note === note && c.cue === q.cue && c.countNote === q.countNote && c.count === q.count ? c : { line, word, note, ...q }));
         }
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [lines]);
+  }, [lines, sortedNotes, beat]);
 
   // ---- transport actions -------------------------------------------------
   const seekToLine = useCallback((line: DisplayLine) => {
@@ -302,7 +309,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   ].filter(Boolean).join(" · ");
 
   return (
-    <div className="spotlight flex h-dvh flex-col overflow-hidden bg-bg" style={accentVars(accent) as React.CSSProperties}>
+    <div className="spotlight flex h-dvh flex-col overflow-hidden bg-bg" style={{ ...accentVars(accent), "--beat": `${(beat / session.speed).toFixed(3)}s` } as React.CSSProperties}>
       {/* Top bar */}
       <AnimatePresence initial={false}>
         {!focus && (
@@ -340,6 +347,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         <LyricStage
           lines={lines} currentLine={cursor.line} currentWordId={cursor.word} currentNoteId={cursor.note} time={time}
           noteInfo={noteInfo} script={session.script} editing={editing}
+          timing={timing} cue={cursor} beat={beat} getTime={getSmoothTime}
           onNoteClick={(id, el) => { setWordAnchor(null); setNoteAnchor({ id, el }); }}
           onWordClick={(word, el) => { setNoteAnchor(null); setWordAnchor({ word, el }); }}
           onAddNote={addNote}
@@ -404,6 +412,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         open={settingsOpen && !focus} onClose={() => setSettingsOpen(false)} song={song} session={session} update={update}
         countIn={countIn} setCountIn={setCountIn} busy={busy} keyLoading={keyLoading}
         fingering={fingeringPref === "1"} setFingering={(v) => setFingeringPref(v ? "1" : "0")}
+        timing={timing} setTiming={(v) => setTimingPref(v ? "1" : "0")}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}

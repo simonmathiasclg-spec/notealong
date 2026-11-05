@@ -27,6 +27,8 @@ type Props = {
   setCountIn: (v: boolean) => void;
   fingering: boolean;
   setFingering: (v: boolean) => void;
+  timing: boolean;
+  setTiming: (v: boolean) => void;
   busy: string | null;
   onDetailLevel: (level: string) => void;
   onLanguage: (lang: string) => void;
@@ -138,6 +140,10 @@ export function SettingsPanel(p: Props) {
                     )}
                     <Switch checked={p.countIn} onChange={p.setCountIn} label="Count in before playing" />
                   </div>
+                </Row>
+
+                <Row label="Timing guide" tip="A bar under each note shows how long to hold it. A line sweeps through the words: start each note when the line reaches it. After a long pause you get a 3, 2, 1 count.">
+                  <Switch checked={p.timing} onChange={p.setTiming} label="Show when to start and how long to hold" />
                 </Row>
 
                 {inst.family === "Saxophones" && (
