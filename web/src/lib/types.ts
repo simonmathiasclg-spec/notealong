@@ -72,6 +72,14 @@ export type CatalogEntry = {
   access: "free" | "paid";
   note_count?: number;
   word_count?: number;
+  /** ISO date the song joined the catalog: drives "New this week". */
+  added?: string;
+  /** Plays, once the app reports them. Sorting by "Most played" already uses it. */
+  popularity?: number;
+  /** When this user last opened the song (from their saved settings). */
+  last_played?: string | null;
+  /** Creative Commons recordings: "annotated" (word timings made by people) or "transcribed" (heard automatically). */
+  lyrics?: "annotated" | "transcribed";
 };
 
 export type Catalog = { version: number; songs: CatalogEntry[] };

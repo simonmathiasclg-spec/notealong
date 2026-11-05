@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { ChevronDown, Play } from "lucide-react";
+import { ArrowRight, ChevronDown, Play } from "lucide-react";
 import { api, formatTime } from "@/lib/api";
-import { DIFFICULTY_LABEL, cultureOf, type Facet } from "@/lib/catalog";
+import { DIFFICULTY_LABEL, SORT_LABEL, cultureOf, languageName, type Category, type Facet, type SortMode } from "@/lib/catalog";
 import { accentFor } from "@/lib/color";
 import { useTheme } from "@/lib/prefs";
 import type { CatalogEntry, Difficulty } from "@/lib/types";
@@ -39,24 +39,75 @@ export function SongTile({ song, priority = false }: { song: CatalogEntry; prior
   );
 }
 
-export function Shelf({ title, subtitle, songs, grid = false, action }: { title: string; subtitle?: string; songs: CatalogEntry[]; grid?: boolean; action?: React.ReactNode }) {
+export function Shelf({ title, subtitle, songs, total, grid = false, action, onSeeAll }: { title: string; subtitle?: string; songs: CatalogEntry[]; total?: number; grid?: boolean; action?: React.ReactNode; onSeeAll?: () => void }) {
+  const more = onSeeAll && total !== undefined && total > songs.length;
   return (
     <section aria-label={title}>
       <div className="mb-4 flex items-baseline justify-between gap-4">
-        <div className="flex items-baseline gap-3">
-          <h2 className="display-md text-[1.45rem]">{title}</h2>
-          {subtitle && <span className="hidden text-sm text-muted sm:inline">{subtitle}</span>}
+        <div className="flex min-w-0 items-baseline gap-3">
+          <h2 className="display-md truncate text-[1.45rem]">{title}</h2>
+          {subtitle && <span className="hidden truncate text-sm text-muted sm:inline">{subtitle}</span>}
         </div>
-        {action}
+        {action ?? (onSeeAll && total !== undefined && total > 6 && (
+          <button className="btn btn-ghost btn-sm shrink-0" onClick={onSeeAll}>See all {total} <ArrowRight className="h-3.5 w-3.5" /></button>
+        ))}
       </div>
       {grid ? (
         <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{songs.map((s) => <SongTile key={s.id} song={s} />)}</div>
       ) : (
         <div className="-mx-5 flex gap-5 overflow-x-auto px-5 pb-3 pt-1 sm:-mx-8 sm:px-8 [scrollbar-width:none]">
           {songs.map((s) => <div key={s.id} className="w-[9.5rem] shrink-0 sm:w-[10.5rem]"><SongTile song={s} /></div>)}
+          {more && (
+            <button onClick={onSeeAll} className="grid aspect-square w-[9.5rem] shrink-0 place-items-center rounded-2xl border border-border text-sm font-medium text-muted transition hover:border-border-strong hover:bg-hover hover:text-fg sm:w-[10.5rem]">
+              <span className="inline-flex items-center gap-1.5">See all {total} <ArrowRight className="h-4 w-4" /></span>
+            </button>
+          )}
         </div>
       )}
     </section>
+  );
+}
+
+/** Browse cards: styles, parts of the world and languages, each opening its list. */
+export function Browse({ categories, onPick }: { categories: Category[]; onPick: (f: Facet) => void }) {
+  const groups = ["Styles", "Around the world", "Languages"] as const;
+  return (
+    <section aria-label="Browse">
+      <h2 className="display-md mb-5 text-[1.45rem]">Browse</h2>
+      <div className="grid gap-x-10 gap-y-8 lg:grid-cols-3">
+        {groups.map((g) => {
+          const items = categories.filter((c) => c.group === g);
+          if (!items.length) return null;
+          return (
+            <div key={g}>
+              <h3 className="label mb-3">{g}</h3>
+              <ul className="divide-y divide-border border-y border-border">
+                {items.map((c) => (
+                  <li key={c.id}>
+                    <button onClick={() => onPick(c.facet)} className="group flex w-full items-center justify-between gap-3 py-2.5 text-left text-[0.95rem] transition hover:text-accent">
+                      <span className="truncate font-medium">{c.title}</span>
+                      <span className="flex shrink-0 items-center gap-2 text-[0.8rem] text-faint"><span className="tabular">{c.n} {c.n === 1 ? "song" : "songs"}</span><ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" /></span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/** "Sort by" for the grids. */
+export function SortMenu({ value, onChange }: { value: SortMode; onChange: (m: SortMode) => void }) {
+  return (
+    <label className="inline-flex items-center gap-2 text-sm text-muted">
+      <span className="hidden sm:inline">Sort</span>
+      <select className="field h-9 py-0 pr-8 text-sm" value={value} onChange={(e) => onChange(e.target.value as SortMode)} aria-label="Sort songs">
+        {(Object.keys(SORT_LABEL) as (keyof typeof SORT_LABEL)[]).map((k) => <option key={k} value={k}>{SORT_LABEL[k]}</option>)}
+      </select>
+    </label>
   );
 }
 
@@ -94,11 +145,14 @@ export function Hero({ song, count }: { song: CatalogEntry; count: number }) {
   );
 }
 
-export function Chip({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
-  return <button className="chip" aria-pressed={active} onClick={onClick}>{children}</button>;
+export function Chip({ active, children, onClick, count }: { active: boolean; children: React.ReactNode; onClick: () => void; count?: number }) {
+  return <button className="chip" aria-pressed={active} onClick={onClick}>{children}{count !== undefined && <span className="tabular text-[0.72rem] text-faint">{count}</span>}</button>;
 }
 
-export function Filters({ facet, setFacet, genres, cultures }: { facet: Facet; setFacet: (f: Facet) => void; genres: { value: string; n: number }[]; cultures: { value: string; n: number }[] }) {
+type Counted = { value: string; n: number };
+
+export function Filters({ facet, setFacet, genres, cultures, regions, languages, hasNew }: { facet: Facet; setFacet: (f: Facet) => void; genres: Counted[]; cultures: Counted[]; regions: Counted[]; languages: Counted[]; hasNew: boolean }) {
+  const deep = facet.kind === "genre" || facet.kind === "culture" || facet.kind === "region" || facet.kind === "language";
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
@@ -107,12 +161,15 @@ export function Filters({ facet, setFacet, genres, cultures }: { facet: Facet; s
           <Chip key={d} active={facet.kind === "difficulty" && facet.value === d} onClick={() => setFacet({ kind: "difficulty", value: d })}>{DIFFICULTY_LABEL[d]}</Chip>
         ))}
         <Chip active={facet.kind === "recordings"} onClick={() => setFacet({ kind: "recordings" })}>Real recordings</Chip>
+        {hasNew && <Chip active={facet.kind === "new"} onClick={() => setFacet({ kind: "new" })}>New</Chip>}
       </div>
-      <details className="group" open={facet.kind === "genre" || facet.kind === "culture"}>
-        <summary className="chip cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">Browse by style or country <ChevronDown className="h-3.5 w-3.5 text-faint transition group-open:rotate-180" /></summary>
+      <details className="group" open={deep}>
+        <summary className="chip cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">Browse by style, place or language <ChevronDown className="h-3.5 w-3.5 text-faint transition group-open:rotate-180" /></summary>
         <div className="mt-3 space-y-2.5 pl-1">
-          <div className="flex flex-wrap items-center gap-2"><span className="label w-16">Style</span>{genres.map((g) => <Chip key={g.value} active={facet.kind === "genre" && facet.value === g.value} onClick={() => setFacet({ kind: "genre", value: g.value })}>{g.value}</Chip>)}</div>
-          <div className="flex flex-wrap items-center gap-2"><span className="label w-16">From</span>{cultures.map((c) => <Chip key={c.value} active={facet.kind === "culture" && facet.value === c.value} onClick={() => setFacet({ kind: "culture", value: c.value })}>{c.value}</Chip>)}</div>
+          <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Style</span>{genres.filter((g) => g.n >= 2 || (facet.kind === "genre" && facet.value === g.value)).map((g) => <Chip key={g.value} count={g.n} active={facet.kind === "genre" && facet.value === g.value} onClick={() => setFacet({ kind: "genre", value: g.value })}>{g.value}</Chip>)}</div>
+          {regions.length > 0 && <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Region</span>{regions.map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "region" && facet.value === c.value} onClick={() => setFacet({ kind: "region", value: c.value })}>{c.value}</Chip>)}</div>}
+          <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Tradition</span>{cultures.filter((c) => c.n >= 3 || (facet.kind === "culture" && facet.value === c.value)).map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "culture" && facet.value === c.value} onClick={() => setFacet({ kind: "culture", value: c.value })}>{c.value}</Chip>)}</div>
+          {languages.length > 1 && <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Sung in</span>{languages.filter((c) => c.n >= 2 || (facet.kind === "language" && facet.value === c.value)).map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "language" && facet.value === c.value} onClick={() => setFacet({ kind: "language", value: c.value })}>{languageName(c.value)}</Chip>)}</div>}
         </div>
       </details>
     </div>

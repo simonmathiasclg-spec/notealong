@@ -1,0 +1,961 @@
+{
+ "schema_version": 1,
+ "id": "du-gamla-du-fria",
+ "title": "Du gamla, du fria",
+ "artist": "Traditional / Richard Dybeck",
+ "duration": 41.053,
+ "tempo_bpm": 76.0,
+ "created_at": "2026-11-05T05:28:24.556298+00:00",
+ "updated_at": "2026-11-05T05:28:24.556337+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "sv",
+  "override": null,
+  "script": "latin"
+ },
+ "key": {
+  "tonic": 7,
+  "mode": "major",
+  "name": "G major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "Du",
+   "roman": null,
+   "start": 5.921,
+   "end": 6.316,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "gamla,",
+   "roman": null,
+   "start": 6.316,
+   "end": 7.5,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "du",
+   "roman": null,
+   "start": 7.5,
+   "end": 7.895,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "fria,",
+   "roman": null,
+   "start": 7.895,
+   "end": 9.079,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "du",
+   "roman": null,
+   "start": 9.079,
+   "end": 9.474,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "fjällhöga",
+   "roman": null,
+   "start": 9.474,
+   "end": 11.053,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "nord,",
+   "roman": null,
+   "start": 11.053,
+   "end": 11.842,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "du",
+   "roman": null,
+   "start": 12.237,
+   "end": 12.632,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "tysta,",
+   "roman": null,
+   "start": 12.632,
+   "end": 13.816,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "du",
+   "roman": null,
+   "start": 13.816,
+   "end": 14.211,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "glädjerika",
+   "roman": null,
+   "start": 14.211,
+   "end": 15.789,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "sköna!",
+   "roman": null,
+   "start": 15.789,
+   "end": 18.158,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "Jag",
+   "roman": null,
+   "start": 18.553,
+   "end": 18.947,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "hälsar",
+   "roman": null,
+   "start": 18.947,
+   "end": 20.132,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "dig,",
+   "roman": null,
+   "start": 20.132,
+   "end": 20.526,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "vänaste",
+   "roman": null,
+   "start": 20.526,
+   "end": 22.105,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "land",
+   "roman": null,
+   "start": 22.105,
+   "end": 22.895,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "uppå",
+   "roman": null,
+   "start": 22.895,
+   "end": 23.684,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "jord,",
+   "roman": null,
+   "start": 23.684,
+   "end": 24.474,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "din",
+   "roman": null,
+   "start": 24.868,
+   "end": 25.263,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "sol,",
+   "roman": null,
+   "start": 25.263,
+   "end": 25.855,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "din",
+   "roman": null,
+   "start": 25.855,
+   "end": 26.053,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "himmel,",
+   "roman": null,
+   "start": 26.053,
+   "end": 26.842,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "dina",
+   "roman": null,
+   "start": 26.842,
+   "end": 27.632,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "ängder",
+   "roman": null,
+   "start": 27.632,
+   "end": 28.421,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "gröna,",
+   "roman": null,
+   "start": 28.421,
+   "end": 30.789,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "din",
+   "roman": null,
+   "start": 31.184,
+   "end": 31.579,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "sol,",
+   "roman": null,
+   "start": 31.579,
+   "end": 32.171,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "din",
+   "roman": null,
+   "start": 32.171,
+   "end": 32.368,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "himmel,",
+   "roman": null,
+   "start": 32.368,
+   "end": 33.158,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "dina",
+   "roman": null,
+   "start": 33.158,
+   "end": 33.947,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "ängder",
+   "roman": null,
+   "start": 33.947,
+   "end": 34.737,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "gröna.",
+   "roman": null,
+   "start": 34.737,
+   "end": 37.105,
+   "line": 4,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 5.921,
+   "end": 11.842
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 12.237,
+   "end": 18.158
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 18.553,
+   "end": 24.474
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 24.868,
+   "end": 30.789
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 31.184,
+   "end": 37.105
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 5.921,
+   "end": 6.316,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 6.316,
+   "end": 7.105,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 7.105,
+   "end": 7.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 7.5,
+   "end": 7.895,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 7.895,
+   "end": 8.684,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 8.684,
+   "end": 9.079,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 9.079,
+   "end": 9.474,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 9.474,
+   "end": 10.263,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 10.263,
+   "end": 10.658,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 10.658,
+   "end": 11.053,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 11.053,
+   "end": 11.842,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 12.237,
+   "end": 12.632,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 12.632,
+   "end": 13.421,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 13.421,
+   "end": 13.816,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 13.816,
+   "end": 14.211,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 14.211,
+   "end": 14.605,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 14.605,
+   "end": 15.0,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 15.0,
+   "end": 15.592,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 15.592,
+   "end": 15.789,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 15.789,
+   "end": 17.368,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 17.368,
+   "end": 18.158,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 18.553,
+   "end": 18.947,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 18.947,
+   "end": 19.737,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 19.737,
+   "end": 20.132,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 20.132,
+   "end": 20.526,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 20.526,
+   "end": 21.316,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 21.316,
+   "end": 21.711,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 21.711,
+   "end": 22.105,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 22.105,
+   "end": 22.697,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 22.697,
+   "end": 22.895,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 22.895,
+   "end": 23.289,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 23.289,
+   "end": 23.684,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 23.684,
+   "end": 24.474,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 24.868,
+   "end": 25.263,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 25.263,
+   "end": 25.855,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 25.855,
+   "end": 26.053,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 26.053,
+   "end": 26.447,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 26.447,
+   "end": 26.842,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 26.842,
+   "end": 27.237,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 27.237,
+   "end": 27.632,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 27.632,
+   "end": 28.026,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 28.026,
+   "end": 28.421,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 28.421,
+   "end": 30.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 30.0,
+   "end": 30.789,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 31.184,
+   "end": 31.579,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 31.579,
+   "end": 32.171,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 32.171,
+   "end": 32.368,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n51",
+   "start": 32.368,
+   "end": 32.763,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n52",
+   "start": 32.763,
+   "end": 33.158,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 33.158,
+   "end": 33.553,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n54",
+   "start": 33.553,
+   "end": 33.947,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n55",
+   "start": 33.947,
+   "end": 34.342,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n56",
+   "start": 34.342,
+   "end": 34.737,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n57",
+   "start": 34.737,
+   "end": 36.316,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n58",
+   "start": 36.316,
+   "end": 37.105,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 4,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "original"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

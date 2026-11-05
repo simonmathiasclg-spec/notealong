@@ -120,6 +120,10 @@ def build_song(path: Path, force: bool = False, audio: bool = True) -> dict:
         (out / "song.json").write_text(song.model_dump_json(indent=1), encoding="utf-8")
         (out / "cover.svg").write_text(cover_svg(spec.id, spec.meta.get("genre", "Folk"), spec.meta["title"]), encoding="utf-8")
         meta = catalog_meta(spec, song)
+        # the day a song joined the catalog survives rebuilds ("New this week" on Discover)
+        previous = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+        meta["added"] = previous.get("added") or datetime.now(timezone.utc).date().isoformat()
+        meta["popularity"] = previous.get("popularity", 0)
         meta_path.write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
     for w in spec.warnings:
         print(f"  warning [{spec.id}]: {w}")

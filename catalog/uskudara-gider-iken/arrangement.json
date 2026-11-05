@@ -1,0 +1,36 @@
+{
+ "style": "arabic",
+ "intro_bars": 2,
+ "intro_seconds": 3.64,
+ "first_note": 3.64,
+ "parts": [
+  {
+   "part": "oud",
+   "role": "comp",
+   "notes": 276,
+   "raw_lufs": -31.3,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 54,
+   "raw_lufs": -33.5,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 85,
+   "raw_lufs": -29.6,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "darbuka",
+   "role": "perc",
+   "notes": 327,
+   "raw_lufs": -35.9,
+   "mix_lufs": -23.5
+  }
+ ]
+}

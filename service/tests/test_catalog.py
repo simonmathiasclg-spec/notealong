@@ -193,6 +193,7 @@ def test_catalog_index_and_song(catalog_client):
     c = catalog_client
     idx = c.get("/api/catalog").json()
     assert [s["id"] for s in idx["songs"]] == ["test-tune"] and idx["songs"][0]["cover_url"].endswith("/cover")
+    assert idx["songs"][0]["last_played"] is None
     assert c.get("/api/catalog/test-tune/cover").headers["content-type"].startswith("image/svg+xml")
     body = c.get("/api/songs/test-tune").json()
     assert body["catalog"]["attribution"] == "Traditional." and body["notes"][0]["midi"] == 60
@@ -211,6 +212,8 @@ def test_catalog_edits_are_an_overlay(catalog_client):
     overlay = json.loads(library.overlay_path("test-tune").read_text())
     assert overlay["notes"][0]["midi"] == 62 and overlay["user"]["instrument"] == "flute" and "words" not in overlay
     assert c.get("/api/songs/test-tune").json()["notes"][0]["midi"] == 62
+    # Discover can show "Jump back in": the catalog lists when each song was last used
+    assert c.get("/api/catalog").json()["songs"][0]["last_played"] == overlay["updated_at"]
     assert c.post("/api/songs/test-tune/steps/cleanup", json={}).status_code == 400
     assert c.post("/api/songs/test-tune/lyrics", json={"text": "x"}).status_code == 400
     assert c.delete("/api/songs/test-tune").json()["ok"] is True

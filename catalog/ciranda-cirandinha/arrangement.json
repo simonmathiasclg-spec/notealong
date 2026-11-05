@@ -1,0 +1,43 @@
+{
+ "style": "children",
+ "intro_bars": 4,
+ "intro_seconds": 4.8,
+ "first_note": 4.5,
+ "parts": [
+  {
+   "part": "ukulele",
+   "role": "comp",
+   "notes": 508,
+   "raw_lufs": -32.5,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "glockenspiel",
+   "role": "color",
+   "notes": 43,
+   "raw_lufs": -42.2,
+   "mix_lufs": -23.5
+  },
+  {
+   "part": "pizzicato",
+   "role": "comp2",
+   "notes": 219,
+   "raw_lufs": -36.6,
+   "mix_lufs": -24.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 73,
+   "raw_lufs": -28.9,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "percussion",
+   "role": "perc",
+   "notes": 201,
+   "raw_lufs": -37.8,
+   "mix_lufs": -26.5
+  }
+ ]
+}

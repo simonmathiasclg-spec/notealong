@@ -1,7 +1,148 @@
 {
  "version": 1,
- "generated_at": "2026-11-05T05:14:56.449990+00:00",
+ "generated_at": "2026-11-05T05:41:06.571065+00:00",
  "songs": [
+  {
+   "id": "a-la-nanita-nana",
+   "title": "A la nanita nana",
+   "artist": "José Ramón Gomis / Juan Francisco Muñoz y Pabón",
+   "origin": "Spain",
+   "culture": "Spanish",
+   "genre": "Lullaby",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 10,
+    "notes_per_second": 1.98,
+    "big_leaps": 0.01,
+    "shortest": 0.31,
+    "score": 4.0
+   },
+   "duration": 52.5,
+   "key": "D minor",
+   "tempo_bpm": 96.0,
+   "year": "1904",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Published in Madrid in 1904 as \"La nana, balada al Niño Jesús\", music by José Ramón Gomis (died 1939), words by Juan Francisco Muñoz y Pabón (died 1920); sung here in the form that passed into Spanish oral tradition as a carol and lullaby. Both authors died more than 80 years ago, so melody and words are public domain. The middle section turns to D major, so its F sharps, C sharps and B naturals are expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:A_la_nanita_nana.mid"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 278,
+   "tags": [
+    "lullaby",
+    "christmas",
+    "carol",
+    "spain",
+    "villancico"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 89,
+   "word_count": 39,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "abide-with-me",
+   "title": "Abide with Me",
+   "artist": "William Henry Monk / Henry Francis Lyte",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Hymn",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 7,
+    "distinct": 7,
+    "notes_per_second": 0.87,
+    "big_leaps": 0.05,
+    "shortest": 0.71,
+    "score": 1.0
+   },
+   "duration": 54.286,
+   "key": "C major",
+   "tempo_bpm": 84.0,
+   "year": "1861",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words by Henry Francis Lyte (1847; he died that year), sung to the tune \"Eventide\" written by William Henry Monk for Hymns Ancient and Modern (1861; he died in 1889). Melody and words are public domain worldwide. The F sharp on \"abide\" (end of the second line) is a chromatic note of the original tune and is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/session/SAFD/___/Hymns/0001"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 202,
+   "tags": [
+    "hymn",
+    "evening",
+    "slow",
+    "remembrance",
+    "classic"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 40,
+   "word_count": 29,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "aloha-oe",
+   "title": "Aloha ʻOe",
+   "artist": "Queen Liliʻuokalani",
+   "origin": "Hawaii",
+   "culture": "Hawaiian",
+   "genre": "Folk",
+   "language": "haw",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 1.52,
+    "big_leaps": 0.05,
+    "shortest": 0.39,
+    "score": 2.0
+   },
+   "duration": 60.0,
+   "key": "G major",
+   "tempo_bpm": 76.0,
+   "year": "1878",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Liliʻuokalani (1838-1917), written in 1878 and published with an 1884 copyright; public domain. Melody and word underlay follow the original sheet music, where some two-syllable words (pali, nihi, hele, liko, uka) are printed under a single note; the chorus keeps her two English lines. The passing G# shows as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Aloha_oe_song_02.png"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 149,
+   "tags": [
+    "hawaii",
+    "farewell",
+    "love",
+    "queen",
+    "pacific"
+   ],
+   "featured": true,
+   "beginner": true,
+   "access": "free",
+   "note_count": 77,
+   "word_count": 44,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
   {
    "id": "alouette",
    "title": "Alouette",
@@ -44,7 +185,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 123,
-   "word_count": 65
+   "word_count": 65,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "amazing-grace",
@@ -89,7 +232,56 @@
    "beginner": true,
    "access": "free",
    "note_count": 68,
-   "word_count": 50
+   "word_count": 50,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "angels-we-have-heard-on-high",
+   "title": "Angels We Have Heard on High",
+   "artist": "Traditional French / James Chadwick",
+   "origin": "France",
+   "culture": "French",
+   "genre": "Christmas",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 1.71,
+    "big_leaps": 0.04,
+    "shortest": 0.27,
+    "score": 3.0
+   },
+   "duration": 51.429,
+   "key": "F major",
+   "tempo_bpm": 112.0,
+   "year": "1862",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "The melody \"Gloria\" is that of the anonymous traditional French carol \"Les anges dans nos campagnes\" (first printed in 1842); the English words were written in 1862 by James Chadwick (he died in 1882). Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Angels_We_Have_Heard_on_High&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 347,
+   "tags": [
+    "christmas",
+    "carol",
+    "gloria",
+    "angels",
+    "french"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 77,
+   "word_count": 28,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "arirang",
@@ -133,7 +325,57 @@
    "beginner": true,
    "access": "free",
    "note_count": 71,
-   "word_count": 13
+   "word_count": 13,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "arroz-con-leche",
+   "title": "Arroz con leche",
+   "artist": "Traditional",
+   "origin": "Spain / Latin America",
+   "culture": "Latin American",
+   "genre": "Children's",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 1.99,
+    "big_leaps": 0.0,
+    "shortest": 0.33,
+    "score": 3.0
+   },
+   "duration": 36.522,
+   "key": "F major",
+   "tempo_bpm": 92.0,
+   "year": "1880",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous traditional singing game from Spain, recorded in Spanish folk-song collections of the 19th century and sung throughout Latin America ever since; melody and words have no known author and are public domain. This is the widespread Latin American text (\"de San Nicolás\"). Melody checked against the scores and MIDI at Mama Lisa's World.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://www.mamalisa.com/?t=es&p=720"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 29,
+   "tags": [
+    "children",
+    "singing game",
+    "circle game",
+    "latin america",
+    "spain",
+    "easy"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 63,
+   "word_count": 37,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "au-clair-de-la-lune",
@@ -177,7 +419,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 88,
-   "word_count": 62
+   "word_count": 62,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "auld-lang-syne",
@@ -221,7 +465,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 56,
-   "word_count": 40
+   "word_count": 40,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "aura-lee",
@@ -265,7 +511,56 @@
    "beginner": true,
    "access": "free",
    "note_count": 48,
-   "word_count": 38
+   "word_count": 38,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "be-thou-my-vision",
+   "title": "Be Thou My Vision",
+   "artist": "Traditional Irish / Eleanor Hull",
+   "origin": "Ireland",
+   "culture": "Irish",
+   "genre": "Hymn",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 10,
+    "notes_per_second": 1.44,
+    "big_leaps": 0.02,
+    "shortest": 0.34,
+    "score": 5.0
+   },
+   "duration": 38.864,
+   "key": "D major",
+   "tempo_bpm": 88.0,
+   "year": "1912",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "The tune \"Slane\" is a traditional Irish air first printed in Patrick W. Joyce's Old Irish Folk Music and Songs (1909). The words are Eleanor Hull's 1912 verse setting (she died in 1935) of Mary Byrne's 1905 translation (she died in 1931) of an early Irish poem. Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://thesession.org/tunes/6415"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 215,
+   "tags": [
+    "hymn",
+    "irish",
+    "celtic",
+    "prayer",
+    "slow"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 47,
+   "word_count": 35,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "beautiful-dreamer",
@@ -309,7 +604,72 @@
    "beginner": false,
    "access": "free",
    "note_count": 99,
-   "word_count": 61
+   "word_count": 61,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "bebop-and-rocksteady-peter-pan-1",
+   "title": "Peter Pan (1)",
+   "artist": "Bebop and Rocksteady",
+   "origin": "",
+   "culture": "",
+   "genre": "Rock",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 12,
+    "notes_per_second": 1.69,
+    "big_leaps": 0.03,
+    "shortest": 0.12,
+    "score": 7.0
+   },
+   "duration": 202.789,
+   "key": "G minor",
+   "tempo_bpm": 107.7,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Peter Pan (1)\" by Bebop and Rocksteady, from the album \"Peter Pan (1)\". CC BY 3.0. Published on Jamendo (album 211902); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-211902"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 10,
+   "tags": [
+    "jamendo",
+    "alternativerock",
+    "happy"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 279,
+   "word_count": 231,
+   "review": {
+    "checked": 345,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 4,
+    "kept": 341,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 345,
+     "same_pitch": 55,
+     "wobbles": 1,
+     "bends": 9,
+     "after": 279
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 1.09,
+   "language_probability": 0.8561412692070007,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "bella-ciao",
@@ -353,7 +713,121 @@
    "beginner": false,
    "access": "free",
    "note_count": 132,
-   "word_count": 70
+   "word_count": 70,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "billie-billie-oh-my-love",
+   "title": "Billie - Oh My Love",
+   "artist": "Billie",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 9,
+    "notes_per_second": 1.16,
+    "big_leaps": 0.05,
+    "shortest": 0.12,
+    "score": 3.0
+   },
+   "duration": 152.424,
+   "key": "D minor",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Billie - Oh My Love\" by Billie, from the album \"Billie - Oh My Love\". CC BY 3.0. Published on Jamendo (album 213772); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-213772"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "jamendo",
+    "guitar",
+    "pop",
+    "rock",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 160,
+   "word_count": 118,
+   "review": {
+    "checked": 194,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 1,
+    "kept": 193,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 194,
+     "same_pitch": 28,
+     "wobbles": 1,
+     "bends": 4,
+     "after": 160
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -1.24,
+   "language_probability": 0.8734948039054871,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "blow-the-man-down",
+   "title": "Blow the Man Down",
+   "artist": "Traditional",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Sea shanty",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 2.36,
+    "big_leaps": 0.03,
+    "shortest": 0.17,
+    "score": 4.0
+   },
+   "duration": 38.864,
+   "key": "C major",
+   "tempo_bpm": 58.7,
+   "year": "1867",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous halyard shanty of the Atlantic packet ships, quoted in print by 1867 and published in L. A. Smith's The Music of the Waters (1888); the words here are stanzas 1 and 4 of R. R. Terry's The Shanty Book (1921). Traditional melody and words, public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=sniff.numachi.com/~rickheit/dtrad/abc_dtrad.tar.gz/abc_dtrad/BLOWDOWN/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "sea shanty",
+    "sailor",
+    "singalong",
+    "waltz time",
+    "work song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 78,
+   "word_count": 66,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "brahms-lullaby",
@@ -397,7 +871,57 @@
    "beginner": true,
    "access": "free",
    "note_count": 51,
-   "word_count": 36
+   "word_count": 36,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "ciranda-cirandinha",
+   "title": "Ciranda, cirandinha",
+   "artist": "Traditional",
+   "origin": "Brazil",
+   "culture": "Brazilian",
+   "genre": "Children's",
+   "language": "pt",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 3.05,
+    "big_leaps": 0.03,
+    "shortest": 0.3,
+    "score": 5.0
+   },
+   "duration": 45.6,
+   "key": "G major",
+   "tempo_bpm": 100.0,
+   "year": "1880",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous Brazilian circle-game song of Portuguese origin; the verses are old folk quatrains found in 19th-century collections and the tune was already in print when Heitor Villa-Lobos quoted it in \"O Polichinelo\" (1918), so melody and words are public domain. Melody checked against the score and MIDI at Mama Lisa's World (transposed from B flat to G); each half is sung twice, as in that score.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://www.mamalisa.com/?t=es&p=209"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 40,
+   "tags": [
+    "children",
+    "circle game",
+    "brazil",
+    "dance",
+    "roda",
+    "easy"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 118,
+   "word_count": 66,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "cortez-feel-stripped",
@@ -453,7 +977,10 @@
      "after": 309
     }
    },
-   "accent_hue": 338
+   "accent_hue": 338,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "danny-boy",
@@ -498,7 +1025,57 @@
    "beginner": false,
    "access": "free",
    "note_count": 90,
-   "word_count": 74
+   "word_count": 74,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "de-colores",
+   "title": "De colores",
+   "artist": "Traditional",
+   "origin": "Spain / Mexico",
+   "culture": "Mexican",
+   "genre": "Folk",
+   "language": "es",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 7,
+    "distinct": 5,
+    "notes_per_second": 1.87,
+    "big_leaps": 0.0,
+    "shortest": 0.2,
+    "score": 2.0
+   },
+   "duration": 61.2,
+   "key": "C major",
+   "tempo_bpm": 150.0,
+   "year": "1800",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous traditional song of Spain and Mexico; the melody came from Spain in the colonial era and the song has circulated in the Americas for centuries, with no known author. Only the old first verse and refrain are used (not the 20th-century added verses), so melody and words are public domain. The B flat on \"lucir\" is a chromatic passing note and is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/program/De_Colores/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 158,
+   "tags": [
+    "mexico",
+    "spain",
+    "spring",
+    "colours",
+    "waltz",
+    "singalong"
+   ],
+   "featured": true,
+   "beginner": true,
+   "access": "free",
+   "note_count": 101,
+   "word_count": 58,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "deck-the-halls",
@@ -542,7 +1119,170 @@
    "beginner": true,
    "access": "free",
    "note_count": 68,
-   "word_count": 60
+   "word_count": 60,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "die-gedanken-sind-frei",
+   "title": "Die Gedanken sind frei",
+   "artist": "Traditional",
+   "origin": "Germany",
+   "culture": "German",
+   "genre": "Folk",
+   "language": "de",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 10,
+    "notes_per_second": 2.06,
+    "big_leaps": 0.06,
+    "shortest": 0.25,
+    "score": 6.0
+   },
+   "duration": 54.0,
+   "key": "C major",
+   "tempo_bpm": 120.0,
+   "year": "1842",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "German folk song; the words circulated on broadsheets around 1780, the melody dates from about 1810-1820 and both were printed together in Hoffmann von Fallersleben and Ernst Richter's \"Schlesische Volkslieder\" (1842). Anonymous and public domain. Two verses.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Die_Gedanken_sind_frei"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 147,
+   "tags": [
+    "germany",
+    "freedom",
+    "folk",
+    "protest"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 99,
+   "word_count": 63,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "dirty-dukes-don-t-forget-to-breathe",
+   "title": "Don't Forget To Breathe",
+   "artist": "Dirty Dukes",
+   "origin": "",
+   "culture": "",
+   "genre": "Blues",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 7,
+    "notes_per_second": 1.03,
+    "big_leaps": 0.14,
+    "shortest": 0.12,
+    "score": 6.0
+   },
+   "duration": 238.787,
+   "key": "C major",
+   "tempo_bpm": 103.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Don't Forget To Breathe\" by Dirty Dukes, from the album \"Don't Forget To Breathe\". CC BY 3.0. Published on Jamendo (album 155331); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-155331"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "jamendo",
+    "bluesrock",
+    "classicrock",
+    "electricguitar",
+    "guitar",
+    "happy",
+    "neutral"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 202,
+   "word_count": 226,
+   "review": {
+    "checked": 260,
+    "dropped": 17,
+    "octave_fixed": 12,
+    "pitch_fixed": 0,
+    "kept": 231,
+    "outliers_dropped": 3,
+    "held": {
+     "before": 240,
+     "same_pitch": 36,
+     "wobbles": 0,
+     "bends": 2,
+     "after": 202
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.37,
+   "language_probability": 0.9595410227775574,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "donde-vas-alfonso-xii",
+   "title": "¿Dónde vas, Alfonso XII?",
+   "artist": "Traditional",
+   "origin": "Spain",
+   "culture": "Spanish",
+   "genre": "Folk",
+   "language": "es",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 5,
+    "distinct": 5,
+    "notes_per_second": 2.25,
+    "big_leaps": 0.0,
+    "shortest": 0.28,
+    "score": 1.0
+   },
+   "duration": 60.0,
+   "key": "C major",
+   "tempo_bpm": 108.0,
+   "year": "1878",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous Spanish ballad sung by children in Madrid after the death of Queen Mercedes in 1878, a reworking of a much older romance (\"¿Dónde vas, el caballero?\"); it has no known author and has been in oral tradition since the 19th century, so melody and words are public domain. Melody checked against the score on Wikimedia Commons.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:D%C3%B3nde_vas_Alfonso_XII.png"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 160,
+   "tags": [
+    "spain",
+    "ballad",
+    "romance",
+    "children",
+    "circle game",
+    "history"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 120,
+   "word_count": 70,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "down-by-the-riverside",
@@ -586,7 +1326,102 @@
    "beginner": false,
    "access": "free",
    "note_count": 224,
-   "word_count": 154
+   "word_count": 154,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "drunken-sailor",
+   "title": "Drunken Sailor",
+   "artist": "Traditional",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Sea shanty",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 1.9,
+    "big_leaps": 0.08,
+    "shortest": 0.26,
+    "score": 4.0
+   },
+   "duration": 39.31,
+   "key": "D minor",
+   "tempo_bpm": 116.0,
+   "year": "1839",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous capstan shanty sung on British and American ships since at least the 1830s (first described in an account of an 1839 whaling voyage); words as printed in R. R. Terry's The Shanty Book (1921). Traditional melody and words, public domain worldwide. The tune is in the Dorian mode, so the B natural on \"drunken sailor\" (third line) is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://de.wikipedia.org/w/index.php?title=Drunken_Sailor&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 197,
+   "tags": [
+    "sea shanty",
+    "sailor",
+    "singalong",
+    "dorian",
+    "work song"
+   ],
+   "featured": true,
+   "beginner": false,
+   "access": "free",
+   "note_count": 63,
+   "word_count": 47,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "du-gamla-du-fria",
+   "title": "Du gamla, du fria",
+   "artist": "Traditional / Richard Dybeck",
+   "origin": "Sweden",
+   "culture": "Swedish",
+   "genre": "Folk",
+   "language": "sv",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 1.76,
+    "big_leaps": 0.0,
+    "shortest": 0.2,
+    "score": 3.0
+   },
+   "duration": 41.053,
+   "key": "G major",
+   "tempo_bpm": 76.0,
+   "year": "1844",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words written in 1844 by Richard Dybeck (1811-1877) to a traditional folk-ballad tune from Västmanland; sung as Sweden's national anthem. Melody and words are public domain. The last line is repeated.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Du_gamla,_du_fria"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 141,
+   "tags": [
+    "sweden",
+    "anthem",
+    "nordic",
+    "patriotic"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 55,
+   "word_count": 33,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "durch-dick-und-dunn-freifliegen",
@@ -642,7 +1477,58 @@
      "after": 208
     }
    },
-   "accent_hue": 11
+   "accent_hue": 11,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
+  },
+  {
+   "id": "ekla-chalo-re",
+   "title": "Ekla Chalo Re",
+   "artist": "Rabindranath Tagore",
+   "origin": "India",
+   "culture": "Bengali",
+   "genre": "World",
+   "language": "bn",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 3.01,
+    "big_leaps": 0.0,
+    "shortest": 0.12,
+    "score": 6.0
+   },
+   "duration": 41.429,
+   "key": "C major",
+   "tempo_bpm": 84.0,
+   "year": "1905",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Rabindranath Tagore, written in 1905 to a Baul-style tune (Tagore died in 1941), so both are public domain. This is the refrain (\"If no one answers your call, walk alone\"), from the staff notation in the Sangeet Natak Akademi anthology of Tagore songs. The flat 7th (B flat) on \"ekla cholo\" is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://bn.wikisource.org/wiki/%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE:%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%B0%E0%A6%B2%E0%A6%BF%E0%A6%AA%E0%A6%BF_-_Anthology_of_One_Hundred_Songs_of_Rabindranath_Tagore_in_Staff_Notation_(Volume_I).pdf/%E0%A7%A7%E0%A7%A6%E0%A7%AB"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 208,
+   "tags": [
+    "bengali",
+    "tagore",
+    "rabindra sangeet",
+    "india",
+    "courage",
+    "walk alone"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 109,
+   "word_count": 53,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "flo-l-abandon",
@@ -698,7 +1584,10 @@
      "after": 312
     }
    },
-   "accent_hue": 86
+   "accent_hue": 86,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "for-hes-a-jolly-good-fellow",
@@ -742,7 +1631,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 76,
-   "word_count": 52
+   "word_count": 52,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "frere-jacques",
@@ -786,7 +1677,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 64,
-   "word_count": 36
+   "word_count": 36,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "funiculi-funicula",
@@ -830,7 +1723,214 @@
    "beginner": false,
    "access": "free",
    "note_count": 140,
-   "word_count": 66
+   "word_count": 66,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "furusato",
+   "title": "Furusato",
+   "artist": "Teiichi Okano / Tatsuyuki Takano",
+   "origin": "Japan",
+   "culture": "Japanese",
+   "genre": "Children's",
+   "language": "ja",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 8,
+    "notes_per_second": 1.34,
+    "big_leaps": 0.05,
+    "shortest": 0.36,
+    "score": 1.0
+   },
+   "duration": 40.714,
+   "key": "G major",
+   "tempo_bpm": 84.0,
+   "year": "1914",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "\"My Old Country Home\", a Ministry of Education school song published in 1914 (Jinjō shōgaku shōka, sixth grade); music by Teiichi Okano (died 1941), words by Tatsuyuki Takano (died 1947). Both are public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://ja.wikipedia.org/wiki/故郷_(唱歌)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 48,
+   "tags": [
+    "japan",
+    "home",
+    "nostalgia",
+    "school song"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 45,
+   "word_count": 15,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "giocol-the-fool-with-a-thousand-ridiculous-faces",
+   "title": "The fool with a thousand ridiculous faces",
+   "artist": "Giocol",
+   "origin": "",
+   "culture": "",
+   "genre": "Pop",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 1.06,
+    "big_leaps": 0.09,
+    "shortest": 0.12,
+    "score": 3.0
+   },
+   "duration": 190.153,
+   "key": "B minor",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"The fool with a thousand ridiculous faces\" by Giocol, from the album \"The fool with a thousand ridiculous faces\". CC BY 3.0. Published on Jamendo (album 409073); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-409073"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 326,
+   "tags": [
+    "jamendo",
+    "electropop",
+    "happy",
+    "pop",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 173,
+   "word_count": 91,
+   "review": {
+    "checked": 272,
+    "dropped": 3,
+    "octave_fixed": 6,
+    "pitch_fixed": 0,
+    "kept": 263,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 269,
+     "same_pitch": 92,
+     "wobbles": 0,
+     "bends": 4,
+     "after": 173
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -8.3,
+   "language_probability": 0.9700433611869812,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "go-down-moses",
+   "title": "Go Down, Moses",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "African-American",
+   "genre": "Spiritual",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 1.01,
+    "big_leaps": 0.04,
+    "shortest": 0.2,
+    "score": 3.0
+   },
+   "duration": 60.0,
+   "key": "E minor",
+   "tempo_bpm": 76.0,
+   "year": "1862",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "African-American spiritual from the time of slavery, first printed as sheet music in 1861-62 (\"Oh! Let My People Go\") and in the Fisk Jubilee Singers' Jubilee Songs (1872), whose first verse and refrain are used here. Anonymous and traditional, public domain worldwide. The D sharp on \"people\" is the raised leading note of the minor key and is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://de.wikipedia.org/w/index.php?title=Go_Down_Moses&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 253,
+   "tags": [
+    "spiritual",
+    "gospel",
+    "slow",
+    "freedom",
+    "exodus"
+   ],
+   "featured": true,
+   "beginner": false,
+   "access": "free",
+   "note_count": 52,
+   "word_count": 37,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "go-tell-it-on-the-mountain",
+   "title": "Go Tell It on the Mountain",
+   "artist": "Traditional / John Wesley Work Jr.",
+   "origin": "United States",
+   "culture": "African-American",
+   "genre": "Christmas",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 7,
+    "notes_per_second": 1.9,
+    "big_leaps": 0.01,
+    "shortest": 0.12,
+    "score": 5.0
+   },
+   "duration": 53.333,
+   "key": "D major",
+   "tempo_bpm": 126.0,
+   "year": "1907",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "African-American spiritual from oral tradition, first printed in the 1900s (Folk Songs of the American Negro, 1907; Religious Folk Songs of the Negro, 1909); the Christmas verse \"While shepherds kept their watching\" is by John Wesley Work Jr., who died in 1925. Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/musicaviva.com/tunes/usa/go-tell-it-on-the/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 3,
+   "tags": [
+    "christmas",
+    "spiritual",
+    "gospel",
+    "carol",
+    "singalong"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 87,
+   "word_count": 63,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "good-king-wenceslas",
@@ -874,7 +1974,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 106,
-   "word_count": 82
+   "word_count": 82,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "greensleeves",
@@ -918,7 +2020,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 73,
-   "word_count": 45
+   "word_count": 45,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "happy-birthday",
@@ -961,7 +2065,150 @@
    "beginner": true,
    "access": "free",
    "note_count": 50,
-   "word_count": 32
+   "word_count": 32,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "hark-the-herald-angels-sing",
+   "title": "Hark! The Herald Angels Sing",
+   "artist": "Felix Mendelssohn / Charles Wesley",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Christmas",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 8,
+    "notes_per_second": 1.71,
+    "big_leaps": 0.09,
+    "shortest": 0.28,
+    "score": 4.0
+   },
+   "duration": 51.111,
+   "key": "F major",
+   "tempo_bpm": 108.0,
+   "year": "1855",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words by Charles Wesley (1739; he died in 1788) as altered by George Whitefield (1753; he died in 1770), sung to a melody from Felix Mendelssohn's Festgesang (1840; he died in 1847) adapted by William H. Cummings in 1855 (he died in 1915). Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Hark!_The_Herald_Angels_Sing&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 342,
+   "tags": [
+    "christmas",
+    "carol",
+    "hymn",
+    "angels",
+    "mendelssohn"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 76,
+   "word_count": 50,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "hatikvah",
+   "title": "Hatikvah (The Hope)",
+   "artist": "Samuel Cohen / Naftali Herz Imber",
+   "origin": "Israel",
+   "culture": "Jewish",
+   "genre": "World",
+   "language": "he",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.66,
+    "big_leaps": 0.06,
+    "shortest": 0.39,
+    "score": 3.0
+   },
+   "duration": 72.632,
+   "key": "D minor",
+   "tempo_bpm": 76.0,
+   "year": "1888",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words from Naftali Herz Imber's poem \"Tikvatenu\" (written 1878, printed 1886; Imber died in 1909), with the refrain in the form it had taken among the early settlers by 1905 (usually credited to Yehuda Leib Matmon-Cohen, died 1939). The melody was fitted to it in 1888 by Samuel Cohen (died 1940) from the Moldavian folk tune \"Carul cu boi\". All public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Hatikvah&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 191,
+   "tags": [
+    "israel",
+    "hebrew",
+    "anthem",
+    "hope",
+    "jewish"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 105,
+   "word_count": 35,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "haul-away-joe",
+   "title": "Haul Away, Joe",
+   "artist": "Traditional",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Sea shanty",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 6,
+    "notes_per_second": 1.93,
+    "big_leaps": 0.07,
+    "shortest": 0.2,
+    "score": 3.0
+   },
+   "duration": 44.211,
+   "key": "D minor",
+   "tempo_bpm": 76.0,
+   "year": "1914",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous 19th-century short-haul shanty, printed in Cecil Sharp's English Folk-Chanteys (1914) and in R. R. Terry's The Shanty Book (1921), which has both the \"little boy\" verse and the \"haul for better weather\" line used here. Traditional melody and words, public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=dmc.lizmilner.com/viewabc.vbhtml%3Ffile=Haul+Away+Joe/0002"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 194,
+   "tags": [
+    "sea shanty",
+    "sailor",
+    "singalong",
+    "minor",
+    "work song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 73,
+   "word_count": 60,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "hava-nagila",
@@ -1006,7 +2253,151 @@
    "beginner": false,
    "access": "free",
    "note_count": 140,
-   "word_count": 53
+   "word_count": 53,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "hes-got-the-whole-world-in-his-hands",
+   "title": "He's Got the Whole World in His Hands",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "African-American",
+   "genre": "Spiritual",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 1.88,
+    "big_leaps": 0.1,
+    "shortest": 0.3,
+    "score": 2.0
+   },
+   "duration": 45.6,
+   "key": "C major",
+   "tempo_bpm": 100.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous African-American spiritual, first published in the hymnal Spirituals Triumphant, Old and New (1927) and collected from oral tradition in the 1930s; no known author, melody and words are public domain. Only the traditional first verse is used (sung twice).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/musicaviva.com/tunes/usa/hes-got-the-whole-world/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 264,
+   "tags": [
+    "spiritual",
+    "gospel",
+    "singalong",
+    "children",
+    "easy"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 74,
+   "word_count": 68,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "hevenu-shalom-aleichem",
+   "title": "Hevenu Shalom Aleichem",
+   "artist": "Traditional",
+   "origin": "Israel",
+   "culture": "Jewish",
+   "genre": "Celebration",
+   "language": "he",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 8,
+    "notes_per_second": 2.39,
+    "big_leaps": 0.03,
+    "shortest": 0.12,
+    "score": 4.0
+   },
+   "duration": 53.333,
+   "key": "E minor",
+   "tempo_bpm": 126.0,
+   "year": "1920",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous Hasidic melody (in circulation in Europe by about 1920, when Franz Xaver Haberl quoted it in a printed march); the only words are the traditional Hebrew greeting \"We brought peace upon you\". No known author, public domain. Sung three times through, as is usual.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Hevenu_shalom_aleichem&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 11,
+   "tags": [
+    "jewish",
+    "hebrew",
+    "peace",
+    "celebration",
+    "wedding",
+    "hora"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 111,
+   "word_count": 42,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "hine-e-hine",
+   "title": "Hine E Hine",
+   "artist": "Fanny Howie (Te Rangi Pai)",
+   "origin": "New Zealand",
+   "culture": "Māori",
+   "genre": "Lullaby",
+   "language": "mi",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 6,
+    "notes_per_second": 1.04,
+    "big_leaps": 0.0,
+    "shortest": 0.45,
+    "score": 0.0
+   },
+   "duration": 72.727,
+   "key": "G major",
+   "tempo_bpm": 66.0,
+   "year": "1907",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Māori lullaby with words and music by Fanny Rose Howie, known as Princess Te Rangi Pai (1868-1916), written about 1907 and published in London as \"A Maori Slumber Song\"; public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Hine_E_Hine"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 284,
+   "tags": [
+    "new zealand",
+    "maori",
+    "lullaby",
+    "goodnight",
+    "pacific"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 67,
+   "word_count": 33,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "home-on-the-range",
@@ -1051,7 +2442,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 81,
-   "word_count": 60
+   "word_count": 60,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "house-of-the-rising-sun",
@@ -1096,7 +2489,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 75,
-   "word_count": 50
+   "word_count": 50,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "i-m-fresh-you-re-pretty-christmas-avec-toi",
@@ -1152,7 +2547,10 @@
      "after": 366
     }
    },
-   "accent_hue": 330
+   "accent_hue": 330,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "jingle-bells",
@@ -1196,7 +2594,56 @@
    "beginner": true,
    "access": "free",
    "note_count": 98,
-   "word_count": 79
+   "word_count": 79,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "joshua-fit-the-battle-of-jericho",
+   "title": "Joshua Fit the Battle of Jericho",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "African-American",
+   "genre": "Spiritual",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 7,
+    "notes_per_second": 1.94,
+    "big_leaps": 0.03,
+    "shortest": 0.27,
+    "score": 4.0
+   },
+   "duration": 57.857,
+   "key": "D minor",
+   "tempo_bpm": 112.0,
+   "year": "1882",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "African-American spiritual from the first half of the 19th century, printed in 1882 in M. G. Slayton's Jubilee Songs and Marshall W. Taylor's Revival Hymns and Plantation Melodies. Anonymous and traditional, public domain worldwide. The C sharp is the raised leading note of the minor key and is expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/musicaviva.com/tunes/usa/joshua-fought/joshua-fought-1/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 254,
+   "tags": [
+    "spiritual",
+    "gospel",
+    "lively",
+    "minor",
+    "bible"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 100,
+   "word_count": 67,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "joy-to-the-world",
@@ -1240,7 +2687,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 116,
-   "word_count": 69
+   "word_count": 69,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "kalinka",
@@ -1284,7 +2733,103 @@
    "beginner": false,
    "access": "free",
    "note_count": 147,
-   "word_count": 57
+   "word_count": 57,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "kojo-no-tsuki",
+   "title": "Kōjō no Tsuki",
+   "artist": "Rentarō Taki / Bansui Doi",
+   "origin": "Japan",
+   "culture": "Japanese",
+   "genre": "Classical",
+   "language": "ja",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 10,
+    "notes_per_second": 0.94,
+    "big_leaps": 0.06,
+    "shortest": 0.41,
+    "score": 4.0
+   },
+   "duration": 58.378,
+   "key": "A minor",
+   "tempo_bpm": 74.0,
+   "year": "1901",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "\"The Moon over the Ruined Castle\": music by Rentarō Taki (died 1903), words by Bansui Doi (died 1952), published in the school songbook \"Chūgaku shōka\" in 1901; both are public domain. This is Taki's original melody, with the raised note (D# here) in the second bar of the phrase that Kōsaku Yamada's later arrangement removed; it shows as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://zh.wikipedia.org/wiki/荒城之月"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 223,
+   "tags": [
+    "japan",
+    "moon",
+    "castle",
+    "meiji",
+    "art song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 48,
+   "word_count": 19,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "korobeiniki",
+   "title": "Korobeiniki (Korobushka)",
+   "artist": "Traditional / Nikolay Nekrasov",
+   "origin": "Russia",
+   "culture": "Russian",
+   "genre": "Folk",
+   "language": "ru",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 1.67,
+    "big_leaps": 0.1,
+    "shortest": 0.31,
+    "score": 4.0
+   },
+   "duration": 37.5,
+   "key": "E minor",
+   "tempo_bpm": 96.0,
+   "year": "1861",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words from Nikolay Nekrasov's poem \"Korobeiniki\" (1861; Nekrasov died in 1878), sung to an anonymous Russian folk tune that was in print by 1898 (arranged by Yakov Prigozhy, who died in 1920); both are public domain. This is the tune as sung, taken from a Russian vocal score with Nekrasov's words; the version known from the game Tetris differs slightly in the first bar. The last two lines are repeated, as is usual.",
+   "source": {
+    "kind": "traditional",
+    "url": "http://a-pesni.org/popular20/ojpolna.htm"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 152,
+   "tags": [
+    "russia",
+    "folk",
+    "dance",
+    "peddlers",
+    "tetris"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 50,
+   "word_count": 19,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "kptn-le-musee-d-air-contemporain",
@@ -1340,7 +2885,10 @@
      "after": 263
     }
    },
-   "accent_hue": 56
+   "accent_hue": 56,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "kumbaya",
@@ -1384,7 +2932,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 93,
-   "word_count": 45
+   "word_count": 45,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "la-cucaracha",
@@ -1428,7 +2978,152 @@
    "beginner": false,
    "access": "free",
    "note_count": 134,
-   "word_count": 71
+   "word_count": 71,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "la-golondrina",
+   "title": "La Golondrina",
+   "artist": "Narciso Serradell Sevilla",
+   "origin": "Mexico",
+   "culture": "Mexican",
+   "genre": "Latin",
+   "language": "es",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 12,
+    "notes_per_second": 1.89,
+    "big_leaps": 0.05,
+    "shortest": 0.2,
+    "score": 8.0
+   },
+   "duration": 60.0,
+   "key": "C major",
+   "tempo_bpm": 76.0,
+   "year": "1862",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Written in 1862 by the Mexican physician and composer Narciso Serradell Sevilla (1843-1910); the Spanish words are attributed to Niceto de Zamacois (died 1885), after an older poem. Both died well over 100 years ago, so melody and words are public domain. Melody checked against the voice part of the free 8notes score and MIDI (transposed from E flat to C); the F sharps are chromatic neighbour notes expected to show as out-of-key. Notes written (0.333333333) are triplet eighths.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://www.8notes.com/scores/20533.asp"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 21,
+   "tags": [
+    "mexico",
+    "swallow",
+    "farewell",
+    "homesick",
+    "classic",
+    "slow"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 96,
+   "word_count": 45,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "la-paloma",
+   "title": "La Paloma",
+   "artist": "Sebastián Iradier",
+   "origin": "Spain / Cuba",
+   "culture": "Spanish",
+   "genre": "Latin",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 1.67,
+    "big_leaps": 0.04,
+    "shortest": 0.23,
+    "score": 3.0
+   },
+   "duration": 83.636,
+   "key": "C major",
+   "tempo_bpm": 66.0,
+   "year": "1860",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Habanera written about 1860 by the Basque composer Sebastián Iradier (Yradier, died 1865) after a visit to Cuba; he wrote both the melody and the Spanish words, so the song is public domain worldwide. Melody checked against the 1906 Century Music voice-and-piano edition; the triplets against the habanera beat are original, and the single F sharp (\"que sí\") is a chromatic neighbour note expected to show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/lapalomadovecanc00yrad"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 33,
+   "tags": [
+    "habanera",
+    "cuba",
+    "spain",
+    "dove",
+    "love",
+    "classic"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 128,
+   "word_count": 71,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "las-mananitas",
+   "title": "Las Mañanitas",
+   "artist": "Traditional",
+   "origin": "Mexico",
+   "culture": "Mexican",
+   "genre": "Celebration",
+   "language": "es",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 6,
+    "notes_per_second": 1.92,
+    "big_leaps": 0.0,
+    "shortest": 0.33,
+    "score": 2.0
+   },
+   "duration": 39.13,
+   "key": "G major",
+   "tempo_bpm": 92.0,
+   "year": "1900",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Traditional Mexican birthday serenade from the 19th century. The arrangers sometimes credited with fixing its modern form, Manuel M. Ponce (died 1948), Alfonso Esparza Oteo (died 1950) and Alejandro Manzo (died 1950), all died before 1956, so melody and words are public domain. Melody checked against the score in the Wikipedia article (transposed from A to G).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Las_Ma%C3%B1anitas&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 25,
+   "tags": [
+    "birthday",
+    "mexico",
+    "serenade",
+    "mariachi",
+    "celebration"
+   ],
+   "featured": true,
+   "beginner": true,
+   "access": "free",
+   "note_count": 60,
+   "word_count": 34,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "law-les-files-d-attente",
@@ -1484,7 +3179,10 @@
      "after": 314
     }
    },
-   "accent_hue": 323
+   "accent_hue": 323,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "law-mere-nature",
@@ -1540,7 +3238,10 @@
      "after": 339
     }
    },
-   "accent_hue": 17
+   "accent_hue": 17,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "loch-lomond",
@@ -1583,7 +3284,57 @@
    "beginner": false,
    "access": "free",
    "note_count": 88,
-   "word_count": 73
+   "word_count": 73,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "los-pollitos-dicen",
+   "title": "Los pollitos dicen",
+   "artist": "Ismael Parraguez",
+   "origin": "Chile",
+   "culture": "Chilean",
+   "genre": "Children's",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 2.4,
+    "big_leaps": 0.08,
+    "shortest": 0.31,
+    "score": 3.0
+   },
+   "duration": 37.5,
+   "key": "G major",
+   "tempo_bpm": 96.0,
+   "year": "1907",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Children's song by the Chilean teacher, poet and musician Ismael Parraguez (1883-1917), published as \"Los pollitos\" in his Poesías infantiles (1907); he died more than 100 years ago and the song was published before 1929, so melody and words are public domain. Melody checked against the score and MIDI at Mama Lisa's World (transposed from A to G).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://www.mamalisa.com/?t=es&p=550"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 46,
+   "tags": [
+    "children",
+    "chicks",
+    "animals",
+    "chile",
+    "nursery",
+    "easy"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 72,
+   "word_count": 37,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "los-rombos-fantasma",
@@ -1639,7 +3390,10 @@
      "after": 180
     }
    },
-   "accent_hue": 154
+   "accent_hue": 154,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "lower-loveday-is-it-right",
@@ -1695,7 +3449,58 @@
      "after": 239
     }
    },
-   "accent_hue": 205
+   "accent_hue": 205,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
+  },
+  {
+   "id": "maoz-tzur",
+   "title": "Ma'oz Tzur (Rock of Ages)",
+   "artist": "Traditional",
+   "origin": "Germany",
+   "culture": "Jewish",
+   "genre": "Hymn",
+   "language": "he",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 9,
+    "notes_per_second": 1.62,
+    "big_leaps": 0.12,
+    "shortest": 0.3,
+    "score": 5.0
+   },
+   "duration": 55.2,
+   "key": "D major",
+   "tempo_bpm": 100.0,
+   "year": "1450",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "The Hanukkah hymn \"Ma'oz Tzur\" is a 13th-century Hebrew poem by an author known only as Mordechai; the tune is the Ashkenazi one, adapted from a German folk song and sung by German Jews since about 1450. First stanza. Both are anonymous and centuries old, so public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Ma%27oz_Tzur&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 207,
+   "tags": [
+    "hanukkah",
+    "jewish",
+    "hebrew",
+    "hymn",
+    "festival",
+    "winter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 78,
+   "word_count": 29,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "michael-row-the-boat-ashore",
@@ -1739,7 +3544,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 46,
-   "word_count": 26
+   "word_count": 26,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "mo-li-hua",
@@ -1783,7 +3590,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 134,
-   "word_count": 86
+   "word_count": 86,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "molly-malone",
@@ -1828,7 +3637,56 @@
    "beginner": true,
    "access": "free",
    "note_count": 144,
-   "word_count": 96
+   "word_count": 96,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "muss-i-denn",
+   "title": "Muss i denn",
+   "artist": "Friedrich Silcher / Traditional",
+   "origin": "Germany",
+   "culture": "German",
+   "genre": "Folk",
+   "language": "de",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 2.52,
+    "big_leaps": 0.01,
+    "shortest": 0.23,
+    "score": 3.0
+   },
+   "duration": 41.818,
+   "key": "C major",
+   "tempo_bpm": 66.0,
+   "year": "1827",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Swabian folk song as arranged and published by Friedrich Silcher in 1827 (Silcher died in 1860); he described the tune as an old melody from Württemberg. Melody and words are public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Muss_i_denn"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 139,
+   "tags": [
+    "germany",
+    "swabia",
+    "farewell",
+    "folk",
+    "march"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 86,
+   "word_count": 70,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "nandomalo-esencia",
@@ -1884,7 +3742,105 @@
      "after": 394
     }
    },
-   "accent_hue": 160
+   "accent_hue": 160,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
+  },
+  {
+   "id": "nkosi-sikelel-iafrika",
+   "title": "Nkosi Sikelel' iAfrika",
+   "artist": "Enoch Sontonga",
+   "origin": "South Africa",
+   "culture": "South African",
+   "genre": "Hymn",
+   "language": "xh",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 6,
+    "distinct": 5,
+    "notes_per_second": 1.3,
+    "big_leaps": 0.0,
+    "shortest": 0.39,
+    "score": 0.0
+   },
+   "duration": 72.632,
+   "key": "G major",
+   "tempo_bpm": 76.0,
+   "year": "1897",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Enoch Sontonga, a Xhosa mission-school teacher, written in 1897 (he died in 1905), so both are public domain. This is his original first stanza, sung twice; the wording used in today's South African anthem differs in a few words. Melody from his four-part setting, transposed from B flat.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Nkosi_Sikelel%27_iAfrika.png"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 217,
+   "tags": [
+    "south africa",
+    "xhosa",
+    "hymn",
+    "anthem",
+    "africa",
+    "prayer"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 82,
+   "word_count": 22,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "nobody-knows-the-trouble-ive-seen",
+   "title": "Nobody Knows the Trouble I've Seen",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "African-American",
+   "genre": "Spiritual",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 6,
+    "notes_per_second": 1.22,
+    "big_leaps": 0.11,
+    "shortest": 0.36,
+    "score": 2.0
+   },
+   "duration": 77.143,
+   "key": "F major",
+   "tempo_bpm": 84.0,
+   "year": "1867",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "African-American spiritual from the time of slavery, first printed in the 1860s (Slave Songs of the United States, 1867) and in this form in the Fisk Jubilee Singers' Jubilee Songs (1872). Anonymous and traditional, public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/musicaviva.com/tunes/usa/nobody-knows/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 258,
+   "tags": [
+    "spiritual",
+    "gospel",
+    "slow",
+    "sorrow",
+    "classic"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 84,
+   "word_count": 54,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "o-christmas-tree",
@@ -1928,7 +3884,103 @@
    "beginner": false,
    "access": "free",
    "note_count": 122,
-   "word_count": 80
+   "word_count": 80,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "o-come-all-ye-faithful",
+   "title": "O Come, All Ye Faithful",
+   "artist": "John Francis Wade / Frederick Oakeley",
+   "origin": "England",
+   "culture": "English",
+   "genre": "Christmas",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 1.31,
+    "big_leaps": 0.07,
+    "shortest": 0.29,
+    "score": 2.0
+   },
+   "duration": 53.077,
+   "key": "G major",
+   "tempo_bpm": 104.0,
+   "year": "1751",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "The tune \"Adeste Fideles\" is attributed to John Francis Wade, who published it with the Latin hymn in 1751 (he died in 1786); the English words are Frederick Oakeley's translation of 1841 (he died in 1880). Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=O_Come,_All_Ye_Faithful&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 2,
+   "tags": [
+    "christmas",
+    "carol",
+    "hymn",
+    "advent",
+    "adeste fideles"
+   ],
+   "featured": true,
+   "beginner": true,
+   "access": "free",
+   "note_count": 61,
+   "word_count": 46,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "ochi-chyornye",
+   "title": "Ochi Chyornye (Dark Eyes)",
+   "artist": "Florian Hermann / Yevhen Hrebinka",
+   "origin": "Russia",
+   "culture": "Russian",
+   "genre": "Folk",
+   "language": "ru",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 1.8,
+    "big_leaps": 0.04,
+    "shortest": 0.23,
+    "score": 3.0
+   },
+   "duration": 49.091,
+   "key": "A minor",
+   "tempo_bpm": 132.0,
+   "year": "1884",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words by Yevhen Hrebinka (1843; he died in 1848) set to the melody of Florian Hermann's \"Valse Hommage\" (published 1879) in the arrangement by S. Gerdal published in Moscow in 1884; everything was in print well before 1929, so melody and words are public domain. The chromatic notes (D#, G#, A#, C#) belong to the tune and show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "http://a-pesni.org/romans/otchitchern.htm"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 141,
+   "tags": [
+    "russia",
+    "romance",
+    "waltz",
+    "gypsy",
+    "love"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 80,
+   "word_count": 43,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "ode-to-joy",
@@ -1972,7 +4024,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 63,
-   "word_count": 46
+   "word_count": 46,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "oh-susanna",
@@ -2017,7 +4071,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 83,
-   "word_count": 63
+   "word_count": 63,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "row-row-row-your-boat",
@@ -2061,7 +4117,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 54,
-   "word_count": 36
+   "word_count": 36,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "rxbyn-bad-side",
@@ -2117,7 +4175,10 @@
      "after": 349
     }
    },
-   "accent_hue": 202
+   "accent_hue": 202,
+   "added": "2026-11-02",
+   "popularity": 0,
+   "lyrics": "annotated"
   },
   {
    "id": "sakura-sakura",
@@ -2162,7 +4223,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 100,
-   "word_count": 37
+   "word_count": 37,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "santa-lucia",
@@ -2206,7 +4269,57 @@
    "beginner": false,
    "access": "free",
    "note_count": 98,
-   "word_count": 36
+   "word_count": 36,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "sarie-marais",
+   "title": "Sarie Marais",
+   "artist": "Septimus Winner / J. P. Toerien",
+   "origin": "South Africa",
+   "culture": "South African",
+   "genre": "Folk",
+   "language": "af",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 2.09,
+    "big_leaps": 0.09,
+    "shortest": 0.28,
+    "score": 3.0
+   },
+   "duration": 51.111,
+   "key": "G major",
+   "tempo_bpm": 108.0,
+   "year": "1900",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Afrikaans song from the time of the Anglo-Boer wars (about 1889 to 1900); the words are usually credited to Jacobus Petrus Toerien (died 1920) and the tune is Septimus Winner's \"Ellie Rhee\" of 1865 (Winner died in 1902), so both are public domain. Verse 1 and chorus, melody as printed in the F.A.K.-Volksangbundel.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Volk_en_Vaderland_54_-_Sarie_Marais.png"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 146,
+   "tags": [
+    "south africa",
+    "afrikaans",
+    "march",
+    "folk",
+    "love",
+    "homesick"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 93,
+   "word_count": 72,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "scarborough-fair",
@@ -2251,7 +4364,123 @@
    "beginner": false,
    "access": "free",
    "note_count": 68,
-   "word_count": 52
+   "word_count": 52,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "seth-power-messes",
+   "title": "Messes",
+   "artist": "Seth Power",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 10,
+    "notes_per_second": 1.33,
+    "big_leaps": 0.07,
+    "shortest": 0.12,
+    "score": 5.0
+   },
+   "duration": 259.013,
+   "key": "Ab major",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Messes\" by Seth Power, from the album \"Magnolia Soul\". CC BY 3.0. Published on Jamendo (album 171527); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-171527"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "jamendo",
+    "electricguitar",
+    "guitar",
+    "indie",
+    "love",
+    "peaceful",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 275,
+   "word_count": 105,
+   "review": {
+    "checked": 371,
+    "dropped": 7,
+    "octave_fixed": 12,
+    "pitch_fixed": 4,
+    "kept": 348,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 364,
+     "same_pitch": 84,
+     "wobbles": 0,
+     "bends": 5,
+     "after": 275
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.26,
+   "language_probability": 0.806331992149353,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "shchedryk",
+   "title": "Shchedryk",
+   "artist": "Mykola Leontovych",
+   "origin": "Ukraine",
+   "culture": "Ukrainian",
+   "genre": "Christmas",
+   "language": "uk",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 6,
+    "notes_per_second": 3.68,
+    "big_leaps": 0.04,
+    "shortest": 0.18,
+    "score": 4.0
+   },
+   "duration": 45.0,
+   "key": "E minor",
+   "tempo_bpm": 168.0,
+   "year": "1916",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Choral setting by Mykola Leontovych (1877-1921), first performed in Kyiv in 1916, of a traditional Ukrainian New Year's well-wishing song (shchedrivka); the Ukrainian folk words and the music are public domain (the English \"Carol of the Bells\" words of 1936 are not used). This is the soprano line, a minor third below the original G minor; the rising run uses the melodic-minor C# and D#, which show as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Shchedryk_(song)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 350,
+   "tags": [
+    "ukraine",
+    "new year",
+    "christmas",
+    "carol of the bells",
+    "choir"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 142,
+   "word_count": 51,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "shell-be-coming-round-the-mountain",
@@ -2295,7 +4524,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 98,
-   "word_count": 78
+   "word_count": 78,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "shenandoah",
@@ -2340,7 +4571,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 82,
-   "word_count": 51
+   "word_count": 51,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "silent-night",
@@ -2384,7 +4617,102 @@
    "beginner": false,
    "access": "free",
    "note_count": 46,
-   "word_count": 30
+   "word_count": 30,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "simple-gifts",
+   "title": "Simple Gifts",
+   "artist": "Joseph Brackett",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Hymn",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 2.66,
+    "big_leaps": 0.02,
+    "shortest": 0.25,
+    "score": 4.0
+   },
+   "duration": 38.0,
+   "key": "G major",
+   "tempo_bpm": 120.0,
+   "year": "1848",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Shaker dance song written and composed in 1848 by Elder Joseph Brackett of the Alfred, Maine, Shaker community (he died in 1882). Melody and words are public domain worldwide; only Brackett's single original verse is used.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/folkinfo.org/Simple_Gifts/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 217,
+   "tags": [
+    "shaker",
+    "hymn",
+    "american",
+    "dance",
+    "simplicity"
+   ],
+   "featured": true,
+   "beginner": false,
+   "access": "free",
+   "note_count": 85,
+   "word_count": 71,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "song-bie",
+   "title": "Song Bie (Farewell)",
+   "artist": "John P. Ordway / Li Shutong",
+   "origin": "China",
+   "culture": "Chinese",
+   "genre": "Folk",
+   "language": "zh",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 9,
+    "notes_per_second": 1.41,
+    "big_leaps": 0.04,
+    "shortest": 0.33,
+    "score": 4.0
+   },
+   "duration": 49.565,
+   "key": "C major",
+   "tempo_bpm": 92.0,
+   "year": "1915",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Chinese farewell song with words written about 1915 by Li Shutong (Master Hongyi, died 1942) to the melody of John P. Ordway's \"Dreaming of Home and Mother\" (published 1868; Ordway died in 1880), in the simplified form of the 1907 Japanese school song \"Ryoshū\" by Kyūkei Indō (died 1943). The words were printed in 1927. Melody and words are public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://zh.wikipedia.org/wiki/送别_(歌曲)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 140,
+   "tags": [
+    "china",
+    "farewell",
+    "friendship",
+    "school song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 58,
+   "word_count": 46,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "swing-low-sweet-chariot",
@@ -2428,7 +4756,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 102,
-   "word_count": 68
+   "word_count": 68,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "the-first-noel",
@@ -2472,7 +4802,9 @@
    "beginner": false,
    "access": "free",
    "note_count": 72,
-   "word_count": 44
+   "word_count": 44,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "the-water-is-wide",
@@ -2516,7 +4848,56 @@
    "beginner": true,
    "access": "free",
    "note_count": 90,
-   "word_count": 64
+   "word_count": 64,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "toryanse",
+   "title": "Tōryanse",
+   "artist": "Traditional",
+   "origin": "Japan",
+   "culture": "Japanese",
+   "genre": "Children's",
+   "language": "ja",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 2.7,
+    "big_leaps": 0.0,
+    "shortest": 0.26,
+    "score": 4.0
+   },
+   "duration": 45.517,
+   "key": "D minor",
+   "tempo_bpm": 116.0,
+   "year": "1920",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Children's game song (warabe uta) thought to date from the Edo period, words anonymous; the form sung today was written down and arranged by Nagayo Motoori (died 1945) and was on record by about 1920. Melody and words are public domain. The tune uses a Japanese pentatonic scale and comes to rest on A rather than on the keynote.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Tōryanse"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 28,
+   "tags": [
+    "japan",
+    "children",
+    "game song",
+    "pentatonic",
+    "crosswalk"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 106,
+   "word_count": 44,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "twinkle-twinkle-little-star",
@@ -2559,7 +4940,104 @@
    "beginner": true,
    "access": "free",
    "note_count": 42,
-   "word_count": 32
+   "word_count": 32,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "uskudara-gider-iken",
+   "title": "Üsküdar'a Gider İken (Kâtibim)",
+   "artist": "Traditional",
+   "origin": "Turkey",
+   "culture": "Turkish",
+   "genre": "Folk",
+   "language": "tr",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 8,
+    "notes_per_second": 2.49,
+    "big_leaps": 0.05,
+    "shortest": 0.23,
+    "score": 3.0
+   },
+   "duration": 65.455,
+   "key": "D minor",
+   "tempo_bpm": 132.0,
+   "year": "1855",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Anonymous Istanbul folk song (türkü) from the time of the Crimean War; the tune was already in print in the 1850s (Anton Pann's Romanian collection) and the composer and poet are unknown, so melody and words are public domain. First verse and refrain. The raised 7th (C#) is expected to show as out-of-key; the long rests are where the saz answers the singer.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Katibim.svg"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 145,
+   "tags": [
+    "turkey",
+    "istanbul",
+    "folk",
+    "love",
+    "rain",
+    "ottoman"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 145,
+   "word_count": 48,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "vem-kan-segla",
+   "title": "Vem kan segla förutan vind?",
+   "artist": "Traditional",
+   "origin": "Finland",
+   "culture": "Swedish",
+   "genre": "Folk",
+   "language": "sv",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 10,
+    "notes_per_second": 1.39,
+    "big_leaps": 0.07,
+    "shortest": 0.23,
+    "score": 4.0
+   },
+   "duration": 51.818,
+   "key": "E minor",
+   "tempo_bpm": 44.0,
+   "year": "1909",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Traditional Swedish-language folk song and lullaby from the Åland islands and Swedish-speaking Finland; the opening line goes back to an 18th-century ballad and the song was first printed in this form in 1909. Melody and words are anonymous and public domain. The D# before the last note of each verse is the raised leading note of the minor key and shows as out-of-key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/musicaviva.com/finland/vem-kan-segla-ls/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 144,
+   "tags": [
+    "sweden",
+    "finland",
+    "lullaby",
+    "sea",
+    "farewell"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 60,
+   "word_count": 40,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "waltzing-matilda",
@@ -2603,7 +5081,56 @@
    "beginner": false,
    "access": "free",
    "note_count": 180,
-   "word_count": 125
+   "word_count": 125,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "we-three-kings",
+   "title": "We Three Kings",
+   "artist": "John Henry Hopkins Jr.",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Christmas",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 1.89,
+    "big_leaps": 0.02,
+    "shortest": 0.34,
+    "score": 3.0
+   },
+   "duration": 38.864,
+   "key": "E minor",
+   "tempo_bpm": 58.7,
+   "year": "1857",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music written in 1857 by John Henry Hopkins Jr. for a Christmas pageant in New York and published in his Carols, Hymns, and Songs (1863); he died in 1891. Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=We_Three_Kings&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 350,
+   "tags": [
+    "christmas",
+    "carol",
+    "epiphany",
+    "star",
+    "minor"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 62,
+   "word_count": 42,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "we-wish-you-a-merry-christmas",
@@ -2647,7 +5174,56 @@
    "beginner": false,
    "access": "free",
    "note_count": 82,
-   "word_count": 64
+   "word_count": 64,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "what-a-friend-we-have-in-jesus",
+   "title": "What a Friend We Have in Jesus",
+   "artist": "Charles C. Converse / Joseph M. Scriven",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Hymn",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 9,
+    "notes_per_second": 1.33,
+    "big_leaps": 0.02,
+    "shortest": 0.36,
+    "score": 4.0
+   },
+   "duration": 54.286,
+   "key": "F major",
+   "tempo_bpm": 84.0,
+   "year": "1868",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words by Joseph M. Scriven (written about 1855; he died in 1886), set to the tune \"Erie\" (also called \"Converse\") by Charles C. Converse in 1868 (he died in 1918). Melody and words are public domain worldwide.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/mirror/gulfweb.net:34043/~rlwalker/abc/whatafriend/0000"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "hymn",
+    "gospel",
+    "prayer",
+    "comfort",
+    "classic"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 60,
+   "word_count": 47,
+   "added": "2026-11-05",
+   "popularity": 0
   },
   {
    "id": "when-the-saints-go-marching-in",
@@ -2692,7 +5268,9 @@
    "beginner": true,
    "access": "free",
    "note_count": 64,
-   "word_count": 56
+   "word_count": 56,
+   "added": "2026-11-02",
+   "popularity": 0
   },
   {
    "id": "yankee-doodle",
@@ -2736,7 +5314,57 @@
    "beginner": false,
    "access": "free",
    "note_count": 113,
-   "word_count": 85
+   "word_count": 85,
+   "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "yigdal",
+   "title": "Yigdal",
+   "artist": "Traditional (Leoni melody)",
+   "origin": "United Kingdom",
+   "culture": "Jewish",
+   "genre": "Hymn",
+   "language": "he",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 9,
+    "notes_per_second": 1.58,
+    "big_leaps": 0.07,
+    "shortest": 0.23,
+    "score": 4.0
+   },
+   "duration": 65.455,
+   "key": "E minor",
+   "tempo_bpm": 132.0,
+   "year": "1770",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "The Hebrew hymn Yigdal is attributed to Daniel ben Judah of Rome (about 1404). The tune is the old Friday-evening synagogue melody of London's Great Synagogue, made famous by its cantor Myer Lyon (\"Leoni\", died 1797) and borrowed in 1770 for the English hymn \"The God of Abraham Praise\"; notation after the Jewish Encyclopedia (1906). First four lines. Both public domain.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/w/index.php?title=Yigdal&action=raw"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 205,
+   "tags": [
+    "jewish",
+    "hebrew",
+    "hymn",
+    "synagogue",
+    "sabbath",
+    "leoni"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 92,
+   "word_count": 37,
+   "added": "2026-11-05",
+   "popularity": 0
   }
  ]
 }

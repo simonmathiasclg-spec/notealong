@@ -51,6 +51,8 @@ def get_catalog():
     data = catalog_store.load_index()
     for s in data["songs"]:
         s["cover_url"] = f"/api/catalog/{s['id']}/cover"
+        # when this user last opened the song: their saved settings for it carry the time
+        s["last_played"] = library.last_played(s["id"])
     return data
 
 

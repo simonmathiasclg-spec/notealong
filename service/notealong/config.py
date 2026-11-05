@@ -93,6 +93,11 @@ DETAIL_LEVELS: dict[str, CleanupParams] = {
 }
 DEFAULT_DETAIL_LEVEL = "balanced"
 
+# --- Tempo-aware thresholds (cleanup.tempo_scaled) -----------------------------------
+TEMPO_REFERENCE_BPM = 100.0      # the tempo the time thresholds above were chosen for
+TEMPO_SCALE_FLOOR = 0.6          # never shrink a threshold below this share of its normal value
+TEMPO_SCALED = ("min_note_len", "merge_gap", "held_gap", "wobble_len", "bend_len")
+
 # --- Attaching notes to words --------------------------------------------------
 # A note that overlaps no word is attached to a word that starts/ends within this window.
 ATTACH_TOLERANCE = 0.15

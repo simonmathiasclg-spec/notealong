@@ -72,7 +72,7 @@ def words_from_annotations(lyrics_path: Path, words_csv: Path) -> list[dict]:
     return out
 
 
-def main(argv: list[str] | None = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--audio", required=True, type=Path)
     ap.add_argument("--id", required=True, help="song id (lowercase letters, digits, dashes)")
@@ -93,7 +93,27 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--words", type=Path, default=None)
     ap.add_argument("--detail", default="balanced")
     ap.add_argument("--no-review", action="store_true", help="skip the pYIN note review")
-    a = ap.parse_args(argv)
+    ap.add_argument("--album", default=None, help="album name, for the attribution line")
+    ap.add_argument("--no-index", action="store_true", help="do not rewrite catalog/catalog.json (the caller will)")
+    return ap
+
+
+def stem_gain_db(backing_wav: Path, vocals_wav: Path, target: float = -16.0) -> float:
+    """One gain for both stems so the backing track plays at about -16 LUFS, like the
+    built-in arrangements, without pushing either stem into clipping."""
+    import numpy as np
+    import soundfile as sf
+    from .render import lufs
+    b, _ = sf.read(str(backing_wav), dtype="float64", always_2d=True)
+    v, _ = sf.read(str(vocals_wav), dtype="float64", always_2d=True)
+    gain = max(-12.0, min(9.0, target - lufs(b)))
+    peak = max(float(np.abs(b).max()), float(np.abs(v).max()), 1e-6)
+    headroom = 20 * np.log10(0.97 / peak)
+    return round(float(min(gain, headroom)), 2)
+
+
+def run(a) -> dict:
+    """Imports one recording. Returns the catalog entry, with the pipeline statistics under "review"."""
 
     if not re.fullmatch(r"[a-z0-9-]+", a.id):
         raise SystemExit("--id must be lowercase letters, digits and dashes")
@@ -108,19 +128,28 @@ def main(argv: list[str] | None = None) -> int:
         work = Path(td)
         print(f"[{a.id}] separating the vocals (Demucs) …")
         paths = separate(a.audio, work, lambda p: None)
-        for stem in ("vocals", "backing"):
-            audio_mod.encode_stem(paths[stem], out / f"{stem}.{STEM_FORMAT}")
+        gain = stem_gain_db(paths["backing"], paths["vocals"])
+        # Catalog files live in the repository, so they are encoded smaller than an upload's stems:
+        # the band at 128 kbps stereo, the quiet guide vocal at 64 kbps mono.
+        for stem, extra in (("backing", ["-b:a", "128k"]), ("vocals", ["-ac", "1", "-b:a", "64k"])):
+            audio_mod.run(["ffmpeg", "-y", "-v", "error", "-i", str(paths[stem]), "-af", f"volume={gain}dB",
+                           "-c:a", "libmp3lame", *extra, str(out / f"{stem}.{STEM_FORMAT}")])
         vocals_wav = paths["vocals"]
         print(f"[{a.id}] finding the notes …")
         raw = detect_notes(vocals_wav)
         # kept so the notes can be worked out again later without the audio models (catalog.recheck)
         (out / "notes_raw.json").write_text(json.dumps(raw, separators=(",", ":")), encoding="utf-8")
-        art = Articulation(vocal_envelope(vocals_wav))
+        env = vocal_envelope(vocals_wav)
+        art = Articulation(env)
+        # kept (outside the repository) so catalog.recheck can re-derive the notes in seconds
+        cache_dir = CATALOG_DIR / ".cache" / a.id
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        (cache_dir / "envelope.json").write_text(json.dumps(env, separators=(",", ":")), encoding="utf-8")
         tempo = estimate_tempo(a.audio)
         notes, params = clean_notes(raw, a.detail)
         if not a.no_review:
             print(f"[{a.id}] reviewing {len(notes)} notes against a second pitch tracker …")
-            notes, report = review_notes(notes, vocals_wav)
+            notes, report = review_notes(notes, vocals_wav, cache=CATALOG_DIR / ".cache" / a.id / "pyin.npz")
             notes, outliers = drop_outliers(notes)
             report["outliers_dropped"] = outliers
             print(f"[{a.id}] review: {report}")
@@ -128,6 +157,7 @@ def main(argv: list[str] | None = None) -> int:
             report = {}
         key = detect_key(notes)
 
+        language_probability = None
         if a.lyrics and a.words:
             print(f"[{a.id}] using the provided word timings")
             words = postprocess_words(words_from_annotations(a.lyrics, a.words))
@@ -139,8 +169,20 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(f"[{a.id}] reading the lyrics (Whisper) …")
             from ..pipeline.lyrics import transcribe
-            result = transcribe(vocals_wav, language=a.language or None)
-            words = postprocess_words(result.get("words", []))
+            result = transcribe(vocals_wav, language=None if a.language in ("", "auto") else a.language)
+            if a.language in ("", "auto"):
+                a.language = result.get("language") or "en"
+            language_probability = result.get("language_probability")
+            words = [w for w in result.get("words", [])]
+            # words "heard" where the vocals are silent are transcription inventions
+            from ..pipeline.melody import add_levels
+            from ..config import WORD_MIN_LEVEL_DB
+            try:
+                add_levels(words, vocals_wav)
+                words = [w for w in words if w.get("level_db", 0.0) >= WORD_MIN_LEVEL_DB]
+            except Exception:
+                pass
+            words = postprocess_words(words)
             build_lines(words, segments=result.get("segments"))
             lyrics_source = "transcribed"
         romanize_words(words, a.language)
@@ -169,7 +211,8 @@ def main(argv: list[str] | None = None) -> int:
     (out / "cover.svg").write_text(cover_svg(a.id, a.genre, a.title), encoding="utf-8")
 
     rating, details = rate_difficulty(notes)
-    attribution = a.attribution or f'"{a.title}" by {a.artist}, {a.licence}. Source: {a.source_url}'
+    attribution = a.attribution or (f'"{a.title}" by {a.artist}' + (f', from the album "{a.album}"' if getattr(a, "album", None) else "")
+                                    + f', {a.licence}. Source: {a.source_url}')
     meta = {
         "id": a.id, "title": a.title, "artist": a.artist, "origin": a.origin, "culture": a.culture or a.origin, "genre": a.genre,
         "language": a.language, "difficulty": rating, "difficulty_details": details, "duration": duration,
@@ -178,10 +221,20 @@ def main(argv: list[str] | None = None) -> int:
         "source": {"kind": "cc", "url": a.source_url}, "cover": "cover.svg", "accent_hue": cover_hues(a.id, a.genre)[0],
         "tags": [t.strip() for t in a.tags.split(",") if t.strip()], "featured": a.featured, "beginner": rating == "easy",
         "access": "free", "note_count": len(notes), "word_count": len(words), "review": report,
+        # "annotated": word timings made by people; "transcribed": heard by Whisper, not checked by a person
+        "lyrics": lyrics_source if lyrics_source == "transcribed" else "annotated",
+        "gain_db": gain, "language_probability": language_probability,
+        "added": datetime.now(timezone.utc).date().isoformat(), "popularity": 0,
     }
     (out / "catalog.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
-    entries = write_index()
-    print(f"[{a.id}] done: {rating}, {len(notes)} notes, {len(words)} words, key {meta['key']}; catalog now has {len(entries)} songs")
+    if not getattr(a, "no_index", False):
+        write_index()
+    print(f"[{a.id}] done: {rating}, {len(notes)} notes, {len(words)} words, key {meta['key']}, gain {gain:+.1f} dB")
+    return meta
+
+
+def main(argv: list[str] | None = None) -> int:
+    run(build_parser().parse_args(argv))
     return 0
 
 

@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from statistics import median
 
-from ..config import DETAIL_LEVELS, DEFAULT_DETAIL_LEVEL, CleanupParams
+from ..config import DETAIL_LEVELS, DEFAULT_DETAIL_LEVEL, TEMPO_REFERENCE_BPM, TEMPO_SCALED, TEMPO_SCALE_FLOOR, CleanupParams
 
 FRAME = 0.01  # seconds
 
@@ -27,6 +27,26 @@ def params_for(detail_level: str | None, overrides: dict | None = None) -> Clean
         allowed = {k: v for k, v in overrides.items() if k in base.to_dict()}
         base = CleanupParams(**{**base.to_dict(), **allowed})
     return base
+
+
+def tempo_scaled(p: CleanupParams, tempo_bpm: float | None) -> CleanupParams:
+    """Thresholds that follow the tempo.
+
+    The time thresholds were chosen for a song at about 100 beats per minute, where a sixteenth note
+    lasts 0.15 s. In a fast song real notes are shorter than that, and a fixed minimum length throws
+    them away or glues them to their neighbours. So for songs faster than the reference tempo the
+    time thresholds shrink in proportion (never below 60 % of their normal value: detected tempos
+    are sometimes double the felt tempo). Slow songs keep the normal values.
+    """
+    if not tempo_bpm or tempo_bpm <= 0:
+        return p
+    k = max(TEMPO_SCALE_FLOOR, min(1.0, TEMPO_REFERENCE_BPM / float(tempo_bpm)))
+    if k >= 0.999:
+        return p
+    d = p.to_dict()
+    for key in TEMPO_SCALED:
+        d[key] = round(d[key] * k, 4)
+    return CleanupParams(**d)
 
 
 def _dur(n: dict) -> float:
@@ -171,8 +191,8 @@ def absorb_short_notes(notes: list[dict], p: CleanupParams) -> list[dict]:
 
 
 def clean_notes(raw_notes: list[dict], detail_level: str | None = None,
-                overrides: dict | None = None) -> tuple[list[dict], CleanupParams]:
-    p = params_for(detail_level, overrides)
+                overrides: dict | None = None, tempo: float | None = None) -> tuple[list[dict], CleanupParams]:
+    p = tempo_scaled(params_for(detail_level, overrides), tempo)
     notes = filter_basic(raw_notes, p)
     notes = filter_relative_amplitude(notes, p)
     notes = reduce_monophonic(notes, p)

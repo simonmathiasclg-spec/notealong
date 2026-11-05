@@ -1,0 +1,36 @@
+{
+ "style": "folk",
+ "intro_bars": 2,
+ "intro_seconds": 6.32,
+ "first_note": 5.53,
+ "parts": [
+  {
+   "part": "guitar",
+   "role": "comp",
+   "notes": 563,
+   "raw_lufs": -35.5,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "picking",
+   "role": "comp2",
+   "notes": 140,
+   "raw_lufs": -33.8,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 54,
+   "raw_lufs": -30.9,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "percussion",
+   "role": "perc",
+   "notes": 227,
+   "raw_lufs": -42.6,
+   "mix_lufs": -23.5
+  }
+ ]
+}

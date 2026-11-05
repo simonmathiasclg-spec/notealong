@@ -1,0 +1,36 @@
+{
+ "style": "latin",
+ "intro_bars": 2,
+ "intro_seconds": 3.91,
+ "first_note": 3.26,
+ "parts": [
+  {
+   "part": "guitar",
+   "role": "comp",
+   "notes": 355,
+   "raw_lufs": -31.3,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "second guitar",
+   "role": "comp2",
+   "notes": 106,
+   "raw_lufs": -33.6,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 55,
+   "raw_lufs": -29.6,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "percussion",
+   "role": "perc",
+   "notes": 225,
+   "raw_lufs": -37.2,
+   "mix_lufs": -23.5
+  }
+ ]
+}

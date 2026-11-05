@@ -61,7 +61,8 @@ def articulation(song_id: str) -> Articulation:
 
 
 def derive(song_id: str, detail: str = "balanced", overrides: dict | None = None, held: bool = True,
-           words: list[dict] | None = None, lines: list[dict] | None = None, language: str | None = None) -> tuple[list[dict], list[dict], dict]:
+           words: list[dict] | None = None, lines: list[dict] | None = None, language: str | None = None,
+           tempo: float | None = None) -> tuple[list[dict], list[dict], dict]:
     """The full note chain for one catalog recording. Returns (notes, all_lines, report)."""
     d = CATALOG_DIR / song_id
     song = json.loads((d / "song.json").read_text(encoding="utf-8"))
@@ -72,8 +73,7 @@ def derive(song_id: str, detail: str = "balanced", overrides: dict | None = None
         w["line"] = remap.get(w["line"], 0)
     for i, l in enumerate(lyric_lines):
         l["index"] = i
-    params = params_for(detail, overrides)
-    notes, _ = clean_notes(raw_notes(song_id), detail, overrides)
+    notes, params = clean_notes(raw_notes(song_id), detail, overrides, tempo=tempo)
     report: dict = {"cleaned": len(notes)}
     notes, review = review_notes(notes, d / f"vocals.{STEM_FORMAT}", cache=CACHE / song_id / "pyin.npz")
     notes, outliers = drop_outliers(notes)

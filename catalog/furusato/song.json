@@ -1,0 +1,693 @@
+{
+ "schema_version": 1,
+ "id": "furusato",
+ "title": "Furusato",
+ "artist": "Teiichi Okano / Tatsuyuki Takano",
+ "duration": 40.714,
+ "tempo_bpm": 84.0,
+ "created_at": "2026-11-05T05:28:34.543305+00:00",
+ "updated_at": "2026-11-05T05:28:34.543322+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "ja",
+  "override": null,
+  "script": "other"
+ },
+ "key": {
+  "tonic": 7,
+  "mode": "major",
+  "name": "G major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "兎",
+   "roman": "Usagi",
+   "start": 4.286,
+   "end": 6.429,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "追いし",
+   "roman": "oishi",
+   "start": 6.429,
+   "end": 8.571,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "かの",
+   "roman": "kano",
+   "start": 8.571,
+   "end": 10.0,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "山",
+   "roman": "yama",
+   "start": 10.0,
+   "end": 12.143,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "小鮒",
+   "roman": "kobuna",
+   "start": 12.857,
+   "end": 15.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "釣りし",
+   "roman": "tsurishi",
+   "start": 15.0,
+   "end": 17.143,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "かの",
+   "roman": "kano",
+   "start": 17.143,
+   "end": 18.571,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "川",
+   "roman": "kawa",
+   "start": 18.571,
+   "end": 20.714,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "夢",
+   "roman": "yume",
+   "start": 21.429,
+   "end": 22.857,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "は",
+   "roman": "wa",
+   "start": 22.857,
+   "end": 23.571,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "今",
+   "roman": "ima",
+   "start": 23.571,
+   "end": 25.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "も",
+   "roman": "mo",
+   "start": 25.0,
+   "end": 25.714,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "めぐりて",
+   "roman": "megurite",
+   "start": 25.714,
+   "end": 29.286,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "忘れがたき",
+   "roman": "wasuregataki",
+   "start": 30.0,
+   "end": 34.286,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "故郷",
+   "roman": "furusato",
+   "start": 34.286,
+   "end": 37.857,
+   "line": 3,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 4.286,
+   "end": 12.143
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 12.857,
+   "end": 20.714
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 21.429,
+   "end": 29.286
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 30.0,
+   "end": 37.857
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 4.286,
+   "end": 5.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 5.0,
+   "end": 5.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 5.714,
+   "end": 6.429,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 6.429,
+   "end": 7.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 7.5,
+   "end": 7.857,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 7.857,
+   "end": 8.571,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 8.571,
+   "end": 9.286,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 9.286,
+   "end": 10.0,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 10.0,
+   "end": 10.714,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 10.714,
+   "end": 12.143,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 12.857,
+   "end": 13.571,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 13.571,
+   "end": 14.286,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 14.286,
+   "end": 15.0,
+   "midi": 76,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 15.0,
+   "end": 16.071,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 16.071,
+   "end": 16.429,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 16.429,
+   "end": 17.143,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 17.143,
+   "end": 17.857,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 17.857,
+   "end": 18.571,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 18.571,
+   "end": 19.286,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 19.286,
+   "end": 20.714,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 21.429,
+   "end": 21.786,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 21.786,
+   "end": 22.143,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 22.143,
+   "end": 22.857,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 22.857,
+   "end": 23.571,
+   "midi": 62,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 23.571,
+   "end": 23.929,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 23.929,
+   "end": 24.286,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 24.286,
+   "end": 25.0,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 25.0,
+   "end": 25.714,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 25.714,
+   "end": 26.071,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 26.071,
+   "end": 26.429,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 26.429,
+   "end": 27.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 27.5,
+   "end": 27.857,
+   "midi": 76,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 27.857,
+   "end": 28.214,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 28.214,
+   "end": 28.571,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 28.571,
+   "end": 29.286,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 30.0,
+   "end": 30.714,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 30.714,
+   "end": 31.429,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 31.429,
+   "end": 32.143,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 32.143,
+   "end": 33.214,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 33.214,
+   "end": 33.571,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 33.571,
+   "end": 34.286,
+   "midi": 71,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 34.286,
+   "end": 35.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 35.0,
+   "end": 35.714,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 35.714,
+   "end": 36.429,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n47",
+   "start": 36.429,
+   "end": 37.857,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 3,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "roman"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null
+}

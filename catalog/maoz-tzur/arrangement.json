@@ -1,0 +1,29 @@
+{
+ "style": "hymn",
+ "intro_bars": 2,
+ "intro_seconds": 4.8,
+ "first_note": 4.8,
+ "parts": [
+  {
+   "part": "organ",
+   "role": "comp",
+   "notes": 192,
+   "raw_lufs": -28.0,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 117,
+   "raw_lufs": -33.0,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "pedal",
+   "role": "bass",
+   "notes": 48,
+   "raw_lufs": -32.0,
+   "mix_lufs": -24.0
+  }
+ ]
+}

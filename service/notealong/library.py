@@ -65,6 +65,17 @@ def overlay_path(song_id: str) -> Path:
     return LIBRARY_DIR / ".catalog" / f"{song_id}.json"
 
 
+def last_played(song_id: str) -> str | None:
+    """When the user last used a built-in song (their saved settings for it are stamped on every change)."""
+    try:
+        p = overlay_path(song_id)
+        if not p.exists():
+            return None
+        return json.loads(p.read_text(encoding="utf-8")).get("updated_at")
+    except Exception:
+        return None
+
+
 def song_path(song_id: str) -> Path:
     return song_dir(song_id) / "song.json"
 

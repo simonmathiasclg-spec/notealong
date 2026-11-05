@@ -7,9 +7,9 @@ import { AppHeader } from "@/components/AppHeader";
 import { Welcome } from "@/components/Welcome";
 import { PageDropZone } from "@/components/UploadZone";
 import { ServiceDown } from "@/components/ServiceDown";
-import { DiscoverSkeleton, Filters, Hero, Shelf, SongTile } from "@/components/discover/Discover";
+import { Browse, DiscoverSkeleton, Filters, Hero, Shelf, SongTile, SortMenu } from "@/components/discover/Discover";
 import { api } from "@/lib/api";
-import { applyFacet, buildShelves, facetValues, pickTonight, searchCatalog, type Facet } from "@/lib/catalog";
+import { applyFacet, buildCategories, buildShelves, facetLabel, facetValues, newSongs, pickTonight, searchCatalog, sortSongs, type Facet, type SortMode } from "@/lib/catalog";
 import { hasChosenInstrument, useInstrumentPref } from "@/lib/prefs";
 import { useUploads } from "@/lib/uploads";
 import type { CatalogEntry } from "@/lib/types";
@@ -18,7 +18,10 @@ export default function DiscoverPage() {
   const [songs, setSongs] = useState<CatalogEntry[] | null>(null);
   const [serviceDown, setServiceDown] = useState(false);
   const [query, setQuery] = useState("");
-  const [facet, setFacet] = useState<Facet>({ kind: "all" });
+  const [facet, setFacetState] = useState<Facet>({ kind: "all" });
+  // "Most played" is offered too; until the app reports plays it orders by featured, then title
+  const [sort, setSort] = useState<SortMode>("az");
+  const setFacet = (f: Facet) => { setFacetState(f); if (f.kind !== "all") window.scrollTo({ top: 0, behavior: "smooth" }); };
   const [welcome, setWelcome] = useState(false);
   const [, setInstrument, loaded] = useInstrumentPref();
   const { addFiles } = useUploads();
@@ -29,12 +32,17 @@ export default function DiscoverPage() {
   useEffect(() => { if (loaded && !hasChosenInstrument()) queueMicrotask(() => setWelcome(true)); }, [loaded]);
 
   const all = useMemo(() => songs ?? [], [songs]);
-  const { genres, cultures } = useMemo(() => facetValues(all), [all]);
-  const filtered = useMemo(() => applyFacet(searchCatalog(all, query), facet), [all, query, facet]);
+  const { genres, cultures, regions, languages } = useMemo(() => facetValues(all), [all]);
+  const filtered = useMemo(() => {
+    const list = applyFacet(searchCatalog(all, query), facet);
+    return facet.kind === "recent" ? list : sortSongs(list, sort);
+  }, [all, query, facet, sort]);
   const shelves = useMemo(() => buildShelves(all), [all]);
   const tonight = useMemo(() => pickTonight(all), [all]);
+  const hasNew = useMemo(() => newSongs(all).length > 0, [all]);
+  const categories = useMemo(() => buildCategories(all), [all]);
+  const [showAll, setShowAll] = useState(false);
   const browsing = query.trim().length > 0 || facet.kind !== "all";
-  const facetLabel = facet.kind === "all" ? "" : facet.kind === "recordings" ? "Real recordings" : facet.kind === "difficulty" ? `${facet.value[0].toUpperCase()}${facet.value.slice(1)} songs` : facet.value;
 
   return (
     <div className="flex min-h-full flex-col">
@@ -69,16 +77,19 @@ export default function DiscoverPage() {
           <div className="space-y-12">
             {!browsing && tonight && <Hero song={tonight} count={all.length} />}
             <div className="space-y-5">
-              <Filters facet={facet} setFacet={setFacet} genres={genres} cultures={cultures} />
+              <Filters facet={facet} setFacet={setFacet} genres={genres} cultures={cultures} regions={regions} languages={languages} hasNew={hasNew} />
             </div>
             {browsing ? (
               <section aria-live="polite">
                 <div className="mb-5 flex items-baseline justify-between gap-4">
                   <h2 className="display-md text-[1.45rem]">
-                    {query.trim() ? `“${query.trim()}”` : facetLabel}
+                    {query.trim() ? `“${query.trim()}”` : facetLabel(facet)}
                     <span className="ml-3 text-base font-normal text-muted">{filtered.length === 1 ? "1 song" : `${filtered.length} songs`}</span>
                   </h2>
-                  <button className="btn btn-ghost btn-sm" onClick={() => { setQuery(""); setFacet({ kind: "all" }); }}><X className="h-3.5 w-3.5" /> Clear</button>
+                  <div className="flex items-center gap-2">
+                    {facet.kind !== "recent" && <SortMenu value={sort} onChange={setSort} />}
+                    <button className="btn btn-ghost btn-sm" onClick={() => { setQuery(""); setFacet({ kind: "all" }); }}><X className="h-3.5 w-3.5" /> Clear</button>
+                  </div>
                 </div>
                 {filtered.length === 0 ? (
                   <div className="panel p-8 text-center">
@@ -91,8 +102,14 @@ export default function DiscoverPage() {
               </section>
             ) : (
               <>
-                {shelves.map((sh) => <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs} />)}
-                <Shelf title="Every song" subtitle="A to Z" songs={[...all].sort((a, b) => a.title.localeCompare(b.title))} grid />
+                {shelves.map((sh) => <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs} total={sh.total} onSeeAll={sh.facet ? () => setFacet(sh.facet!) : undefined} />)}
+                <Browse categories={categories} onPick={setFacet} />
+                <div>
+                  <Shelf title="Every song" subtitle={`${all.length} songs`} songs={showAll ? sortSongs(all, sort) : sortSongs(all, sort).slice(0, 24)} grid action={<SortMenu value={sort} onChange={setSort} />} />
+                  {!showAll && all.length > 24 && (
+                    <div className="mt-8 flex justify-center"><button className="btn" onClick={() => setShowAll(true)}>Show all {all.length} songs</button></div>
+                  )}
+                </div>
               </>
             )}
             <p className="hairline pt-6 text-xs leading-relaxed text-faint">

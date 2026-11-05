@@ -200,7 +200,15 @@ export function SettingsPanel(p: Props) {
                       </label>
                     )}
                     {!p.catalog && <button className="btn w-full" onClick={() => setLyricsOpen(true)}><FileText className="h-4 w-4" /> {song.settings.lyrics_source === "pasted" ? "Edit the pasted words" : "Paste the correct words"}</button>}
-                    {p.catalog && song.language.script !== "other" && <p className="text-sm text-faint">The words and notes of this song were checked by hand.</p>}
+                    {p.catalog && song.language.script !== "other" && (
+                      <p className="text-sm leading-relaxed text-faint">
+                        {p.catalog.source.kind === "traditional"
+                          ? "The words and notes of this song were written out by hand."
+                          : p.catalog.lyrics === "transcribed"
+                            ? "The words and notes were worked out automatically, and the notes checked against a second pitch tracker. Use the pencil at the top to fix anything that is off."
+                            : "The words were timed by hand. The notes were worked out automatically and checked against a second pitch tracker."}
+                      </p>
+                    )}
                   </div>
                 </Row>
 

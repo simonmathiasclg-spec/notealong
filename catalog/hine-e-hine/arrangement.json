@@ -1,0 +1,36 @@
+{
+ "style": "lullaby",
+ "intro_bars": 1,
+ "intro_seconds": 3.64,
+ "first_note": 3.64,
+ "parts": [
+  {
+   "part": "piano",
+   "role": "comp",
+   "notes": 159,
+   "raw_lufs": -40.0,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "pad",
+   "role": "pad",
+   "notes": 87,
+   "raw_lufs": -35.7,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "music box",
+   "role": "color",
+   "notes": 14,
+   "raw_lufs": -44.5,
+   "mix_lufs": -26.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 32,
+   "raw_lufs": -33.2,
+   "mix_lufs": -24.0
+  }
+ ]
+}
