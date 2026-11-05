@@ -153,3 +153,87 @@ notes, held note running past its word, hand-fixed notes, no audio evidence). Py
   all) so the notes can be re-derived in seconds. It was re-detected from the 192 kbps vocals stem, which
   changed a handful of individual notes compared with the first import.
 
+## Part 3: "Hear it played" (virtual instrument)
+
+**What it does.** A "Hear it played" button sits in the transport bar (the instrument's own icon plus the
+label; `H` on the keyboard). When it is on, a sampled instrument plays the melody along with the backing
+track. Settings has the same switch and a volume slider for it. It follows the selected instrument and
+works on built-in songs and uploads, together with the guide vocal if that is on too.
+
+**The sound.** Real recordings of single held notes, not General MIDI:
+
+| Instrument in the app | Recordings | Notes sampled | Download |
+|---|---|---|---|
+| Alto sax | University of Iowa, non-vibrato | 9 | 0.6 MB |
+| Soprano sax | University of Iowa | 9 | 0.7 MB |
+| Tenor sax | VCSL (CC0) | 12 | 1.0 MB |
+| Baritone sax | the tenor recordings, a fifth lower | | shared |
+| Clarinet | University of Iowa | 14 | 0.9 MB |
+| Flute | University of Iowa | 14 | 1.0 MB |
+| Oboe | University of Iowa | 13 | 0.6 MB |
+| Recorder | VCSL baroque soprano recorder (CC0) | 13 | 0.9 MB |
+| Trumpet | University of Iowa | 10 | 0.7 MB |
+| French horn | University of Iowa | 14 | 0.8 MB |
+| Violin | VSCO 2 CE solo violin with vibrato (CC0) | 15 | 1.3 MB |
+| Keyboard, and Voice | VCSL Steinway B (CC0) | 16 | 1.4 MB |
+
+Licences are verified and recorded in `catalog/LICENSES.md`, with the libraries that were rejected and why
+(the Philharmonia set forbids use "as a sampler instrument"). An instrument is downloaded only when it is
+first selected with the feature on; nothing loads for people who never use it.
+
+**How the notes are made to sound played** (`service/scripts/build_instruments.py`, then
+`web/src/lib/sampler.ts`):
+
+- Each recording is trimmed to its attack, and its real pitch is measured. Several source notes are well
+  out of tune (up to 44 cents on the flute, 38 on the soprano sax); the player corrects each one, so the
+  instrument is in tune with the backing track.
+- A loop is found in the steady part of each tone (a whole number of periods, cross-faded, level evened
+  out), so a note can be held for any length. Checked by simulation: no clicks at the loop joins on any of
+  the 123 looped notes.
+- Long notes bloom slightly after the attack, ease off towards the end, and get a vibrato that fades in
+  after about half a second. Short notes get none of that. Every note differs by a few cents and a
+  little in loudness, and a soft room reverb is added.
+- The piano keeps its natural decay instead of a loop.
+
+**Pitch.** The instrument sounds at concert pitch, moved with the key and the octave: exactly what the
+player's own instrument will sound. The written transposition is only used for the letters on screen. It
+uses the key of the audio that is actually loaded, so it stays in tune while a new key is being prepared.
+
+**Timing** (`web/src/lib/hear.ts`). The notes are rendered live in the browser from the note data. Every
+25 ms the scheduler reads the song position and books the notes of the next 0.22 s at their exact place
+on the audio clock, allowing for the output delay of the device. Each note is placed from the song
+position at that moment, so errors cannot add up. A seek, a loop wrapping round, a speed change, an edit,
+a key or octave change drops what was booked and books again from the new position. The loop itself now
+wraps on a timer set for the exact moment instead of being noticed up to 0.1 s late.
+
+**Tests.**
+
+- 12 unit tests (`hear.test.ts`): booking, speed scaling, no double booking, joining a note half-way,
+  and a simulated 4-minute song at 1x and 0.5x with a coarse media clock and an uneven scheduler: every
+  note within 15 ms of where the song really is.
+- Real browser, whole songs (`web/scripts/check-hear-sync.mjs`, headless Chromium). For every note it
+  records where the song was, by the media clock itself, at the instant the note sounded:
+
+| Song | Speed | Notes measured | Mean error | Spread | Worst | Start to end |
+|---|---|---|---|---|---|---|
+| Frère Jacques (39 s) | 1x | 64 of 64 | 0.0 ms | 1.7 ms | 4.4 ms | no trend |
+| Frère Jacques | 0.5x | 64 of 64 | -0.3 ms | 3.5 ms | 8.6 ms | no trend |
+
+- The real sampler rendered offline for all 12 instruments (`web/scripts/render-hear-demo.mjs`) and
+  measured: tuning within 5 cents on average for every instrument (the pitch tracker's own step is 10
+  cents), level -18 to -21 LUFS at the default volume (the backing tracks are at -16), no clipping.
+- Keyboard toggle, key change while playing and switching off were exercised in the browser.
+
+**Limits and honest notes.**
+
+- I cannot hear the result. Tuning, levels, loop joins and timing are measured; whether the sax sounds
+  *good* needs your ears. The Iowa notes were recorded at full volume, so the tone is on the bright side;
+  a gentle low-pass takes the edge off. If it sounds harsh, lower `tone` for that instrument in
+  `build_instruments.py`.
+- The baritone is the tenor played a fifth lower, which is close to how the real instruments relate, but
+  it is not a recording of a baritone. No free baritone recordings with a clear licence were found.
+- "Voice" plays a piano, as a reference pitch for singers.
+- If the browser tab is in the background, browsers slow timers down and notes may be skipped until the
+  tab is visible again.
+- The first note after a loop wraps can be up to about 25 ms late.
+

@@ -10,6 +10,8 @@ import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/lib/notes";
 import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
 import { beatSeconds, cueAt, type Cue } from "@/lib/timing";
+import { Sampler, type SamplerState } from "@/lib/sampler";
+import { HearEngine, type HearNote } from "@/lib/hear";
 import { accentFor, accentVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
@@ -33,7 +35,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const [session, setSession] = useState<UserSession>(initial.user);
   const [, setInstrumentPref] = useInstrumentPref();
   const [countIn, setCountIn] = useCountInPref();
-  const [engineState, setEngineState] = useState<EngineState>({ playing: false, loading: true, countingIn: null, ready: false, error: null });
+  const [engineState, setEngineState] = useState<EngineState>({ playing: false, loading: true, countingIn: null, ready: false, error: null, shift: initial.user.key_shift });
   const [time, setTime] = useState(initial.user.position || 0);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -46,6 +48,14 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const showFingering = fingeringPref === "1" && instrumentIsSax(session.instrument);
   const [timingPref, setTimingPref] = usePref("na.timing", "1");
   const timing = timingPref !== "0";
+  const [hearPref, setHearPref] = usePref("na.hear", "0");
+  const [hearVolumePref, setHearVolumePref] = usePref("na.hearVolume", "0.8");
+  const hear = hearPref === "1";
+  const hearVolume = Number.isFinite(Number(hearVolumePref)) ? Number(hearVolumePref) : 0.8;
+  // which instrument's recordings are loaded (or failed to load); "loading" is everything in between
+  const [hearLoaded, setHearLoaded] = useState<{ instrument: string; ok: boolean } | null>(null);
+  const samplerRef = useRef<Sampler | null>(null);
+  const hearRef = useRef<HearEngine | null>(null);
   const engineRef = useRef<AudioEngine | null>(null);
 
   // ---- audio engine -------------------------------------------------------
@@ -58,7 +68,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     engine.setSpeed(session.speed);
     engine.loop = session.loop;
     engine.load(session.key_shift).then(() => { if (session.position > 0 && session.position < song.duration - 5) engine.seek(session.position); });
-    return () => { unsub(); engine.destroy(); engineRef.current = null; };
+    return () => { hearRef.current?.destroy(); hearRef.current = null; samplerRef.current = null; unsub(); engine.destroy(); engineRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [song.id]);
 
@@ -104,6 +114,47 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     for (const n of song.notes) m.set(n.id, describeNote(n, settings, song.key, octaveShift));
     return m;
   }, [song.notes, song.key, session.instrument, session.key_shift, session.octave, session.notation, octaveShift]);
+  // ---- hear it played: the melody on a sampled instrument, at sounding pitch ----
+  // What the player's instrument will actually sound: concert pitch, moved with the key
+  // (the key of the audio that is loaded) and the octave. The written transposition is for reading only.
+  const hearNotes = useMemo<HearNote[]>(() => [...song.notes].sort((a, b) => a.start - b.start)
+    .map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + engineState.shift + 12 * octaveShift })),
+  [song.notes, engineState.shift, octaveShift]);
+  const hearNotesRef = useRef(hearNotes);
+  useEffect(() => { hearNotesRef.current = hearNotes; hearRef.current?.setNotes(hearNotes); }, [hearNotes]);
+  useEffect(() => { samplerRef.current?.setVolume(hearVolume); }, [hearVolume]);
+  useEffect(() => {
+    const engine = engineRef.current;
+    if (!hear || !engine) { hearRef.current?.setEnabled(false); return; }
+    let cancelled = false;
+    const instrumentId = session.instrument;
+    (async () => {
+      try {
+        samplerRef.current ??= new Sampler(engine.audioContext());
+        hearRef.current ??= new HearEngine(engine, samplerRef.current);
+        const sampler = samplerRef.current, player = hearRef.current;
+        sampler.setVolume(hearVolume);
+        await sampler.use(instrumentId);
+        if (cancelled) return;
+        player.setNotes(hearNotesRef.current);
+        player.setEnabled(true);
+        setHearLoaded({ instrument: instrumentId, ok: true });
+      } catch {
+        if (cancelled) return;
+        setHearLoaded({ instrument: instrumentId, ok: false });
+        setToast("Could not load the instrument sound. Check your connection and try again.");
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hear, session.instrument, song.id]);
+  const hearState: SamplerState = !hear ? "idle" : hearLoaded?.instrument === session.instrument ? (hearLoaded.ok ? "ready" : "error") : "loading";
+  const toggleHear = useCallback(() => {
+    // browsers only let sound start from a click or a key press, so wake the audio here
+    void engineRef.current?.audioContext().resume();
+    setHearPref(hear ? "0" : "1");
+  }, [hear, setHearPref]);
+
   const outOfRangeCount = useMemo(() => [...noteInfo.values()].filter((n) => n.outOfRange).length, [noteInfo]);
   // the note coming up next (shown in the fingering hint between notes)
   const nextNoteInfo = useMemo(() => {
@@ -191,6 +242,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         case "ArrowDown": e.preventDefault(); update({ key_shift: Math.max(-6, session.key_shift - 1) }); break;
         case "l": case "L": loopCurrentLine(); break;
         case "f": case "F": setFocus((f) => !f); break;
+        case "h": case "H": toggleHear(); break;
         case "e": case "E": setEditing((v) => !v); break;
         case "?": setHelpOpen((v) => !v); break;
         case "Escape": setHelpOpen(false); setSettingsOpen(false); setFocus(false); break;
@@ -199,7 +251,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift]);
+  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, toggleHear]);
 
   // ---- editing -------------------------------------------------------
   const [noteAnchor, setNoteAnchor] = useState<(Anchor & { id: string }) | null>(null);
@@ -405,6 +457,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
           onLoopLine={loopCurrentLine}
           onSpeed={(speed) => update({ speed })}
           focus={focus}
+          hear={hear} hearState={hearState} onHear={toggleHear} instrument={instrument}
         />
       </div>
 
@@ -413,6 +466,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         countIn={countIn} setCountIn={setCountIn} busy={busy} keyLoading={keyLoading}
         fingering={fingeringPref === "1"} setFingering={(v) => setFingeringPref(v ? "1" : "0")}
         timing={timing} setTiming={(v) => setTimingPref(v ? "1" : "0")}
+        hear={hear} hearState={hearState} onHear={toggleHear} hearVolume={hearVolume} setHearVolume={(v) => setHearVolumePref(String(v))}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}

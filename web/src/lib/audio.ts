@@ -13,6 +13,8 @@ export type EngineState = {
   countingIn: number | null; // beats remaining during count-in
   ready: boolean;
   error: string | null;
+  /** The key shift of the audio that is actually loaded (lags the setting while a new key is prepared). */
+  shift: number;
 };
 
 type Listener = (s: EngineState) => void;
@@ -22,7 +24,7 @@ export class AudioEngine {
   vocals: HTMLAudioElement;
   private ctx: AudioContext | null = null;
   private listeners = new Set<Listener>();
-  private state: EngineState = { playing: false, loading: true, countingIn: null, ready: false, error: null };
+  private state: EngineState = { playing: false, loading: true, countingIn: null, ready: false, error: null, shift: 0 };
   private urlFor: (stem: "backing" | "vocals", shift: number) => string;
   private shift = 0;
   private speed = 1;
@@ -30,6 +32,9 @@ export class AudioEngine {
   private syncTimer: ReturnType<typeof setInterval> | null = null;
   loop: [number, number] | null = null;
   duration = 0;
+  /** Called right after the position jumps (a seek or a loop wrapping round). */
+  onJump: (() => void) | null = null;
+  private loopTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(urlFor: (stem: "backing" | "vocals", shift: number) => string) {
     this.urlFor = urlFor;
@@ -59,7 +64,7 @@ export class AudioEngine {
     this.shift = shift;
     this.setState({ loading: true, ready: false, error: null });
     await this.swapSources(shift, 0, false);
-    this.setState({ loading: false, ready: true });
+    this.setState({ loading: false, ready: true, shift });
   }
 
   private waitCanPlay(el: HTMLAudioElement): Promise<void> {
@@ -94,7 +99,7 @@ export class AudioEngine {
     try {
       await this.swapSources(shift, pos, wasPlaying);
       if (this.shift !== shift) return; // superseded by a newer change
-      this.setState({ loading: false, playing: wasPlaying, error: null });
+      this.setState({ loading: false, playing: wasPlaying, error: null, shift });
     } catch {
       this.setState({ loading: false, error: "Could not prepare that key. Try again." });
     }
@@ -117,6 +122,13 @@ export class AudioEngine {
     this.backing.currentTime = t;
     this.vocals.currentTime = t;
     this.clock.reset();
+    this.onJump?.();
+  }
+
+  /** The shared AudioContext (count-in clicks and the sampled instrument). */
+  audioContext(): AudioContext {
+    this.ctx ??= new AudioContext({ latencyHint: "interactive" });
+    return this.ctx;
   }
 
   private async playNow() {
@@ -160,8 +172,7 @@ export class AudioEngine {
 
   private click(accent: boolean) {
     try {
-      this.ctx ??= new AudioContext();
-      const ctx = this.ctx;
+      const ctx = this.audioContext();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.frequency.value = accent ? 1320 : 880;
@@ -179,10 +190,23 @@ export class AudioEngine {
       if (!this.state.playing) return;
       // keep the guide vocal glued to the backing track
       if (Math.abs(this.vocals.currentTime - this.backing.currentTime) > 0.06) this.vocals.currentTime = this.backing.currentTime;
-      if (this.loop && this.backing.currentTime >= this.loop[1]) this.seek(this.loop[0]);
-    }, 100);
+      if (!this.loop) return;
+      // Wrap the loop on time: when its end is close, set a timer for the exact moment
+      // instead of noticing up to a tenth of a second late.
+      const left = (this.loop[1] - this.backing.currentTime) / (this.speed || 1);
+      if (left <= 0) this.seek(this.loop[0]);
+      else if (left < 0.13 && !this.loopTimer) {
+        this.loopTimer = setTimeout(() => {
+          this.loopTimer = null;
+          if (this.state.playing && this.loop && this.backing.currentTime >= this.loop[1] - 0.03) this.seek(this.loop[0]);
+        }, left * 1000);
+      }
+    }, 50);
   }
-  private stopSync() { if (this.syncTimer) { clearInterval(this.syncTimer); this.syncTimer = null; } }
+  private stopSync() {
+    if (this.syncTimer) { clearInterval(this.syncTimer); this.syncTimer = null; }
+    if (this.loopTimer) { clearTimeout(this.loopTimer); this.loopTimer = null; }
+  }
 
   destroy() {
     this.pause();

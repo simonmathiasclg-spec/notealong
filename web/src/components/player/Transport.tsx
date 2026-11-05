@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play, Repeat } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Pause, Play, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
 import { formatTime } from "@/lib/api";
 import type { DisplayLine } from "@/lib/display";
+import type { Instrument } from "@/lib/instruments";
+import type { SamplerState } from "@/lib/sampler";
+import { InstrumentIcon } from "../InstrumentIcon";
 
 type Props = {
   playing: boolean;
@@ -21,12 +24,17 @@ type Props = {
   onLoopLine: () => void;
   onSpeed: (speed: number) => void;
   focus: boolean;
+  /** "Hear it played": the melody on a sampled instrument along with the song. */
+  hear: boolean;
+  hearState: SamplerState;
+  onHear: () => void;
+  instrument: Instrument;
 };
 
 const SPEEDS = [1, 0.75, 0.5];
 
 /** The bottom of the stage: a thin "string" of progress with line marks, and the controls under it. */
-export function Transport({ playing, countingIn, loading, duration, getTime, lines, loop, speed, onToggle, onSeek, onSkip, onLoop, onLoopLine, onSpeed, focus }: Props) {
+export function Transport({ playing, countingIn, loading, duration, getTime, lines, loop, speed, onToggle, onSeek, onSkip, onLoop, onLoopLine, onSpeed, focus, hear, hearState, onHear, instrument }: Props) {
   const fillRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const timeRef = useRef<HTMLSpanElement>(null);
@@ -102,7 +110,7 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
         </div>
       )}
       <div className="relative flex items-center justify-center gap-2 sm:gap-3">
-        {!focus && <span ref={timeRef} className="tabular absolute left-0 text-[13px] text-muted">0:00</span>}
+        {!focus && <span className="tabular absolute left-0 text-[13px] text-muted"><span ref={timeRef}>0:00</span><span className="text-faint"> / {formatTime(duration)}</span></span>}
         {!focus && (
           <div className="flex w-[8.5rem] items-center justify-end gap-1">
             <button className={`btn btn-ghost btn-icon ${loop ? "text-accent" : ""}`} onClick={loop ? () => onLoop(null) : onLoopLine} aria-pressed={!!loop} aria-label={loop ? "Stop looping" : "Loop this line"} data-tip={loop ? `Looping ${formatTime(loop[0])} to ${formatTime(loop[1])}. Click to stop` : "Loop this line (L)"}>
@@ -129,7 +137,17 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
             </button>
           </div>
         )}
-        {!focus && <span className="tabular absolute right-0 text-[13px] text-muted">{formatTime(duration)}</span>}
+        {!focus && (
+          <button
+            className={`btn absolute right-0 ${hear ? "border-accent bg-[var(--accent-soft)] text-accent" : ""}`}
+            onClick={onHear} aria-pressed={hear}
+            aria-label={`Hear it played on the ${instrument.name.toLowerCase()}`}
+            data-tip={hear ? (hearState === "loading" ? "Loading the sound…" : `Playing the notes on the ${instrument.name.toLowerCase()}. Click to stop (H)`) : `Hear how the notes sound on the ${instrument.name.toLowerCase()}, along with the song (H)`}
+          >
+            {hear && hearState === "loading" ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" />}
+            <span className="hidden md:inline">Hear it played</span>
+          </button>
+        )}
       </div>
     </div>
   );

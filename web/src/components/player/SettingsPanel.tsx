@@ -29,6 +29,11 @@ type Props = {
   setFingering: (v: boolean) => void;
   timing: boolean;
   setTiming: (v: boolean) => void;
+  hear: boolean;
+  hearState: "idle" | "loading" | "ready" | "error";
+  onHear: () => void;
+  hearVolume: number;
+  setHearVolume: (v: number) => void;
   busy: string | null;
   onDetailLevel: (level: string) => void;
   onLanguage: (lang: string) => void;
@@ -134,6 +139,13 @@ export function SettingsPanel(p: Props) {
                       <div className="mb-1.5 flex justify-between"><span>Backing track</span><span className="text-muted">{Math.round(session.backing_volume * 100)}%</span></div>
                       <input type="range" min={0} max={1} step={0.05} value={session.backing_volume} onChange={(e) => update({ backing_volume: Number(e.target.value) })} aria-label="Backing track volume" />
                     </label>
+                    <Switch checked={p.hear} onChange={() => p.onHear()} label={`Hear it played on the ${inst.name.toLowerCase()}`} />
+                    {p.hear && (
+                      <label className="block text-sm">
+                        <div className="mb-1.5 flex justify-between text-muted"><span>{p.hearState === "loading" ? "Loading the sound…" : p.hearState === "error" ? "The sound could not be loaded" : `${inst.name} volume`}</span><span>{Math.round(p.hearVolume * 100)}%</span></div>
+                        <input type="range" min={0} max={1} step={0.05} value={p.hearVolume} onChange={(e) => p.setHearVolume(Number(e.target.value))} aria-label="Instrument volume" />
+                      </label>
+                    )}
                     <Switch checked={session.guide_vocal} onChange={(v) => update({ guide_vocal: v })} label={p.catalog?.source.kind === "traditional" ? "Hear the melody quietly" : "Hear the original singer quietly"} />
                     {session.guide_vocal && (
                       <input type="range" min={0} max={1} step={0.05} value={session.guide_volume} onChange={(e) => update({ guide_volume: Number(e.target.value) })} aria-label="Guide volume" />

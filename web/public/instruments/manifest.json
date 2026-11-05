@@ -1,0 +1,1360 @@
+{
+ "version": 1,
+ "sample_rate": 32000,
+ "instruments": {
+  "alto_sax": {
+   "name": "Alto sax",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.09,
+   "vibrato": [
+    5.2,
+    14,
+    0.45
+   ],
+   "tone": 6500,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 49,
+     "tune": 11,
+     "file": "49.flac",
+     "loop": [
+      0.46031,
+      1.558
+     ]
+    },
+    {
+     "midi": 53,
+     "tune": -11,
+     "file": "53.flac",
+     "loop": [
+      0.52322,
+      1.62406
+     ]
+    },
+    {
+     "midi": 57,
+     "tune": -2,
+     "file": "57.flac",
+     "loop": [
+      0.71247,
+      1.81353
+     ]
+    },
+    {
+     "midi": 61,
+     "tune": -2,
+     "file": "61.flac",
+     "loop": [
+      0.578,
+      1.67662
+     ]
+    },
+    {
+     "midi": 65,
+     "tune": 16,
+     "file": "65.flac",
+     "loop": [
+      0.80916,
+      1.90972
+     ]
+    },
+    {
+     "midi": 69,
+     "tune": 12,
+     "file": "69.flac",
+     "loop": [
+      0.67475,
+      1.77422
+     ]
+    },
+    {
+     "midi": 73,
+     "tune": 7,
+     "file": "73.flac",
+     "loop": [
+      0.5135,
+      1.61344
+     ]
+    },
+    {
+     "midi": 77,
+     "tune": 11,
+     "file": "77.flac",
+     "loop": [
+      1.32,
+      2.42006
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 4,
+     "file": "80.flac",
+     "loop": [
+      0.66109,
+      1.76072
+     ]
+    }
+   ]
+  },
+  "soprano_sax": {
+   "name": "Soprano sax",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.08,
+   "vibrato": [
+    5.4,
+    12,
+    0.45
+   ],
+   "tone": 7000,
+   "level": 0.95,
+   "zones": [
+    {
+     "midi": 56,
+     "tune": 8,
+     "file": "56.flac",
+     "loop": [
+      0.95075,
+      2.04991
+     ]
+    },
+    {
+     "midi": 60,
+     "tune": 8,
+     "file": "60.flac",
+     "loop": [
+      1.02,
+      2.12047
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": 5,
+     "file": "64.flac",
+     "loop": [
+      0.90459,
+      2.00653
+     ]
+    },
+    {
+     "midi": 68,
+     "tune": -5,
+     "file": "68.flac",
+     "loop": [
+      0.95075,
+      2.05253
+     ]
+    },
+    {
+     "midi": 72,
+     "tune": 13,
+     "file": "72.flac",
+     "loop": [
+      0.97384,
+      2.07494
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": -1,
+     "file": "76.flac",
+     "loop": [
+      0.97384,
+      2.07397
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 17,
+     "file": "80.flac",
+     "loop": [
+      0.92769,
+      2.02816
+     ]
+    },
+    {
+     "midi": 84,
+     "tune": 9,
+     "file": "84.flac",
+     "loop": [
+      0.95075,
+      2.05041
+     ]
+    },
+    {
+     "midi": 87,
+     "tune": 38,
+     "file": "87.flac",
+     "loop": [
+      1.06612,
+      2.16581
+     ]
+    }
+   ]
+  },
+  "tenor_sax": {
+   "name": "Tenor sax",
+   "source": "vcsl",
+   "sustain": true,
+   "release": 0.1,
+   "vibrato": [
+    5.0,
+    14,
+    0.5
+   ],
+   "tone": 6500,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 44,
+     "tune": 0,
+     "file": "44.flac",
+     "loop": [
+      1.29691,
+      2.39481
+     ]
+    },
+    {
+     "midi": 48,
+     "tune": 0,
+     "file": "48.flac",
+     "loop": [
+      1.25075,
+      2.35147
+     ]
+    },
+    {
+     "midi": 52,
+     "tune": 0,
+     "file": "52.flac",
+     "loop": [
+      0.58153,
+      1.67975
+     ]
+    },
+    {
+     "midi": 56,
+     "tune": 0,
+     "file": "56.flac",
+     "loop": [
+      0.55844,
+      1.65647
+     ]
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60.flac",
+     "loop": [
+      0.42,
+      1.52075
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": 1,
+     "file": "64.flac",
+     "loop": [
+      1.02,
+      2.12119
+     ]
+    },
+    {
+     "midi": 68,
+     "tune": 0,
+     "file": "68.flac",
+     "loop": [
+      0.78922,
+      1.88956
+     ]
+    },
+    {
+     "midi": 72,
+     "tune": 1,
+     "file": "72.flac",
+     "loop": [
+      0.88153,
+      1.98247
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": 0,
+     "file": "76.flac",
+     "loop": [
+      0.65075,
+      1.75034
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 0,
+     "file": "80.flac",
+     "loop": [
+      0.99691,
+      2.09728
+     ]
+    },
+    {
+     "midi": 84,
+     "tune": 0,
+     "file": "84.flac",
+     "loop": [
+      1.27384,
+      2.37369
+     ]
+    },
+    {
+     "midi": 88,
+     "tune": 3,
+     "file": "88.flac",
+     "loop": [
+      0.67384,
+      1.77425
+     ]
+    }
+   ]
+  },
+  "clarinet": {
+   "name": "Clarinet",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.08,
+   "vibrato": [
+    5.0,
+    5,
+    0.6
+   ],
+   "tone": 7500,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 50,
+     "tune": -6,
+     "file": "50.flac",
+     "loop": [
+      0.84475,
+      1.94584
+     ]
+    },
+    {
+     "midi": 53,
+     "tune": 0,
+     "file": "53.flac",
+     "loop": [
+      0.89425,
+      1.99397
+     ]
+    },
+    {
+     "midi": 56,
+     "tune": 3,
+     "file": "56.flac",
+     "loop": [
+      0.69119,
+      1.79219
+     ]
+    },
+    {
+     "midi": 59,
+     "tune": -6,
+     "file": "59.flac",
+     "loop": [
+      0.79791,
+      1.89959
+     ]
+    },
+    {
+     "midi": 62,
+     "tune": -8,
+     "file": "62.flac",
+     "loop": [
+      0.73009,
+      1.83228
+     ]
+    },
+    {
+     "midi": 65,
+     "tune": -3,
+     "file": "65.flac",
+     "loop": [
+      0.76334,
+      1.86488
+     ]
+    },
+    {
+     "midi": 68,
+     "tune": -5,
+     "file": "68.flac",
+     "loop": [
+      0.72916,
+      1.82844
+     ]
+    },
+    {
+     "midi": 71,
+     "tune": -4,
+     "file": "71.flac",
+     "loop": [
+      0.78075,
+      1.88119
+     ]
+    },
+    {
+     "midi": 74,
+     "tune": -4,
+     "file": "74.flac",
+     "loop": [
+      0.69,
+      1.79128
+     ]
+    },
+    {
+     "midi": 77,
+     "tune": 0,
+     "file": "77.flac",
+     "loop": [
+      0.60434,
+      1.70475
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": -4,
+     "file": "80.flac",
+     "loop": [
+      0.55556,
+      1.65441
+     ]
+    },
+    {
+     "midi": 83,
+     "tune": 4,
+     "file": "83.flac",
+     "loop": [
+      0.48228,
+      1.582
+     ]
+    },
+    {
+     "midi": 86,
+     "tune": 2,
+     "file": "86.flac",
+     "loop": [
+      0.76472,
+      1.86416
+     ]
+    },
+    {
+     "midi": 89,
+     "tune": -18,
+     "file": "89.flac",
+     "loop": [
+      0.67103,
+      1.77066
+     ]
+    }
+   ]
+  },
+  "flute": {
+   "name": "Flute",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.1,
+   "vibrato": [
+    5.3,
+    14,
+    0.35
+   ],
+   "tone": 9000,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 59,
+     "tune": 8,
+     "file": "59.flac",
+     "loop": [
+      0.53744,
+      1.57738
+     ]
+    },
+    {
+     "midi": 62,
+     "tune": -7,
+     "file": "62.flac",
+     "loop": [
+      0.91338,
+      2.01478
+     ]
+    },
+    {
+     "midi": 65,
+     "tune": 8,
+     "file": "65.flac",
+     "loop": [
+      1.15538,
+      2.25522
+     ]
+    },
+    {
+     "midi": 68,
+     "tune": 9,
+     "file": "68.flac",
+     "loop": [
+      0.42531,
+      1.52488
+     ]
+    },
+    {
+     "midi": 71,
+     "tune": 17,
+     "file": "71.flac",
+     "loop": [
+      0.50022,
+      1.60094
+     ]
+    },
+    {
+     "midi": 74,
+     "tune": 13,
+     "file": "74.flac",
+     "loop": [
+      0.98012,
+      2.08009
+     ]
+    },
+    {
+     "midi": 77,
+     "tune": 11,
+     "file": "77.flac",
+     "loop": [
+      0.52462,
+      1.62419
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 16,
+     "file": "80.flac",
+     "loop": [
+      0.42,
+      1.51975
+     ]
+    },
+    {
+     "midi": 83,
+     "tune": 22,
+     "file": "83.flac",
+     "loop": [
+      0.46041,
+      1.45681
+     ]
+    },
+    {
+     "midi": 86,
+     "tune": 22,
+     "file": "86.flac",
+     "loop": [
+      0.85047,
+      1.95025
+     ]
+    },
+    {
+     "midi": 89,
+     "tune": 40,
+     "file": "89.flac",
+     "loop": [
+      0.55881,
+      1.58228
+     ]
+    },
+    {
+     "midi": 92,
+     "tune": 33,
+     "file": "92.flac",
+     "loop": [
+      0.78959,
+      1.88934
+     ]
+    },
+    {
+     "midi": 95,
+     "tune": 39,
+     "file": "95.flac",
+     "loop": [
+      1.11041,
+      2.21044
+     ]
+    },
+    {
+     "midi": 97,
+     "tune": 44,
+     "file": "97.flac",
+     "loop": [
+      0.66609,
+      1.76612
+     ]
+    }
+   ]
+  },
+  "oboe": {
+   "name": "Oboe",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.08,
+   "vibrato": [
+    5.4,
+    10,
+    0.45
+   ],
+   "tone": 8000,
+   "level": 0.9,
+   "zones": [
+    {
+     "midi": 58,
+     "tune": 1,
+     "file": "58.flac",
+     "loop": [
+      0.5345,
+      1.63197
+     ]
+    },
+    {
+     "midi": 61,
+     "tune": 0,
+     "file": "61.flac",
+     "loop": [
+      0.49266,
+      1.44128
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": 2,
+     "file": "64.flac",
+     "loop": [
+      0.48478,
+      1.37881
+     ]
+    },
+    {
+     "midi": 67,
+     "tune": -2,
+     "file": "67.flac",
+     "loop": [
+      0.47794,
+      1.39212
+     ]
+    },
+    {
+     "midi": 89,
+     "tune": -1,
+     "file": "89.flac",
+     "loop": [
+      0.42,
+      1.38919
+     ]
+    },
+    {
+     "midi": 73,
+     "tune": 10,
+     "file": "73.flac",
+     "loop": [
+      0.42822,
+      1.33559
+     ]
+    },
+    {
+     "midi": 88,
+     "tune": 11,
+     "file": "88.flac",
+     "loop": [
+      0.51716,
+      1.54047
+     ]
+    },
+    {
+     "midi": 79,
+     "tune": 8,
+     "file": "79.flac",
+     "loop": [
+      0.43653,
+      1.35075
+     ]
+    },
+    {
+     "midi": 82,
+     "tune": 1,
+     "file": "82.flac",
+     "loop": [
+      0.42,
+      1.38941
+     ]
+    },
+    {
+     "midi": 85,
+     "tune": -1,
+     "file": "85.flac",
+     "loop": [
+      0.45344,
+      1.19078
+     ]
+    },
+    {
+     "midi": 88,
+     "tune": -5,
+     "file": "88.flac",
+     "loop": [
+      0.42,
+      1.27344
+     ]
+    },
+    {
+     "midi": 91,
+     "tune": -7,
+     "file": "91.flac",
+     "loop": [
+      0.44069,
+      1.20584
+     ]
+    },
+    {
+     "midi": 92,
+     "tune": 2,
+     "file": "92.flac",
+     "loop": [
+      0.43809,
+      1.10803
+     ]
+    }
+   ]
+  },
+  "recorder": {
+   "name": "Recorder",
+   "source": "vcsl",
+   "sustain": true,
+   "release": 0.07,
+   "vibrato": [
+    5.0,
+    4,
+    0.7
+   ],
+   "tone": 9000,
+   "level": 0.9,
+   "zones": [
+    {
+     "midi": 72,
+     "tune": 5,
+     "file": "72.flac",
+     "loop": [
+      0.67384,
+      1.77353
+     ]
+    },
+    {
+     "midi": 74,
+     "tune": 3,
+     "file": "74.flac",
+     "loop": [
+      0.44306,
+      1.54234
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": 7,
+     "file": "76.flac",
+     "loop": [
+      1.32,
+      2.42047
+     ]
+    },
+    {
+     "midi": 78,
+     "tune": 9,
+     "file": "78.flac",
+     "loop": [
+      1.32,
+      2.41938
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 2,
+     "file": "80.flac",
+     "loop": [
+      1.15844,
+      2.25856
+     ]
+    },
+    {
+     "midi": 82,
+     "tune": 2,
+     "file": "82.flac",
+     "loop": [
+      0.44306,
+      1.54294
+     ]
+    },
+    {
+     "midi": 84,
+     "tune": 1,
+     "file": "84.flac",
+     "loop": [
+      0.76612,
+      1.86653
+     ]
+    },
+    {
+     "midi": 86,
+     "tune": 3,
+     "file": "86.flac",
+     "loop": [
+      0.55844,
+      1.65856
+     ]
+    },
+    {
+     "midi": 88,
+     "tune": 6,
+     "file": "88.flac",
+     "loop": [
+      1.02,
+      2.11966
+     ]
+    },
+    {
+     "midi": 90,
+     "tune": 4,
+     "file": "90.flac",
+     "loop": [
+      0.65075,
+      1.75072
+     ]
+    },
+    {
+     "midi": 91,
+     "tune": 6,
+     "file": "91.flac",
+     "loop": [
+      1.32,
+      2.41994
+     ]
+    },
+    {
+     "midi": 94,
+     "tune": 12,
+     "file": "94.flac",
+     "loop": [
+      1.32,
+      2.41981
+     ]
+    },
+    {
+     "midi": 96,
+     "tune": 8,
+     "file": "96.flac",
+     "loop": [
+      0.44306,
+      1.54278
+     ]
+    }
+   ]
+  },
+  "trumpet": {
+   "name": "Trumpet",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.08,
+   "vibrato": [
+    5.4,
+    10,
+    0.5
+   ],
+   "tone": 6500,
+   "level": 0.9,
+   "zones": [
+    {
+     "midi": 52,
+     "tune": 7,
+     "file": "52.flac",
+     "loop": [
+      0.78922,
+      1.88853
+     ]
+    },
+    {
+     "midi": 56,
+     "tune": -16,
+     "file": "56.flac",
+     "loop": [
+      0.88153,
+      1.97994
+     ]
+    },
+    {
+     "midi": 60,
+     "tune": 9,
+     "file": "60.flac",
+     "loop": [
+      0.99691,
+      2.09606
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": -3,
+     "file": "64.flac",
+     "loop": [
+      0.42,
+      1.52034
+     ]
+    },
+    {
+     "midi": 68,
+     "tune": -2,
+     "file": "68.flac",
+     "loop": [
+      0.74306,
+      1.84281
+     ]
+    },
+    {
+     "midi": 72,
+     "tune": 5,
+     "file": "72.flac",
+     "loop": [
+      0.42,
+      1.52006
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": 12,
+     "file": "76.flac",
+     "loop": [
+      1.32,
+      2.41878
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 6,
+     "file": "80.flac",
+     "loop": [
+      1.20459,
+      2.30519
+     ]
+    },
+    {
+     "midi": 84,
+     "tune": 2,
+     "file": "84.flac",
+     "loop": [
+      1.20459,
+      2.30503
+     ]
+    },
+    {
+     "midi": 87,
+     "tune": 12,
+     "file": "87.flac",
+     "loop": [
+      1.08922,
+      2.18903
+     ]
+    }
+   ]
+  },
+  "french_horn": {
+   "name": "French horn",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.12,
+   "vibrato": [
+    5.0,
+    6,
+    0.6
+   ],
+   "tone": 5000,
+   "level": 1.05,
+   "zones": [
+    {
+     "midi": 40,
+     "tune": -30,
+     "file": "40.flac",
+     "loop": [
+      1.18153,
+      2.27741
+     ]
+    },
+    {
+     "midi": 43,
+     "tune": 1,
+     "file": "43.flac",
+     "loop": [
+      1.06612,
+      2.17016
+     ]
+    },
+    {
+     "midi": 46,
+     "tune": -13,
+     "file": "46.flac",
+     "loop": [
+      1.04306,
+      2.14059
+     ]
+    },
+    {
+     "midi": 49,
+     "tune": 3,
+     "file": "49.flac",
+     "loop": [
+      0.72,
+      1.82228
+     ]
+    },
+    {
+     "midi": 52,
+     "tune": 2,
+     "file": "52.flac",
+     "loop": [
+      0.67384,
+      1.77641
+     ]
+    },
+    {
+     "midi": 55,
+     "tune": 5,
+     "file": "55.flac",
+     "loop": [
+      0.99691,
+      2.09525
+     ]
+    },
+    {
+     "midi": 58,
+     "tune": 13,
+     "file": "58.flac",
+     "loop": [
+      0.85844,
+      1.95675
+     ]
+    },
+    {
+     "midi": 61,
+     "tune": -2,
+     "file": "61.flac",
+     "loop": [
+      0.90459,
+      2.0055
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": 8,
+     "file": "64.flac",
+     "loop": [
+      0.48922,
+      1.58962
+     ]
+    },
+    {
+     "midi": 67,
+     "tune": 19,
+     "file": "67.flac",
+     "loop": [
+      0.59834,
+      1.69912
+     ]
+    },
+    {
+     "midi": 70,
+     "tune": 9,
+     "file": "70.flac",
+     "loop": [
+      0.69634,
+      1.79762
+     ]
+    },
+    {
+     "midi": 73,
+     "tune": -17,
+     "file": "73.flac",
+     "loop": [
+      0.43597,
+      1.53666
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": -7,
+     "file": "76.flac",
+     "loop": [
+      1.03034,
+      2.13012
+     ]
+    },
+    {
+     "midi": 77,
+     "tune": -6,
+     "file": "77.flac",
+     "loop": [
+      0.92897,
+      2.02959
+     ]
+    }
+   ]
+  },
+  "violin": {
+   "name": "Violin",
+   "source": "vsco",
+   "sustain": true,
+   "release": 0.14,
+   "vibrato": null,
+   "tone": 10000,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 55,
+     "tune": 0,
+     "file": "55.flac",
+     "loop": [
+      0.48922,
+      1.59266
+     ]
+    },
+    {
+     "midi": 57,
+     "tune": 0,
+     "file": "57.flac",
+     "loop": [
+      1.18153,
+      2.28234
+     ]
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60.flac",
+     "loop": [
+      0.85844,
+      1.95803
+     ]
+    },
+    {
+     "midi": 64,
+     "tune": 1,
+     "file": "64.flac",
+     "loop": [
+      1.06612,
+      2.16562
+     ]
+    },
+    {
+     "midi": 67,
+     "tune": 1,
+     "file": "67.flac",
+     "loop": [
+      0.81228,
+      1.91097
+     ]
+    },
+    {
+     "midi": 69,
+     "tune": 16,
+     "file": "69.flac",
+     "loop": [
+      0.42,
+      1.52044
+     ]
+    },
+    {
+     "midi": 72,
+     "tune": 2,
+     "file": "72.flac",
+     "loop": [
+      0.88153,
+      1.98191
+     ]
+    },
+    {
+     "midi": 76,
+     "tune": 16,
+     "file": "76.flac",
+     "loop": [
+      0.76612,
+      1.86547
+     ]
+    },
+    {
+     "midi": 79,
+     "tune": 4,
+     "file": "79.flac",
+     "loop": [
+      1.06612,
+      2.16597
+     ]
+    },
+    {
+     "midi": 81,
+     "tune": 5,
+     "file": "81.flac",
+     "loop": [
+      0.95075,
+      2.05138
+     ]
+    },
+    {
+     "midi": 84,
+     "tune": -6,
+     "file": "84.flac",
+     "loop": [
+      0.90459,
+      2.0045
+     ]
+    },
+    {
+     "midi": 88,
+     "tune": 13,
+     "file": "88.flac",
+     "loop": [
+      0.42,
+      1.51988
+     ]
+    },
+    {
+     "midi": 91,
+     "tune": 13,
+     "file": "91.flac",
+     "loop": [
+      0.95075,
+      2.05066
+     ]
+    },
+    {
+     "midi": 93,
+     "tune": 13,
+     "file": "93.flac",
+     "loop": [
+      0.58153,
+      1.68156
+     ]
+    },
+    {
+     "midi": 96,
+     "tune": 0,
+     "file": "96.flac",
+     "loop": [
+      1.27384,
+      2.37375
+     ]
+    }
+   ]
+  },
+  "piano": {
+   "name": "Piano",
+   "source": "vcsl",
+   "sustain": false,
+   "release": 0.3,
+   "vibrato": null,
+   "tone": 12000,
+   "level": 0.65,
+   "zones": [
+    {
+     "midi": 34,
+     "tune": 21,
+     "file": "34.flac"
+    },
+    {
+     "midi": 38,
+     "tune": 2,
+     "file": "38.flac"
+    },
+    {
+     "midi": 42,
+     "tune": 6,
+     "file": "42.flac"
+    },
+    {
+     "midi": 46,
+     "tune": 0,
+     "file": "46.flac"
+    },
+    {
+     "midi": 50,
+     "tune": 2,
+     "file": "50.flac"
+    },
+    {
+     "midi": 54,
+     "tune": 4,
+     "file": "54.flac"
+    },
+    {
+     "midi": 58,
+     "tune": 7,
+     "file": "58.flac"
+    },
+    {
+     "midi": 62,
+     "tune": 2,
+     "file": "62.flac"
+    },
+    {
+     "midi": 66,
+     "tune": 3,
+     "file": "66.flac"
+    },
+    {
+     "midi": 70,
+     "tune": 3,
+     "file": "70.flac"
+    },
+    {
+     "midi": 74,
+     "tune": 2,
+     "file": "74.flac"
+    },
+    {
+     "midi": 78,
+     "tune": 3,
+     "file": "78.flac"
+    },
+    {
+     "midi": 82,
+     "tune": 0,
+     "file": "82.flac"
+    },
+    {
+     "midi": 86,
+     "tune": 7,
+     "file": "86.flac"
+    },
+    {
+     "midi": 90,
+     "tune": -2,
+     "file": "90.flac"
+    },
+    {
+     "midi": 96,
+     "tune": 10,
+     "file": "96.flac"
+    }
+   ]
+  },
+  "baritone_sax": {
+   "name": "Baritone sax",
+   "from": "tenor_sax",
+   "shift": -7
+  },
+  "voice": {
+   "name": "Piano (for singers)",
+   "from": "piano",
+   "shift": 0
+  }
+ }
+}
