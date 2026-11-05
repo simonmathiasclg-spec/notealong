@@ -57,7 +57,7 @@ BAD_TITLE = re.compile(r"instrumental|intro\b|outro\b|interlude|remix|\blive\b|c
                        r"loops|samples|\bvol\b|karaoke|sample pack", re.I)
 # Albums that carry a CC licence on Jamendo but are by well-known signed artists or are plainly other people's songs:
 # the uploader may not have had the right to grant that licence, so they are never used.
-BLOCKED = {"jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980"}
+BLOCKED = {"jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980", "jamendo-211902", "jamendo-115079", "jamendo-489247"}
 PER_GENRE = {"Pop": 9, "Rock": 8, "Folk": 7, "Acoustic": 7, "Soul & R&B": 6, "Latin": 6, "Indie": 5, "Blues": 4, "Reggae": 4,
              "Country": 4, "Chanson": 5, "Jazz": 3, "World": 4}
 

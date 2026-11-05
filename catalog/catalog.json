@@ -1,6 +1,6 @@
 {
  "version": 1,
- "generated_at": "2026-11-05T05:41:06.571065+00:00",
+ "generated_at": "2026-11-05T13:10:04.867364+00:00",
  "songs": [
   {
    "id": "a-la-nanita-nana",
@@ -93,6 +93,136 @@
    "access": "free",
    "note_count": 40,
    "word_count": 29,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "adragante-le-manoir",
+   "title": "le manoir",
+   "artist": "Adragante",
+   "origin": "",
+   "culture": "",
+   "genre": "Chanson",
+   "language": "fr",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 12,
+    "notes_per_second": 1.07,
+    "big_leaps": 0.1,
+    "shortest": 0.12,
+    "score": 6.0
+   },
+   "duration": 156.282,
+   "key": "E minor",
+   "tempo_bpm": 112.3,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"le manoir\" by Adragante, from the album \"un Barde\". CC BY 3.0. Published on Jamendo (album 128293); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-128293"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 188,
+   "tags": [
+    "jamendo",
+    "celtic",
+    "chansonfrancaise",
+    "folk",
+    "harp",
+    "strings"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 153,
+   "word_count": 176,
+   "review": {
+    "checked": 162,
+    "dropped": 1,
+    "octave_fixed": 7,
+    "pitch_fixed": 2,
+    "kept": 152,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 161,
+     "same_pitch": 6,
+     "wobbles": 0,
+     "bends": 2,
+     "after": 153
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.27,
+   "language_probability": 0.7662386894226074,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "agora-ou-nunca-ask-god",
+   "title": "ASK GOD",
+   "artist": "AGORA-OU-NUNCA",
+   "origin": "",
+   "culture": "",
+   "genre": "Latin",
+   "language": "pt",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 20,
+    "distinct": 15,
+    "notes_per_second": 1.36,
+    "big_leaps": 0.21,
+    "shortest": 0.12,
+    "score": 9.0
+   },
+   "duration": 260.342,
+   "key": "G major",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"ASK GOD\" by AGORA-OU-NUNCA, from the album \"ASK GOD\". CC BY 3.0. Published on Jamendo (album 276468); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-276468"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 25,
+   "tags": [
+    "jamendo",
+    "latin",
+    "rock",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 328,
+   "word_count": 330,
+   "review": {
+    "checked": 380,
+    "dropped": 7,
+    "octave_fixed": 26,
+    "pitch_fixed": 8,
+    "kept": 339,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 373,
+     "same_pitch": 42,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 328
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 6.06,
+   "language_probability": 0.8382667899131775,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -234,6 +364,70 @@
    "note_count": 68,
    "word_count": 50,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "anastasia-glam",
+   "title": "Зая, еду к тебе...",
+   "artist": "Anastasia Glam",
+   "origin": "",
+   "culture": "",
+   "genre": "Pop",
+   "language": "ru",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 13,
+    "notes_per_second": 1.45,
+    "big_leaps": 0.2,
+    "shortest": 0.12,
+    "score": 9.0
+   },
+   "duration": 195.14,
+   "key": "C minor",
+   "tempo_bpm": 152.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Зая, еду к тебе...\" by Anastasia Glam, from the album \"Зая, еду к тебе...\". CC BY 3.0. Published on Jamendo (album 282450); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-282450"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 341,
+   "tags": [
+    "jamendo",
+    "glam",
+    "neutral",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 276,
+   "word_count": 232,
+   "review": {
+    "checked": 310,
+    "dropped": 10,
+    "octave_fixed": 16,
+    "pitch_fixed": 2,
+    "kept": 282,
+    "outliers_dropped": 2,
+    "held": {
+     "before": 298,
+     "same_pitch": 22,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 276
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -3.2,
+   "language_probability": 0.9116480350494385,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -609,69 +803,6 @@
    "popularity": 0
   },
   {
-   "id": "bebop-and-rocksteady-peter-pan-1",
-   "title": "Peter Pan (1)",
-   "artist": "Bebop and Rocksteady",
-   "origin": "",
-   "culture": "",
-   "genre": "Rock",
-   "language": "en",
-   "difficulty": "hard",
-   "difficulty_details": {
-    "range": 14,
-    "distinct": 12,
-    "notes_per_second": 1.69,
-    "big_leaps": 0.03,
-    "shortest": 0.12,
-    "score": 7.0
-   },
-   "duration": 202.789,
-   "key": "G minor",
-   "tempo_bpm": 107.7,
-   "year": null,
-   "licence": {
-    "name": "CC BY 3.0",
-    "url": "https://creativecommons.org/licenses/by/3.0/"
-   },
-   "attribution": "\"Peter Pan (1)\" by Bebop and Rocksteady, from the album \"Peter Pan (1)\". CC BY 3.0. Published on Jamendo (album 211902); downloaded from the Internet Archive.",
-   "source": {
-    "kind": "cc",
-    "url": "https://archive.org/details/jamendo-211902"
-   },
-   "cover": "cover.svg",
-   "accent_hue": 10,
-   "tags": [
-    "jamendo",
-    "alternativerock",
-    "happy"
-   ],
-   "featured": false,
-   "beginner": false,
-   "access": "free",
-   "note_count": 279,
-   "word_count": 231,
-   "review": {
-    "checked": 345,
-    "dropped": 0,
-    "octave_fixed": 0,
-    "pitch_fixed": 4,
-    "kept": 341,
-    "outliers_dropped": 0,
-    "held": {
-     "before": 345,
-     "same_pitch": 55,
-     "wobbles": 1,
-     "bends": 9,
-     "after": 279
-    }
-   },
-   "lyrics": "transcribed",
-   "gain_db": 1.09,
-   "language_probability": 0.8561412692070007,
-   "added": "2026-11-05",
-   "popularity": 0
-  },
-  {
    "id": "bella-ciao",
    "title": "Bella Ciao",
    "artist": "Traditional",
@@ -719,7 +850,7 @@
   },
   {
    "id": "billie-billie-oh-my-love",
-   "title": "Billie - Oh My Love",
+   "title": "Oh My Love",
    "artist": "Billie",
    "origin": "",
    "culture": "",
@@ -742,7 +873,7 @@
     "name": "CC BY 3.0",
     "url": "https://creativecommons.org/licenses/by/3.0/"
    },
-   "attribution": "\"Billie - Oh My Love\" by Billie, from the album \"Billie - Oh My Love\". CC BY 3.0. Published on Jamendo (album 213772); downloaded from the Internet Archive.",
+   "attribution": "\"Oh My Love\" by Billie, from the album \"Oh My Love\". CC BY 3.0. Published on Jamendo (album 213772); downloaded from the Internet Archive.",
    "source": {
     "kind": "cc",
     "url": "https://archive.org/details/jamendo-213772"
@@ -779,6 +910,71 @@
    "lyrics": "transcribed",
    "gain_db": -1.24,
    "language_probability": 0.8734948039054871,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "black-angel",
+   "title": "Не подходи ко мне",
+   "artist": "Black_Angel",
+   "origin": "",
+   "culture": "",
+   "genre": "Blues",
+   "language": "ru",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 12,
+    "notes_per_second": 0.79,
+    "big_leaps": 0.14,
+    "shortest": 0.12,
+    "score": 8.0
+   },
+   "duration": 200.818,
+   "key": "Eb minor",
+   "tempo_bpm": 143.6,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Не подходи ко мне\" by Black_Angel, from the album \"Ne podhodi ko mne!\". CC BY 3.0. Published on Jamendo (album 182498); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-182498"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 205,
+   "tags": [
+    "jamendo",
+    "blues",
+    "country",
+    "happy",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 124,
+   "word_count": 169,
+   "review": {
+    "checked": 165,
+    "dropped": 29,
+    "octave_fixed": 4,
+    "pitch_fixed": 0,
+    "kept": 132,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 136,
+     "same_pitch": 12,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 124
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.33,
+   "language_probability": 0.9448321461677551,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -1121,6 +1317,73 @@
    "note_count": 68,
    "word_count": 60,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "devon-elizabeth-outta-here",
+   "title": "Outta Here",
+   "artist": "Devon Elizabeth",
+   "origin": "",
+   "culture": "",
+   "genre": "Country",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 11,
+    "notes_per_second": 1.62,
+    "big_leaps": 0.07,
+    "shortest": 0.12,
+    "score": 7.0
+   },
+   "duration": 206.722,
+   "key": "F major",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Outta Here\" by Devon Elizabeth, from the album \"The Vault\". CC BY 3.0. Published on Jamendo (album 151894); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-151894"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 90,
+   "tags": [
+    "jamendo",
+    "80ssynth",
+    "country",
+    "electricguitar",
+    "guitar",
+    "love",
+    "neutral"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 259,
+   "word_count": 137,
+   "review": {
+    "checked": 353,
+    "dropped": 2,
+    "octave_fixed": 4,
+    "pitch_fixed": 1,
+    "kept": 346,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 351,
+     "same_pitch": 81,
+     "wobbles": 2,
+     "bends": 7,
+     "after": 259
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 0.31,
+   "language_probability": 0.9393151998519897,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -1531,6 +1794,73 @@
    "popularity": 0
   },
   {
+   "id": "evergreen-machine-heartless",
+   "title": "Heartless",
+   "artist": "Evergreen Machine",
+   "origin": "",
+   "culture": "",
+   "genre": "Country",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 13,
+    "notes_per_second": 1.78,
+    "big_leaps": 0.13,
+    "shortest": 0.12,
+    "score": 9.0
+   },
+   "duration": 246.0,
+   "key": "E minor",
+   "tempo_bpm": 143.6,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Heartless\" by Evergreen Machine, from the album \"Homefront\". CC BY 3.0. Published on Jamendo (album 141952); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-141952"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 96,
+   "tags": [
+    "jamendo",
+    "atmospheric",
+    "country",
+    "electricguitar",
+    "electroamplified",
+    "energetic",
+    "folk"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 383,
+   "word_count": 288,
+   "review": {
+    "checked": 530,
+    "dropped": 11,
+    "octave_fixed": 13,
+    "pitch_fixed": 2,
+    "kept": 504,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 519,
+     "same_pitch": 122,
+     "wobbles": 0,
+     "bends": 14,
+     "after": 383
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.58,
+   "language_probability": 0.8302226066589355,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "flo-l-abandon",
    "title": "l'abandon",
    "artist": "FLO",
@@ -1770,6 +2100,73 @@
    "access": "free",
    "note_count": 45,
    "word_count": 15,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "gamssy-ghoulz-poucet",
+   "title": "Poucet",
+   "artist": "Gamssy Ghoulz",
+   "origin": "",
+   "culture": "",
+   "genre": "Chanson",
+   "language": "fr",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 9,
+    "notes_per_second": 1.7,
+    "big_leaps": 0.08,
+    "shortest": 0.12,
+    "score": 4.0
+   },
+   "duration": 198.975,
+   "key": "G minor",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Poucet\" by Gamssy Ghoulz, from the album \"Les chansons retrouvees\". CC BY 3.0. Published on Jamendo (album 171597); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-171597"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 188,
+   "tags": [
+    "jamendo",
+    "chansonfrancaise",
+    "guitar",
+    "guitarevoix",
+    "neutral",
+    "rock",
+    "sad"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 336,
+   "word_count": 272,
+   "review": {
+    "checked": 390,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 6,
+    "kept": 384,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 390,
+     "same_pitch": 53,
+     "wobbles": 0,
+     "bends": 1,
+     "after": 336
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -4.41,
+   "language_probability": 0.976887047290802,
    "added": "2026-11-05",
    "popularity": 0
   },
@@ -2255,6 +2652,73 @@
    "note_count": 140,
    "word_count": 53,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "heiko-sunfyah-die-geburt",
+   "title": "Die Geburt",
+   "artist": "Heiko Sunfyah",
+   "origin": "",
+   "culture": "",
+   "genre": "Reggae",
+   "language": "de",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 0.95,
+    "big_leaps": 0.1,
+    "shortest": 0.12,
+    "score": 3.0
+   },
+   "duration": 184.204,
+   "key": "F major",
+   "tempo_bpm": 95.7,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Die Geburt\" by Heiko Sunfyah, from the album \"Rä Wo Lu Zion\". CC BY 3.0. Published on Jamendo (album 156347); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-156347"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 124,
+   "tags": [
+    "jamendo",
+    "folk",
+    "guitar",
+    "peaceful",
+    "pop",
+    "reggae",
+    "sad"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 144,
+   "word_count": 80,
+   "review": {
+    "checked": 230,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 6,
+    "kept": 224,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 230,
+     "same_pitch": 83,
+     "wobbles": 1,
+     "bends": 1,
+     "after": 144
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 2.24,
+   "language_probability": 0.9772207736968994,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -3503,6 +3967,73 @@
    "popularity": 0
   },
   {
+   "id": "marcello-correa-e-castro-trombadinha",
+   "title": "TROMBADINHA",
+   "artist": "marcello correa e castro",
+   "origin": "",
+   "culture": "",
+   "genre": "Latin",
+   "language": "pt",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 12,
+    "notes_per_second": 1.74,
+    "big_leaps": 0.08,
+    "shortest": 0.12,
+    "score": 6.0
+   },
+   "duration": 198.16,
+   "key": "B major",
+   "tempo_bpm": 117.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"TROMBADINHA\" by marcello correa e castro, from the album \"VOCÊS FLUTUAM (DOUBLE ALBUM)\". CC BY 3.0. Published on Jamendo (album 162656); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-162656"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 12,
+   "tags": [
+    "jamendo",
+    "guitar",
+    "happy",
+    "latin",
+    "peaceful",
+    "pop",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 301,
+   "word_count": 193,
+   "review": {
+    "checked": 371,
+    "dropped": 2,
+    "octave_fixed": 0,
+    "pitch_fixed": 1,
+    "kept": 368,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 369,
+     "same_pitch": 63,
+     "wobbles": 0,
+     "bends": 5,
+     "after": 301
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.46,
+   "language_probability": 0.9683297872543335,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
    "id": "michael-row-the-boat-ashore",
    "title": "Michael, Row the Boat Ashore",
    "artist": "Traditional",
@@ -4073,6 +4604,140 @@
    "note_count": 83,
    "word_count": 63,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "prey-for-penguins-the-first-one",
+   "title": "The First One",
+   "artist": "Prey For Penguins",
+   "origin": "",
+   "culture": "",
+   "genre": "Folk",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 9,
+    "notes_per_second": 0.83,
+    "big_leaps": 0.03,
+    "shortest": 0.12,
+    "score": 4.0
+   },
+   "duration": 251.25,
+   "key": "F# minor",
+   "tempo_bpm": 103.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"The First One\" by Prey For Penguins, from the album \"Hillside Residence Acoustic\". CC BY 3.0. Published on Jamendo (album 200942); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-200942"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 149,
+   "tags": [
+    "jamendo",
+    "acousticguitar",
+    "alternativerock",
+    "folk",
+    "peaceful",
+    "sad",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 156,
+   "word_count": 155,
+   "review": {
+    "checked": 166,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 7,
+    "kept": 159,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 166,
+     "same_pitch": 7,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 156
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -0.0,
+   "language_probability": 0.8240759968757629,
+   "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "rinzo-the-hey-hey-panthers-run-run-superman",
+   "title": "Run run Superman",
+   "artist": "Rinzo & The Hey Hey Panthers",
+   "origin": "",
+   "culture": "",
+   "genre": "Indie",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.43,
+    "big_leaps": 0.05,
+    "shortest": 0.12,
+    "score": 3.0
+   },
+   "duration": 159.824,
+   "key": "E major",
+   "tempo_bpm": 89.1,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Run run Superman\" by Rinzo & The Hey Hey Panthers, from the album \"Run run Superman\". CC BY 3.0. Published on Jamendo (album 165225); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-165225"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 207,
+   "tags": [
+    "jamendo",
+    "60s",
+    "70s",
+    "guitar",
+    "happy",
+    "happymood",
+    "indie"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 220,
+   "word_count": 115,
+   "review": {
+    "checked": 345,
+    "dropped": 13,
+    "octave_fixed": 5,
+    "pitch_fixed": 0,
+    "kept": 327,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 332,
+     "same_pitch": 106,
+     "wobbles": 2,
+     "bends": 2,
+     "after": 220
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.02,
+   "language_probability": 0.709052324295044,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
@@ -4850,6 +5515,73 @@
    "note_count": 90,
    "word_count": 64,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "the-woods-an-angel-in-fly",
+   "title": "An Angel In Fly",
+   "artist": "The woods",
+   "origin": "",
+   "culture": "",
+   "genre": "Country",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 8,
+    "notes_per_second": 0.85,
+    "big_leaps": 0.07,
+    "shortest": 0.12,
+    "score": 5.0
+   },
+   "duration": 274.0,
+   "key": "B major",
+   "tempo_bpm": 95.7,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"An Angel In Fly\" by The woods, from the album \"An Angel In Fly\". CC BY 3.0. Published on Jamendo (album 299176); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-299176"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 88,
+   "tags": [
+    "jamendo",
+    "acusticguitar",
+    "country",
+    "folk",
+    "mandolin",
+    "neutral",
+    "sentimental"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 198,
+   "word_count": 102,
+   "review": {
+    "checked": 331,
+    "dropped": 1,
+    "octave_fixed": 8,
+    "pitch_fixed": 1,
+    "kept": 321,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 329,
+     "same_pitch": 125,
+     "wobbles": 0,
+     "bends": 6,
+     "after": 198
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.34,
+   "language_probability": 0.8734056353569031,
+   "added": "2026-11-05",
    "popularity": 0
   },
   {
