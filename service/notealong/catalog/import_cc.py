@@ -29,6 +29,7 @@ from ..config import CATALOG_DIR, STEM_FORMAT
 from ..pipeline import audio as audio_mod
 from ..pipeline.attach import attach_notes
 from ..pipeline.cleanup import clean_notes
+from ..pipeline.onsets import Articulation, vocal_envelope
 from ..pipeline.keydetect import detect_key
 from ..pipeline.lines import build_lines, lines_from_words
 from ..pipeline.lyrics import postprocess_words
@@ -112,6 +113,9 @@ def main(argv: list[str] | None = None) -> int:
         vocals_wav = paths["vocals"]
         print(f"[{a.id}] finding the notes …")
         raw = detect_notes(vocals_wav)
+        # kept so the notes can be worked out again later without the audio models (catalog.recheck)
+        (out / "notes_raw.json").write_text(json.dumps(raw, separators=(",", ":")), encoding="utf-8")
+        art = Articulation(vocal_envelope(vocals_wav))
         tempo = estimate_tempo(a.audio)
         notes, params = clean_notes(raw, a.detail)
         if not a.no_review:
@@ -141,7 +145,10 @@ def main(argv: list[str] | None = None) -> int:
             lyrics_source = "transcribed"
         romanize_words(words, a.language)
         lyric_lines = lines_from_words(words)
-        all_lines = attach_notes(notes, words, lyric_lines)
+        held: dict = {}
+        all_lines = attach_notes(notes, words, lyric_lines, art=art, params=params, language=a.language, report=held)
+        report["held"] = held
+        print(f"[{a.id}] held notes joined: {held}")
 
     script = "latin" if is_latin_script(" ".join(w["text"] for w in words)) else "other"
     song = Song(

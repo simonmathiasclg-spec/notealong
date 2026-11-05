@@ -12,7 +12,8 @@ from ..schemas import KeyInfo, LanguageInfo, Line, Note, Song, StepState, Word
 from . import audio as audio_mod
 from .align import timed_words_from_pasted
 from .attach import attach_notes
-from .cleanup import clean_notes
+from .cleanup import clean_notes, params_for
+from .onsets import ENV_VERSION, Articulation, vocal_envelope
 from .keydetect import detect_key
 from .lines import build_lines, lines_from_words
 from .lyrics import postprocess_words, transcribe
@@ -34,6 +35,24 @@ def _vocals_source(d: Path) -> Path:
     return wav if wav.exists() else d / f"vocals.{STEM_FORMAT}"
 
 
+def articulation(d: Path) -> Articulation | None:
+    """Onset and level curves of the vocals stem (cached as envelope.json)."""
+    cache = d / "envelope.json"
+    try:
+        if cache.exists():
+            env = library.read_json(cache)
+            if env.get("version") == ENV_VERSION:
+                return Articulation(env)
+        src = _vocals_source(d)
+        if not src.exists():
+            return None
+        env = vocal_envelope(src)
+        library.write_json(cache, env)
+        return Articulation(env)
+    except Exception:
+        return None
+
+
 def run_stems(song_id: str, progress: Progress = _noop) -> None:
     d = library.song_dir(song_id)
     song = library.load_song(song_id)
@@ -44,6 +63,7 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
     # remove cached key-shifted renders from a previous run
     for f in d.glob("shift_*"):
         f.unlink()
+    (d / "envelope.json").unlink(missing_ok=True)
     (d / "backing.wav").unlink(missing_ok=True)   # the mp3 is what the player streams
 
     def upd(s: Song):
@@ -131,11 +151,20 @@ def _apply_transcript(song_id: str) -> None:
     romanize_words(words, lang)
     text = " ".join(w["text"] for w in words)
     script = "latin" if is_latin_script(text) else "other"
+    # The words decide which same-pitch notes are one held syllable, so the notes
+    # are worked out again from the raw detection now that the words are known
+    # (unless some were fixed by hand: those are never thrown away here).
+    fresh = None
+    raw_path = d / "notes_raw.json"
+    if raw_path.exists() and not any(n.edited for n in song.notes):
+        fresh, _ = clean_notes(library.read_json(raw_path), song.settings.detail_level)
 
     def upd(s: Song):
         s.words = [Word(**w) for w in words]
         s.lines = [Line(**l) for l in lines_from_words(words)]
         s.language.script = script
+        if fresh is not None:
+            s.notes = [Note(**n) for n in fresh]
     library.update_song(song_id, upd)
     run_attach(song_id)
 
@@ -155,6 +184,8 @@ def run_paste_lyrics(song_id: str, text: str) -> None:
 
 
 def run_attach(song_id: str, progress: Progress = _noop) -> None:
+    art = articulation(library.song_dir(song_id))
+
     def upd(s: Song):
         notes = [n.model_dump() for n in s.notes]
         words = [w.model_dump() for w in s.words]
@@ -165,7 +196,9 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             w["line"] = remap.get(w["line"], 0)
         for i, l in enumerate(lyric_lines):
             l["index"] = i
-        all_lines = attach_notes(notes, words, lyric_lines)
+        all_lines = attach_notes(notes, words, lyric_lines, art=art,
+                                 params=params_for(s.settings.detail_level),
+                                 language=s.language.override or s.language.detected)
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]
         s.lines = [Line(**l) for l in all_lines]

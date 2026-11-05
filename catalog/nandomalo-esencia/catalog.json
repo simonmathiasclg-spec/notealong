@@ -10,10 +10,10 @@
  "difficulty_details": {
   "range": 17,
   "distinct": 9,
-  "notes_per_second": 1.51,
+  "notes_per_second": 1.71,
   "big_leaps": 0.05,
   "shortest": 0.12,
-  "score": 6.0
+  "score": 7.0
  },
  "duration": 261.6,
  "key": "D minor",
@@ -35,14 +35,22 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 349,
+ "note_count": 394,
  "word_count": 334,
  "review": {
   "checked": 500,
-  "dropped": 75,
+  "dropped": 74,
   "octave_fixed": 1,
   "pitch_fixed": 2,
-  "kept": 422
+  "kept": 423,
+  "outliers_dropped": 0,
+  "held": {
+   "before": 426,
+   "same_pitch": 32,
+   "wobbles": 0,
+   "bends": 0,
+   "after": 394
+  }
  },
  "accent_hue": 160
 }

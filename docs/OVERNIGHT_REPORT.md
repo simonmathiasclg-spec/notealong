@@ -64,3 +64,92 @@ radius on whatever had focus). The focus ring now follows each control's own sha
 (Amazing Grace 0:00 to 0:29, Bella Ciao 0:00 to 0:53). Dragging along the progress line creates a loop, so
 these were probably made by accident while trying to scrub. Worth a look: see "next steps".
 
+## Part 2: held notes shown as repeated notes
+
+**The problem in the data.** The pitch tracker splits one sustained sound in three ways. Measured on the
+11 recordings and the 2 uploads before any change:
+
+- the same pitch twice with a short gap or none (vibrato, a swell, an accent),
+- a short note one semitone away at the very start (the voice scooping up into the note) or at the very
+  end (the pitch sagging as the note is let go),
+- a wide vibrato that flips to the neighbouring semitone and back.
+
+**The fix** (`service/notealong/pipeline/held.py`, run when notes are matched to words). Fragments are
+joined into one held note unless the singer really starts again:
+
+- **A new syllable starts.** Notes on different words are never joined. Inside a word, joining stops when
+  the word would be left with fewer notes than it has syllables ("hap-py" keeps two notes). Syllables are
+  counted from the spelling, on the high side, and per language (the final e is sung in German and
+  French, silent in English).
+- **The sound breaks.** `service/notealong/pipeline/onsets.py` measures two curves on the vocals stem once
+  per song: onset strength (spectral flux) and level. A dip of 6 dB at the junction (a closure such as p,
+  t, k, or a breath) keeps the notes apart. Where no words are known, a clear onset alone does too.
+- **The gap is long.** More than 0.15 s of silence is always a new note.
+- A held note that runs past the end of its word (word timings often end early) is joined to the word's
+  last note.
+- Notes fixed by hand in edit mode are never touched.
+
+All five thresholds are in `config.py` per detail level (`held_gap`, `onset_min`, `dip_min_db`,
+`wobble_len`, `bend_len`). "Detailed" keeps scoops and tails.
+
+**Decision: an accent is not a new note.** The brief says a clear onset should keep notes apart, and also
+that accents and swells should not create notes. Those conflict: an accent, a swell and even a change of
+vowel ("I'm", "go") all produce a strong onset. When the words say "one syllable" I trust the words:
+inside a word, an onset only counts together with at least a small dip in level. Without words the onset
+alone decides.
+
+**Decision: the notes are worked out again once the words are known.** On a fresh upload the notes are
+found before the lyrics. The service now re-runs cleanup from the stored raw detection when the words
+arrive or change (language, pasted lyrics), unless notes were fixed by hand.
+
+**Before and after, 11 Creative Commons recordings** (`python -m notealong.catalog.recheck`):
+
+| Song | Old result | Raw pieces | Joined as held notes | New result |
+|---|---|---|---|---|
+| Feel (Stripped) | 318 | 443 | 134 (131 same pitch, 0 vibrato, 3 scoops and tails) | 309 |
+| Freifliegen | 207 | 339 | 131 (120 same pitch, 1 vibrato, 9 scoops and tails) | 208 |
+| l'abandon | 296 | 330 | 18 (15 same pitch, 0 vibrato, 3 scoops and tails) | 312 |
+| CHRISTMAS AVEC TOI | 359 | 410 | 44 (40 same pitch, 0 vibrato, 4 scoops and tails) | 366 |
+| Le musée d'air contemporain | 252 | 289 | 26 (24 same pitch, 0 vibrato, 2 scoops and tails) | 263 |
+| Les files d'attente | 319 | 365 | 51 (44 same pitch, 1 vibrato, 5 scoops and tails) | 314 |
+| Mère nature | 341 | 395 | 56 (49 same pitch, 0 vibrato, 7 scoops and tails) | 339 |
+| Fantasma | 162 | 264 | 84 (84 same pitch, 0 vibrato, 0 scoops and tails) | 180 |
+| Is It Right? | 226 | 273 | 34 (33 same pitch, 0 vibrato, 1 scoops and tails) | 239 |
+| Esencia | 349 | 426 | 32 (32 same pitch, 0 vibrato, 0 scoops and tails) | 394 |
+| Bad Side | 355 | 438 | 89 (89 same pitch, 0 vibrato, 0 scoops and tails) | 349 |
+| **Total** | **3184** | **3972** | **699** | **3273** |
+
+The total went up by 2.8 %, not down. The old rule joined any two touching same-pitch notes inside a
+word, which also swallowed real repeats in long words. The new rule joins more held notes and gives
+those repeats back.
+
+**Spot checks** (old notes, then new notes, concert pitch):
+
+| Kind | Word | Old | New |
+|---|---|---|---|
+| Held note joined | "be" (Feel) | C#3 C#3 | C#3 |
+| Held note joined | "pain" (Feel) | C#3 C#3 | C#3 |
+| Scoop absorbed | "hält" (Freifliegen) | F4 F#4 | F#4 |
+| Tail absorbed | "klein" (Freifliegen) | B3 D4 | B3 |
+| Vibrato flip joined | "will" (Freifliegen) | G4 F#4 G4 F#4 | G4 F#4 |
+| Real repeat kept | "unprepared" (Feel) | B2 B2 B2 | B2 B2 |
+| Real repeat restored | "geschworen" (Freifliegen) | E4 | E4 E4 E4 |
+| Real repeat restored | "alimenta" (Fantasma) | F#4 D4 | F#4 F#4 D4 D4 |
+| Real repeat restored | "anocheciendo" (Esencia) | E4 F4 D4 | E4 E4 F4 D4 D4 |
+
+**Uploads on this machine:** "Bad Side" 414 to 389 notes, "Feel (Stripped)" 356 to 341.
+
+**Tests:** 16 new tests in `service/tests/test_held.py` (vibrato split, "hap-py birth-day" repeats, a new
+word on the same pitch, level dip, long gap, accent inside one syllable, wobble, scoop and tail, passing
+notes, held note running past its word, hand-fixed notes, no audio evidence). Python total: 47.
+
+**Limits.**
+
+- Most same-pitch repeats in these pop songs are real: three out of four sit exactly on a word start
+  ("I know you" on one pitch). They are kept, as the brief asks.
+- If the word timing puts the start of a word in the middle of a held note, the two halves stay two
+  notes. Fixing that needs syllable-level alignment, not just word times.
+- The raw detection for the 11 catalog recordings is now stored (`catalog/<id>/notes_raw.json`, 1.1 MB in
+  all) so the notes can be re-derived in seconds. It was re-detected from the 192 kbps vocals stem, which
+  changed a handful of individual notes compared with the first import.
+

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "generated_at": "2026-11-03T03:48:49.282805+00:00",
+ "generated_at": "2026-11-05T03:58:13.284778+00:00",
  "songs": [
   {
    "id": "alouette",
@@ -410,11 +410,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 14,
-    "distinct": 8,
-    "notes_per_second": 1.5,
+    "distinct": 9,
+    "notes_per_second": 1.46,
     "big_leaps": 0.05,
     "shortest": 0.12,
-    "score": 4.0
+    "score": 5.0
    },
    "duration": 240.562,
    "key": "E major",
@@ -436,14 +436,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 318,
+   "note_count": 309,
    "word_count": 355,
    "review": {
-    "checked": 444,
+    "checked": 443,
     "dropped": 0,
     "octave_fixed": 0,
     "pitch_fixed": 0,
-    "kept": 444
+    "kept": 443,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 443,
+     "same_pitch": 131,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 309
+    }
    },
    "accent_hue": 338
   },
@@ -591,8 +599,8 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 12,
-    "distinct": 9,
-    "notes_per_second": 1.16,
+    "distinct": 10,
+    "notes_per_second": 1.17,
     "big_leaps": 0.06,
     "shortest": 0.12,
     "score": 4.0
@@ -617,15 +625,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 207,
+   "note_count": 208,
    "word_count": 135,
    "review": {
-    "checked": 343,
-    "dropped": 8,
+    "checked": 346,
+    "dropped": 6,
     "octave_fixed": 1,
     "pitch_fixed": 0,
-    "kept": 334,
-    "outliers_dropped": 1
+    "kept": 339,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 339,
+     "same_pitch": 120,
+     "wobbles": 1,
+     "bends": 9,
+     "after": 208
+    }
    },
    "accent_hue": 11
   },
@@ -641,13 +656,13 @@
    "difficulty_details": {
     "range": 8,
     "distinct": 6,
-    "notes_per_second": 1.62,
-    "big_leaps": 0.06,
+    "notes_per_second": 1.7,
+    "big_leaps": 0.05,
     "shortest": 0.12,
     "score": 2.0
    },
    "duration": 209.699,
-   "key": "F# minor",
+   "key": "F minor",
    "tempo_bpm": 103.4,
    "year": null,
    "licence": {
@@ -666,14 +681,22 @@
    "featured": false,
    "beginner": true,
    "access": "free",
-   "note_count": 296,
+   "note_count": 312,
    "word_count": 341,
    "review": {
-    "checked": 335,
+    "checked": 330,
     "dropped": 0,
     "octave_fixed": 3,
     "pitch_fixed": 3,
-    "kept": 329
+    "kept": 324,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 330,
+     "same_pitch": 15,
+     "wobbles": 0,
+     "bends": 3,
+     "after": 312
+    }
    },
    "accent_hue": 86
   },
@@ -1087,7 +1110,7 @@
    "difficulty_details": {
     "range": 17,
     "distinct": 9,
-    "notes_per_second": 1.61,
+    "notes_per_second": 1.65,
     "big_leaps": 0.14,
     "shortest": 0.12,
     "score": 8.0
@@ -1112,15 +1135,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 359,
+   "note_count": 366,
    "word_count": 350,
    "review": {
-    "checked": 414,
-    "dropped": 1,
+    "checked": 417,
+    "dropped": 5,
     "octave_fixed": 30,
-    "pitch_fixed": 1,
+    "pitch_fixed": 0,
     "kept": 382,
-    "outliers_dropped": 1
+    "outliers_dropped": 2,
+    "held": {
+     "before": 410,
+     "same_pitch": 40,
+     "wobbles": 0,
+     "bends": 4,
+     "after": 366
+    }
    },
    "accent_hue": 330
   },
@@ -1268,8 +1298,8 @@
    "difficulty_details": {
     "range": 13,
     "distinct": 13,
-    "notes_per_second": 1.63,
-    "big_leaps": 0.05,
+    "notes_per_second": 1.7,
+    "big_leaps": 0.04,
     "shortest": 0.12,
     "score": 7.0
    },
@@ -1293,14 +1323,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 252,
+   "note_count": 263,
    "word_count": 256,
    "review": {
-    "checked": 290,
+    "checked": 289,
     "dropped": 0,
     "octave_fixed": 1,
     "pitch_fixed": 4,
-    "kept": 285
+    "kept": 284,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 289,
+     "same_pitch": 24,
+     "wobbles": 0,
+     "bends": 2,
+     "after": 263
+    }
    },
    "accent_hue": 56
   },
@@ -1403,11 +1441,11 @@
    "difficulty": "hard",
    "difficulty_details": {
     "range": 16,
-    "distinct": 10,
-    "notes_per_second": 1.77,
+    "distinct": 11,
+    "notes_per_second": 1.74,
     "big_leaps": 0.09,
     "shortest": 0.12,
-    "score": 7.0
+    "score": 8.0
    },
    "duration": 195.595,
    "key": "C minor",
@@ -1429,14 +1467,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 319,
+   "note_count": 314,
    "word_count": 319,
    "review": {
-    "checked": 367,
+    "checked": 365,
     "dropped": 0,
     "octave_fixed": 3,
-    "pitch_fixed": 14,
-    "kept": 350
+    "pitch_fixed": 12,
+    "kept": 350,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 365,
+     "same_pitch": 44,
+     "wobbles": 1,
+     "bends": 5,
+     "after": 314
+    }
    },
    "accent_hue": 323
   },
@@ -1451,11 +1497,11 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 8,
-    "distinct": 9,
-    "notes_per_second": 1.67,
-    "big_leaps": 0.08,
+    "distinct": 8,
+    "notes_per_second": 1.66,
+    "big_leaps": 0.07,
     "shortest": 0.12,
-    "score": 4.0
+    "score": 3.0
    },
    "duration": 225.273,
    "key": "B minor",
@@ -1477,14 +1523,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 341,
+   "note_count": 339,
    "word_count": 254,
    "review": {
-    "checked": 393,
+    "checked": 395,
     "dropped": 0,
     "octave_fixed": 0,
-    "pitch_fixed": 12,
-    "kept": 381
+    "pitch_fixed": 10,
+    "kept": 385,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 395,
+     "same_pitch": 49,
+     "wobbles": 0,
+     "bends": 7,
+     "after": 339
+    }
    },
    "accent_hue": 17
   },
@@ -1543,9 +1597,9 @@
    "difficulty_details": {
     "range": 20,
     "distinct": 11,
-    "notes_per_second": 1.19,
-    "big_leaps": 0.11,
-    "shortest": 0.12,
+    "notes_per_second": 1.32,
+    "big_leaps": 0.1,
+    "shortest": 0.14,
     "score": 8.0
    },
    "duration": 166.014,
@@ -1568,14 +1622,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 162,
+   "note_count": 180,
    "word_count": 88,
    "review": {
     "checked": 267,
     "dropped": 3,
     "octave_fixed": 2,
-    "pitch_fixed": 4,
-    "kept": 258
+    "pitch_fixed": 7,
+    "kept": 255,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 264,
+     "same_pitch": 84,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 180
+    }
    },
    "accent_hue": 154
   },
@@ -1591,8 +1653,8 @@
    "difficulty_details": {
     "range": 9,
     "distinct": 5,
-    "notes_per_second": 1.61,
-    "big_leaps": 0.05,
+    "notes_per_second": 1.7,
+    "big_leaps": 0.06,
     "shortest": 0.12,
     "score": 2.0
    },
@@ -1616,15 +1678,22 @@
    "featured": false,
    "beginner": true,
    "access": "free",
-   "note_count": 226,
+   "note_count": 239,
    "word_count": 212,
    "review": {
-    "checked": 280,
+    "checked": 281,
     "dropped": 7,
-    "octave_fixed": 7,
+    "octave_fixed": 5,
     "pitch_fixed": 0,
-    "kept": 266,
-    "outliers_dropped": 1
+    "kept": 269,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 273,
+     "same_pitch": 33,
+     "wobbles": 0,
+     "bends": 1,
+     "after": 239
+    }
    },
    "accent_hue": 205
   },
@@ -1773,10 +1842,10 @@
    "difficulty_details": {
     "range": 17,
     "distinct": 9,
-    "notes_per_second": 1.51,
+    "notes_per_second": 1.71,
     "big_leaps": 0.05,
     "shortest": 0.12,
-    "score": 6.0
+    "score": 7.0
    },
    "duration": 261.6,
    "key": "D minor",
@@ -1798,14 +1867,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 349,
+   "note_count": 394,
    "word_count": 334,
    "review": {
     "checked": 500,
-    "dropped": 75,
+    "dropped": 74,
     "octave_fixed": 1,
     "pitch_fixed": 2,
-    "kept": 422
+    "kept": 423,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 426,
+     "same_pitch": 32,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 394
+    }
    },
    "accent_hue": 160
   },
@@ -1997,9 +2074,9 @@
    "difficulty": "medium",
    "difficulty_details": {
     "range": 10,
-    "distinct": 5,
-    "notes_per_second": 1.81,
-    "big_leaps": 0.14,
+    "distinct": 6,
+    "notes_per_second": 1.78,
+    "big_leaps": 0.15,
     "shortest": 0.12,
     "score": 4.0
    },
@@ -2023,14 +2100,22 @@
    "featured": false,
    "beginner": false,
    "access": "free",
-   "note_count": 355,
+   "note_count": 349,
    "word_count": 440,
    "review": {
-    "checked": 467,
-    "dropped": 27,
+    "checked": 470,
+    "dropped": 31,
     "octave_fixed": 1,
     "pitch_fixed": 0,
-    "kept": 439
+    "kept": 438,
+    "outliers_dropped": 1,
+    "held": {
+     "before": 438,
+     "same_pitch": 89,
+     "wobbles": 0,
+     "bends": 0,
+     "after": 349
+    }
    },
    "accent_hue": 202
   },

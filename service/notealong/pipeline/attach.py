@@ -2,29 +2,20 @@
 "no lyric" blocks for notes outside any word."""
 from __future__ import annotations
 
-from ..config import ATTACH_TOLERANCE, INSTRUMENTAL_BLOCK_GAP
+from ..config import ATTACH_TOLERANCE, DEFAULT_DETAIL_LEVEL, DETAIL_LEVELS, INSTRUMENTAL_BLOCK_GAP, CleanupParams
+from .held import consolidate_held
+from .onsets import Articulation
 
 
-def _merge_repeats_within_words(notes: list[dict], max_gap: float = 0.02) -> None:
-    """Two same-pitch notes with no gap inside ONE word are a spurious re-onset
-    (a singer rarely re-attacks the same pitch within a word): join them.
-    Across words they stay separate. Mutates `notes` in place."""
-    notes.sort(key=lambda n: n["start"])
-    out: list[dict] = []
-    for n in notes:
-        prev = out[-1] if out else None
-        if (prev and n["word"] is not None and prev["word"] == n["word"]
-                and prev["midi"] == n["midi"] and n["start"] - prev["end"] <= max_gap):
-            prev["end"] = max(prev["end"], n["end"])
-            prev["confidence"] = max(prev.get("confidence", 0), n.get("confidence", 0))
-        else:
-            out.append(n)
-    notes[:] = out
-
-
-def attach_notes(notes: list[dict], words: list[dict], lines: list[dict]) -> list[dict]:
+def attach_notes(notes: list[dict], words: list[dict], lines: list[dict], *,
+                 art: Articulation | None = None, params: CleanupParams | None = None,
+                 language: str | None = None, report: dict | None = None) -> list[dict]:
     """Sets note['word'] and note['line'] in place. Returns the full line list
-    including instrumental blocks (re-indexed)."""
+    including instrumental blocks (re-indexed).
+
+    Once every note knows its word, the fragments of held notes are joined
+    (see held.py). `art` is the articulation evidence from the vocals stem;
+    without it only fragments that touch inside one word are joined."""
     words = sorted(words, key=lambda w: w["start"])
     lyric_lines = [l for l in lines if l.get("kind", "lyric") == "lyric"]
     for n in notes:
@@ -46,7 +37,9 @@ def attach_notes(notes: list[dict], words: list[dict], lines: list[dict]) -> lis
         n["word"] = best["id"] if best else None
         n["line"] = best["line"] if best else -1
 
-    _merge_repeats_within_words(notes)
+    held = consolidate_held(notes, words, params or DETAIL_LEVELS[DEFAULT_DETAIL_LEVEL], art, language)
+    if report is not None:
+        report.update(held)
 
     # Group unattached notes into instrumental blocks.
     blocks: list[dict] = []

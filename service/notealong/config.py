@@ -64,6 +64,12 @@ class CleanupParams:
     min_level_db: float = -35  # drop notes where the vocals stem is this much quieter than its loud parts
     pitch_min: int = 40        # E2
     pitch_max: int = 86        # D6
+    # --- held notes (pipeline/held.py): joining the fragments of one sustained sound ---
+    held_gap: float = 0.15     # same-pitch notes further apart than this are always two notes
+    onset_min: float = 0.6     # an onset this strong at the junction (1.0 = a typical strong onset) is a new start
+    dip_min_db: float = 6.0    # ... and so is a dip in level this deep (a closure: p, t, k, b, d, or a breath)
+    wobble_len: float = 0.16   # vibrato: a neighbour-semitone note this short between two equal notes is absorbed
+    bend_len: float = 0.20     # a scoop or tail a semitone off, this short, is absorbed into the note it belongs to
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -73,6 +79,7 @@ DETAIL_LEVELS: dict[str, CleanupParams] = {
     "simple": CleanupParams(
         min_note_len=0.18, merge_gap=0.10, min_confidence=0.45, min_relative_amp=0.40,
         neighbour_semitones=2, octave_bias=0.6, continuity_bonus=0.25, leap_penalty=0.02, min_level_db=-28,
+        held_gap=0.20, onset_min=0.75, dip_min_db=8.0, wobble_len=0.20, bend_len=0.25,
     ),
     "balanced": CleanupParams(
         min_note_len=0.12, merge_gap=0.08, min_confidence=0.35, min_relative_amp=0.30,
@@ -81,6 +88,7 @@ DETAIL_LEVELS: dict[str, CleanupParams] = {
     "detailed": CleanupParams(
         min_note_len=0.07, merge_gap=0.05, min_confidence=0.25, min_relative_amp=0.20,
         neighbour_semitones=1, octave_bias=0.4, continuity_bonus=0.15, leap_penalty=0.01, min_level_db=-38,
+        held_gap=0.10, onset_min=0.45, dip_min_db=5.0, wobble_len=0.10, bend_len=0.0,
     ),
 }
 DEFAULT_DETAIL_LEVEL = "balanced"

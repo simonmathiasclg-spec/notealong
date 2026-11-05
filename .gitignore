@@ -17,3 +17,6 @@ web/.next/
 web/next-env.d.ts
 .DS_Store
 logs/
+
+# slow intermediate results of the catalog tools (pitch tracks, onset curves)
+catalog/.cache/

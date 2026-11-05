@@ -9,11 +9,11 @@
  "difficulty": "hard",
  "difficulty_details": {
   "range": 16,
-  "distinct": 10,
-  "notes_per_second": 1.77,
+  "distinct": 11,
+  "notes_per_second": 1.74,
   "big_leaps": 0.09,
   "shortest": 0.12,
-  "score": 7.0
+  "score": 8.0
  },
  "duration": 195.595,
  "key": "C minor",
@@ -35,14 +35,22 @@
  "featured": false,
  "beginner": false,
  "access": "free",
- "note_count": 319,
+ "note_count": 314,
  "word_count": 319,
  "review": {
-  "checked": 367,
+  "checked": 365,
   "dropped": 0,
   "octave_fixed": 3,
-  "pitch_fixed": 14,
-  "kept": 350
+  "pitch_fixed": 12,
+  "kept": 350,
+  "outliers_dropped": 0,
+  "held": {
+   "before": 365,
+   "same_pitch": 44,
+   "wobbles": 1,
+   "bends": 5,
+   "after": 314
+  }
  },
  "accent_hue": 323
 }

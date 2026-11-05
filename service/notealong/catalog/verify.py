@@ -8,7 +8,20 @@ from pathlib import Path
 import numpy as np
 
 
-def pyin_track(vocals: Path, sr: int = 22050, hop: int = 256) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def pyin_track(vocals: Path, sr: int = 22050, hop: int = 256, cache: Path | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """pYIN pitch track of the vocals. With `cache` (an .npz path) the track is
+    stored and reused, which makes re-checking a song take seconds."""
+    if cache is not None and cache.exists():
+        z = np.load(cache)
+        return z["times"], z["midi"], z["prob"]
+    times, midi, prob = _pyin_track(vocals, sr, hop)
+    if cache is not None:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(cache, times=times.astype(np.float32), midi=midi.astype(np.float32), prob=prob.astype(np.float32))
+    return times, midi, prob
+
+
+def _pyin_track(vocals: Path, sr: int, hop: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     import librosa
     y, _ = librosa.load(str(vocals), sr=sr, mono=True)
     f0, voiced, prob = librosa.pyin(y, fmin=librosa.note_to_hz("C2"), fmax=librosa.note_to_hz("C6"), sr=sr, hop_length=hop, frame_length=2048)
@@ -17,14 +30,14 @@ def pyin_track(vocals: Path, sr: int = 22050, hop: int = 256) -> tuple[np.ndarra
     return times, midi, prob
 
 
-def review_notes(notes: list[dict], vocals: Path, min_voiced: float = 0.4) -> tuple[list[dict], dict]:
+def review_notes(notes: list[dict], vocals: Path, min_voiced: float = 0.4, cache: Path | None = None) -> tuple[list[dict], dict]:
     """Returns (notes, report). Rules:
     - a note where pYIN hears no voice for most of its length is dropped (bleed / breath)
     - a note whose pitch disagrees with the pYIN median by an octave is moved an octave
     - a note that disagrees by 1 or more semitones (but not an octave) takes the pYIN pitch
       when the tracker is confident, otherwise it is kept as is
     """
-    times, track, prob = pyin_track(vocals)
+    times, track, prob = pyin_track(vocals, cache=cache)
     out: list[dict] = []
     report = {"checked": len(notes), "dropped": 0, "octave_fixed": 0, "pitch_fixed": 0, "kept": 0}
     for n in sorted(notes, key=lambda n: n["start"]):
