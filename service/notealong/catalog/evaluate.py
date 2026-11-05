@@ -199,6 +199,41 @@ def print_table(rows: list[dict]) -> None:
           f"{s['onset_error_ms']:>6.0f} {s['frame_accuracy']:>6.2f}")
 
 
+# Candidate settings for the "balanced" level, tried by --tune. Each is a change to one or two thresholds.
+CANDIDATES: list[tuple[str, dict, bool]] = [
+    ("fixed thresholds (before)", {}, False),
+    ("tempo-aware thresholds", {}, True),
+    ("tempo-aware, shorter notes kept (min 0.10 s)", {"min_note_len": 0.10}, True),
+    ("tempo-aware, longer notes only (min 0.14 s)", {"min_note_len": 0.14}, True),
+    ("tempo-aware, quieter notes kept (confidence 0.30)", {"min_confidence": 0.30}, True),
+    ("tempo-aware, quieter notes dropped (confidence 0.40)", {"min_confidence": 0.40}, True),
+    ("tempo-aware, stickier lead line (continuity 0.30)", {"continuity_bonus": 0.30}, True),
+    ("tempo-aware, freer lead line (continuity 0.12)", {"continuity_bonus": 0.12}, True),
+    ("tempo-aware, weaker notes kept (relative 0.22)", {"min_relative_amp": 0.22}, True),
+    ("tempo-aware, held notes joined across longer gaps (0.22 s)", {"held_gap": 0.22}, True),
+    ("tempo-aware, held notes joined only when touching (0.06 s)", {"held_gap": 0.06}, True),
+    ("tempo-aware, scoops and tails kept (bend 0)", {"bend_len": 0.0, "wobble_len": 0.0}, True),
+]
+
+
+def tune(out: Path | None = None) -> list[dict]:
+    import torch
+    torch.set_num_threads(3)
+    results = []
+    for name, overrides, tempo in CANDIDATES:
+        rows = evaluate("balanced", overrides or None, tempo)
+        s = summary(rows)
+        fast = [r for r in rows if (r["tempo"] or 0) >= 120]
+        s_fast = summary(fast) if fast else {}
+        results.append({"name": name, "overrides": overrides, "tempo_aware": tempo, "mean": s, "fast": s_fast,
+                        "notes_shown": sum(r["notes_shown"] for r in rows), "rows": rows})
+        print(f"{name:<58} F1 {s['f1']:.3f}  P {s['precision']:.3f}  R {s['recall']:.3f}  onset R {s['onset_recall']:.3f}  err {s['onset_error_ms']:.0f} ms  "
+              f"frames {s['frame_accuracy']:.3f}  fast songs F1 {s_fast.get('f1', 0):.3f} ({len(fast)})  notes {results[-1]['notes_shown']}", flush=True)
+        if out:
+            out.write_text(json.dumps(results, indent=1), encoding="utf-8")
+    return results
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--detail", default="balanced")
@@ -206,7 +241,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-tempo", action="store_true", help="switch the tempo-aware thresholds off")
     ap.add_argument("--only", action="append")
     ap.add_argument("--json", type=Path)
+    ap.add_argument("--tune", action="store_true", help="try the candidate settings in CANDIDATES and print one line each")
     a = ap.parse_args(argv)
+    if a.tune:
+        tune(a.json)
+        return 0
     overrides = {k: float(v) for k, v in (s.split("=", 1) for s in a.set)}
     rows = evaluate(a.detail, overrides or None, not a.no_tempo, a.only)
     print_table(rows)

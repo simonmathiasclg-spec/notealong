@@ -354,3 +354,170 @@ crashes mark the sections; 3/4 and 6/8 work. Python total: 52.
 - All note timings in the 48 songs moved because the intros got longer. Settings saved on this machine
   for built-in songs (position, loop) refer to the old timings; a saved loop may now sit a bar early.
 
+## Part 5: grow the catalog
+
+### Public-domain songs: 46 added (48 before, 94 now)
+
+Four agents each took a part of the world or a kind of song. The rules they worked to: both melody and
+words public domain everywhere (authors dead by 1955, or published before 1929, or anonymous with a
+documented origin before 1900); every melody checked note by note against a notated source fetched during
+the work (the source is in each file's `source_url`); anything uncertain skipped. I spot-checked four
+well-known tunes myself (Drunken Sailor, O Come All Ye Faithful, Simple Gifts, Aloha ʻOe) and they are
+right. All 46 pass the format checker, are rendered with the new arrangements and pass the audio audit.
+
+| Group | Added |
+|---|---|
+| Hymns | Abide with Me, Be Thou My Vision, What a Friend We Have in Jesus, Simple Gifts, Maʻoz Tzur, Yigdal, Nkosi Sikelel' iAfrika |
+| Spirituals | Go Down Moses, He's Got the Whole World in His Hands, Joshua Fit the Battle of Jericho, Nobody Knows the Trouble I've Seen |
+| Sea shanties | Drunken Sailor, Blow the Man Down, Haul Away Joe |
+| Christmas | O Come All Ye Faithful, Hark! The Herald Angels Sing, Angels We Have Heard on High, We Three Kings, Go Tell It on the Mountain, Shchedryk (the Ukrainian original of "Carol of the Bells") |
+| Celebration | Las Mañanitas, Hevenu Shalom Aleichem |
+| Latin America, Spain | De colores, La Paloma, La Golondrina, A la nanita nana, Los pollitos dicen, Arroz con leche, Ciranda cirandinha, ¿Dónde vas, Alfonso XII? |
+| Africa | Nkosi Sikelel' iAfrika, Sarie Marais |
+| Middle East | Üsküdar'a Gider İken, Hatikvah, Hevenu Shalom Aleichem, Maʻoz Tzur, Yigdal |
+| South Asia | Ekla Chalo Re (Tagore) |
+| Eastern and Northern Europe | Korobeiniki, Ochi Chyornye, Shchedryk, Die Gedanken sind frei, Muss i denn, Vem kan segla förutan vind, Du gamla, du fria |
+| East Asia and the Pacific | Kōjō no Tsuki, Furusato, Tōryanse, Song Bie, Aloha ʻOe, Hine e Hine |
+
+**Skipped, and why.** This list matters as much as the one above.
+
+| Song | Reason |
+|---|---|
+| Wellerman | Not public domain. The chorus and the "Wellerman" verse were added in 1966 and it was first published in 1972/73. |
+| Take Me Out to the Ball Game | Jack Norworth died in 1959. |
+| Shosholoza, Tue Tue, Obwisana, Thula Baba | No documented origin before 1900 and no notated source that could be checked. |
+| La Llorona, La Bamba, Los peces en el río, Peixe vivo | Earliest documentation is 20th century, or no fixed traditional melody, or no source. |
+| Sto lat, Hej sokoły, Tavaszi szél, Doraji Taryeong | Origin unknown, or collected or reworked in the 20th century. |
+| Raghupati Raghava Raja Ram, Vaishnava Jana To, Om Jai Jagdish Hare, Jana Gana Mana | No staff notation with words that could be checked; for one, the tune may come from a 1970 film. |
+| Lamma Bada Yatathanna | It is in 10/8, which the song format cannot write. |
+| Pōkarekare Ana | The verse is in 2/4 and the refrain in 3/4; one song file has one metre. |
+| Bahay Kubo | Public domain, but the only score sat behind a "verify you are human" page, which was not clicked through. |
+| Bridal Chorus, Wade in the Water, Leron Leron Sinta, Rasa Sayang, Shalom Chaverim, Dayenu, and others | No public-domain singable words, no reliable notation, or unclear origin. |
+
+The brief asked for a wider spread including Africa, India and the Middle East. Honest result: Europe,
+Latin America, East Asia and the hymn, spiritual and shanty repertoire grew well; **Africa (2), India (1)
+and the Arabic-speaking world (0) are thin**, because songs from those traditions rarely have both a
+documented early origin and a checkable score. That needs a person with the right songbooks.
+
+**Doubts the authors flagged** (all in the files' `attribution` lines; worth a listen):
+
+- *Korobeiniki* is the tune as printed in Russian vocal scores, which differs in three places from the
+  "Tetris" version most people know.
+- *Nkosi Sikelel' iAfrika* uses Sontonga's original first stanza, not the wording of the national anthem,
+  whose later changes could not be traced to an author.
+- *He's Got the Whole World in His Hands*: the 1927 first print was not seen; the tune is the common one.
+- *La Golondrina*, *Ochi Chyornye*, *Joshua*, *Go Tell It on the Mountain*: sources disagree in a bar or
+  two; the choice made is noted in each file.
+- *Ekla Chalo Re* is the refrain only, read from a hand-written scan and cross-checked against sargam.
+- Some death years were given from the agents' memory rather than a fetched page (listed in their notes:
+  Dybeck, Motoori, Ordway, Li Shutong, Howie, Toerien, Matmon-Cohen). They are all well before 1955.
+
+### Creative Commons recordings
+
+(This section is being written while the last imports finish.)
+
+### Discover for a large catalog
+
+- **Jump back in**: the songs you played last (the catalog API now reports when you last used each one).
+- **New this week**: songs that joined in the last seven days (the 46 new public-domain songs today).
+- Rows are capped at 18 tiles with **See all** opening the full list; at most five style rows.
+- A **Browse** index replaces a row per country: styles, parts of the world (eight regions) and languages,
+  each with its song count. The filter panel shows the same, with counts, and hides one-song entries.
+- **Sorting** everywhere: A to Z, newest, easiest first, shortest first, most played. "Most played" reads a
+  `popularity` number on each song (0 for now), then featured, then title, so it is ready for real play
+  counts without any change to the app.
+- The full list shows 24 songs with a "Show all" button instead of a hundred tiles.
+- First version critique: the home page was 26,000 pixels tall with a row for every region and language.
+  The Browse index cut it by more than half.
+- Settings now say plainly how a song's words and notes were made (written by hand, timed by hand, or
+  worked out automatically). The previous "checked by hand" line was not true for recordings.
+
+## Part 6: fast song accuracy
+
+**The evaluation** (`python -m notealong.catalog.evaluate`, `--tune` for the comparison).
+
+There is no hand-written answer key for these songs: I said in the first round that the notes of the
+recordings were "hand-checked", and that was loose wording. They were checked by a second pitch tracker,
+not by a person. So the reference had to be built, from two sources that are independent of the detector:
+
+- word timings made by people (the JamendoLyrics annotations of the first 11 recordings), and
+- the pitch of the voice measured with CREPE, a different tracker from Basic Pitch (which finds our
+  notes) and pYIN (which reviews them).
+
+Inside each human-timed word the CREPE pitch is cut into notes wherever it settles on a new semitone.
+A detected note counts as right when it starts within 100 ms of a reference note and has the same pitch.
+Same-pitch repeats inside one word are merged on both sides first, because a word-level reference cannot
+say how many syllables were sung on one pitch. Treat the absolute numbers with care (the reference has
+errors of its own); the before/after differences are what matter.
+
+**Baseline and result, per song** ("balanced" level):
+
+| Song | Tempo | F1 before | F1 after | Precision | Recall before | Recall after | Onset error | Sung time right, before | after |
+|---|---|---|---|---|---|---|---|---|---|
+| Feel (Stripped) | 103 | 0.68 | 0.71 | 0.86 | 0.56 | 0.61 | 32 ms | 74% | 75% |
+| Freifliegen | 118 | 0.51 | 0.54 | 0.61 | 0.43 | 0.48 | 26 ms | 63% | 64% |
+| l'abandon | 103 | 0.50 | 0.56 | 0.74 | 0.38 | 0.45 | 24 ms | 54% | 56% |
+| CHRISTMAS AVEC TOI | 144 | 0.46 | 0.50 | 0.56 | 0.38 | 0.46 | 35 ms | 51% | 52% |
+| Le musée d'air contemporain | 112 | 0.51 | 0.61 | 0.72 | 0.41 | 0.52 | 28 ms | 51% | 55% |
+| Les files d'attente | 123 | 0.47 | 0.55 | 0.62 | 0.38 | 0.49 | 29 ms | 54% | 57% |
+| Mère nature | 112 | 0.55 | 0.61 | 0.78 | 0.43 | 0.50 | 30 ms | 59% | 61% |
+| Fantasma | 112 | 0.68 | 0.68 | 0.77 | 0.60 | 0.61 | 32 ms | 75% | 75% |
+| Is It Right? | 136 | 0.56 | 0.64 | 0.74 | 0.46 | 0.56 | 27 ms | 61% | 63% |
+| Esencia | 99 | 0.68 | 0.71 | 0.89 | 0.55 | 0.59 | 26 ms | 69% | 70% |
+| Bad Side | 144 | 0.58 | 0.65 | 0.65 | 0.54 | 0.65 | 30 ms | 69% | 71% |
+| **Mean** | | **0.56** | **0.61** | **0.72** | **0.46** | **0.54** | **29 ms** | **62%** | **64%** |
+
+No song got worse. The four fast songs (120 bpm and above) went from F1 0.52 to 0.59.
+
+**What was changed.**
+
+1. **Tempo-aware thresholds** (`cleanup.tempo_scaled`). The time thresholds (minimum note length, merge
+   gap, held-note gap, vibrato and bend lengths) were chosen for about 100 bpm. For faster songs they now
+   shrink in proportion to the tempo, never below 60 % of their normal value because detected tempos are
+   sometimes double the felt tempo. Slow songs are unchanged. On its own: F1 0.562 to 0.588, fast songs
+   0.517 to 0.570.
+2. **"Balanced" keeps notes from 0.10 s** (was 0.12 s). With the tempo scaling: F1 0.614. Precision did
+   not move (0.72), so the extra notes are as often right as the ones already shown.
+
+**Everything that was tried** (mean over the 11 songs):
+
+| Setting | F1 | Precision | Recall | Onset recall | Onset error | Sung time right | F1, 4 fast songs | Notes shown |
+|---|---|---|---|---|---|---|---|---|
+| fixed thresholds (before) | 0.562 | 0.717 | 0.465 | 0.546 | 31 ms | 61.6% | 0.517 | 3273 |
+| tempo-aware thresholds | 0.588 | 0.722 | 0.501 | 0.578 | 30 ms | 62.5% | 0.570 | 3536 |
+| **tempo-aware, minimum 0.10 s (adopted)** | **0.614** | **0.721** | **0.539** | **0.616** | **29 ms** | **63.5%** | **0.585** | **3829** |
+| tempo-aware, minimum 0.14 s | 0.559 | 0.713 | 0.465 | 0.544 | 31 ms | 61.4% | 0.553 | 3271 |
+| tempo-aware, minimum 0.09 s | 0.623 | 0.720 | 0.553 | 0.630 | 28 ms | 63.8% | 0.589 | 3951 |
+| tempo-aware, minimum 0.08 s | 0.633 | 0.720 | 0.568 | 0.645 | 28 ms | 64.1% | 0.597 | 4069 |
+| minimum 0.10 s without tempo scaling | 0.593 | 0.722 | 0.506 | 0.585 | 30 ms | 62.7% | 0.557 | 3556 |
+| quieter notes kept (confidence 0.30) | 0.588 | 0.701 | 0.512 | 0.605 | 31 ms | 64.3% | 0.563 | 3770 |
+| quieter notes dropped (confidence 0.40) | 0.579 | 0.741 | 0.480 | 0.544 | 29 ms | 60.2% | 0.562 | 3280 |
+| stickier lead line (continuity 0.30) | 0.584 | 0.717 | 0.498 | 0.576 | 30 ms | 62.3% | 0.570 | 3542 |
+| freer lead line (continuity 0.12) | 0.591 | 0.725 | 0.504 | 0.580 | 30 ms | 62.6% | 0.571 | 3539 |
+| weaker notes kept (relative 0.22) | 0.588 | 0.722 | 0.501 | 0.578 | 30 ms | 62.5% | 0.570 | 3536 |
+| held notes joined across longer gaps (0.22 s) | 0.588 | 0.722 | 0.501 | 0.578 | 30 ms | 62.5% | 0.570 | 3533 |
+| held notes joined only when touching (0.06 s) | 0.588 | 0.722 | 0.501 | 0.578 | 30 ms | 62.5% | 0.570 | 3564 |
+| scoops and tails kept (bend 0) | 0.595 | 0.723 | 0.511 | 0.586 | 30 ms | 62.8% | 0.575 | 3596 |
+| minimum 0.10 s + confidence 0.30 | 0.615 | 0.698 | 0.554 | 0.646 | 29 ms | 65.5% | 0.577 | 4101 |
+| minimum 0.10 s + confidence 0.32 + continuity 0.15 | 0.619 | 0.710 | 0.552 | 0.639 | 29 ms | 65.1% | 0.588 | 4009 |
+| minimum 0.10 s + merge gap 0.06, leap penalty 0.01, or octave bias 0.6 | 0.614 | 0.721 | 0.539 | 0.616 | 29 ms | 63.5% | 0.585 | 3830 |
+
+**Decisions, and where I stopped short of the maximum.**
+
+- The score keeps rising as the minimum note length falls (0.08 s scores 0.633). I adopted 0.10 s, not
+  0.08 s. Below 0.10 s the gain comes from grace notes and quick turns that a learner cannot play, the
+  screen gets 24 % busier than before instead of 17 %, and "balanced" would become almost the same as
+  "detailed" (0.07 s). This is a judgement call: the number is one line in `config.py`.
+- Keeping scoops and tails scores slightly higher (0.595 against 0.588), because the reference counts a
+  scoop as a note. Part 2 asked for them to be absorbed, so they still are.
+- The held-note thresholds make no measurable difference on this reference (it merges repeats inside a
+  word before scoring), so Part 2's values stand.
+- Lower confidence thresholds raise recall but lose precision by the same amount: not adopted.
+
+**Read this before trusting the numbers.** Recall of 0.54 means the reference contains many short notes
+we do not show. Some of those are real ornaments, some are CREPE reacting to slides. Precision of 0.72 at
+a 100 ms window with exact pitch is the more useful figure: about seven of ten notes on screen start at
+the right moment on the right pitch by an independent measure, and "sung time right" says the displayed
+pitch matches the voice for 64 % of the sung time. A proper answer key (a musician writing out three or
+four songs) would make all of this far more trustworthy, and is the first thing I would do next.
+

@@ -12,7 +12,7 @@ from ..schemas import KeyInfo, LanguageInfo, Line, Note, Song, StepState, Word
 from . import audio as audio_mod
 from .align import timed_words_from_pasted
 from .attach import attach_notes
-from .cleanup import clean_notes, params_for
+from .cleanup import clean_notes, params_for, tempo_scaled
 from .onsets import ENV_VERSION, Articulation, vocal_envelope
 from .keydetect import detect_key
 from .lines import build_lines, lines_from_words
@@ -92,7 +92,7 @@ def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict |
     raw = library.read_json(d / "notes_raw.json")
     song = library.load_song(song_id)
     level = detail_level or song.settings.detail_level
-    notes, params = clean_notes(raw, level, overrides)
+    notes, params = clean_notes(raw, level, overrides, tempo=song.tempo_bpm)
     key = detect_key(notes)
 
     def upd(s: Song):
@@ -157,7 +157,7 @@ def _apply_transcript(song_id: str) -> None:
     fresh = None
     raw_path = d / "notes_raw.json"
     if raw_path.exists() and not any(n.edited for n in song.notes):
-        fresh, _ = clean_notes(library.read_json(raw_path), song.settings.detail_level)
+        fresh, _ = clean_notes(library.read_json(raw_path), song.settings.detail_level, tempo=song.tempo_bpm)
 
     def upd(s: Song):
         s.words = [Word(**w) for w in words]
@@ -197,7 +197,7 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
         for i, l in enumerate(lyric_lines):
             l["index"] = i
         all_lines = attach_notes(notes, words, lyric_lines, art=art,
-                                 params=params_for(s.settings.detail_level),
+                                 params=tempo_scaled(params_for(s.settings.detail_level), s.tempo_bpm),
                                  language=s.language.override or s.language.detected)
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]

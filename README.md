@@ -9,10 +9,13 @@ notealong/
 ├── service/     Python processing service (FastAPI): Demucs → Basic Pitch → cleanup → Whisper → alignment
 │   └── notealong/catalog/   tools that build and import the built-in songs
 ├── web/         Next.js app (Discover, My songs, processing view, player, edit mode, print/export)
+│   └── public/instruments/  sampled instruments for "Hear it played" (FLAC, loaded on demand)
 ├── catalog/     Built-in songs that ship with the app (public domain + Creative Commons), see below
-│   └── songs/   hand-authored melodies in a small text format (*.song)
+│   ├── songs/   hand-authored melodies in a small text format (*.song)
+│   └── LICENSES.md  every sound source used (instrument recordings, soundfonts) and its licence
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
-├── docs/        Screenshots (screenshots/before, screenshots/after), design principles and the three design directions
+├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md (the latest round of work),
+│                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
 
@@ -71,6 +74,13 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
    play something from Discover while you wait.
 4. Open the song: press play (or space). After a short count-in the backing track plays and the current
    word and note light up. Notes above words are what you finger on your instrument.
+   - **Timing guide** (on by default, switch in settings): a bar under each note shows how long to hold it,
+     a line sweeps through the words and reaches each note exactly when it starts, the next note gets a
+     "get ready" outline one beat ahead, and after a pause of more than two seconds the next note counts
+     you in: 3, 2, 1.
+   - **Hear it played** (button in the transport bar, or `H`): a sampled version of your instrument plays
+     the melody along with the backing track, at sounding pitch, following key, octave, speed, loop and
+     edits. Its volume is in settings. The sound for an instrument is downloaded the first time you use it.
 5. Side panel (⚙︎): key (higher/lower), octave, speed, loop, backing volume, quiet guide vocal, note
    names (C♯ / D♭ / Do Re Mi / Sa Re Ga), detail level, lyric language and script, paste the correct lyrics,
    export (PDF sheet, MusicXML).
@@ -101,15 +111,20 @@ words, or recordings under CC0, CC BY or CC BY-SA (never NonCommercial or NoDeri
 
 Two kinds of song:
 
-- **Hand-authored public-domain classics** in `catalog/songs/*.song`, a small text format: header, chords
+- **Hand-authored public-domain songs** in `catalog/songs/*.song`, a small text format: header, chords
   per bar, then lyric lines with one note per syllable (see `catalog/songs/README.md`). The build turns each
-  file into exact note data, renders a backing track (chords, bass, light percussion) and a guide melody with
-  FluidSynth and the MIT-licensed MuseScore General soundfont, generates cover art and rates the difficulty
-  from the note range, number of different notes, speed and jumps.
+  file into exact note data and renders a backing track played by a small band chosen for the song (23
+  styles: folk, gospel, carol, swing, waltz, latin, celtic, shanty and more), with an instrumental intro,
+  a moving bass line, drum fills and a proper mix (`arrange.py`, `render.py`), plus a quiet guide melody,
+  cover art and a difficulty rating. Each melody was checked against a notated source, recorded in the
+  file's `source_url` and `attribution` lines.
 - **Creative Commons recordings** imported with `import_cc`: the recording goes through the normal pipeline
   (Demucs, Basic Pitch, cleanup), then every note is checked against a second pitch tracker (pYIN) and clear
-  mistakes are fixed or dropped, exactly as a careful edit-mode pass would do. Hand-made word timings can be
-  supplied instead of Whisper. Artist, source and licence are stored and shown on the song page.
+  mistakes are fixed or dropped. The stems are loudness-matched to the built-in tracks. Hand-made word
+  timings can be supplied instead of Whisper. Artist, source and licence are stored and shown on the song page.
+
+Discover is built for a large catalog: "Jump back in", "New this week", featured and beginner rows, real
+recordings, the biggest styles, a Browse index (styles, parts of the world, languages), search, and sorting.
 
 Built-in songs are read-only: your settings and any note fixes for them are kept in `library/.catalog/`, and
 key-shifted renders in `library/.cache/`. "Delete" on a built-in song only resets those.
@@ -130,7 +145,23 @@ python -m notealong.catalog.import_cc --audio ~/Downloads/song.mp3 --id artist-s
     --licence "CC BY 4.0" --licence-url https://creativecommons.org/licenses/by/4.0/ \
     --genre Pop --language en [--lyrics lyrics.txt --words words.csv]
 python -m notealong.catalog.build --rerate     # optional: recompute difficulty ratings and the index
+
+# Find and import Creative Commons songs with vocals from the Internet Archive's mirror of Jamendo
+# (CC BY and CC BY-SA albums only; each track is screened, imported, judged, and logged)
+python scripts/import_ia_jamendo.py --want 60 --max-tries 120     # run ONE at a time: each needs several GB of RAM
 ```
+
+Tools for keeping the catalog honest (all under `python -m notealong.catalog.…`):
+
+| Tool | What it does |
+|---|---|
+| `build --jobs 6 [--force] [--only id]` | renders hand-authored songs, several at once |
+| `audit` | measures every rendered backing track: loudness, peaks, frequency balance, silences, intro length |
+| `recheck` | works out the notes of the CC recordings again from the stored raw detection (seconds per song) |
+| `evaluate [--tune]` | note accuracy against an independent reference (human word timings + CREPE pitch) |
+
+After listening to a recording's notes, always look at the words too: a cover of someone else's song can
+carry a CC licence on Jamendo that its uploader had no right to give.
 
 The web app reads the index from `GET /api/catalog`; a catalog song opens through the same
 `/api/songs/{id}` endpoints as an upload, so every player feature works on it.
@@ -164,7 +195,11 @@ Set `NOTEALONG_FREE_UPLOADS=3` to try the limit today.
 5. `align.py` – pasted lyrics are aligned to the transcribed words (fuzzy sequence alignment) and take
    their timings; unmatched words are interpolated between anchors. Line breaks in the paste become lines.
 6. `attach.py` – each note is attached to the word sung at that moment (largest overlap, with a small
-   tolerance); notes outside any word form "no lyrics" blocks. Same-pitch re-onsets inside one word are joined.
+   tolerance); notes outside any word form "no lyrics" blocks. Then `held.py` joins the fragments of held
+   notes: same-pitch pieces, scoops, tails and vibrato flips become one long note unless a new syllable
+   starts, the sound really breaks (`onsets.py` measures onset strength and level on the vocals stem) or
+   the gap is long. A word never ends up with fewer notes than it has syllables, so real repeats stay.
+   The time thresholds follow the tempo (`cleanup.tempo_scaled`), so fast songs keep their short notes.
 7. `song.json` – everything the player needs (see `schemas.py`). The layout is flat so it can move to
    Supabase tables (songs, words, notes, sessions) later.
 
@@ -180,8 +215,13 @@ with Rubber Band (`GET /api/songs/{id}/audio/backing?shift=-2`), cached per song
 ```bash
 cd service && source .venv/bin/activate && pytest           # cleanup, key detection, alignment, romanization, API,
                                                               # and an end-to-end synthesized melody through Basic Pitch
-cd web && npm test                                            # transposition, range fitting, note naming, lines, MusicXML
+cd web && npm test                                            # transposition, range fitting, note naming, lines, MusicXML,
+                                                              # timing guide, scheduler ("no drift"), sampler, Discover
 ```
+
+Two browser checks need Playwright (not a dependency; point `PLAYWRIGHT_DIR` at a folder that has it):
+`web/scripts/check-hear-sync.mjs` measures, note by note over a whole song, how far "Hear it played" is
+from the backing track, and `web/scripts/render-hear-demo.mjs` renders the sampler offline to a WAV file.
 
 ## Phase 2 notes (designed for, not built)
 

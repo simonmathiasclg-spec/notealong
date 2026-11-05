@@ -91,8 +91,9 @@ def recheck(song_id: str, dry_run: bool = False) -> dict:
     d = CATALOG_DIR / song_id
     song = json.loads((d / "song.json").read_text(encoding="utf-8"))
     before = len(song["notes"])
-    plain, _, _ = derive(song_id, song["settings"].get("detail_level", "balanced"), held=False)
-    notes, all_lines, report = derive(song_id, song["settings"].get("detail_level", "balanced"))
+    tempo = song.get("tempo_bpm")
+    plain, _, _ = derive(song_id, song["settings"].get("detail_level", "balanced"), held=False, tempo=tempo)
+    notes, all_lines, report = derive(song_id, song["settings"].get("detail_level", "balanced"), tempo=tempo)
     row = {"id": song_id, "before": before, "without_joining": len(plain), "after": len(notes), **{k: report["held"].get(k, 0) for k in ("same_pitch", "wobbles", "bends")}}
     if dry_run:
         return row
@@ -105,7 +106,8 @@ def recheck(song_id: str, dry_run: bool = False) -> dict:
     song["words"] = report["words"]
     song["lines"] = all_lines
     song["key"] = key
-    song["settings"]["cleanup"] = params_for(song["settings"].get("detail_level", "balanced")).to_dict()
+    from ..pipeline.cleanup import tempo_scaled
+    song["settings"]["cleanup"] = tempo_scaled(params_for(song["settings"].get("detail_level", "balanced")), tempo).to_dict()
     (d / "song.json").write_text(json.dumps(song, indent=1, ensure_ascii=False), encoding="utf-8")
     meta = json.loads((d / "catalog.json").read_text(encoding="utf-8"))
     rating, details = rate_difficulty(notes)

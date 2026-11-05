@@ -81,8 +81,10 @@ DETAIL_LEVELS: dict[str, CleanupParams] = {
         neighbour_semitones=2, octave_bias=0.6, continuity_bonus=0.25, leap_penalty=0.02, min_level_db=-28,
         held_gap=0.20, onset_min=0.75, dip_min_db=8.0, wobble_len=0.20, bend_len=0.25,
     ),
+    # min_note_len was 0.12 until the accuracy evaluation (catalog/evaluate.py): 0.10 with tempo-aware
+    # scaling raised note F1 from 0.56 to 0.61 on the reference songs at the same precision.
     "balanced": CleanupParams(
-        min_note_len=0.12, merge_gap=0.08, min_confidence=0.35, min_relative_amp=0.30,
+        min_note_len=0.10, merge_gap=0.08, min_confidence=0.35, min_relative_amp=0.30,
         neighbour_semitones=2, octave_bias=0.5, continuity_bonus=0.2, leap_penalty=0.015, min_level_db=-32,
     ),
     "detailed": CleanupParams(

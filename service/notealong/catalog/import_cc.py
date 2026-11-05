@@ -146,7 +146,7 @@ def run(a) -> dict:
         cache_dir.mkdir(parents=True, exist_ok=True)
         (cache_dir / "envelope.json").write_text(json.dumps(env, separators=(",", ":")), encoding="utf-8")
         tempo = estimate_tempo(a.audio)
-        notes, params = clean_notes(raw, a.detail)
+        notes, params = clean_notes(raw, a.detail, tempo=tempo)
         if not a.no_review:
             print(f"[{a.id}] reviewing {len(notes)} notes against a second pitch tracker …")
             notes, report = review_notes(notes, vocals_wav, cache=CATALOG_DIR / ".cache" / a.id / "pyin.npz")

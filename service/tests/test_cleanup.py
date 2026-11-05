@@ -75,3 +75,19 @@ def test_quiet_bleed_notes_dropped():
     raw = [dict(n(0, 1, 60), level_db=-60.0), dict(n(2, 3, 64), level_db=-3.0)]
     out, _ = clean_notes(raw, "balanced")
     assert [x["midi"] for x in out] == [64]
+
+
+def test_tempo_aware_thresholds_keep_fast_notes():
+    from notealong.pipeline.cleanup import tempo_scaled
+    base = params_for("balanced")
+    assert tempo_scaled(base, None) == base and tempo_scaled(base, 90) == base       # slow songs: unchanged
+    fast = tempo_scaled(base, 150)
+    assert fast.min_note_len == round(base.min_note_len * 100 / 150, 4)
+    assert fast.held_gap < base.held_gap and fast.min_confidence == base.min_confidence   # only the time thresholds move
+    very_fast = tempo_scaled(base, 400)                                               # a doubled tempo estimate cannot wreck it
+    assert very_fast.min_note_len == round(base.min_note_len * 0.6, 4)
+    # sixteenth notes at 150 bpm last 0.1 s: a run of them survives at that tempo, and is thinned at a slow one
+    run = [n(i * 0.1, i * 0.1 + 0.085, 60 + (i % 4) * 2) for i in range(12)]
+    kept_fast, _ = clean_notes(run, "balanced", tempo=150)
+    kept_slow, _ = clean_notes(run, "balanced", tempo=80)
+    assert len(kept_fast) == 12 and len(kept_slow) < 12
