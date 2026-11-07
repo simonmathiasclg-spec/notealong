@@ -2,9 +2,10 @@
 // My songs: what you added yourself. Built-in songs live on Discover.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, Loader2, Music2, Search, Trash2, Upload } from "lucide-react";
+import { AlertCircle, Loader2, Search, Trash2 } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
-import { PageDropZone, UploadButton } from "@/components/UploadZone";
+import { PageDropZone } from "@/components/UploadZone";
+import { DropHero } from "@/components/DropHero";
 import { ServiceDown } from "@/components/ServiceDown";
 import { InstrumentIcon } from "@/components/InstrumentIcon";
 import { api, formatTime } from "@/lib/api";
@@ -19,7 +20,7 @@ const STEP_LABEL: Record<string, string> = { stems: "Separating the singer from 
 export default function LibraryPage() {
   const [songs, setSongs] = useState<SongSummary[] | null>(null);
   const [serviceDown, setServiceDown] = useState(false);
-  const { uploads, addFiles: onFiles, dismiss } = useUploads();
+  const { uploads, addFiles: onFiles } = useUploads();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"recent" | "title">("recent");
   const [instrument] = useInstrumentPref();
@@ -31,7 +32,9 @@ export default function LibraryPage() {
     catch { setServiceDown(true); setSongs([]); }
   }, []);
   useEffect(() => { refresh(); }, [refresh]);
-  useEffect(() => { refresh(); }, [uploads.length, refresh]);
+  // a new upload, or one that finished, changes the list
+  const uploadsKey = uploads.map((u) => `${u.id}:${u.status}`).join(",");
+  useEffect(() => { refresh(); }, [uploadsKey, refresh]);
   useEffect(() => {
     if (!songs?.some((s) => s.status === "processing")) return;
     const t = setInterval(refresh, 3000);
@@ -54,26 +57,10 @@ export default function LibraryPage() {
       <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-20 sm:px-8">
         {serviceDown && <div className="mb-8"><ServiceDown what="your songs" /></div>}
 
-        {uploads.length > 0 && (
-          <div className="mb-6 space-y-2" aria-live="polite">
-            {uploads.map((u) => (
-              <div key={u.id} className="panel flex items-center gap-4 p-4 text-sm">
-                {u.error ? <AlertCircle className="h-5 w-5 text-danger" /> : <Loader2 className="h-5 w-5 animate-spin text-accent" />}
-                <div className="min-w-0 flex-1">
-                  <div className="truncate font-medium">{u.name}</div>
-                  <div className="text-muted">{u.error ?? (u.progress < 1 ? `Uploading, ${Math.round(u.progress * 100)}%` : "Starting…")}</div>
-                  {!u.error && <div className="mt-2 h-1 overflow-hidden rounded-full bg-sunken"><div className="h-full rounded-full bg-accent transition-[width]" style={{ width: `${Math.max(3, u.progress * 100)}%` }} /></div>}
-                </div>
-                {u.error && <button className="btn btn-ghost btn-sm" onClick={() => dismiss(u.id)}>Dismiss</button>}
-              </div>
-            ))}
-          </div>
-        )}
-
         {songs === null ? (
           <div className="space-y-3" aria-busy="true">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="skel h-20 w-full" />)}</div>
         ) : songs.length === 0 ? (
-          !serviceDown && <EmptyState onFiles={onFiles} />
+          !serviceDown && <EmptyState />
         ) : (
           <>
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -108,21 +95,10 @@ export default function LibraryPage() {
   );
 }
 
-function EmptyState({ onFiles }: { onFiles: (f: File[]) => void }) {
-  return (
-    <div className="mx-auto flex max-w-xl flex-col items-center py-16 text-center sm:py-24">
-      <div className="mb-7 grid h-20 w-20 place-items-center rounded-[1.4rem] border border-border bg-elev text-accent"><Upload className="h-8 w-8" /></div>
-      <h1 className="display-lg text-[2.2rem]">Bring your own song</h1>
-      <p className="mt-4 max-w-md text-[1.02rem] leading-relaxed text-muted">
-        Add an MP3, WAV or M4A. NoteAlong separates the singer, finds the notes of the melody and lines them up with the words.
-        It takes a few minutes; the song then plays like any other.
-      </p>
-      <div className="mt-8"><UploadButton onFiles={onFiles} big label="Choose a file" /></div>
-      <p className="mt-4 text-sm text-faint">or drop a file anywhere on this page</p>
-      <p className="mt-10 text-sm text-muted">Want to play something right now? <Link href="/" className="font-medium text-fg underline underline-offset-4">Pick a built-in song</Link>.</p>
-    </div>
-  );
+function EmptyState() {
+  return <div className="py-2 sm:py-6"><DropHero firstRun /></div>;
 }
+
 
 function SongRow({ song, onDeleted }: { song: SongSummary; onDeleted: () => void }) {
   const inst = getInstrument(song.user?.instrument ?? "alto_sax");
@@ -136,8 +112,10 @@ function SongRow({ song, onDeleted }: { song: SongSummary; onDeleted: () => void
   };
   return (
     <Link href={`/songs/${song.id}`} className="group relative flex items-center gap-4 px-4 py-3.5 transition hover:bg-hover first:rounded-t-[1.25rem] last:rounded-b-[1.25rem] sm:px-5">
-      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl ${status === "failed" ? "bg-danger-soft text-danger" : "bg-sunken text-muted"}`}>
-        {status === "processing" ? <Loader2 className="h-5 w-5 animate-spin text-accent" /> : status === "failed" ? <AlertCircle className="h-5 w-5" /> : <Music2 className="h-5 w-5" />}
+      <div className={`relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl ${status === "failed" ? "bg-danger-soft text-danger" : "bg-sunken text-muted"}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={api.uploadCoverUrl(song.id)} alt="" className={`absolute inset-0 h-full w-full object-cover ${status === "ready" ? "" : "opacity-40"}`} loading="lazy" draggable={false} />
+        {status === "processing" ? <Loader2 className="relative h-5 w-5 animate-spin text-accent" /> : status === "failed" ? <AlertCircle className="relative h-5 w-5" /> : null}
       </div>
       <div className="min-w-0 flex-1">
         <div className="truncate font-semibold leading-tight">{song.title}</div>

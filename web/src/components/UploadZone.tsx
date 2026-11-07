@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 /** Audio and video files; a video's soundtrack is used. Kept in one place with the drop filter. */
 export const ACCEPT_EXT = /\.(mp3|wav|m4a|aac|flac|ogg|oga|opus|aiff?|wma|m4b|caf|mp4|m4v|mov|webm|mkv|avi|mpe?g|3gp)$/i;
-const ACCEPT = ".mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff,.aif,.wma,.mp4,.m4v,.mov,.webm,.mkv,.avi,audio/*,video/*";
+export const ACCEPT = ".mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff,.aif,.wma,.mp4,.m4v,.mov,.webm,.mkv,.avi,audio/*,video/*";
 
 export function UploadButton({ onFiles, big = false, label = "Add a song", icon, className = "", variant = "primary" }: { onFiles: (files: File[]) => void; big?: boolean; label?: string; icon?: React.ReactNode; className?: string; variant?: "primary" | "plain" }) {
   const ref = useRef<HTMLInputElement>(null);

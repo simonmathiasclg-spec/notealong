@@ -11,8 +11,8 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
-say "Homebrew packages (ffmpeg with Rubber Band, Python 3.11, Node, FluidSynth for the built-in songs)"
-for pkg in ffmpeg rubberband python@3.11 node fluid-synth; do
+say "Homebrew packages (ffmpeg, Rubber Band for key changes, Chromaprint for duplicate uploads, Python 3.11, Node, FluidSynth for the built-in songs)"
+for pkg in ffmpeg rubberband chromaprint python@3.11 node fluid-synth; do
   brew list --versions "$pkg" >/dev/null 2>&1 || brew install "$pkg"
 done
 

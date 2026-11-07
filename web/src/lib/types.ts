@@ -110,7 +110,12 @@ export type Song = {
   user: UserSession;
   steps: Record<string, StepState>;
   error?: string | null;
+  /** Measurements made while processing: leftover_vocal_db is how much of the singer is still in the backing (more negative is cleaner). */
+  quality?: { leftover_vocal_db?: number };
 };
+
+/** Above this, the singer can be heard faintly under the backing track and the player says so. */
+export const LEFTOVER_VOICE_NOTICEABLE_DB = -28;
 
 export type SongSummary = Omit<Song, "words" | "lines" | "notes"> & { word_count: number; note_count: number };
 

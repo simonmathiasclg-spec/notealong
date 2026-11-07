@@ -20,9 +20,13 @@ export const api = {
   catalog: () => fetch(`${API}/api/catalog`, { cache: "no-store" }).then(j<Catalog>),
   me: () => fetch(`${API}/api/me`, { cache: "no-store" }).then(j<Entitlements>),
   coverUrl: (id: string) => `${API}/api/catalog/${id}/cover`,
+  /** An upload's cover (chosen, embedded in the file, or generated); `v` busts the cache after a change. */
+  uploadCoverUrl: (id: string, v?: number) => `${API}/api/songs/${id}/cover${v ? `?v=${v}` : ""}`,
+  putCover: (id: string, file: File) => { const fd = new FormData(); fd.append("file", file); return fetch(`${API}/api/songs/${id}/cover`, { method: "PUT", body: fd }).then(j<{ ok: boolean }>); },
+  deleteCover: (id: string) => fetch(`${API}/api/songs/${id}/cover`, { method: "DELETE" }).then(j<{ ok: boolean }>),
   getSong: (id: string) => fetch(`${API}/api/songs/${id}`, { cache: "no-store" }).then(j<Song>),
   upload: (file: File, opts: { instrument?: string; detail_level?: string } = {}, onProgress?: (p: number) => void) =>
-    new Promise<Song>((resolve, reject) => {
+    new Promise<Song & { duplicate_of?: string }>((resolve, reject) => {
       const fd = new FormData();
       fd.append("file", file);
       if (opts.instrument) fd.append("instrument", opts.instrument);

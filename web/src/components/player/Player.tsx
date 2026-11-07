@@ -15,7 +15,7 @@ import { HearEngine, type HearNote } from "@/lib/hear";
 import { accentFor, accentVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
-import type { Note, Song, UserSession, Word } from "@/lib/types";
+import { LEFTOVER_VOICE_NOTICEABLE_DB, type Note, type Song, type UserSession, type Word } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { ThemeToggle } from "../AppHeader";
 import { LyricStage } from "./LyricStage";
@@ -347,6 +347,12 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   };
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 4000); return () => clearTimeout(t); }, [toast]);
+  const leftoverNoted = useRef(false);
+  useEffect(() => {
+    if (!engineState.playing || leftoverNoted.current || (song.quality?.leftover_vocal_db ?? -99) <= LEFTOVER_VOICE_NOTICEABLE_DB) return;
+    const t = setTimeout(() => { leftoverNoted.current = true; setToast("A little of the singer is still in this backing track. That is the recording, not the guide voice."); }, 1500);
+    return () => clearTimeout(t);
+  }, [engineState.playing, song.quality]);
   useEffect(() => { if (saveState !== "saved") return; const t = setTimeout(() => setSaveState("idle"), 2000); return () => clearTimeout(t); }, [saveState]);
 
   const exportPdf = () => {
@@ -477,6 +483,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
         onReprocess={async () => { await api.rerun(song.id, "all"); await reload(); }}
+        onSongChanged={(s) => setSong((cur) => ({ ...cur, title: s.title, artist: s.artist }))}
         onExportPdf={exportPdf} onExportMusicXml={exportMusicXml}
         catalog={song.catalog ?? null}
       />

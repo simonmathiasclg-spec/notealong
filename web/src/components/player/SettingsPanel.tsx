@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronRight, Download, FileText, Info, Loader2, Minus, Plus, RotateCcw, X } from "lucide-react";
+import { ChevronRight, Download, FileText, Info, Loader2, Minus, Pencil, Plus, RotateCcw, X } from "lucide-react";
 import { getInstrument } from "@/lib/instruments";
 import { keyName, keyShiftLabel } from "@/lib/notes";
 import { formatTime } from "@/lib/api";
-import type { CatalogEntry, Notation, OctaveMode, Song, UserSession } from "@/lib/types";
+import { LEFTOVER_VOICE_NOTICEABLE_DB, type CatalogEntry, type Notation, type OctaveMode, type Song, type UserSession } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { Modal } from "../Modal";
 import { InstrumentPicker } from "../InstrumentPicker";
+import { SongDetailsModal } from "./SongDetailsModal";
 
 const LANGUAGES: [string, string][] = [
   ["", "Auto-detect"], ["en", "English"], ["es", "Spanish"], ["fr", "French"], ["de", "German"], ["it", "Italian"], ["pt", "Portuguese"],
@@ -39,6 +40,8 @@ type Props = {
   onLanguage: (lang: string) => void;
   onPasteLyrics: (text: string) => Promise<void>;
   onReprocess: () => void;
+  /** Title, artist or cover changed (uploads only). */
+  onSongChanged: (s: Song) => void;
   onExportPdf: () => void;
   onExportMusicXml: () => void;
   keyLoading: boolean;
@@ -75,6 +78,7 @@ export function SettingsPanel(p: Props) {
   const inst = getInstrument(session.instrument);
   const [pickInstrument, setPickInstrument] = useState(false);
   const [lyricsOpen, setLyricsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   return (
     <>
@@ -138,6 +142,9 @@ export function SettingsPanel(p: Props) {
                     <label className="block text-sm">
                       <div className="mb-1.5 flex justify-between"><span>Backing track</span><span className="text-muted">{Math.round(session.backing_volume * 100)}%</span></div>
                       <input type="range" min={0} max={1} step={0.05} value={session.backing_volume} onChange={(e) => update({ backing_volume: Number(e.target.value) })} aria-label="Backing track volume" />
+                      {(song.quality?.leftover_vocal_db ?? -99) > LEFTOVER_VOICE_NOTICEABLE_DB && (
+                        <p className="mt-1.5 text-xs leading-relaxed text-faint">A little of the singer is still in this backing track; that is the recording, not the guide voice.</p>
+                      )}
                     </label>
                     <Switch checked={p.hear} onChange={() => p.onHear()} label={`Hear it played on the ${inst.name.toLowerCase()}`} />
                     {p.hear && (
@@ -228,6 +235,11 @@ export function SettingsPanel(p: Props) {
                     </p>
                   </Row>
                 ) : (
+                  <Row label="Title, artist and cover">
+                    <button className="btn w-full" onClick={() => setDetailsOpen(true)}><Pencil className="h-4 w-4" /> Edit the details</button>
+                  </Row>
+                )}
+                {p.catalog ? null : (
                   <Row label="Start over" hint={song.settings.whisper_model ?? undefined}>
                     <button className="btn w-full" disabled={!!p.busy} onClick={p.onReprocess}><RotateCcw className="h-4 w-4" /> Work out the notes again</button>
                     <p className="mt-1.5 text-xs text-faint">Takes a few minutes and replaces any notes you fixed.</p>
@@ -239,6 +251,7 @@ export function SettingsPanel(p: Props) {
         )}
       </AnimatePresence>
 
+      {!p.catalog && <SongDetailsModal open={detailsOpen} onClose={() => setDetailsOpen(false)} song={song} onSaved={p.onSongChanged} />}
       <Modal open={pickInstrument} onClose={() => setPickInstrument(false)} title="Your instrument" wide>
         <InstrumentPicker value={session.instrument} onChange={(id) => { update({ instrument: id }); setPickInstrument(false); }} />
       </Modal>

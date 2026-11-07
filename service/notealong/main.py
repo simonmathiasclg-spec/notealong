@@ -10,7 +10,7 @@ from typing import Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from pydantic import BaseModel
 
 from . import entitlements, library
@@ -18,6 +18,8 @@ from .catalog import store as catalog_store
 from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
 from .jobs import manager, recover_interrupted
 from .pipeline import audio as audio_mod
+from .pipeline import fingerprint as fp_mod
+from .catalog.cover import cover_svg
 from .pipeline.runner import STEP_ORDER, run_paste_lyrics
 from .schemas import Line, Note, Song, UserSession, Word
 
@@ -34,6 +36,11 @@ ALLOWED_EXT = AUDIO_EXT | VIDEO_EXT
 def _startup() -> None:
     LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
     recover_interrupted()
+    # songs added before duplicate detection existed get their fingerprint now (a fraction of a second each)
+    for s in library.list_songs():
+        if s.status == "ready" and "fingerprint" not in s.source and s.files.get("original"):
+            print_ = fp_mod.fingerprint(library.song_dir(s.id) / s.files["original"])
+            library.update_song(s.id, lambda x, print_=print_: x.source.__setitem__("fingerprint", print_))
 
 
 @app.get("/api/health")
@@ -70,12 +77,61 @@ def get_cover(song_id: str):
     return FileResponse(p, media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=86400"})
 
 
+@app.get("/api/songs/{song_id}/cover")
+def get_upload_cover(song_id: str):
+    """An upload's cover: the one the user chose, else the picture embedded in the file, else a generated one.
+    Private to this library, like everything about an upload."""
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    d = library.song_dir(song_id)
+    for name in ("cover_user.jpg", "cover_user.png", song.files.get("cover") or ""):
+        if name and (d / name).exists():
+            media = "image/png" if name.endswith(".png") else "image/jpeg"
+            return FileResponse(d / name, media_type=media, headers={"Cache-Control": "private, max-age=60"})
+    svg = cover_svg(song_id, "Pop", song.title)
+    return Response(svg, media_type="image/svg+xml", headers={"Cache-Control": "private, max-age=3600"})
+
+
+@app.put("/api/songs/{song_id}/cover")
+async def put_upload_cover(song_id: str, file: UploadFile = File(...)):
+    """Replace the cover with a picture of the user's own (JPEG or PNG, up to 10 MB)."""
+    _not_catalog(song_id)
+    try:
+        library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    data = await file.read()
+    if len(data) > 10 * 1024 * 1024:
+        raise HTTPException(400, "That picture is bigger than 10 MB.")
+    kind = "jpg" if data[:3] == b"\xff\xd8\xff" else "png" if data[:8] == b"\x89PNG\r\n\x1a\n" else None
+    if kind is None:
+        raise HTTPException(400, "Use a JPEG or PNG picture for the cover.")
+    d = library.song_dir(song_id)
+    for old in ("cover_user.jpg", "cover_user.png"):
+        (d / old).unlink(missing_ok=True)
+    (d / f"cover_user.{kind}").write_bytes(data)
+    return {"ok": True}
+
+
+@app.delete("/api/songs/{song_id}/cover")
+def delete_upload_cover(song_id: str):
+    """Back to the embedded or generated cover."""
+    _not_catalog(song_id)
+    d = library.song_dir(song_id)
+    for old in ("cover_user.jpg", "cover_user.png"):
+        (d / old).unlink(missing_ok=True)
+    return {"ok": True}
+
+
 def _summary(s: Song) -> dict:
     d = s.model_dump()
     for k in ("words", "notes", "lines"):
         d.pop(k, None)
     d["word_count"] = len(s.words)
     d["note_count"] = len(s.notes)
+    d["source"].pop("fingerprint", None)
     return d
 
 
@@ -136,6 +192,15 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
     if info["duration"] < 5:
         shutil.rmtree(d, ignore_errors=True)
         raise HTTPException(400, "That file is shorter than 5 seconds. Please upload a whole song.")
+    # The same recording again (another export, bitrate, format or the video of it)? Reuse what is there.
+    print_ = fp_mod.fingerprint(original)
+    if print_:
+        for other in library.list_songs():
+            if other.status == "ready" and abs(other.duration - info["duration"]) < 3.0 and fp_mod.same_recording(print_, other.source.get("fingerprint")):
+                shutil.rmtree(d, ignore_errors=True)
+                out = other.model_dump()
+                out["duplicate_of"] = other.id
+                return out
     cover = audio_mod.extract_picture(original, d / "cover.jpg") if info["has_picture"] else None
     if ext in VIDEO_EXT or info["has_video"]:
         # a video: keep only its soundtrack
@@ -151,7 +216,7 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
         id=song_id, title=title or info.get("title") or guessed_title,
         artist=artist or info.get("artist") or guessed_artist,
         duration=round(info["duration"], 3), created_at=library.now_iso(), updated_at=library.now_iso(),
-        source={"kind": "upload", "filename": file.filename, "format": ext.lstrip("."), "album": info.get("album")},
+        source={"kind": "upload", "filename": file.filename, "format": ext.lstrip("."), "album": info.get("album"), "fingerprint": print_},
         files={"original": original.name, **({"cover": cover.name} if cover else {})},
     )
     song.settings.detail_level = detail_level if detail_level in DETAIL_LEVELS else "balanced"

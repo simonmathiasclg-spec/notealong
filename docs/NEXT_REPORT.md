@@ -168,3 +168,46 @@ press to playing in the new key (350 ms of that is the debounce that lets severa
 as one). A jump of two or more semitones to a key not rendered yet: 5 to 6 s, with "Preparing the new
 key…" shown meanwhile and playback continuing from the same position. On the catalog song (1 minute)
 an unrendered key takes about 1.5 s.
+
+## Part 3: effortless uploads
+
+What changed, all tried in Chromium against the running app:
+
+* **The hero is the drop zone.** Discover and a first-run My songs open with "Drop in a song you
+  love": one big target that takes a drop, a click (file picker, several files allowed) or a paste.
+  Next to it, tonight's catalog pick as "Or start with this one"; the shelves below are headed "Or
+  start with one of these", which becomes "…while it processes" while something is being added.
+  The old whole-window drop overlay stays, so a file can be dropped anywhere on any page.
+* **Paste.** A file pasted anywhere outside a text field (Finder, a file manager, a copied attachment)
+  is added like a dropped one.
+* **A queue that follows you.** Several files are uploaded one after another and then followed while
+  the service processes them, in a small panel at the bottom right of every page (except the song's
+  own page, where the progress screen already is). Each row shows the step and the time left, then
+  "Ready to play" with a Play button, "Already in My songs", or the plain-language reason it could not
+  be added. Browsing and playing carry on meanwhile. Checked with three files at once from Discover,
+  then moving to My songs: the panel kept updating and both new songs were ready after 70 s.
+* **Video.** MP4, MOV, WEBM and MKV (and a few others) are accepted; the soundtrack is extracted with
+  ffmpeg and the video is not kept. Checked with an MP4 made from a CC recording.
+* **Title, artist and cover.** Read from the file's tags when present (checked: an MP3 whose tags say
+  "Tonight" by Josh Bonanno opens with that title and artist). The embedded picture becomes the
+  cover; a song without one gets a generated cover in the same style as the catalog's. Settings has
+  "Edit the details": title, artist, and a replace-the-cover button (JPEG or PNG, up to 10 MB) with a
+  way back to the original. Covers of uploads are served privately from the user's own library and
+  shown on My songs.
+* **Duplicates.** Every upload is fingerprinted (Chromaprint through `fpcalc`, installed by setup.sh;
+  without it a built-in chroma print is used) and compared with the songs already in the library at
+  a few alignments. The same recording again, as another MP3 bitrate, M4A, FLAC or the soundtrack
+  of a video, scores 0.96 to 1.00 while different songs score at most 0.59, so the threshold sits well
+  between them. A duplicate is not processed again: the existing song opens, and the queue says
+  "Already in My songs". `tests/test_fingerprint.py` covers both methods. (Songs added before this
+  run get a fingerprint when the service starts.)
+* **Unsupported and protected files** get a specific sentence (Part 1); the queue shows it.
+* **Paste the correct words** already existed in Settings and re-aligns them with the singing; it
+  was tried and left as it was.
+* **Leftover voice.** When a backing track measures above −28 dB (Part 1's measure), the player says
+  once, when playback starts, "A little of the singer is still in this backing track. That is the
+  recording, not the guide voice", and the same line sits under the backing volume slider. One of the
+  test uploads (Tonight, −26 dB) triggers it; the six from Part 1 do not.
+
+Found on the way: a title with an ampersand produced an invalid SVG cover (the catalog's "Lovers &
+Liars" had a broken image). Fixed by escaping, and that cover was rebuilt.

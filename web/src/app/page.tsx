@@ -7,7 +7,8 @@ import { AppHeader } from "@/components/AppHeader";
 import { Welcome } from "@/components/Welcome";
 import { PageDropZone } from "@/components/UploadZone";
 import { ServiceDown } from "@/components/ServiceDown";
-import { Browse, DiscoverSkeleton, Filters, Hero, Shelf, SongTile, SortMenu } from "@/components/discover/Discover";
+import { Browse, DiscoverSkeleton, Filters, Shelf, SongTile, SortMenu } from "@/components/discover/Discover";
+import { DropHero } from "@/components/DropHero";
 import { api } from "@/lib/api";
 import { applyFacet, buildCategories, buildShelves, facetLabel, facetValues, newSongs, pickTonight, searchCatalog, sortSongs, type Facet, type SortMode } from "@/lib/catalog";
 import { hasChosenInstrument, useInstrumentPref } from "@/lib/prefs";
@@ -24,7 +25,8 @@ export default function DiscoverPage() {
   const setFacet = (f: Facet) => { setFacetState(f); if (f.kind !== "all") window.scrollTo({ top: 0, behavior: "smooth" }); };
   const [welcome, setWelcome] = useState(false);
   const [, setInstrument, loaded] = useInstrumentPref();
-  const { addFiles } = useUploads();
+  const { addFiles, uploads } = useUploads();
+  const adding = uploads.some((u) => u.status === "uploading" || u.status === "processing");
 
   useEffect(() => {
     api.catalog().then((c) => { setSongs(c.songs); setServiceDown(false); }).catch(() => { setSongs([]); setServiceDown(true); });
@@ -75,7 +77,7 @@ export default function DiscoverPage() {
           )
         ) : (
           <div className="space-y-12">
-            {!browsing && tonight && <Hero song={tonight} count={all.length} />}
+            {!browsing && <DropHero pick={tonight} />}
             <div className="space-y-5">
               <Filters facet={facet} setFacet={setFacet} genres={genres} cultures={cultures} regions={regions} languages={languages} hasNew={hasNew} />
             </div>
@@ -102,7 +104,13 @@ export default function DiscoverPage() {
               </section>
             ) : (
               <>
-                {shelves.map((sh) => <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs} total={sh.total} onSeeAll={sh.facet ? () => setFacet(sh.facet!) : undefined} />)}
+                <div className="space-y-10">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <h2 className="display-md text-[1.45rem]">{adding ? "Or start with one of these while it processes" : "Or start with one of these"}</h2>
+                    <span className="text-sm text-muted">{all.length} songs, free to play right now</span>
+                  </div>
+                  {shelves.map((sh) => <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs} total={sh.total} onSeeAll={sh.facet ? () => setFacet(sh.facet!) : undefined} />)}
+                </div>
                 <Browse categories={categories} onPick={setFacet} />
                 <div>
                   <Shelf title="Every song" subtitle={`${all.length} songs`} songs={showAll ? sortSongs(all, sort) : sortSongs(all, sort).slice(0, 24)} grid action={<SortMenu value={sort} onChange={setSort} />} />

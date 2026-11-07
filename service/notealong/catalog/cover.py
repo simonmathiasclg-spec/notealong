@@ -39,6 +39,8 @@ def cover_hues(song_id: str, genre: str = "Folk") -> tuple[int, int]:
 
 
 def cover_svg(song_id: str, genre: str = "Folk", title: str = "", size: int = 600) -> str:
+    from xml.sax.saxutils import quoteattr
+    title = quoteattr(title)[1:-1]     # "&", "<" and quotes must not break the SVG
     r = _rng(song_id)
     base = HUE_BY_GENRE.get(genre, 200) + (r() - 0.5) * 24
     accent = base + 150 + (r() - 0.5) * 60
