@@ -80,7 +80,13 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   useEffect(() => {
     const engine = engineRef.current;
     if (!engine || !engineState.ready) return;
-    const t = setTimeout(async () => { setKeyLoading(true); await engine.setKeyShift(session.key_shift); setKeyLoading(false); }, 350);
+    const t = setTimeout(async () => {
+      setKeyLoading(true);
+      await engine.setKeyShift(session.key_shift);
+      setKeyLoading(false);
+      // the keys one step either way are rendered in the background now, so the next step is instant
+      api.prepareKeys(song.id, session.key_shift).catch(() => undefined);
+    }, 350);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.key_shift, engineState.ready]);

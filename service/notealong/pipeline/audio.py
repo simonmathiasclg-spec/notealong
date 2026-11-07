@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -89,10 +91,54 @@ def write_wav(path: Path, audio: np.ndarray, sr: int) -> None:
     sf.write(str(path), audio.T if audio.ndim == 2 and audio.shape[0] <= 2 else audio, sr)
 
 
-def pitch_shift_file(src: Path, dst: Path, semitones: int) -> Path:
-    """Shift pitch without changing speed using ffmpeg's rubberband filter."""
+_FFMPEG_RUBBERBAND: bool | None = None
+
+
+def _ffmpeg_has_rubberband() -> bool:
+    global _FFMPEG_RUBBERBAND
+    if _FFMPEG_RUBBERBAND is None:
+        out = subprocess.run(["ffmpeg", "-hide_banner", "-filters"], capture_output=True, text=True)
+        _FFMPEG_RUBBERBAND = " rubberband " in out.stdout
+    return _FFMPEG_RUBBERBAND
+
+
+def pitch_shift_engine() -> str:
+    """Which pitch shifter this machine has: 'rubberband' (the command line tool, R2 and R3 engines),
+    'ffmpeg-rubberband' (ffmpeg built with the filter) or 'ffmpeg-resample' (always available, lower quality)."""
+    if shutil.which("rubberband"):
+        return "rubberband"
+    if _ffmpeg_has_rubberband():
+        return "ffmpeg-rubberband"
+    return "ffmpeg-resample"
+
+
+def pitch_shift_file(src: Path, dst: Path, semitones: int, *, fine: bool = False, formant: bool = False) -> Path:
+    """Shift pitch without changing speed. Output length equals input length to the sample, so notes and
+    lyrics line up with every key.
+
+    fine=True uses Rubber Band's R3 engine (better, about four times slower than R2); formant=True keeps
+    the timbre of a voice when shifting it. Falls back to ffmpeg when the rubberband tool is missing."""
     ratio = 2 ** (semitones / 12)
-    run(["ffmpeg", "-y", "-v", "error", "-i", str(src),
-         "-af", f"rubberband=pitch={ratio:.6f}:pitchq=quality:transients=mixed",
+    engine = pitch_shift_engine()
+    if engine == "rubberband":
+        with tempfile.TemporaryDirectory() as td:
+            wav_in, wav_out = Path(td) / "in.wav", Path(td) / "out.wav"
+            run(["ffmpeg", "-y", "-v", "error", "-i", str(src), "-vn", "-c:a", "pcm_s16le", str(wav_in)])
+            cmd = ["rubberband", "-q", "-3" if fine else "-2", "-p", f"{semitones}"]
+            if formant:
+                cmd.append("-F")
+            run(cmd + [str(wav_in), str(wav_out)])
+            run(["ffmpeg", "-y", "-v", "error", "-i", str(wav_out), "-c:a", "libmp3lame", "-b:a", STEM_BITRATE, str(dst)])
+        return dst
+    if engine == "ffmpeg-rubberband":
+        run(["ffmpeg", "-y", "-v", "error", "-i", str(src), "-vn",
+             "-af", f"rubberband=pitch={ratio:.6f}:pitchq=quality:transients=mixed",
+             "-c:a", "libmp3lame", "-b:a", STEM_BITRATE, str(dst)])
+        return dst
+    # Plain ffmpeg: resample to move the pitch, then stretch the tempo back. Audible artefacts on
+    # big shifts, but it works everywhere; setup.sh installs rubberband so this is rarely used.
+    sr = SAMPLE_RATE
+    run(["ffmpeg", "-y", "-v", "error", "-i", str(src), "-vn",
+         "-af", f"aresample={sr},asetrate={int(round(sr * ratio))},atempo={1 / ratio:.6f},aresample={sr}",
          "-c:a", "libmp3lame", "-b:a", STEM_BITRATE, str(dst)])
     return dst

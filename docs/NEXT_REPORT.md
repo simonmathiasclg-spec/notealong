@@ -108,3 +108,63 @@ Each case was run through the real upload endpoint while the service was otherwi
 * Demucs on MPS was already in place; nothing to switch.
 * Whisper stays on CPU (int8): on this machine the small model transcribes a 3 minute song in 7 to 30 s,
   and faster-whisper has no MPS path.
+
+## Part 2: key change
+
+### Key changes were broken
+
+The first thing the verification found: every key change failed with a server error. The pitch shift
+used ffmpeg's `rubberband` filter, and the current Homebrew ffmpeg is built without it. The Rubber Band
+command line tool is installed (setup.sh installs it), so pitch shifting now runs through that tool,
+with ffmpeg only decoding and encoding. Where the tool is missing the service falls back to ffmpeg's
+own filter if the build has it, and otherwise to a resample-and-stretch chain that works on every ffmpeg
+(lower quality on big shifts). `GET /api/health` reports which engine is in use (`pitch_shift`).
+
+### Does the audio move by the right amount, and only the pitch?
+
+`service/scripts/check_pitch_shift.py <song_id>` fetches each key from the running service (so the
+real render-and-cache path is timed) and compares it with the original: the pitch move is read off
+the harmonic part's constant-Q spectrum (3 bins per semitone) and, for the guide vocal, off pYIN
+f0 as well; the tempo check compares length, onset alignment and the tempo estimate.
+
+| Song | Key | Backing moved | Guide vocal moved (CQT / f0) | Length | Onsets | Tempo |
+|---|---|---|---|---|---|---|
+| The Fool (upload, 3:10) | −3 | −3.00 | −3.00 / −3.00 | +0 ms | 0 ms | 129.2 → 129.2 |
+| | +2 | +2.00 | +2.00 / +2.00 | +0 ms | 0 ms | 129.2 → 129.2 |
+| | +5 | +5.00 | +5.00 / +5.00 | +0 ms | 0 ms | 129.2 → 129.2 |
+| Amazing Grace (catalog) | −3 | −3.00 | −3.00 / −3.00 | +0 ms | 0 ms | 80.7 → 80.7 |
+| | +2 | +2.00 | +2.00 / +2.00 | +0 ms | 0 ms | 80.7 → 80.7 |
+| | +5 | +5.00 | +5.00 / +5.00 | +0 ms | 0 ms | 80.7 → 80.7 |
+
+Rubber Band keeps the length to the sample, so notes, lyrics and the timing guide need no adjustment.
+In the player the note heights, the guide vocal and Hear it played are all derived from the key the
+engine has actually loaded (not the key the user has asked for), so they always change in the same
+instant as the backing. The guide vocal is shifted with formant preservation so a raised voice does
+not turn into a chipmunk.
+
+Automated: `service/tests/test_pitch_shift.py` renders a tone with clicks on every beat at −3, +2 and
++5 with the fast engine, the fine engine and the plain-ffmpeg fallback, and asserts the pitch moved by
+the asked amount within a tenth of a semitone, the length is unchanged and every click is still within
+30 ms of where it was.
+
+### Quick switching
+
+Rubber Band has two engines: R2 renders a 3 minute stem in about 2 s, R3 (better on dense mixes) in
+about 9.5 s. The service uses both:
+
+* A key asked for by the listener is rendered with R2, so the wait is short; the file is cached in
+  the song folder (uploads) or `library/.cache/<id>/` (catalog songs) and re-rendered only when the
+  stem it came from changes (a re-processed upload or a re-rendered catalog song).
+* A single background worker then upgrades that key and its two neighbours to R3, one render at a
+  time so the machine is never flooded; a `.fine` marker records which files are the good ones.
+  Later plays of that key get the R3 file. The listener's own request never waits behind a background
+  render (separate locks), and the newest request goes to the front of the queue.
+* When a song opens, and after every key change, the player asks the service (`POST /prepare`) to
+  render the keys one step up and one step down, fast renders first.
+
+Timed in Chromium with `web/scripts/check-key-change.mjs` on the 3:10 upload, after the listener
+had played for 20 s (so the neighbours were ready): one step up or down 0.4 to 0.7 s from the key
+press to playing in the new key (350 ms of that is the debounce that lets several quick presses count
+as one). A jump of two or more semitones to a key not rendered yet: 5 to 6 s, with "Preparing the new
+key…" shown meanwhile and playback continuing from the same position. On the catalog song (1 minute)
+an unrendered key takes about 1.5 s.

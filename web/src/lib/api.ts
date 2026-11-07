@@ -50,6 +50,8 @@ export const api = {
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
   getPastedLyrics: (id: string) => fetch(`${API}/api/songs/${id}/lyrics`).then(j<{ text: string }>),
   stopJob: (id: string) => fetch(`${API}/api/songs/${id}/stop`, { method: "POST" }).then(j<{ stopped: boolean }>),
+  /** Ask the service to render the keys one step up and down from `shift` now, so the next key change is instant. */
+  prepareKeys: (id: string, shift: number) => fetch(`${API}/api/songs/${id}/prepare?shift=${shift}`, { method: "POST" }).then(j<{ queued: number }>),
   progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
   audioUrl: (id: string, stem: "backing" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
   progressStream: (id: string, onSnapshot: (s: ProgressSnapshot) => void, onEnd: () => void) => {

@@ -39,7 +39,7 @@ def _startup() -> None:
 @app.get("/api/health")
 def health():
     return {"ok": True, "library": str(LIBRARY_DIR), "catalog": str(CATALOG_DIR), "catalog_songs": len(catalog_store.load_index()["songs"]),
-            "steps": processing_steps(), "detail_levels": list(DETAIL_LEVELS)}
+            "steps": processing_steps(), "detail_levels": list(DETAIL_LEVELS), "pitch_shift": audio_mod.pitch_shift_engine()}
 
 
 @app.get("/api/me")
@@ -333,12 +333,18 @@ def get_pasted_lyrics(song_id: str):
 
 
 _render_locks: dict[str, asyncio.Lock] = {}
+_warm_queue: asyncio.PriorityQueue[tuple[int, int, tuple[str, str, int, bool]]] | None = None
+_warm_pending: set[tuple[str, str, int, bool]] = set()
+_warm_seq = 0
+MAX_SHIFT = 6
 
 
 @app.get("/api/songs/{song_id}/audio/{stem}")
 async def get_audio(song_id: str, stem: str, shift: int = 0):
-    """Stream a stem. `shift` (semitones, -6..6) returns a pitch-shifted render,
-    created on first request and cached in the song folder."""
+    """Stream a stem. `shift` (semitones, -6..6) returns a pitch-shifted render, created on first
+    request and cached in the song folder. The first render of a key uses the fast engine so the wait
+    is short; the key and its neighbours are then re-rendered with the fine engine in the background
+    (one at a time), and later requests get the better file."""
     if stem not in ("backing", "vocals", "original"):
         raise HTTPException(404, "Unknown stem")
     try:
@@ -351,26 +357,100 @@ async def get_audio(song_id: str, stem: str, shift: int = 0):
     base = d / f"{stem}.{STEM_FORMAT}"
     if not base.exists():
         raise HTTPException(404, "This stem is not ready yet")
-    shift = max(-12, min(12, int(shift)))
+    shift = max(-MAX_SHIFT, min(MAX_SHIFT, int(shift)))
     if shift == 0:
         return FileResponse(base, media_type="audio/mpeg")
-    target = await _shifted_render(song_id, stem, shift)
-    # Warm the neighbouring keys in the background so the next step is instant.
-    for nb in (shift + 1, shift - 1):
-        if -6 <= nb <= 6 and nb != 0:
-            asyncio.create_task(_shifted_render(song_id, stem, nb))
+    target = await _shifted_render(song_id, stem, shift, fine=False)
+    _warm_keys(song_id, shift)
     return FileResponse(target, media_type="audio/mpeg")
 
 
-async def _shifted_render(song_id: str, stem: str, shift: int) -> Path:
+@app.post("/api/songs/{song_id}/prepare")
+async def prepare_keys(song_id: str, shift: int = 0):
+    """Render the keys one step up and down from `shift` in the background, so the next key change is instant."""
+    try:
+        library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    _warm_keys(song_id, shift)
+    return {"queued": len(_warm_pending)}
+
+
+def _shift_target(song_id: str, stem: str, shift: int) -> Path:
+    return library.render_dir(song_id) / f"shift_{stem}_{shift:+d}.{STEM_FORMAT}"
+
+
+def _is_stale(target: Path, base: Path) -> bool:
+    return not target.exists() or target.stat().st_mtime < base.stat().st_mtime
+
+
+def _warm_keys(song_id: str, shift: int) -> None:
+    """Queue renders of `shift` and its neighbours for both stems: first fast renders of whatever is
+    missing (so the next key change is instant within seconds), then fine renders of all of them."""
+    if _warm_queue is None:
+        return
+    shifts = [s for s in (shift, shift + 1, shift - 1) if s != 0 and -MAX_SHIFT <= s <= MAX_SHIFT]
+    for fine in (False, True):
+        for s in shifts:
+            for stem in ("backing", "vocals"):
+                key = (song_id, stem, s, fine)
+                base = library.song_dir(song_id) / f"{stem}.{STEM_FORMAT}"
+                target = _shift_target(song_id, stem, s)
+                done = (not _is_stale(target, base)) if not fine else (target.with_suffix(".fine").exists() and not _is_stale(target.with_suffix(".fine"), base))
+                if key in _warm_pending or done:
+                    continue
+                _warm_pending.add(key)
+                # all fast renders before any fine one; among equals, the latest request first
+                global _warm_seq
+                _warm_seq += 1
+                _warm_queue.put_nowait((1 if fine else 0, -_warm_seq, key))
+
+
+async def _warm_worker() -> None:
+    assert _warm_queue is not None
+    while True:
+        _, _, (song_id, stem, shift, fine) = await _warm_queue.get()
+        try:
+            await _shifted_render(song_id, stem, shift, fine=fine)
+        except Exception as e:   # a failed warm-up is not an error anyone needs to see
+            print(f"warm render failed for {song_id} {stem} {shift:+d}: {e}", flush=True)
+        finally:
+            _warm_pending.discard((song_id, stem, shift, fine))
+            _warm_queue.task_done()
+
+
+@app.on_event("startup")
+async def _start_warm_worker() -> None:
+    global _warm_queue
+    _warm_queue = asyncio.PriorityQueue()
+    asyncio.create_task(_warm_worker())
+
+
+async def _shifted_render(song_id: str, stem: str, shift: int, *, fine: bool) -> Path:
+    """The pitch-shifted stem file, rendered if missing or older than the stem it comes from.
+    fine=True (re)renders with the fine engine unless a fine render already exists; a `.fine` marker
+    next to the file records that. Fast and fine renders take separate locks, so a listener's request
+    never waits behind a background upgrade of the same key."""
     base = library.song_dir(song_id) / f"{stem}.{STEM_FORMAT}"
-    target = library.render_dir(song_id) / f"shift_{stem}_{shift:+d}.{STEM_FORMAT}"
-    if target.exists():
+    target = _shift_target(song_id, stem, shift)
+    marker = target.with_suffix(".fine")
+    def have_fine() -> bool:
+        return marker.exists() and not _is_stale(marker, base) and not _is_stale(target, base)
+    def good() -> bool:
+        return have_fine() or (not fine and not _is_stale(target, base))
+    if good():
         return target
-    lock = _render_locks.setdefault(f"{song_id}:{stem}:{shift}", asyncio.Lock())
+    kind = "fine" if fine else "fast"
+    lock = _render_locks.setdefault(f"{song_id}:{stem}:{shift}:{kind}", asyncio.Lock())
     async with lock:
-        if not target.exists():
-            tmp = target.with_name(target.name + ".tmp.mp3")
-            await asyncio.to_thread(audio_mod.pitch_shift_file, base, tmp, shift)
-            tmp.replace(target)
+        if not good():
+            tmp = target.with_name(f"{target.name}.{kind}.tmp.mp3")
+            await asyncio.to_thread(audio_mod.pitch_shift_file, base, tmp, shift, fine=fine, formant=(stem == "vocals"))
+            if fine:
+                tmp.replace(target)
+                marker.touch()
+            elif have_fine():       # a fine render landed while this one was running; keep the better file
+                tmp.unlink()
+            else:
+                tmp.replace(target)
     return target
