@@ -1,9 +1,13 @@
-"""A tiny in-process job queue. One worker runs pipeline steps sequentially
-(they are CPU/GPU heavy); progress is kept in memory for SSE and mirrored into
-song.json so the library page shows status after a reload."""
+"""A tiny job queue. One worker runs pipeline steps one after another (they are
+CPU/GPU heavy). Each step runs in its own child process, so a crash or a hang
+in a model cannot take the service down or leave a song stuck: a step that
+produces no progress for too long is killed and reported, and "stop" is
+possible. Progress is kept in memory for SSE and mirrored into song.json so
+the library page shows status after a reload."""
 from __future__ import annotations
 
 import json
+import multiprocessing as mp
 import queue
 import threading
 import time
@@ -49,6 +53,9 @@ class Job:
     error: str | None = None
     started: float = 0.0
     step_started: float = 0.0
+    last_progress_at: float = 0.0
+    cancel: bool = False
+    process: object = None
 
 
 class JobManager:
@@ -82,22 +89,78 @@ class JobManager:
     def get(self, song_id: str) -> Job | None:
         return self.jobs.get(song_id)
 
+    def stop(self, song_id: str) -> bool:
+        """Stops the running (or queued) job of a song."""
+        job = self.jobs.get(song_id)
+        if not job or job.done:
+            return False
+        job.cancel = True
+        proc = job.process
+        if proc is not None and proc.is_alive():
+            proc.terminate()
+        return True
+
+    def _run_step(self, job: Job, step: str, params: dict) -> float:
+        """Runs one step in a child process. Returns the seconds it took; raises on failure."""
+        song = library.load_song(job.song_id)
+        # no progress for this long means the step is stuck (slow machines included)
+        patience = max(300.0, 10.0 * cost_ratio(step) * max(song.duration, 30.0) + 120.0)
+        ctx = mp.get_context("spawn")
+        parent, child = ctx.Pipe(duplex=False)
+        proc = ctx.Process(target=runner.run_step_in_child, args=(job.song_id, step, params, child), daemon=True)
+        proc.start()
+        child.close()
+        job.process = proc
+        job.last_progress_at = time.time()
+        result: dict | None = None
+        try:
+            while True:
+                if parent.poll(0.5):
+                    try:
+                        msg = parent.recv()
+                    except EOFError:
+                        break
+                    if msg[0] == "progress":
+                        job.progress = max(job.progress, min(float(msg[1]), 1.0))
+                        job.last_progress_at = time.time()
+                    elif msg[0] in ("done", "error"):
+                        result = {"kind": msg[0], "value": msg[1]}
+                        break
+                if job.cancel:
+                    raise StepStopped()
+                if not proc.is_alive() and not parent.poll(0.5):
+                    break
+                if time.time() - job.last_progress_at > patience:
+                    proc.terminate()
+                    raise StepTimeout(step)
+        finally:
+            proc.join(10)
+            if proc.is_alive():
+                proc.kill()
+            job.process = None
+            parent.close()
+        if result is None:
+            if job.cancel:
+                raise StepStopped()
+            raise RuntimeError(f"The processing step stopped unexpectedly (exit code {proc.exitcode}).")
+        if result["kind"] == "error":
+            raise RuntimeError(result["value"])
+        return float(result["value"])
+
     def _worker(self) -> None:
         while True:
             job = self.q.get()
             job.started = time.time()
             try:
+                if job.cancel:
+                    raise StepStopped()
                 for step in job.steps:
                     job.current = step
                     job.progress = 0.0
                     job.step_started = time.time()
                     library.update_song(job.song_id, lambda s: s.steps.__setitem__(step, StepState(status="running")))
-
-                    def prog(p: float, step=step) -> None:
-                        job.progress = max(job.progress, min(p, 1.0))
-
                     params = {k: v for k, v in job.params.get(step, {}).items()}
-                    secs = runner.run_step(job.song_id, step, prog, **params)
+                    secs = self._run_step(job, step, params)
                     song = library.load_song(job.song_id)
                     if song.duration > 0 and step in STEP_META:
                         _save_timing(step, secs / song.duration)
@@ -109,7 +172,8 @@ class JobManager:
                 job.done = True
                 library.update_song(job.song_id, lambda s: setattr(s, "status", "ready"))
             except Exception as e:  # noqa: BLE001
-                traceback.print_exc()
+                if not isinstance(e, (StepStopped, StepTimeout)):
+                    traceback.print_exc()
                 msg = friendly_error(e)
                 job.error = msg
                 job.done = True
@@ -143,13 +207,29 @@ class JobManager:
                 "estimated_seconds_left": int(remaining) if song.status == "processing" else 0}
 
 
+class StepStopped(Exception):
+    pass
+
+
+class StepTimeout(Exception):
+    pass
+
+
 def friendly_error(e: Exception) -> str:
     text = str(e)
     low = text.lower()
-    if "out of memory" in low or "oom" in low:
+    if isinstance(e, StepStopped):
+        return "Stopped. Press retry to continue from where it left off."
+    if isinstance(e, StepTimeout):
+        return "This step made no progress for a long time, so it was stopped. Retry; if it happens again, try a shorter file or close other apps."
+    if "out of memory" in low or "oom" in low or "mps backend" in low and "memory" in low:
         return "The computer ran out of memory while processing. Close other apps and try again."
+    if "drm" in low or "protected" in low or "encrypted" in low:
+        return "This file is copy-protected (for example a download from Apple Music or Spotify) and cannot be read. Use a file you own as an MP3, M4A, WAV or FLAC, or a recording."
+    if "invalid data found" in low or "moov atom" in low or "could not be read" in low:
+        return "The audio in this file could not be read. It may be damaged or still downloading. Try exporting it again as MP3, M4A or WAV."
     if "ffmpeg" in low or "ffprobe" in low:
-        return "The audio could not be read. Make sure ffmpeg is installed and the file is a valid MP3, WAV or M4A."
+        return "The audio could not be read. Make sure ffmpeg is installed and the file is a valid MP3, WAV, M4A or FLAC."
     if "download" in low or "urlopen" in low or "connection" in low or "http" in low:
         return "A model file could not be downloaded. Check your internet connection and retry."
     if "no module named" in low:

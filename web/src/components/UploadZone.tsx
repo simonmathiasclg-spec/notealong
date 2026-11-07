@@ -3,7 +3,9 @@ import { Upload } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const ACCEPT = ".mp3,.wav,.m4a,audio/mpeg,audio/wav,audio/x-wav,audio/mp4,audio/x-m4a";
+/** Audio and video files; a video's soundtrack is used. Kept in one place with the drop filter. */
+export const ACCEPT_EXT = /\.(mp3|wav|m4a|aac|flac|ogg|oga|opus|aiff?|wma|m4b|caf|mp4|m4v|mov|webm|mkv|avi|mpe?g|3gp)$/i;
+const ACCEPT = ".mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff,.aif,.wma,.mp4,.m4v,.mov,.webm,.mkv,.avi,audio/*,video/*";
 
 export function UploadButton({ onFiles, big = false, label = "Add a song", icon, className = "", variant = "primary" }: { onFiles: (files: File[]) => void; big?: boolean; label?: string; icon?: React.ReactNode; className?: string; variant?: "primary" | "plain" }) {
   const ref = useRef<HTMLInputElement>(null);
@@ -22,7 +24,7 @@ export function PageDropZone({ onFiles }: { onFiles: (files: File[]) => void }) 
   const [active, setActive] = useState(false);
   const depth = useRef(0);
   const handle = useCallback((files: File[]) => {
-    const ok = files.filter((f) => /\.(mp3|wav|m4a|aac|flac|ogg)$/i.test(f.name));
+    const ok = files.filter((f) => ACCEPT_EXT.test(f.name) || f.type.startsWith("audio/") || f.type.startsWith("video/"));
     if (ok.length) onFiles(ok);
   }, [onFiles]);
   useEffect(() => {

@@ -58,3 +58,14 @@ def test_romanize():
     words = [{"text": "hello"}, {"text": "こんにちは"}]
     romanize_words(words, "ja")
     assert words[0]["roman"] is None and words[1]["roman"].startswith("kon")
+
+
+def test_split_fragments_are_glued_back_to_their_word():
+    from notealong.pipeline.lyrics import postprocess_words
+    raw = [{"text": "Est", "start": 0.0, "end": 0.2}, {"text": "-ce", "start": 0.2, "end": 0.3}, {"text": "qu", "start": 0.3, "end": 0.4},
+           {"text": "'on", "start": 0.4, "end": 0.5}, {"text": "respire", "start": 0.5, "end": 0.9}, {"text": "?", "start": 0.9, "end": 1.0},
+           {"text": "it", "start": 2.0, "end": 2.2}, {"text": "'s", "start": 2.2, "end": 2.3}, {"text": "fine", "start": 2.3, "end": 2.6}]
+    words = postprocess_words(raw)
+    assert [w["text"] for w in words] == ["Est-ce", "qu'on", "respire?", "it's", "fine"]
+    assert words[0]["end"] == 0.3 and words[1]["start"] == 0.3
+    assert postprocess_words([{"text": "?", "start": 0, "end": 0.1}]) == []

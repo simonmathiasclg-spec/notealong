@@ -49,6 +49,7 @@ export const api = {
   pasteLyrics: (id: string, text: string) =>
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
   getPastedLyrics: (id: string) => fetch(`${API}/api/songs/${id}/lyrics`).then(j<{ text: string }>),
+  stopJob: (id: string) => fetch(`${API}/api/songs/${id}/stop`, { method: "POST" }).then(j<{ stopped: boolean }>),
   progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
   audioUrl: (id: string, stem: "backing" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
   progressStream: (id: string, onSnapshot: (s: ProgressSnapshot) => void, onEnd: () => void) => {

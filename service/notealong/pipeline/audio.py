@@ -28,8 +28,42 @@ def probe(path: Path) -> dict:
     return {"duration": float(info.get("duration", 0.0)), "title": tags.get("title"), "artist": tags.get("artist")}
 
 
+def probe_streams(path: Path) -> dict:
+    """What is in the container: audio and video streams, duration, tags, and a cover picture if embedded."""
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,codec_name,disposition:format=duration:format_tags=title,artist,album",
+                          "-of", "json", str(path)], capture_output=True, text=True)
+    if out.returncode != 0:
+        err = out.stderr.strip()
+        raise RuntimeError(f"ffprobe could not read this file: {err[-300:]}")
+    info = json.loads(out.stdout or "{}")
+    streams = info.get("streams", [])
+    fmt = info.get("format", {})
+    tags = {k.lower(): v for k, v in (fmt.get("tags") or {}).items()}
+    audio = [st for st in streams if st.get("codec_type") == "audio"]
+    video = [st for st in streams if st.get("codec_type") == "video"]
+    # an embedded cover is a video stream flagged as an attached picture (mjpeg/png)
+    pictures = [st for st in video if (st.get("disposition") or {}).get("attached_pic") or st.get("codec_name") in ("mjpeg", "png", "bmp")]
+    real_video = [st for st in video if st not in pictures]
+    return {"duration": float(fmt.get("duration", 0.0) or 0.0), "title": tags.get("title"), "artist": tags.get("artist"), "album": tags.get("album"),
+            "has_audio": bool(audio), "has_video": bool(real_video), "has_picture": bool(pictures),
+            "audio_codec": audio[0].get("codec_name") if audio else None}
+
+
+def extract_audio(src: Path, dst: Path) -> Path:
+    """The soundtrack of a video (or any container) as an AAC file."""
+    run(["ffmpeg", "-y", "-v", "error", "-i", str(src), "-vn", "-map", "0:a:0", "-c:a", "aac", "-b:a", "192k", str(dst)])
+    return dst
+
+
+def extract_picture(src: Path, dst: Path) -> Path | None:
+    """The embedded cover picture, if the file has one."""
+    proc = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(src), "-map", "0:v:0", "-frames:v", "1", "-c:v", "mjpeg", "-q:v", "3", str(dst)],
+                          capture_output=True, text=True)
+    return dst if proc.returncode == 0 and dst.exists() and dst.stat().st_size > 0 else None
+
+
 def to_wav(src: Path, dst: Path, sr: int = SAMPLE_RATE, mono: bool = False) -> Path:
-    cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(src), "-ar", str(sr)]
+    cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(src), "-vn", "-ar", str(sr)]      # -vn: ignore an embedded cover picture
     if mono:
         cmd += ["-ac", "1"]
     cmd += ["-c:a", "pcm_s16le", str(dst)]

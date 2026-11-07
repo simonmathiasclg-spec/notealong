@@ -24,7 +24,10 @@ from .schemas import Line, Note, Song, UserSession, Word
 app = FastAPI(title="NoteAlong service", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-ALLOWED_EXT = {".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg", ".mp4"}
+AUDIO_EXT = {".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg", ".oga", ".opus", ".aiff", ".aif", ".wma", ".m4b", ".caf", ".amr"}
+VIDEO_EXT = {".mp4", ".m4v", ".mov", ".webm", ".mkv", ".avi", ".mpg", ".mpeg", ".3gp", ".ts"}
+PROTECTED_EXT = {".m4p", ".aax", ".aa"}
+ALLOWED_EXT = AUDIO_EXT | VIDEO_EXT
 
 
 @app.on_event("startup")
@@ -96,8 +99,10 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
                       artist: Optional[str] = Form(None), detail_level: str = Form("balanced"),
                       language: Optional[str] = Form(None), instrument: Optional[str] = Form(None)):
     ext = Path(file.filename or "").suffix.lower()
+    if ext in PROTECTED_EXT:
+        raise HTTPException(400, "That is a copy-protected file (Apple Music or an audiobook). It can only play in its own app. Use a song you own as an MP3, M4A, WAV or FLAC, or a recording.")
     if ext not in ALLOWED_EXT:
-        raise HTTPException(400, "Please upload an MP3, WAV or M4A file.")
+        raise HTTPException(400, "That kind of file isn't supported. Use an audio file (MP3, M4A, WAV, FLAC, OGG) or a video (MP4, MOV, WEBM, MKV).")
     try:
         entitlements.check_upload_allowed()
     except entitlements.UploadLimitReached as e:
@@ -110,19 +115,44 @@ async def upload_song(file: UploadFile = File(...), title: Optional[str] = Form(
     with original.open("wb") as fh:
         shutil.copyfileobj(file.file, fh)
     try:
-        info = audio_mod.probe(original)
+        info = audio_mod.probe_streams(original)
     except Exception as e:
         shutil.rmtree(d, ignore_errors=True)
-        raise HTTPException(400, str(e))
+        low = str(e).lower()
+        if "drm" in low or "encrypt" in low:
+            raise HTTPException(400, "That file is copy-protected and can't be read. Use a song you own as an MP3, M4A, WAV or FLAC.")
+        raise HTTPException(400, "The audio in that file could not be read. It may be damaged or still downloading; try exporting it again as MP3, M4A or WAV.")
+    if not info["has_audio"]:
+        shutil.rmtree(d, ignore_errors=True)
+        if info["has_video"]:
+            raise HTTPException(400, "That video has no sound in it.")
+        raise HTTPException(400, "The audio in that file could not be read. It may be damaged or still downloading; try exporting it again as MP3, M4A or WAV.")
     if info["duration"] > 15 * 60:
         shutil.rmtree(d, ignore_errors=True)
         raise HTTPException(400, "That file is longer than 15 minutes. Please upload a single song.")
+    if info["duration"] < 1:
+        shutil.rmtree(d, ignore_errors=True)
+        raise HTTPException(400, "The audio in that file could not be read. It may be damaged or still downloading; try exporting it again as MP3, M4A or WAV.")
+    if info["duration"] < 5:
+        shutil.rmtree(d, ignore_errors=True)
+        raise HTTPException(400, "That file is shorter than 5 seconds. Please upload a whole song.")
+    cover = audio_mod.extract_picture(original, d / "cover.jpg") if info["has_picture"] else None
+    if ext in VIDEO_EXT or info["has_video"]:
+        # a video: keep only its soundtrack
+        try:
+            audio_mod.extract_audio(original, d / "original.m4a")
+        except Exception:
+            shutil.rmtree(d, ignore_errors=True)
+            raise HTTPException(400, "The sound of that video could not be read. Try exporting the audio as MP3 or M4A.")
+        original.unlink(missing_ok=True)
+        original = d / "original.m4a"
+        ext = ".m4a"
     song = Song(
         id=song_id, title=title or info.get("title") or guessed_title,
         artist=artist or info.get("artist") or guessed_artist,
         duration=round(info["duration"], 3), created_at=library.now_iso(), updated_at=library.now_iso(),
-        source={"kind": "upload", "filename": file.filename, "format": ext.lstrip(".")},
-        files={"original": original.name},
+        source={"kind": "upload", "filename": file.filename, "format": ext.lstrip("."), "album": info.get("album")},
+        files={"original": original.name, **({"cover": cover.name} if cover else {})},
     )
     song.settings.detail_level = detail_level if detail_level in DETAIL_LEVELS else "balanced"
     if language:
@@ -269,6 +299,16 @@ def rerun_step(song_id: str, step: str, params: StepParams | None = None):
         library.update_song(song_id, lambda s: setattr(s.settings, "detail_level", params.detail_level))
     manager.submit(song_id, steps, job_params)
     return manager.snapshot(song_id)
+
+
+@app.post("/api/songs/{song_id}/stop")
+def stop_job(song_id: str):
+    """Stops processing of a song (the step that was running is marked failed; retry continues from there)."""
+    try:
+        library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    return {"stopped": manager.stop(song_id)}
 
 
 class LyricsBody(BaseModel):

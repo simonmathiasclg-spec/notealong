@@ -21,11 +21,17 @@ def _pick_device() -> str:
     return "cpu"
 
 
-def _load_model():
-    # Prefer local weights in MODELS_DIR if present (lets us run offline).
+_MODELS: dict[str, object] = {}
+
+
+def _load_model(name: str | None = None):
+    """The Demucs model, loaded once per process. Prefers local weights in MODELS_DIR (offline use)."""
     from demucs.pretrained import get_model
     import os
     import torch
+    name = name or DEMUCS_MODEL
+    if name in _MODELS:
+        return _MODELS[name]
     ckpt_dir = Path(torch.hub.get_dir()) / "checkpoints"
     if MODELS_DIR.exists():
         ckpt_dir.mkdir(parents=True, exist_ok=True)
@@ -37,7 +43,8 @@ def _load_model():
                 except OSError:
                     import shutil
                     shutil.copy(f, target)
-    return get_model(DEMUCS_MODEL)
+    _MODELS[name] = get_model(name)
+    return _MODELS[name]
 
 
 def _apply(model, mix, device, cb):
@@ -46,8 +53,10 @@ def _apply(model, mix, device, cb):
                        shifts=DEMUCS_SHIFTS, split=True, overlap=0.25, progress=False, callback=cb)[0]
 
 
-def separate(input_audio: Path, out_dir: Path, progress: Progress | None = None) -> dict[str, Path]:
-    """Writes vocals.wav and backing.wav into out_dir and returns their paths."""
+def separate(input_audio: Path, out_dir: Path, progress: Progress | None = None, *, model_name: str | None = None,
+             device: str | None = None, report_device: bool = False):
+    """Writes vocals.wav and backing.wav into out_dir and returns their paths
+    (and, with report_device, the device that did the work: "mps", "cuda" or "cpu")."""
     import torch
     import soundfile as sf
 
@@ -61,8 +70,8 @@ def separate(input_audio: Path, out_dir: Path, progress: Progress | None = None)
         audio = np.repeat(audio, 2, axis=0)
     audio = audio[:2]
 
-    model = _load_model()
-    device = _pick_device()
+    model = _load_model(model_name)
+    device = device or _pick_device()
     model.to(device)
     model.eval()
 
@@ -97,4 +106,36 @@ def separate(input_audio: Path, out_dir: Path, progress: Progress | None = None)
     write_wav(paths["backing"], backing.astype(np.float32), sr)
     if progress:
         progress(1.0)
-    return paths
+    return (paths, device) if report_device else paths
+
+
+def leftover_vocal_db(vocals_wav: Path, backing_wav: Path) -> float:
+    """How much of the voice is still in the backing track, in dB relative to the separated vocals
+    (more negative is cleaner; about -22 dB is where it starts to be heard).
+
+    Cheap estimate: inside the 200 Hz to 4 kHz band, during frames where the voice is active, how much
+    of the backing's spectral change over time follows the vocals' change over time. Checked against a
+    second separation pass on six songs and against known leaks of 10 % and 32 % of the voice."""
+    import librosa
+    from .audio import load_mono
+    v, sr = load_mono(vocals_wav, sr=22050)
+    b, _ = load_mono(backing_wav, sr=22050)
+    n = min(len(v), len(b))
+    if n < sr * 5:
+        return -60.0
+    V = np.abs(librosa.stft(v[:n], n_fft=2048, hop_length=512))
+    B = np.abs(librosa.stft(b[:n], n_fft=2048, hop_length=512))
+    freqs = librosa.fft_frequencies(sr=sr, n_fft=2048)
+    band = (freqs >= 200) & (freqs <= 4000)
+    V, B = V[band], B[band]
+    loud = V.sum(axis=0)
+    active = loud > np.percentile(loud, 60)
+    if active.sum() < 20:
+        return -60.0
+    V, B = V[:, active], B[:, active]
+    Vc = V - V.mean(axis=1, keepdims=True)
+    Bc = B - B.mean(axis=1, keepdims=True)
+    a = np.clip((Vc * Bc).sum(axis=1) / ((Vc ** 2).sum(axis=1) + 1e-9), 0, None)
+    explained = float(((a[:, None] * Vc) ** 2).sum())
+    total = float((V ** 2).sum()) + 1e-12
+    return round(float(10 * np.log10(explained / total + 1e-12)), 1)

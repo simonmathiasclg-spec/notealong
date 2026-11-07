@@ -8,6 +8,7 @@ Two interchangeable backends produce the same structure:
 """
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Callable
 
@@ -78,13 +79,31 @@ def _transcribe_openai(path: Path, language: str | None, progress: Progress | No
             "words": words, "segments": segs, "model": f"openai-whisper/{model_name}"}
 
 
+_LETTERS = re.compile(r"[^\W\d_]")
+
+
+def _fragment(text: str) -> bool:
+    """A token that is not a word of its own: punctuation ("?", ","), or a piece the transcriber
+    split off after an apostrophe or hyphen ("'on" in "qu'on", "-ce" in "Est-ce", "s" in "it's")."""
+    return not _LETTERS.search(text) or text[0] in "'\u2019-"
+
+
 def postprocess_words(words: list[dict], min_len: float = 0.05) -> list[dict]:
-    """Sort, remove empties, fix inverted/overlapping timings, number the words."""
+    """Sort, remove empties, glue split fragments back onto the word before them,
+    fix inverted/overlapping timings, number the words."""
     out = []
     for w in sorted(words, key=lambda w: w["start"]):
         text = w["text"].strip()
         if not text:
             continue
+        if out and _fragment(text) and float(w["start"]) - out[-1]["end"] < 0.6:
+            prev = out[-1]
+            prev["text"] = prev["text"] + text
+            prev["end"] = max(prev["end"], round(float(w["end"]), 3))
+            prev["confidence"] = round(min(prev["confidence"], float(w.get("confidence", 1.0))), 3)
+            continue
+        if not _LETTERS.search(text):
+            continue                                      # stray punctuation with nothing before it
         start, end = float(w["start"]), float(w["end"])
         if out and start < out[-1]["end"]:
             start = out[-1]["end"]

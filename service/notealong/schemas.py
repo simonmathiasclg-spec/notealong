@@ -99,3 +99,5 @@ class Song(BaseModel):
     user: UserSession = Field(default_factory=UserSession)
     steps: dict[str, StepState] = Field(default_factory=dict)
     error: Optional[str] = None
+    # measurements made while processing, e.g. leftover_vocal_db (how much voice is left in the backing)
+    quality: dict = Field(default_factory=dict)

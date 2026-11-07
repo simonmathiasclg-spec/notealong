@@ -19,7 +19,7 @@ from .lines import build_lines, lines_from_words
 from .lyrics import postprocess_words, transcribe
 from .melody import add_levels, detect_notes, estimate_tempo
 from .romanize import is_latin_script, romanize_words
-from .stems import separate
+from .stems import leftover_vocal_db, separate
 
 Progress = Callable[[float], None]
 STEP_ORDER = ["stems", "melody", "lyrics", "attach"]
@@ -58,6 +58,10 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
     song = library.load_song(song_id)
     original = d / song.files["original"]
     paths = separate(original, d, progress)
+    try:
+        leftover = leftover_vocal_db(paths["vocals"], paths["backing"])
+    except Exception:
+        leftover = None
     for stem in ("vocals", "backing"):
         audio_mod.encode_stem(paths[stem], d / f"{stem}.{STEM_FORMAT}")
     # remove cached key-shifted renders from a previous run
@@ -69,6 +73,8 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
     def upd(s: Song):
         s.files["vocals"] = f"vocals.{STEM_FORMAT}"
         s.files["backing"] = f"backing.{STEM_FORMAT}"
+        if leftover is not None:
+            s.quality["leftover_vocal_db"] = leftover
     library.update_song(song_id, upd)
 
 
@@ -220,3 +226,31 @@ def run_step(song_id: str, step: str, progress: Progress = _noop, **params) -> N
     t0 = time.time()
     fn(song_id, progress=progress, **params)
     return time.time() - t0
+
+
+def run_step_in_child(song_id: str, step: str, params: dict, conn) -> None:
+    """Entry point of the child process that runs one step (see jobs.py).
+    Sends ("progress", p), then ("done", seconds) or ("error", message)."""
+    import os
+    for var in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+        os.environ.setdefault(var, "6")       # leave the machine usable while a song processes
+    os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+    try:
+        last = {"p": -1.0, "t": 0.0}
+
+        def prog(p: float) -> None:
+            now = time.time()
+            if p - last["p"] >= 0.01 or now - last["t"] > 1.0:
+                last["p"], last["t"] = p, now
+                try:
+                    conn.send(("progress", float(p)))
+                except Exception:
+                    pass
+        secs = run_step(song_id, step, prog, **params)
+        conn.send(("done", float(secs)))
+    except Exception as e:  # noqa: BLE001
+        import traceback
+        traceback.print_exc()
+        conn.send(("error", f"{type(e).__name__}: {e}"))
+    finally:
+        conn.close()

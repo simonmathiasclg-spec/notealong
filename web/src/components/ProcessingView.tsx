@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, Check, Compass, Loader2, RotateCcw } from "lucide-react";
+import { AlertCircle, ArrowLeft, Check, Compass, Loader2, RotateCcw, Square } from "lucide-react";
 import { api, formatDuration } from "@/lib/api";
 import type { ProgressSnapshot, Song } from "@/lib/types";
 import { AppHeader } from "./AppHeader";
@@ -17,12 +17,21 @@ const PLAIN: Record<string, { label: string; detail: string }> = {
 export function ProcessingView({ song, onReady }: { song: Song; onReady: () => void }) {
   const [snap, setSnap] = useState<ProgressSnapshot | null>(null);
   const [retrying, setRetrying] = useState(false);
+  const [stopping, setStopping] = useState(false);
+  const [startedAt] = useState(() => Date.now());
+  const [firstEta, setFirstEta] = useState<number | null>(null);   // the first estimate we were given, to notice when a job runs far past it
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 5000); return () => clearInterval(t); }, []);
 
   useEffect(() => {
     let stop = () => {};
     let cancelled = false;
     const start = () => {
-      stop = api.progressStream(song.id, setSnap, async () => {
+      const onSnap = (p: ProgressSnapshot) => {
+        if (p.estimated_seconds_left > 0) setFirstEta((v) => v ?? p.estimated_seconds_left);
+        setSnap(p);
+      };
+      stop = api.progressStream(song.id, onSnap, async () => {
         if (cancelled) return;
         try {
           const s = await api.progressSnapshot(song.id);
@@ -37,6 +46,8 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
   }, [song.id, onReady]);
 
   const status = snap?.status ?? song.status;
+  const elapsed = (now - startedAt) / 1000;
+  const slow = status === "processing" && firstEta !== null && elapsed > Math.max(120, firstEta * 2.5);
   const steps = snap?.steps ?? [];
   const eta = snap?.estimated_seconds_left ?? 0;
   const failed = status === "failed";
@@ -46,6 +57,10 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
   const retry = async () => {
     setRetrying(true);
     try { await api.rerun(song.id, "retry"); } finally { setRetrying(false); }
+  };
+  const stop = async () => {
+    setStopping(true);
+    try { await api.stopJob(song.id); } finally { setStopping(false); }
   };
 
   return (
@@ -88,9 +103,17 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
         </ol>
 
         {!failed ? (
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Link href="/" className="btn"><Compass className="h-4 w-4" /> Play something from Discover while you wait</Link>
-            <span className="text-sm text-muted">This keeps running in the background.</span>
+          <div className="mt-6 space-y-3">
+            {slow && (
+              <p className="text-sm leading-relaxed text-muted" role="status">
+                This is taking longer than expected. It usually means the computer is busy with something else. You can keep waiting, or stop and try again later.
+              </p>
+            )}
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/" className="btn"><Compass className="h-4 w-4" /> Play something from Discover while you wait</Link>
+              <button className="btn btn-ghost" onClick={stop} disabled={stopping || status !== "processing"}>{stopping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Square className="h-4 w-4" />} Stop</button>
+              <span className="text-sm text-muted">This keeps running in the background.</span>
+            </div>
           </div>
         ) : (
           <div className="mt-6 space-y-3">
