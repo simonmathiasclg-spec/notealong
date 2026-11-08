@@ -257,3 +257,161 @@ two-song setlist reordered with the arrow button and played through (the first s
 the countdown appeared at the end, the second song started), the song page, and the play counts that
 resulted. No page errors. Tests: `web/src/lib/__tests__/search.test.ts` (search, typos, ranking,
 filters, sorting, URL round trip) and `service/tests/test_me.py` (favourites, plays, setlists, index).
+
+## Part 4: famous legal songs
+
+### Jazz and classic standards: 54 added
+
+Fifty-four famous songs published between 1784 and 1928 were written out by hand: Tin Pan Alley
+(Daisy Bell, After the Ball, Take Me Out to the Ball Game, Shine On Harvest Moon, By the Light of the
+Silvery Moon, Let Me Call You Sweetheart, Peg o' My Heart, I Want a Girl, Smiles), Cohan and the war songs
+(Give My Regards to Broadway, You're a Grand Old Flag, Over There, Tipperary, Pack Up Your Troubles),
+the blues (St. Louis Blues, St. James Infirmary, Frankie and Johnny, Careless Love), the jazz age
+(Sweet Georgia Brown, Dinah, Charleston, Avalon, The Japanese Sandman, Ja-Da, Ain't We Got Fun, Toot Toot
+Tootsie, It Had to Be You, Five Foot Two, Bye Bye Blackbird, My Blue Heaven, Makin' Whoopee, Am I Blue),
+Show Boat's Ol' Man River, and a few classics from elsewhere (Plaisir d'amour, Cielito Lindo, Torna a
+Surriento, and the Japanese songs Akatonbo and Hamabe no Uta).
+
+* **Rights.** Each song was checked before it was written: published in 1930 or earlier, and every
+  credited composer and lyricist dead by the end of 1971. The full table with dates and the sources
+  checked is in `catalog/LICENSES.md` ("Public-domain standards"). Ten candidates were left out; the
+  table there gives each reason. The legal ones: 'O sole mio (a court named a co-composer who died in
+  1972), My Melancholy Baby (a credited co-lyricist whose death year cannot be found), Basin Street
+  Blues (every available print includes a verse added in 1931). The other seven had clear rights but
+  no melody source good enough to transcribe from.
+* **Original melody and words only.** Melodies were read from scans of period sheet music or from *The
+  Public Domain Song Anthology* (CC BY, which reproduces public-domain sheet music), and cross-checked.
+  Later arrangements and later lyrics were avoided: St. James Infirmary uses the 1927 folk text Carl
+  Sandburg printed (the "St. James" words of 1929 are by Irving Mills, who died in 1985); no English
+  "Mack the Knife". Minstrel-era dialect spellings in Bill Bailey, St. Louis Blues and Ol' Man River are
+  written in standard spelling with the words otherwise unchanged; the attribution of each says so.
+* **Arranged to fit.** Swing for the jazz-age songs (the up-tempo ones get the new sticks drummer, Part
+  5), waltz for the 3/4 parlour songs, march for Cohan and the war songs, ballad for the slow ones,
+  Italian, Latin and Asian bands for the others; every song has an intro and most play the refrain
+  twice, 70 to 125 seconds each.
+* **A shelf.** "Jazz and classic standards" on Discover and a Standards filter (`/browse?tag=standard`).
+* **Audio audit** of all 54: loudness, peaks and balance in range. The first pass flagged two songs whose
+  pickup left under two seconds of intro, and one up-tempo swing track a little under the loudness
+  target; the intro rule now counts the pickup, and the loudness stage was fixed (Part 5).
+
+Points the authors were unsure of are noted for a musician's ear: in You're a Grand Old Flag the
+familiar 1906 "boast or brag" line was used rather than the interim edition's; a few faint notes in Am
+I Blue, Side by Side and Five Foot Two were read as the harmony suggests.
+
+### Creative Commons recordings: 10 more
+
+Imported one at a time from the Internet Archive's Jamendo mirror, CC BY only, aimed at current styles:
+
+| Song | Artist | Style | Language | Licence |
+|---|---|---|---|---|
+| This Small Town | Scott Jacobs | Acoustic | English | CC BY 3.0 |
+| Time flies | Ehma | Acoustic | English | CC BY 3.0 |
+| Voglio ballare | De Vito Tatiana | Pop | Italian | CC BY 3.0 |
+| You're not going to listen and I can't really blame you | Spiral Island | Acoustic | English | CC BY 3.0 |
+| Llueven Indirectas | KANKEL | Latin | Spanish | CC BY 3.0 |
+| Nací después de ti | Suena la Señal | Latin | Spanish | CC BY 3.0 |
+| Baby Baby | Franky Barbano | Acoustic | English | CC BY 3.0 |
+| What Are We Fighting For? | A Beautiful Tomorrow | Pop | English | CC BY 3.0 |
+| Voices | Rochelle Gabrielle | Soul & R&B | English | CC BY 3.0 |
+| Love Me Too | MicheyQ | Acoustic | English | CC BY 3.0 |
+
+Every decision is in `catalog/.cache/ia_import_log.jsonl`. Of 35 albums tried this run:
+
+| Outcome | Count | Reasons |
+|---|---|---|
+| Added and kept | 10 | |
+| Added, then removed | 4 | a cover of a Celine Dion song (title screen widened, album blocked); an e-mail address as the artist; two with garbled transcribed words |
+| Skipped before import | 14 | 9 with no usable track title or length, 5 with little or no singing |
+| Rejected after import | 1 | language could not be identified |
+| Download failed | 2 | archive.org returned an error |
+
+The cover slipped past the title screen because its title named the original artist without the word
+"cover". The screen now also refuses titles that credit another artist ("by …", or well-known artist names
+in the title), and every earlier import was re-screened with it: no other cover was found.
+
+### Catalog by source
+
+| Source | Before this run | Now |
+|---|---|---|
+| Hand-authored public domain (traditional, hymns, classics) | 94 | 94 |
+| Hand-authored public-domain standards | 0 | 54 |
+| Creative Commons recordings | 50 | 60 |
+| Total | 144 | 208 |
+
+## Part 5: better backing tracks
+
+### Sample libraries
+
+Researched for licences that allow use in a paid product; decisions and the date each licence was read
+are in `catalog/LICENSES.md` ("Sampled instruments (SFZ)" and "Sample libraries considered and not used").
+
+| Library | Licence | Used for |
+|---|---|---|
+| Salamander Grand Piano V3 (FreePats FLAC edition) | CC BY 3.0 | every piano part: ballad, waltz, swing, gospel, lullaby |
+| Virtuosity Drums (Versilian Studios, Karoryfer) | CC0 | the drum kit for up-tempo swing (sticks) and gospel |
+| Swagbass (Karoryfer) | CC0 | the gospel electric bass |
+| Spitfire LABS, Pianobook, Decent Samples | own licences | not used: redistribution of rendered instruments is restricted or varies per library |
+| Salamander Drumkit, AVL Drumkits | CC BY-SA | not used: share-alike obligations unclear for rendered tracks |
+| Free acoustic guitar and upright bass libraries | none found with a clear licence | the soundfont guitars and upright bass stay |
+
+### Rendering
+
+* **sfizz alongside FluidSynth.** A part can now name an SFZ library instead of a soundfont preset
+  (`Sound("sfz", …)` in `arrange.py`); `render.py` plays it through sfizz with sample-accurate timing.
+  The libraries are fetched on first use (`python -m notealong.catalog.sfz_sources`) into
+  `service/models/sfz/` (about 3.5 GB, git-ignored, never shipped). A three-minute part renders in
+  about 11 s.
+* **A velocity map for the sampled kit.** A real kit's range is wide: at the same MIDI velocity its kick
+  was 7 dB louder than its ride, which buried the cymbals. Each drum of the sampled kit now has a
+  velocity factor (measured voice by voice) so patterns written for the General MIDI kit keep their
+  balance. Measured on Sweet Georgia Brown: ride −49.5, snare comping −50, kick −56, hi-hat pedal −59
+  LUFS, the order a jazz drummer plays them.
+* **Loudness.** Tracks with sharp drum transients were landing up to a decibel under the target because
+  the loudness stage stopped at −3 dBTP; it may now go to −1.5 dBTP and the limiter after it holds the
+  peaks. All 148 tracks measure −16.4 to −16.9 LUFS.
+
+### Arrangements
+
+* **Swing drummer with sticks** for swing tunes at 150 bpm and faster: the ride's "ding, ding-a ding",
+  hi-hat on two and four, a feathered bass drum, snare comping on off-beats, an occasional kick "bomb"
+  into the next phrase, fills every eight bars. Slower swing keeps the brushes.
+* **Two-feel, then four.** In swing, the bass plays half notes (root and fifth, or a step into the next
+  chord) through the first section and starts walking after it, with a crash where it does; the drummer
+  plays lighter with a cross-stick on four in the two-feel section. This is how a rhythm section builds a
+  chorus.
+* **Verse and chorus feel.** Every band plays its first section about 10 % softer and lifts about 6 % in
+  the last eight bars of a longer song.
+* **Ending.** The fill on the song's last bar now lands on a firmer kick and crash under the held final
+  chord, so the end sounds like an ending rather than the band stopping.
+* **Intro length.** The intro now counts the pickup, so a song whose melody starts before bar 1 still
+  gets at least 2.4 s of band first (two songs had under 2 s).
+
+### Re-render and audit
+
+All 148 hand-authored songs were re-rendered (one job, about 40 minutes) and audited: 148 tracks, 0 with
+problems (loudness, true peak, clipping, silences, intro length, stereo width).
+
+Before and after, first minute of six tracks (share of energy per band, %):
+
+| Song (style) | LUFS | bass | low-mid | presence | air | width |
+|---|---|---|---|---|---|---|
+| When the Saints (swing) before | −17.0 | 46.7 | 28.9 | 6.8 | 6.0 | 0.77 |
+| When the Saints (swing) after | −17.1 | 41.0 | 32.1 | 6.9 | 6.6 | 0.74 |
+| Amazing Grace (gospel) before | −17.0 | 50.8 | 44.9 | 2.3 | 1.2 | 0.73 |
+| Amazing Grace (gospel) after | −17.2 | 33.6 | 60.3 | 2.9 | 2.9 | 0.65 |
+| Happy Birthday (waltz) before | −16.9 | 37.8 | 43.9 | 6.7 | 1.7 | 0.51 |
+| Happy Birthday (waltz) after | −17.0 | 41.7 | 39.8 | 5.4 | 1.8 | 0.43 |
+| Shenandoah (ballad) before | −17.1 | 36.4 | 45.6 | 5.9 | 1.4 | 0.40 |
+| Shenandoah (ballad) after | −17.1 | 40.1 | 42.9 | 4.4 | 1.3 | 0.43 |
+| Brahms' Lullaby (lullaby) before | −16.9 | 21.8 | 64.6 | 2.8 | 0.0 | 0.61 |
+| Brahms' Lullaby (lullaby) after | −16.9 | 25.0 | 57.9 | 4.1 | 0.0 | 0.32 |
+| Down by the Riverside (gospel) before | −17.0 | 56.7 | 37.5 | 2.3 | 2.5 | 0.76 |
+| Down by the Riverside (gospel) after | −17.0 | 37.8 | 55.1 | 2.5 | 4.2 | 0.65 |
+
+(Excerpts measure a little under the full tracks' −16.4 because of the fade.) The excerpts themselves are
+in `docs/listening-samples/v3/`, with Sweet Georgia Brown as an example of the new sticks drummer.
+
+Not verified by ear: I can measure the tracks but not listen to them. Two things deserve a listen. The
+gospel tracks moved weight from the bass band to the low-mids (the sampled electric bass has less deep
+low end than the soundfont bass, and the grand piano is fuller); if they sound boxy, a low-mid cut on
+the gospel piano is the fix. And the lullaby's stereo image is narrower with the sampled piano.

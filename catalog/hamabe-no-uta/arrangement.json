@@ -1,0 +1,43 @@
+{
+ "style": "asian",
+ "intro_bars": 1,
+ "intro_seconds": 3.6,
+ "first_note": 3.0,
+ "parts": [
+  {
+   "part": "koto",
+   "role": "comp",
+   "notes": 205,
+   "raw_lufs": -41.8,
+   "mix_lufs": -23.5
+  },
+  {
+   "part": "harp",
+   "role": "comp2",
+   "notes": 202,
+   "raw_lufs": -32.3,
+   "mix_lufs": -26.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 114,
+   "raw_lufs": -34.8,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 42,
+   "raw_lufs": -30.8,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "woodblock",
+   "role": "perc",
+   "notes": 36,
+   "raw_lufs": -38.8,
+   "mix_lufs": -27.5
+  }
+ ]
+}

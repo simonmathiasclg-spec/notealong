@@ -1,0 +1,36 @@
+{
+ "style": "waltz",
+ "intro_bars": 3,
+ "intro_seconds": 5.0,
+ "first_note": 3.33,
+ "parts": [
+  {
+   "part": "piano",
+   "role": "comp",
+   "notes": 405,
+   "raw_lufs": -33.3,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 138,
+   "raw_lufs": -32.7,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 77,
+   "raw_lufs": -30.3,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "percussion",
+   "role": "perc",
+   "notes": 306,
+   "raw_lufs": -42.3,
+   "mix_lufs": -23.5
+  }
+ ]
+}

@@ -53,11 +53,16 @@ AVOID = {
     "eurodance", "ebm", "darkwave", "postrock", "spacerock", "chillhop", "lofi", "triphop", "orchestra", "symphonic", "piano", "computer",
 }
 BAD_TITLE = re.compile(r"instrumental|intro\b|outro\b|interlude|remix|\blive\b|cover|karaoke|\bversion\b|demo|\bedit\b|reprise|skit|prelude|"
+                       r"\bby\b|\(.*\b(dion|beatles|sinatra|adele|jackson|elvis|madonna|beyonc|rihanna|coldplay|queen|abba|bowie|lennon|dylan|"
+                       r"marley|springsteen|cohen|mercury|eagles|u2|radiohead|nirvana|oasis|sting|prince)\b.*\)|"
+                       r"\b(dion|beatles|sinatra|adele|michael jackson|elvis|madonna|beyonc|rihanna|coldplay|abba|bowie|lennon|bob dylan|"
+                       r"bob marley|springsteen|leonard cohen|radiohead|nirvana|oasis|whitney|mariah|shakira|ed sheeran|bruno mars|lady gaga|"
+                       r"taylor swift|justin bieber|eminem|drake|metallica|pink floyd|led zeppelin|rolling stones|tributo|homenaje|versione|reprise)\b|"
                        r"playback|backing|acapella|a cappella|feat\.|\bft\.|tribute|medley|\btheme\b|\bost\b|soundtrack|mashup|bootleg|"
                        r"loops|samples|\bvol\b|karaoke|sample pack", re.I)
 # Albums that carry a CC licence on Jamendo but are by well-known signed artists or are plainly other people's songs:
 # the uploader may not have had the right to grant that licence, so they are never used.
-BLOCKED = {"jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980", "jamendo-211902", "jamendo-115079", "jamendo-489247", "jamendo-114476"}
+BLOCKED = {"jamendo-302551", "jamendo-354187", "jamendo-408172", "jamendo-129588", "jamendo-176504", "jamendo-142086", "jamendo-231795", "jamendo-566980", "jamendo-211902", "jamendo-115079", "jamendo-489247", "jamendo-114476"}
 PER_GENRE = {"Pop": 9, "Rock": 8, "Folk": 7, "Acoustic": 7, "Soul & R&B": 6, "Latin": 6, "Indie": 5, "Blues": 4, "Reggae": 4,
              "Country": 4, "Chanson": 5, "Jazz": 3, "World": 4}
 
@@ -196,6 +201,8 @@ def main() -> int:
     ap.add_argument("--rows", type=int, default=6000)
     ap.add_argument("--dry-run", action="store_true", help="list the candidates and stop")
     ap.add_argument("--shard", default="0/1", help="k/n: handle only the k-th of n slices of the candidates, to run several importers at once")
+    ap.add_argument("--genres", default=None, help="comma-separated genres to look for (others are skipped), e.g. 'Pop,Soul & R&B,Acoustic,Latin'")
+    ap.add_argument("--cap", type=int, default=None, help="with --genres: how many more songs of each of those genres may be added")
     a = ap.parse_args()
 
     from notealong.catalog import import_cc
@@ -249,6 +256,11 @@ def main() -> int:
     caps = {g: math.ceil(v / n) for g, v in PER_GENRE.items()}
     done = 0 if n > 1 else done                      # with shards, --want counts this process's own additions
     per_genre = {} if n > 1 else per_genre
+    if a.genres:
+        wanted = [g.strip() for g in a.genres.split(",") if g.strip()]
+        order = [c for c in order if c["genre"] in wanted]
+        caps = {g: per_genre.get(g, 0) + (a.cap or a.want) for g in wanted}
+        done = 0
     tries = 0
     for c in order:
         if done >= a.want or tries >= a.max_tries:

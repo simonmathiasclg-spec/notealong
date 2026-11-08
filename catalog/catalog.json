@@ -1,7 +1,71 @@
 {
  "version": 1,
- "generated_at": "2026-11-05T14:18:56.654710+00:00",
+ "generated_at": "2026-11-08T18:05:15.306143+00:00",
  "songs": [
+  {
+   "id": "a-beautiful-tomorrow-what-are-we-fighting-for-a-beautiful-to",
+   "title": "What Are We Fighting For?",
+   "artist": "A Beautiful Tomorrow",
+   "origin": "",
+   "culture": "",
+   "genre": "Pop",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 10,
+    "notes_per_second": 1.61,
+    "big_leaps": 0.03,
+    "shortest": 0.07,
+    "score": 5.0
+   },
+   "duration": 243.264,
+   "key": "G major",
+   "tempo_bpm": 136.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"What Are We Fighting For?\" by A Beautiful Tomorrow, from the album \"What Are We Fighting For?\". CC BY 3.0. Published on Jamendo (album 262816); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-262816"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 326,
+   "tags": [
+    "jamendo",
+    "neutral",
+    "pop",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 353,
+   "word_count": 204,
+   "review": {
+    "checked": 562,
+    "dropped": 25,
+    "octave_fixed": 7,
+    "pitch_fixed": 0,
+    "kept": 530,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 537,
+     "same_pitch": 178,
+     "wobbles": 1,
+     "bends": 4,
+     "after": 353
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -3.7,
+   "language_probability": 0.8203864097595215,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
   {
    "id": "a-jovian-night-03-fool-in-modern-times",
    "title": "Fool In Modern Times",
@@ -293,6 +357,52 @@
    "popularity": 0
   },
   {
+   "id": "after-the-ball",
+   "title": "After the Ball",
+   "artist": "Charles K. Harris",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 11,
+    "notes_per_second": 1.39,
+    "big_leaps": 0.06,
+    "shortest": 0.21,
+    "score": 4.0
+   },
+   "duration": 87.5,
+   "key": "G major",
+   "tempo_bpm": 144.0,
+   "year": "1892",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Charles K. Harris (died 1930); published by Charles K. Harris & Co., Milwaukee, in 1892 and sung in \"A Trip to Chinatown\", it became the first Tin Pan Alley song to sell millions of copies. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/After_the_Ball_(Harris,_Charles_Kassell)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 207,
+   "tags": [
+    "standard",
+    "1890s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 110,
+   "word_count": 78,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "agora-ou-nunca-ask-god",
    "title": "ASK GOD",
    "artist": "AGORA-OU-NUNCA",
@@ -354,6 +464,99 @@
    "gain_db": 6.06,
    "language_probability": 0.8382667899131775,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "aint-we-got-fun",
+   "title": "Ain't We Got Fun",
+   "artist": "Richard A. Whiting / Gus Kahn and Raymond B. Egan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 13,
+    "notes_per_second": 2.32,
+    "big_leaps": 0.21,
+    "shortest": 0.16,
+    "score": 11.0
+   },
+   "duration": 88.696,
+   "key": "Eb major",
+   "tempo_bpm": 184.0,
+   "year": "1921",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Richard A. Whiting (died 1938), words by Gus Kahn (died 1941) and Raymond B. Egan (died 1952); published by Jerome H. Remick & Co. in 1921. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM002357"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 203,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 194,
+   "word_count": 154,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "akatonbo",
+   "title": "Akatonbo",
+   "artist": "Kōsaku Yamada / Rofū Miki",
+   "origin": "Japan",
+   "culture": "Japanese",
+   "genre": "Children's",
+   "language": "ja",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 7,
+    "notes_per_second": 1.31,
+    "big_leaps": 0.03,
+    "shortest": 0.5,
+    "score": 4.0
+   },
+   "duration": 105.0,
+   "key": "F major",
+   "tempo_bpm": 60.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "\"Red Dragonfly\": music by Kōsaku Yamada (died 1965), set in 1927 to a poem by Rofū Miki (died 1964) written in 1921. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada). Melody and all four verses from the score and numbered notation in Yamada's own songbook (National Diet Library digital collection).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Ndl-digital-collection-yamadakosaku100-2-akatonbo.jpg"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 28,
+   "tags": [
+    "japan",
+    "dragonfly",
+    "sunset",
+    "children",
+    "1920s"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 124,
+   "word_count": 48,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -584,6 +787,52 @@
    "popularity": 0
   },
   {
+   "id": "am-i-blue",
+   "title": "Am I Blue?",
+   "artist": "Harry Akst / Grant Clarke",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 12,
+    "notes_per_second": 1.5,
+    "big_leaps": 0.23,
+    "shortest": 0.25,
+    "score": 7.0
+   },
+   "duration": 70.0,
+   "key": "F major",
+   "tempo_bpm": 120.0,
+   "year": "1929",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Harry Akst (died 1963), words by Grant Clarke (died 1931); introduced by Ethel Waters in the film \"On with the Show!\" and published by M. Witmark & Sons in 1929. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Am_I_Blue%3F_sheet_music_(1929).pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 50,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "blues"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 96,
+   "word_count": 60,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "amazing-grace",
    "title": "Amazing Grace",
    "artist": "John Newton / Traditional",
@@ -742,6 +991,52 @@
    "popularity": 0
   },
   {
+   "id": "april-showers",
+   "title": "April Showers",
+   "artist": "Louis Silvers / B. G. DeSylva",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 11,
+    "notes_per_second": 1.35,
+    "big_leaps": 0.23,
+    "shortest": 0.28,
+    "score": 7.0
+   },
+   "duration": 77.778,
+   "key": "G major",
+   "tempo_bpm": 108.0,
+   "year": "1921",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Louis Silvers (died 1954), words by B. G. \"Buddy\" DeSylva (died 1950); introduced by Al Jolson in \"Bombo\" and published by Jerome H. Remick & Co. in 1921. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/April_Showers_(song)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "standard",
+    "1920s",
+    "broadway",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 97,
+   "word_count": 64,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "arirang",
    "title": "Arirang",
    "artist": "Traditional",
@@ -804,7 +1099,7 @@
     "shortest": 0.33,
     "score": 3.0
    },
-   "duration": 36.522,
+   "duration": 37.826,
    "key": "F major",
    "tempo_bpm": 92.0,
    "year": "1880",
@@ -971,6 +1266,98 @@
    "note_count": 48,
    "word_count": 38,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "avalon",
+   "title": "Avalon",
+   "artist": "Vincent Rose / Al Jolson and B. G. DeSylva",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 9,
+    "notes_per_second": 1.35,
+    "big_leaps": 0.17,
+    "shortest": 0.34,
+    "score": 5.0
+   },
+   "duration": 94.091,
+   "key": "G major",
+   "tempo_bpm": 176.0,
+   "year": "1920",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Vincent Rose (died 1944), words by Al Jolson (died 1950) and B. G. DeSylva (died 1950); published by Jerome H. Remick & Co. in 1920. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Avalon_(1920_song)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 197,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 117,
+   "word_count": 74,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "ballin-the-jack",
+   "title": "Ballin' the Jack",
+   "artist": "Chris Smith / Jim Burris",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 9,
+    "notes_per_second": 2.54,
+    "big_leaps": 0.02,
+    "shortest": 0.14,
+    "score": 5.0
+   },
+   "duration": 80.769,
+   "key": "Bb major",
+   "tempo_bpm": 104.0,
+   "year": "1913",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Chris Smith (died 1949), words by Jim Burris (died 1923); published by Jos. W. Stern & Co. in 1913. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM000501"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 54,
+   "tags": [
+    "standard",
+    "1910s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 186,
+   "word_count": 156,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -1245,6 +1632,52 @@
    "popularity": 0
   },
   {
+   "id": "bill-bailey",
+   "title": "Bill Bailey, Won't You Please Come Home",
+   "artist": "Hughie Cannon",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 10,
+    "notes_per_second": 1.86,
+    "big_leaps": 0.13,
+    "shortest": 0.16,
+    "score": 7.0
+   },
+   "duration": 88.696,
+   "key": "G major",
+   "tempo_bpm": 184.0,
+   "year": "1902",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Hughie Cannon (died 1912); published by Howley, Haviland & Dresser, New York, in 1902. The chorus words are those of the 1902 edition, with the dialect spellings written in standard English. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Bill_Bailey_Won%27t_You_Please_Come_Home.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 36,
+   "tags": [
+    "standard",
+    "1900s",
+    "jazz",
+    "ragtime"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 154,
+   "word_count": 128,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "billie-billie-oh-my-love",
    "title": "Oh My Love",
    "artist": "Billie",
@@ -1468,6 +1901,284 @@
    "popularity": 0
   },
   {
+   "id": "by-the-light-of-the-silvery-moon",
+   "title": "By the Light of the Silvery Moon",
+   "artist": "Gus Edwards / Edward Madden",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 1.8,
+    "big_leaps": 0.01,
+    "shortest": 0.2,
+    "score": 5.0
+   },
+   "duration": 64.0,
+   "key": "C major",
+   "tempo_bpm": 150.0,
+   "year": "1909",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Gus Edwards (died 1945), words by Edward Madden (died 1952); published by Gus Edwards Music Publishing Co., New York, in 1909 and sung in the Ziegfeld Follies of 1909. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/By_the_Light_of_the_Silvery_Moon_(Edwards,_Gus)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 192,
+   "tags": [
+    "standard",
+    "1900s",
+    "tin pan alley",
+    "swing"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 102,
+   "word_count": 76,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "bye-bye-blackbird",
+   "title": "Bye Bye Blackbird",
+   "artist": "Ray Henderson / Mort Dixon",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 7,
+    "notes_per_second": 1.29,
+    "big_leaps": 0.03,
+    "shortest": 0.45,
+    "score": 1.0
+   },
+   "duration": 123.636,
+   "key": "G major",
+   "tempo_bpm": 132.0,
+   "year": "1926",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Ray Henderson (died 1970), words by Mort Dixon (died 1956); published by Jerome H. Remick & Co. in 1926. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM001855"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 149,
+   "word_count": 118,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "careless-love",
+   "title": "Careless Love",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Blues",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 9,
+    "notes_per_second": 0.76,
+    "big_leaps": 0.0,
+    "shortest": 0.31,
+    "score": 4.0
+   },
+   "duration": 87.5,
+   "key": "F major",
+   "tempo_bpm": 96.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Traditional American blues ballad, sung in New Orleans and the South by the 1900s; melody and words are stanzas 1 and 2 as printed in Carl Sandburg's The American Songbag (1927) from R. W. Gordon's collection. Public domain: traditional, published before 1931 (United States) and no individual author (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/americansongbag029895mbp"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 197,
+   "tags": [
+    "standard",
+    "1920s",
+    "blues",
+    "folk",
+    "new orleans"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 60,
+   "word_count": 51,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "carolina-in-the-morning",
+   "title": "Carolina in the Morning",
+   "artist": "Walter Donaldson / Gus Kahn",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 8,
+    "notes_per_second": 3.37,
+    "big_leaps": 0.01,
+    "shortest": 0.09,
+    "score": 5.0
+   },
+   "duration": 97.143,
+   "key": "C major",
+   "tempo_bpm": 168.0,
+   "year": "1922",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Walter Donaldson (died 1947), words by Gus Kahn (died 1941); published by Jerome H. Remick & Co. in 1922. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Carolina_in_the_Morning.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 200,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 308,
+   "word_count": 194,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "charleston",
+   "title": "Charleston",
+   "artist": "James P. Johnson / Cecil Mack",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 3.38,
+    "big_leaps": 0.1,
+    "shortest": 0.07,
+    "score": 6.0
+   },
+   "duration": 84.0,
+   "key": "Bb major",
+   "tempo_bpm": 200.0,
+   "year": "1923",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by James P. Johnson (died 1955), words by Cecil Mack (died 1944); introduced in the revue \"Runnin' Wild\" and published by Harms, Inc. in 1923. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Charleston_(song)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 36,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "charleston"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 256,
+   "word_count": 148,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "cielito-lindo",
+   "title": "Cielito Lindo",
+   "artist": "Quirino Mendoza y Cortés",
+   "origin": "Mexico",
+   "culture": "Mexican",
+   "genre": "Latin",
+   "language": "es",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 11,
+    "notes_per_second": 1.78,
+    "big_leaps": 0.06,
+    "shortest": 0.19,
+    "score": 8.0
+   },
+   "duration": 78.75,
+   "key": "C major",
+   "tempo_bpm": 160.0,
+   "year": "1882",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Mexican canción by Quirino Mendoza y Cortés (died 1957), published in 1882; the verses adapt older Spanish coplas. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Cielito_Lindo"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 22,
+   "tags": [
+    "standard",
+    "mexico",
+    "mariachi",
+    "waltz",
+    "1880s"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 128,
+   "word_count": 59,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "ciranda-cirandinha",
    "title": "Ciranda, cirandinha",
    "artist": "Traditional",
@@ -1575,6 +2286,52 @@
    "lyrics": "annotated"
   },
   {
+   "id": "daisy-bell",
+   "title": "Daisy Bell (A Bicycle Built for Two)",
+   "artist": "Harry Dacre",
+   "origin": "United Kingdom",
+   "culture": "British",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.54,
+    "big_leaps": 0.05,
+    "shortest": 0.19,
+    "score": 3.0
+   },
+   "duration": 78.75,
+   "key": "G major",
+   "tempo_bpm": 160.0,
+   "year": "1892",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Harry Dacre (Frank Dean, died 1922); published in 1892 and made famous in the music halls and on Tin Pan Alley. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Daisy_Bell_(IA_daisybell00harr).pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "standard",
+    "1890s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 110,
+   "word_count": 80,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "dan-falvey-when-diamonds-turn-to-dust",
    "title": "When diamonds turn to dust",
    "artist": "Dan Falvey",
@@ -1656,7 +2413,7 @@
     "shortest": 0.45,
     "score": 5.0
    },
-   "duration": 65.455,
+   "duration": 69.091,
    "key": "C major",
    "tempo_bpm": 66.0,
    "year": "1913",
@@ -1796,6 +2553,70 @@
    "note_count": 101,
    "word_count": 58,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "de-vito-tatiana-voglio-ballare",
+   "title": "Voglio ballare",
+   "artist": "De Vito Tatiana",
+   "origin": "",
+   "culture": "",
+   "genre": "Pop",
+   "language": "it",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 7,
+    "notes_per_second": 2.22,
+    "big_leaps": 0.1,
+    "shortest": 0.08,
+    "score": 4.0
+   },
+   "duration": 204.923,
+   "key": "E major",
+   "tempo_bpm": 129.2,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Voglio ballare\" by De Vito Tatiana, from the album \"Voglio ballare\". CC BY 3.0. Published on Jamendo (album 230819); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-230819"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 341,
+   "tags": [
+    "jamendo",
+    "happy",
+    "pop",
+    "rock"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 423,
+   "word_count": 172,
+   "review": {
+    "checked": 603,
+    "dropped": 24,
+    "octave_fixed": 15,
+    "pitch_fixed": 2,
+    "kept": 562,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 579,
+     "same_pitch": 149,
+     "wobbles": 0,
+     "bends": 7,
+     "after": 423
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -7.6,
+   "language_probability": 0.7081190347671509,
+   "added": "2026-11-07",
    "popularity": 0
   },
   {
@@ -1958,6 +2779,52 @@
    "popularity": 0
   },
   {
+   "id": "dinah",
+   "title": "Dinah",
+   "artist": "Harry Akst / Sam M. Lewis and Joe Young",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 6,
+    "notes_per_second": 2.82,
+    "big_leaps": 0.0,
+    "shortest": 0.17,
+    "score": 4.0
+   },
+   "duration": 92.727,
+   "key": "G major",
+   "tempo_bpm": 176.0,
+   "year": "1925",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Harry Akst (died 1963), words by Sam M. Lewis (died 1959) and Joe Young (died 1939); published by Henry Waterson, Inc. in 1925 and introduced by Ethel Waters. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Dinah_(Akst,_Harry)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 48,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 246,
+   "word_count": 152,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "dirty-dukes-don-t-forget-to-breathe",
    "title": "Don't Forget To Breathe",
    "artist": "Dirty Dukes",
@@ -2070,6 +2937,53 @@
    "note_count": 120,
    "word_count": 70,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "down-by-the-old-mill-stream",
+   "title": "Down by the Old Mill Stream",
+   "artist": "Tell Taylor",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 11,
+    "notes_per_second": 0.98,
+    "big_leaps": 0.13,
+    "shortest": 0.28,
+    "score": 5.0
+   },
+   "duration": 115.0,
+   "key": "G major",
+   "tempo_bpm": 108.0,
+   "year": "1910",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Tell Taylor (died 1937); first published in 1910 (Star Music, Chicago, then M. Witmark & Sons). Earl K. Smith (died 1954), who later claimed a share of the music, also died before 1972. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Down_by_the_Old_Mill_Stream_(Taylor,_Tell)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 188,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "barbershop",
+    "waltz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 105,
+   "word_count": 82,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -2271,6 +3185,70 @@
    "lyrics": "annotated"
   },
   {
+   "id": "ehma-time-flies",
+   "title": "Time flies",
+   "artist": "Ehma",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 6,
+    "notes_per_second": 2.04,
+    "big_leaps": 0.0,
+    "shortest": 0.07,
+    "score": 3.0
+   },
+   "duration": 244.5,
+   "key": "E minor",
+   "tempo_bpm": 143.6,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Time flies\" by Ehma, from the album \"Time flies\". CC BY 3.0. Published on Jamendo (album 611147); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-611147"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 202,
+   "tags": [
+    "jamendo",
+    "happy",
+    "pop",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 432,
+   "word_count": 294,
+   "review": {
+    "checked": 520,
+    "dropped": 0,
+    "octave_fixed": 0,
+    "pitch_fixed": 1,
+    "kept": 519,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 520,
+     "same_pitch": 86,
+     "wobbles": 0,
+     "bends": 2,
+     "after": 432
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 4.88,
+   "language_probability": 0.8479048013687134,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
    "id": "ekla-chalo-re",
    "title": "Ekla Chalo Re",
    "artist": "Rabindranath Tagore",
@@ -2287,7 +3265,7 @@
     "shortest": 0.12,
     "score": 6.0
    },
-   "duration": 41.429,
+   "duration": 42.857,
    "key": "C major",
    "tempo_bpm": 84.0,
    "year": "1905",
@@ -2453,6 +3431,52 @@
    "popularity": 0
   },
   {
+   "id": "five-foot-two-eyes-of-blue",
+   "title": "Five Foot Two, Eyes of Blue",
+   "artist": "Ray Henderson / Sam M. Lewis and Joe Young",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 9,
+    "notes_per_second": 2.33,
+    "big_leaps": 0.06,
+    "shortest": 0.16,
+    "score": 6.0
+   },
+   "duration": 88.696,
+   "key": "Eb major",
+   "tempo_bpm": 184.0,
+   "year": "1925",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Ray Henderson (died 1970), words by Sam M. Lewis (died 1959) and Joe Young (died 1939); published as \"Five Foot Two, Eyes of Blue (Has Anybody Seen My Girl?)\" by Leo Feist, Inc. in 1925. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM000155"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 208,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 194,
+   "word_count": 156,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "flo-l-abandon",
    "title": "l'abandon",
    "artist": "FLO",
@@ -2555,6 +3579,120 @@
    "note_count": 76,
    "word_count": 52,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "frankie-and-johnny",
+   "title": "Frankie and Johnny",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Blues",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 10,
+    "notes_per_second": 1.89,
+    "big_leaps": 0.07,
+    "shortest": 0.25,
+    "score": 4.0
+   },
+   "duration": 72.0,
+   "key": "C major",
+   "tempo_bpm": 120.0,
+   "year": "1912",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Traditional American murder ballad, sung from the 1890s and in print by 1912; the words are stanzas 1, 6 and 7 as collected in Carl Sandburg's The American Songbag (1927). Public domain: traditional, published before 1931 (United States) and no individual author (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/americansongbag029895mbp"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 210,
+   "tags": [
+    "standard",
+    "1910s",
+    "blues",
+    "ballad",
+    "folk"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 123,
+   "word_count": 96,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "franky-barbano-baby-baby",
+   "title": "Baby Baby",
+   "artist": "Franky Barbano",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 24,
+    "distinct": 13,
+    "notes_per_second": 0.98,
+    "big_leaps": 0.18,
+    "shortest": 0.09,
+    "score": 8.0
+   },
+   "duration": 251.831,
+   "key": "G major",
+   "tempo_bpm": 117.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Baby Baby\" by Franky Barbano, from the album \"The Idiot\". CC BY 3.0. Published on Jamendo (album 185553); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-185553"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "jamendo",
+    "90s",
+    "acousticguitar",
+    "alternativerock",
+    "atmospheric",
+    "dreampop",
+    "indie"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 206,
+   "word_count": 77,
+   "review": {
+    "checked": 388,
+    "dropped": 47,
+    "octave_fixed": 17,
+    "pitch_fixed": 4,
+    "kept": 320,
+    "outliers_dropped": 4,
+    "held": {
+     "before": 337,
+     "same_pitch": 126,
+     "wobbles": 0,
+     "bends": 5,
+     "after": 206
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 3.11,
+   "language_probability": 0.7313361763954163,
+   "added": "2026-11-07",
    "popularity": 0
   },
   {
@@ -2828,6 +3966,52 @@
    "popularity": 0
   },
   {
+   "id": "give-my-regards-to-broadway",
+   "title": "Give My Regards to Broadway",
+   "artist": "George M. Cohan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 7,
+    "notes_per_second": 1.71,
+    "big_leaps": 0.05,
+    "shortest": 0.3,
+    "score": 3.0
+   },
+   "duration": 122.4,
+   "key": "C major",
+   "tempo_bpm": 200.0,
+   "year": "1904",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by George M. Cohan (died 1942), written for his musical \"Little Johnny Jones\" and published by F. A. Mills, New York, in 1904. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/jukebox.broadway"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 195,
+   "tags": [
+    "standard",
+    "1900s",
+    "broadway",
+    "march"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 198,
+   "word_count": 147,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "go-down-moses",
    "title": "Go Down, Moses",
    "artist": "Traditional",
@@ -3011,6 +4195,53 @@
    "note_count": 73,
    "word_count": 45,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "hamabe-no-uta",
+   "title": "Hamabe no Uta",
+   "artist": "Tamezō Narita / Kokei Hayashi",
+   "origin": "Japan",
+   "culture": "Japanese",
+   "genre": "Classical",
+   "language": "ja",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.13,
+    "big_leaps": 0.14,
+    "shortest": 0.3,
+    "score": 3.0
+   },
+   "duration": 122.4,
+   "key": "Ab major",
+   "tempo_bpm": 33.3,
+   "year": "1918",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "\"Song of the Seashore\": music by Tamezō Narita (died 1945), composed by 1916 to a poem by Kokei Hayashi (died 1947) first printed in 1913, published by Senō Gakufu in 1918. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada). Verses 1 and 2 (the third verse, which Hayashi disowned, is left out), in the original key of A flat.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://ja.wikipedia.org/wiki/浜辺の歌"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 229,
+   "tags": [
+    "japan",
+    "sea",
+    "shore",
+    "taishō",
+    "art song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 130,
+   "word_count": 47,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -3609,6 +4840,328 @@
    "lyrics": "annotated"
   },
   {
+   "id": "i-want-a-girl",
+   "title": "I Want a Girl (Just Like the Girl That Married Dear Old Dad)",
+   "artist": "Harry Von Tilzer / Will Dillon",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.81,
+    "big_leaps": 0.0,
+    "shortest": 0.27,
+    "score": 3.0
+   },
+   "duration": 75.0,
+   "key": "C major",
+   "tempo_bpm": 112.0,
+   "year": "1911",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Harry Von Tilzer (died 1946), words by William Dillon (died 1966); published by the Harry Von Tilzer Music Publishing Co. in 1911. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://levysheetmusic.mse.jhu.edu/sites/default/files/collection-pdfs/levy-153-004.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "barbershop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 124,
+   "word_count": 106,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "ill-see-you-in-my-dreams",
+   "title": "I'll See You in My Dreams",
+   "artist": "Isham Jones / Gus Kahn",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 8,
+    "notes_per_second": 0.98,
+    "big_leaps": 0.07,
+    "shortest": 0.45,
+    "score": 3.0
+   },
+   "duration": 123.636,
+   "key": "F major",
+   "tempo_bpm": 132.0,
+   "year": "1924",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Isham Jones (died 1956), words by Gus Kahn (died 1941); published by Leo Feist, Inc. in 1924. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/I'll_See_You_in_My_Dreams_(Jones,_Isham)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 114,
+   "word_count": 94,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "im-looking-over-a-four-leaf-clover",
+   "title": "I'm Looking Over a Four Leaf Clover",
+   "artist": "Harry Woods / Mort Dixon",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 1.83,
+    "big_leaps": 0.04,
+    "shortest": 0.34,
+    "score": 4.0
+   },
+   "duration": 92.727,
+   "key": "Bb major",
+   "tempo_bpm": 176.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Harry Woods (died 1970), words by Mort Dixon (died 1956); published by Jerome H. Remick & Co. in 1927. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM000134"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 211,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 158,
+   "word_count": 98,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "in-the-good-old-summer-time",
+   "title": "In the Good Old Summer Time",
+   "artist": "George Evans / Ren Shields",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 6,
+    "notes_per_second": 1.49,
+    "big_leaps": 0.02,
+    "shortest": 0.2,
+    "score": 2.0
+   },
+   "duration": 81.711,
+   "key": "Bb major",
+   "tempo_bpm": 152.0,
+   "year": "1902",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by George \"Honey Boy\" Evans (died 1915), words by Ren Shields (died 1913); published in 1902 and introduced by Blanche Ring. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/In_the_Good_Old_Summer_Time"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "standard",
+    "1900s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 112,
+   "word_count": 92,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "it-had-to-be-you",
+   "title": "It Had to Be You",
+   "artist": "Isham Jones / Gus Kahn",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 2.09,
+    "big_leaps": 0.01,
+    "shortest": 0.25,
+    "score": 4.0
+   },
+   "duration": 70.0,
+   "key": "G major",
+   "tempo_bpm": 120.0,
+   "year": "1924",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Isham Jones (died 1956), words by Gus Kahn (died 1941); published by Jerome H. Remick & Co. in 1924. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/It_Had_to_Be_You_(Jones,_Isham)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 189,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 135,
+   "word_count": 87,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "its-a-long-way-to-tipperary",
+   "title": "It's a Long Way to Tipperary",
+   "artist": "Jack Judge / Harry Williams",
+   "origin": "United Kingdom",
+   "culture": "British",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 7,
+    "notes_per_second": 2.02,
+    "big_leaps": 0.05,
+    "shortest": 0.27,
+    "score": 3.0
+   },
+   "duration": 75.0,
+   "key": "Bb major",
+   "tempo_bpm": 112.0,
+   "year": "1912",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music credited to Jack Judge (died 1938) and Harry Williams (died 1924); published by B. Feldman & Co., London, in 1912. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/CSM_01044"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 210,
+   "tags": [
+    "standard",
+    "1910s",
+    "music hall",
+    "wwi"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 138,
+   "word_count": 82,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "ja-da",
+   "title": "Ja-Da",
+   "artist": "Bob Carleton",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 7,
+    "notes_per_second": 2.36,
+    "big_leaps": 0.0,
+    "shortest": 0.11,
+    "score": 4.0
+   },
+   "duration": 65.455,
+   "key": "F major",
+   "tempo_bpm": 132.0,
+   "year": "1918",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Bob Carleton (died 1956); published by Leo Feist, Inc. in 1918. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Ja-da_-_ja_da,_ja_da,_jing_jing_jing!_(IA_jadajadajadajing00carl).pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 36,
+   "tags": [
+    "standard",
+    "1910s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 136,
+   "word_count": 98,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "jacky-daniel-tu-m-oublies-jacky-daniel",
    "title": "Tu m'oublies",
    "artist": "jacky.daniel",
@@ -4060,6 +5613,73 @@
    "popularity": 0
   },
   {
+   "id": "kankel-llueven-indirectas",
+   "title": "Llueven Indirectas",
+   "artist": "KANKEL",
+   "origin": "",
+   "culture": "",
+   "genre": "Latin",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 10,
+    "notes_per_second": 1.56,
+    "big_leaps": 0.05,
+    "shortest": 0.1,
+    "score": 4.0
+   },
+   "duration": 268.277,
+   "key": "G major",
+   "tempo_bpm": 99.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Llueven Indirectas\" by KANKEL, from the album \"Inspiracion\". CC BY 3.0. Published on Jamendo (album 157644); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-157644"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 35,
+   "tags": [
+    "jamendo",
+    "guitar",
+    "happy",
+    "jazz",
+    "latin",
+    "neutral",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 395,
+   "word_count": 186,
+   "review": {
+    "checked": 583,
+    "dropped": 8,
+    "octave_fixed": 3,
+    "pitch_fixed": 13,
+    "kept": 559,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 575,
+     "same_pitch": 149,
+     "wobbles": 7,
+     "bends": 17,
+     "after": 395
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -3.7,
+   "language_probability": 0.9419226050376892,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
    "id": "kojo-no-tsuki",
    "title": "Kōjō no Tsuki",
    "artist": "Rentarō Taki / Bansui Doi",
@@ -4275,7 +5895,7 @@
     "shortest": 0.24,
     "score": 6.0
    },
-   "duration": 51.429,
+   "duration": 52.857,
    "key": "F major",
    "tempo_bpm": 126.0,
    "year": "1915",
@@ -4696,6 +6316,52 @@
    "popularity": 0
   },
   {
+   "id": "let-me-call-you-sweetheart",
+   "title": "Let Me Call You Sweetheart",
+   "artist": "Leo Friedman / Beth Slater Whitson",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 10,
+    "notes_per_second": 1.0,
+    "big_leaps": 0.12,
+    "shortest": 0.5,
+    "score": 4.0
+   },
+   "duration": 102.0,
+   "key": "C major",
+   "tempo_bpm": 120.0,
+   "year": "1910",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Leo Friedman (died 1927), words by Beth Slater Whitson (died 1930); published in 1910. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/letmecallyouswee00whit_0"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "waltz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 96,
+   "word_count": 78,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "loch-lomond",
    "title": "Loch Lomond",
    "artist": "Traditional",
@@ -4907,6 +6573,52 @@
    "lyrics": "annotated"
   },
   {
+   "id": "makin-whoopee",
+   "title": "Makin' Whoopee",
+   "artist": "Walter Donaldson / Gus Kahn",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 11,
+    "notes_per_second": 2.34,
+    "big_leaps": 0.2,
+    "shortest": 0.12,
+    "score": 10.0
+   },
+   "duration": 129.524,
+   "key": "G major",
+   "tempo_bpm": 126.0,
+   "year": "1928",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Walter Donaldson (died 1947), words by Gus Kahn (died 1941); written for the musical \"Whoopee!\" and published by Donaldson, Douglas & Gumble in 1928. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Makin%27_Whoopee!_(1928)_Sheet_Music.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 211,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "broadway"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 286,
+   "word_count": 176,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "maoz-tzur",
    "title": "Ma'oz Tzur (Rock of Ages)",
    "artist": "Traditional",
@@ -5019,6 +6731,52 @@
    "gain_db": -6.46,
    "language_probability": 0.9683297872543335,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "meet-me-in-st-louis",
+   "title": "Meet Me in St. Louis, Louis",
+   "artist": "Kerry Mills / Andrew B. Sterling",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 10,
+    "notes_per_second": 1.69,
+    "big_leaps": 0.13,
+    "shortest": 0.38,
+    "score": 7.0
+   },
+   "duration": 78.75,
+   "key": "C major",
+   "tempo_bpm": 160.0,
+   "year": "1904",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Kerry Mills (died 1948), words by Andrew B. Sterling (died 1955); published by F. A. Mills, New York, in 1904 for the St. Louis World's Fair. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Meet_Me_in_St._Louis,_Louis_(Mills,_Kerry)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 211,
+   "tags": [
+    "standard",
+    "1900s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 120,
+   "word_count": 96,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -5135,6 +6893,69 @@
    "popularity": 0
   },
   {
+   "id": "micheyq-love-me-too",
+   "title": "Love Me Too",
+   "artist": "MicheyQ",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 12,
+    "notes_per_second": 2.13,
+    "big_leaps": 0.11,
+    "shortest": 0.08,
+    "score": 9.0
+   },
+   "duration": 248.928,
+   "key": "F# minor",
+   "tempo_bpm": 123.0,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Love Me Too\" by MicheyQ, from the album \"Love Me Too\". CC BY 3.0. Published on Jamendo (album 299625); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-299625"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 207,
+   "tags": [
+    "jamendo",
+    "rock",
+    "singersongwriter"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 501,
+   "word_count": 115,
+   "review": {
+    "checked": 701,
+    "dropped": 32,
+    "octave_fixed": 39,
+    "pitch_fixed": 9,
+    "kept": 621,
+    "outliers_dropped": 2,
+    "held": {
+     "before": 667,
+     "same_pitch": 147,
+     "wobbles": 4,
+     "bends": 11,
+     "after": 501
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -5.29,
+   "language_probability": 0.9311703443527222,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
    "id": "mo-li-hua",
    "title": "Mo Li Hua (Jasmine Flower)",
    "artist": "Traditional",
@@ -5228,6 +7049,52 @@
    "popularity": 0
   },
   {
+   "id": "moonlight-bay",
+   "title": "Moonlight Bay",
+   "artist": "Percy Wenrich / Edward Madden",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 9,
+    "notes_per_second": 1.4,
+    "big_leaps": 0.22,
+    "shortest": 0.14,
+    "score": 6.0
+   },
+   "duration": 77.778,
+   "key": "Bb major",
+   "tempo_bpm": 108.0,
+   "year": "1912",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Percy Wenrich (died 1952), words by Edward Madden (died 1952); published by Jerome H. Remick & Co. in 1912. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/jukebox.moonlightbay"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 211,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "barbershop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 100,
+   "word_count": 72,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "muss-i-denn",
    "title": "Muss i denn",
    "artist": "Friedrich Silcher / Traditional",
@@ -5272,6 +7139,52 @@
    "note_count": 86,
    "word_count": 70,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "my-blue-heaven",
+   "title": "My Blue Heaven",
+   "artist": "Walter Donaldson / George A. Whiting",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 17,
+    "distinct": 10,
+    "notes_per_second": 1.55,
+    "big_leaps": 0.08,
+    "shortest": 0.23,
+    "score": 5.0
+   },
+   "duration": 125.455,
+   "key": "Eb major",
+   "tempo_bpm": 132.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Walter Donaldson (died 1947), words by George A. Whiting (died 1943); published by Leo Feist, Inc. in 1927. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:My_Blue_Heaven_(1927)_sheet_music.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 200,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 182,
+   "word_count": 124,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -5605,7 +7518,7 @@
     "shortest": 0.23,
     "score": 3.0
    },
-   "duration": 49.091,
+   "duration": 50.455,
    "key": "A minor",
    "tempo_bpm": 132.0,
    "year": "1884",
@@ -5726,6 +7639,284 @@
    "note_count": 83,
    "word_count": 63,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "oh-you-beautiful-doll",
+   "title": "Oh, You Beautiful Doll",
+   "artist": "Nat D. Ayer / A. Seymour Brown",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 2.27,
+    "big_leaps": 0.0,
+    "shortest": 0.23,
+    "score": 3.0
+   },
+   "duration": 80.0,
+   "key": "Ab major",
+   "tempo_bpm": 132.0,
+   "year": "1911",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Nat D. Ayer (died 1952), words by A. Seymour Brown (died 1947); published by Jerome H. Remick & Co. in 1911. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM002741"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 204,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "ragtime"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 164,
+   "word_count": 118,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "ol-man-river",
+   "title": "Ol' Man River",
+   "artist": "Jerome Kern / Oscar Hammerstein II",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 12,
+    "notes_per_second": 1.25,
+    "big_leaps": 0.02,
+    "shortest": 0.21,
+    "score": 6.0
+   },
+   "duration": 113.333,
+   "key": "Eb major",
+   "tempo_bpm": 72.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Jerome Kern (died 1945), words by Oscar Hammerstein II (died 1960); from the musical \"Show Boat\", published by T. B. Harms Co. in 1927 (the refrain with its original published words, the period dialect spellings written in standard spelling). Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Ol%27_Man_River_(1927)_Sheet_music.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 200,
+   "tags": [
+    "standard",
+    "1920s",
+    "broadway",
+    "ballad"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 130,
+   "word_count": 102,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "over-there",
+   "title": "Over There",
+   "artist": "George M. Cohan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 7,
+    "notes_per_second": 2.37,
+    "big_leaps": 0.11,
+    "shortest": 0.25,
+    "score": 5.0
+   },
+   "duration": 102.0,
+   "key": "Bb major",
+   "tempo_bpm": 120.0,
+   "year": "1917",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by George M. Cohan (died 1942); published by Leo Feist, Inc., New York, in 1917. Public domain: published before 1931 (United States) and the author died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/overthere00coha"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 202,
+   "tags": [
+    "standard",
+    "1910s",
+    "march",
+    "wwi"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 227,
+   "word_count": 169,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "pack-up-your-troubles",
+   "title": "Pack Up Your Troubles in Your Old Kit-Bag",
+   "artist": "Felix Powell / George Asaf",
+   "origin": "United Kingdom",
+   "culture": "British",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 15,
+    "distinct": 10,
+    "notes_per_second": 1.67,
+    "big_leaps": 0.08,
+    "shortest": 0.29,
+    "score": 5.0
+   },
+   "duration": 80.769,
+   "key": "G major",
+   "tempo_bpm": 104.0,
+   "year": "1915",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Felix Powell (died 1942), words by his brother George Henry Powell writing as George Asaf (died 1951); published in London in 1915. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/mms_driscoll_ser_6_box_167_pack_up_your_troubles_in_your"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 191,
+   "tags": [
+    "standard",
+    "1910s",
+    "music hall",
+    "wwi"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 122,
+   "word_count": 96,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "peg-o-my-heart",
+   "title": "Peg o' My Heart",
+   "artist": "Fred Fisher / Alfred Bryan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 2.24,
+    "big_leaps": 0.1,
+    "shortest": 0.28,
+    "score": 3.0
+   },
+   "duration": 75.556,
+   "key": "C major",
+   "tempo_bpm": 108.0,
+   "year": "1913",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Fred Fisher (died 1942), words by Alfred Bryan (died 1958); published by Leo Feist in 1913, inspired by the Broadway comedy of the same name. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Peg_O'_My_Heart_(Fisher,_Fred)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 210,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "irish"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 152,
+   "word_count": 104,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "plaisir-d-amour",
+   "title": "Plaisir d'amour",
+   "artist": "Jean-Paul-Égide Martini / Jean-Pierre Claris de Florian",
+   "origin": "France",
+   "culture": "French",
+   "genre": "Classical",
+   "language": "fr",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 16,
+    "distinct": 12,
+    "notes_per_second": 1.03,
+    "big_leaps": 0.08,
+    "shortest": 0.26,
+    "score": 6.0
+   },
+   "duration": 83.793,
+   "key": "F major",
+   "tempo_bpm": 38.7,
+   "year": "1784",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Romance by Jean-Paul-Égide Martini (died 1816) to a poem by Jean-Pierre Claris de Florian (died 1794), published in 1784. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada). Melody from the Leduc voice-and-piano edition (Gallica, via Wikimedia Commons); the refrain, the first couplet and the refrain again (the second couplet, in F minor, is left out).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Plaisir_d%27amour_(%C3%A9d._Leduc),_page_1.jpg"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 230,
+   "tags": [
+    "standard",
+    "france",
+    "romance",
+    "love",
+    "1780s",
+    "classical song"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 77,
+   "word_count": 36,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -5927,6 +8118,73 @@
    "gain_db": -5.02,
    "language_probability": 0.709052324295044,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "rochelle-gabrielle-voices",
+   "title": "Voices",
+   "artist": "Rochelle Gabrielle",
+   "origin": "",
+   "culture": "",
+   "genre": "Soul & R&B",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 9,
+    "notes_per_second": 1.75,
+    "big_leaps": 0.05,
+    "shortest": 0.09,
+    "score": 5.0
+   },
+   "duration": 246.667,
+   "key": "E major",
+   "tempo_bpm": 117.5,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Voices\" by Rochelle Gabrielle, from the album \"Rochelle Gabrielle\". CC BY 3.0. Published on Jamendo (album 143320); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-143320"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 197,
+   "tags": [
+    "jamendo",
+    "dark",
+    "emotional",
+    "haunting",
+    "rnb",
+    "singersongwriter",
+    "soul"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 407,
+   "word_count": 141,
+   "review": {
+    "checked": 620,
+    "dropped": 25,
+    "octave_fixed": 6,
+    "pitch_fixed": 3,
+    "kept": 586,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 595,
+     "same_pitch": 178,
+     "wobbles": 2,
+     "bends": 6,
+     "after": 407
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": 0.96,
+   "language_probability": 0.8972064852714539,
+   "added": "2026-11-07",
    "popularity": 0
   },
   {
@@ -6223,6 +8481,73 @@
    "popularity": 0
   },
   {
+   "id": "scott-jacobs-this-small-town",
+   "title": "This Small Town",
+   "artist": "Scott Jacobs",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 6,
+    "notes_per_second": 1.86,
+    "big_leaps": 0.07,
+    "shortest": 0.1,
+    "score": 3.0
+   },
+   "duration": 282.195,
+   "key": "A major",
+   "tempo_bpm": 83.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"This Small Town\" by Scott Jacobs, from the album \"This Small Town\". CC BY 3.0. Published on Jamendo (album 159184); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-159184"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 198,
+   "tags": [
+    "jamendo",
+    "city",
+    "drums",
+    "guitar",
+    "happy",
+    "love",
+    "pop"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 431,
+   "word_count": 364,
+   "review": {
+    "checked": 539,
+    "dropped": 2,
+    "octave_fixed": 0,
+    "pitch_fixed": 1,
+    "kept": 536,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 537,
+     "same_pitch": 91,
+     "wobbles": 2,
+     "bends": 11,
+     "after": 431
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -1.88,
+   "language_probability": 0.9146559834480286,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
    "id": "seth-power-messes",
    "title": "Messes",
    "artist": "Seth Power",
@@ -6430,6 +8755,52 @@
    "popularity": 0
   },
   {
+   "id": "shine-on-harvest-moon",
+   "title": "Shine On, Harvest Moon",
+   "artist": "Nora Bayes / Jack Norworth",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 10,
+    "notes_per_second": 1.81,
+    "big_leaps": 0.03,
+    "shortest": 0.27,
+    "score": 5.0
+   },
+   "duration": 75.0,
+   "key": "G major",
+   "tempo_bpm": 112.0,
+   "year": "1908",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music credited to Nora Bayes (died 1928) and Jack Norworth (died 1959), who introduced it in the Ziegfeld Follies of 1908; published by Jerome H. Remick & Co. in 1908. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Shine_On_Harvest_Moon_(1908)_sheet_music.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "standard",
+    "1900s",
+    "tin pan alley",
+    "ziegfeld follies"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 124,
+   "word_count": 88,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "shor",
    "title": "Я у себя есть.",
    "artist": "SHOR",
@@ -6494,6 +8865,52 @@
    "gain_db": 0.98,
    "language_probability": 0.8810786604881287,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "side-by-side",
+   "title": "Side by Side",
+   "artist": "Harry Woods",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 11,
+    "notes_per_second": 2.61,
+    "big_leaps": 0.08,
+    "shortest": 0.09,
+    "score": 7.0
+   },
+   "duration": 102.0,
+   "key": "Eb major",
+   "tempo_bpm": 160.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Harry Woods (died 1970); published by Shapiro, Bernstein & Co. in 1927. Public domain: published before 1931 (United States) and the author died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM000259"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 193,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 251,
+   "word_count": 180,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -6590,6 +9007,51 @@
    "popularity": 0
   },
   {
+   "id": "smiles",
+   "title": "Smiles",
+   "artist": "Lee S. Roberts / J. Will Callahan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 9,
+    "notes_per_second": 1.58,
+    "big_leaps": 0.0,
+    "shortest": 0.45,
+    "score": 3.0
+   },
+   "duration": 123.636,
+   "key": "Ab major",
+   "tempo_bpm": 132.0,
+   "year": "1917",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Lee S. Roberts (died 1949), words by J. Will Callahan (died 1946); first published in 1917 and featured in \"The Passing Show of 1918\". Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Smiles_-_Mon_soleil,_c%27est_ton_sourire_-_(fox-trot)_pour_piano_et_chant_-_par_Lee_S._Roberts_;_paroles_fran%C3%A7aises_de_L._Boyer_et_Battaille-Henri_;_paroles_am%C3%A9ricaines_de_J._Will_Callahan_-_bpt6k3834467_(3_of_4).jpg"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 197,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 184,
+   "word_count": 124,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "song-bie",
    "title": "Song Bie (Farewell)",
    "artist": "John P. Ordway / Li Shutong",
@@ -6636,6 +9098,321 @@
    "popularity": 0
   },
   {
+   "id": "spiral-island-you-re-not-going-to-listen-and-i-can-t-really",
+   "title": "you're not going to listen and i can't really blame you",
+   "artist": "Spiral Island",
+   "origin": "",
+   "culture": "",
+   "genre": "Acoustic",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 19,
+    "distinct": 9,
+    "notes_per_second": 1.34,
+    "big_leaps": 0.17,
+    "shortest": 0.1,
+    "score": 7.0
+   },
+   "duration": 236.409,
+   "key": "C major",
+   "tempo_bpm": 99.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"you're not going to listen and i can't really blame you\" by Spiral Island, from the album \"Spiral Island\". CC BY 3.0. Published on Jamendo (album 175127); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-175127"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 205,
+   "tags": [
+    "jamendo",
+    "autoharp",
+    "drummachine",
+    "electroamplified",
+    "indiepop",
+    "neutral",
+    "sad"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 291,
+   "word_count": 126,
+   "review": {
+    "checked": 525,
+    "dropped": 29,
+    "octave_fixed": 33,
+    "pitch_fixed": 7,
+    "kept": 456,
+    "outliers_dropped": 4,
+    "held": {
+     "before": 492,
+     "same_pitch": 197,
+     "wobbles": 1,
+     "bends": 2,
+     "after": 291
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -8.07,
+   "language_probability": 0.5141711831092834,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
+   "id": "st-james-infirmary",
+   "title": "St. James Infirmary",
+   "artist": "Traditional",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 8,
+    "notes_per_second": 1.23,
+    "big_leaps": 0.0,
+    "shortest": 0.42,
+    "score": 1.0
+   },
+   "duration": 86.667,
+   "key": "C minor",
+   "tempo_bpm": 72.0,
+   "year": "1927",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Traditional American blues descended from the British \"Unfortunate Rake\"; the words are version B of \"Those Gambler's Blues\" as printed in Carl Sandburg's The American Songbag (1927), where the hospital is still \"St. Joe's\" (the later \"St. James\" wording comes from the 1929 Mills sheet music and is left out). Sandburg, who collected and printed it, died in 1967. Public domain: traditional, published before 1931 (United States), and neither the song nor Sandburg's printing has an author who died after 1971 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/americansongbag029895mbp"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 52,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "blues",
+    "new orleans"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 97,
+   "word_count": 71,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "st-louis-blues",
+   "title": "St. Louis Blues",
+   "artist": "W. C. Handy",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Blues",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 8,
+    "notes_per_second": 1.59,
+    "big_leaps": 0.11,
+    "shortest": 0.31,
+    "score": 2.0
+   },
+   "duration": 97.5,
+   "key": "G major",
+   "tempo_bpm": 96.0,
+   "year": "1914",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by W. C. Handy (died 1958); published by the Pace & Handy Music Co., Memphis, in 1914. The words are Handy's, with the period dialect spellings written in standard spelling. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:W._C._Handy_-_St._Louis_Blues_(1914,_Pace_and_Handy).pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 201,
+   "tags": [
+    "standard",
+    "1910s",
+    "blues",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 141,
+   "word_count": 85,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "suena-la-senal-11-naci-despues-de-ti",
+   "title": "Nací después de ti",
+   "artist": "Suena la Señal",
+   "origin": "",
+   "culture": "",
+   "genre": "Latin",
+   "language": "es",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 8,
+    "distinct": 9,
+    "notes_per_second": 2.38,
+    "big_leaps": 0.03,
+    "shortest": 0.1,
+    "score": 5.0
+   },
+   "duration": 174.968,
+   "key": "C major",
+   "tempo_bpm": 83.4,
+   "year": null,
+   "licence": {
+    "name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/"
+   },
+   "attribution": "\"Nací después de ti\" by suena la señal, from the album \"Nací después de ti\". CC BY 3.0. Published on Jamendo (album 329873); downloaded from the Internet Archive.",
+   "source": {
+    "kind": "cc",
+    "url": "https://archive.org/details/jamendo-329873"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 15,
+   "tags": [
+    "jamendo",
+    "happy",
+    "latin"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 372,
+   "word_count": 260,
+   "review": {
+    "checked": 462,
+    "dropped": 2,
+    "octave_fixed": 4,
+    "pitch_fixed": 6,
+    "kept": 450,
+    "outliers_dropped": 0,
+    "held": {
+     "before": 460,
+     "same_pitch": 79,
+     "wobbles": 2,
+     "bends": 5,
+     "after": 372
+    }
+   },
+   "lyrics": "transcribed",
+   "gain_db": -6.89,
+   "language_probability": 0.7730305194854736,
+   "added": "2026-11-07",
+   "popularity": 0
+  },
+  {
+   "id": "sweet-adeline",
+   "title": "Sweet Adeline",
+   "artist": "Harry Armstrong / Richard H. Gerard",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 9,
+    "distinct": 9,
+    "notes_per_second": 1.08,
+    "big_leaps": 0.1,
+    "shortest": 0.3,
+    "score": 2.0
+   },
+   "duration": 81.6,
+   "key": "Bb major",
+   "tempo_bpm": 100.0,
+   "year": "1903",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Harry Armstrong (died 1951), words by Richard H. Gerard (Richard Gerard Husch, died 1948); published by M. Witmark & Sons in 1903 as \"You're the Flower of My Heart, Sweet Adeline\". Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/You're_the_Flower_of_My_Heart,_Sweet_Adeline_(Armstrong,_Henry_W.)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 190,
+   "tags": [
+    "standard",
+    "1900s",
+    "barbershop",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 82,
+   "word_count": 56,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "sweet-georgia-brown",
+   "title": "Sweet Georgia Brown",
+   "artist": "Ben Bernie and Maceo Pinkard / Kenneth Casey",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Jazz",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 10,
+    "notes_per_second": 2.88,
+    "big_leaps": 0.09,
+    "shortest": 0.16,
+    "score": 7.0
+   },
+   "duration": 88.696,
+   "key": "G major",
+   "tempo_bpm": 184.0,
+   "year": "1925",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Ben Bernie (died 1943) and Maceo Pinkard (died 1962), words by Kenneth Casey (died 1965); published by Jerome H. Remick & Co. in 1925. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Sweet_Georgia_Brown_(Bernie,_Ben)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 35,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "charleston"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 240,
+   "word_count": 172,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "swing-low-sweet-chariot",
    "title": "Swing Low, Sweet Chariot",
    "artist": "Wallace Willis",
@@ -6679,6 +9456,52 @@
    "note_count": 102,
    "word_count": 68,
    "added": "2026-11-02",
+   "popularity": 0
+  },
+  {
+   "id": "take-me-out-to-the-ball-game",
+   "title": "Take Me Out to the Ball Game",
+   "artist": "Albert Von Tilzer / Jack Norworth",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 1.75,
+    "big_leaps": 0.07,
+    "shortest": 0.38,
+    "score": 3.0
+   },
+   "duration": 78.75,
+   "key": "D major",
+   "tempo_bpm": 160.0,
+   "year": "1908",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Albert Von Tilzer (died 1956), words by Jack Norworth (died 1959); published by the York Music Co., New York, in 1908. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Take_Me_Out_to_the_Ball_Game_(Von_Tilzer,_Albert)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 200,
+   "tags": [
+    "standard",
+    "1900s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 124,
+   "word_count": 112,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -6859,6 +9682,98 @@
    "popularity": 0
   },
   {
+   "id": "the-japanese-sandman",
+   "title": "The Japanese Sandman",
+   "artist": "Richard A. Whiting / Raymond B. Egan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 8,
+    "notes_per_second": 2.73,
+    "big_leaps": 0.02,
+    "shortest": 0.17,
+    "score": 5.0
+   },
+   "duration": 94.091,
+   "key": "F major",
+   "tempo_bpm": 176.0,
+   "year": "1920",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Richard A. Whiting (died 1938), words by Raymond B. Egan (died 1952); published by Jerome H. Remick & Co. in 1920. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/The_Japanese_Sandman"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 205,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 239,
+   "word_count": 174,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "the-sidewalks-of-new-york",
+   "title": "The Sidewalks of New York",
+   "artist": "Charles B. Lawlor / James W. Blake",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "easy",
+   "difficulty_details": {
+    "range": 10,
+    "distinct": 8,
+    "notes_per_second": 1.52,
+    "big_leaps": 0.01,
+    "shortest": 0.38,
+    "score": 2.0
+   },
+   "duration": 78.75,
+   "key": "G major",
+   "tempo_bpm": 160.0,
+   "year": "1894",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Charles B. Lawlor (died 1925), words by James W. Blake (died 1935); published in 1894. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/The_Sidewalks_of_New_York_(Lawlor,_Charles_B.)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 206,
+   "tags": [
+    "standard",
+    "1890s",
+    "waltz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": true,
+   "access": "free",
+   "note_count": 108,
+   "word_count": 70,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "the-water-is-wide",
    "title": "The Water Is Wide",
    "artist": "Traditional",
@@ -6969,6 +9884,100 @@
    "gain_db": -5.34,
    "language_probability": 0.8734056353569031,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "toot-toot-tootsie",
+   "title": "Toot, Toot, Tootsie (Goo' Bye!)",
+   "artist": "Gus Kahn, Ernie Erdman and Dan Russo",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 13,
+    "distinct": 11,
+    "notes_per_second": 1.72,
+    "big_leaps": 0.06,
+    "shortest": 0.31,
+    "score": 6.0
+   },
+   "duration": 107.5,
+   "key": "Eb major",
+   "tempo_bpm": 192.0,
+   "year": "1922",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by Gus Kahn (died 1941), Ernie Erdman (died 1946) and Dan Russo (died 1956); introduced by Al Jolson and published by Leo Feist, Inc. in 1922. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://en.wikipedia.org/wiki/Toot,_Toot,_Tootsie_(Goo%27_Bye!)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 194,
+   "tags": [
+    "standard",
+    "1920s",
+    "tin pan alley",
+    "jazz"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 171,
+   "word_count": 128,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "torna-a-surriento",
+   "title": "Torna a Surriento",
+   "artist": "Ernesto De Curtis / Giambattista De Curtis",
+   "origin": "Naples, Italy",
+   "culture": "Italian",
+   "genre": "Folk",
+   "language": "nap",
+   "difficulty": "hard",
+   "difficulty_details": {
+    "range": 14,
+    "distinct": 12,
+    "notes_per_second": 2.25,
+    "big_leaps": 0.07,
+    "shortest": 0.27,
+    "score": 6.0
+   },
+   "duration": 109.286,
+   "key": "D minor",
+   "tempo_bpm": 112.0,
+   "year": "1905",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Neapolitan song with music by Ernesto De Curtis (died 1937) and words by his brother Giambattista De Curtis (died 1926), associated with 1902 and officially copyrighted in 1905. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada). The verse moves from D minor to D major, so the major-key bars show notes outside the key.",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/Torna_a_Surriento_(De_Curtis,_Ernesto)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 139,
+   "tags": [
+    "standard",
+    "naples",
+    "italy",
+    "sorrento",
+    "neapolitan song",
+    "1900s"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 230,
+   "word_count": 125,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {
@@ -7335,7 +10344,7 @@
     "shortest": 0.22,
     "score": 4.0
    },
-   "duration": 36.522,
+   "duration": 37.826,
    "key": "G major",
    "tempo_bpm": 138.0,
    "year": "1935",
@@ -7428,7 +10437,7 @@
     "shortest": 0.48,
     "score": 0.0
    },
-   "duration": 66.667,
+   "duration": 68.571,
    "key": "F major",
    "tempo_bpm": 126.0,
    "year": "1923",
@@ -7505,6 +10514,52 @@
    "popularity": 0
   },
   {
+   "id": "yes-sir-thats-my-baby",
+   "title": "Yes Sir, That's My Baby",
+   "artist": "Walter Donaldson / Gus Kahn",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 11,
+    "distinct": 9,
+    "notes_per_second": 1.84,
+    "big_leaps": 0.05,
+    "shortest": 0.33,
+    "score": 4.0
+   },
+   "duration": 88.696,
+   "key": "Eb major",
+   "tempo_bpm": 184.0,
+   "year": "1925",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by Walter Donaldson (died 1947), words by Gus Kahn (died 1941); published by Irving Berlin, Inc. in 1925. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://commons.wikimedia.org/wiki/File:Yes_Sir!_That%27s_My_Baby.pdf"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 191,
+   "tags": [
+    "standard",
+    "1920s",
+    "jazz",
+    "tin pan alley"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 154,
+   "word_count": 121,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
    "id": "yigdal",
    "title": "Yigdal",
    "artist": "Traditional (Leoni melody)",
@@ -7550,6 +10605,98 @@
    "note_count": 92,
    "word_count": 37,
    "added": "2026-11-05",
+   "popularity": 0
+  },
+  {
+   "id": "you-made-me-love-you",
+   "title": "You Made Me Love You (I Didn't Want to Do It)",
+   "artist": "James V. Monaco / Joseph McCarthy",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 11,
+    "notes_per_second": 2.04,
+    "big_leaps": 0.05,
+    "shortest": 0.26,
+    "score": 5.0
+   },
+   "duration": 72.414,
+   "key": "C major",
+   "tempo_bpm": 116.0,
+   "year": "1913",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Music by James V. Monaco (died 1945), words by Joseph McCarthy (died 1943); published by Broadway Music Corp. (Will Von Tilzer) in 1913 and introduced by Al Jolson. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://archive.org/details/SM000400"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 195,
+   "tags": [
+    "standard",
+    "1910s",
+    "tin pan alley",
+    "broadway"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 134,
+   "word_count": 109,
+   "added": "2026-11-08",
+   "popularity": 0
+  },
+  {
+   "id": "youre-a-grand-old-flag",
+   "title": "You're a Grand Old Flag",
+   "artist": "George M. Cohan",
+   "origin": "United States",
+   "culture": "American",
+   "genre": "Standard",
+   "language": "en",
+   "difficulty": "medium",
+   "difficulty_details": {
+    "range": 12,
+    "distinct": 8,
+    "notes_per_second": 2.28,
+    "big_leaps": 0.07,
+    "shortest": 0.26,
+    "score": 3.0
+   },
+   "duration": 71.379,
+   "key": "G major",
+   "tempo_bpm": 116.0,
+   "year": "1906",
+   "licence": {
+    "name": "Public domain",
+    "url": null
+   },
+   "attribution": "Words and music by George M. Cohan (died 1942), written for his musical \"George Washington, Jr.\" and published by F. A. Mills, New York, in 1906; this is Cohan's own final wording of the chorus. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada).",
+   "source": {
+    "kind": "traditional",
+    "url": "https://imslp.org/wiki/You're_a_Grand_Old_Flag_(Cohan,_George_Michael)"
+   },
+   "cover": "cover.svg",
+   "accent_hue": 192,
+   "tags": [
+    "standard",
+    "1900s",
+    "broadway",
+    "march"
+   ],
+   "featured": false,
+   "beginner": false,
+   "access": "free",
+   "note_count": 150,
+   "word_count": 124,
+   "added": "2026-11-08",
    "popularity": 0
   },
   {

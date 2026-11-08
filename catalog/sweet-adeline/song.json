@@ -1,0 +1,1457 @@
+{
+ "schema_version": 1,
+ "id": "sweet-adeline",
+ "title": "Sweet Adeline",
+ "artist": "Harry Armstrong / Richard H. Gerard",
+ "duration": 81.6,
+ "tempo_bpm": 100.0,
+ "created_at": "2026-11-08T16:50:52.285161+00:00",
+ "updated_at": "2026-11-08T16:50:52.285179+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "en",
+  "override": null,
+  "script": "latin"
+ },
+ "key": {
+  "tonic": 10,
+  "mode": "major",
+  "name": "Bb major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "Sweet",
+   "roman": null,
+   "start": 3.0,
+   "end": 3.6,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "Adeline,",
+   "roman": null,
+   "start": 3.6,
+   "end": 7.8,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "my",
+   "roman": null,
+   "start": 7.8,
+   "end": 8.4,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "Adeline,",
+   "roman": null,
+   "start": 8.4,
+   "end": 12.6,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "at",
+   "roman": null,
+   "start": 12.6,
+   "end": 13.2,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "night,",
+   "roman": null,
+   "start": 13.2,
+   "end": 13.8,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "dear",
+   "roman": null,
+   "start": 13.8,
+   "end": 14.4,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "heart,",
+   "roman": null,
+   "start": 14.4,
+   "end": 17.4,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "for",
+   "roman": null,
+   "start": 17.4,
+   "end": 18.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "you",
+   "roman": null,
+   "start": 18.0,
+   "end": 18.6,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "I",
+   "roman": null,
+   "start": 18.6,
+   "end": 19.2,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "pine.",
+   "roman": null,
+   "start": 19.2,
+   "end": 22.2,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "In",
+   "roman": null,
+   "start": 22.2,
+   "end": 22.8,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "all",
+   "roman": null,
+   "start": 22.8,
+   "end": 23.4,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "my",
+   "roman": null,
+   "start": 23.4,
+   "end": 24.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "dreams",
+   "roman": null,
+   "start": 24.0,
+   "end": 27.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "your",
+   "roman": null,
+   "start": 27.0,
+   "end": 27.6,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "fair",
+   "roman": null,
+   "start": 27.6,
+   "end": 28.2,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "face",
+   "roman": null,
+   "start": 28.2,
+   "end": 28.8,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "beams.",
+   "roman": null,
+   "start": 28.8,
+   "end": 32.4,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "You're",
+   "roman": null,
+   "start": 32.4,
+   "end": 33.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "the",
+   "roman": null,
+   "start": 33.0,
+   "end": 33.6,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "flower",
+   "roman": null,
+   "start": 33.6,
+   "end": 34.8,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "of",
+   "roman": null,
+   "start": 34.8,
+   "end": 35.4,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "my",
+   "roman": null,
+   "start": 35.4,
+   "end": 36.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "heart,",
+   "roman": null,
+   "start": 36.0,
+   "end": 36.6,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "sweet",
+   "roman": null,
+   "start": 36.6,
+   "end": 37.2,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "Adeline.",
+   "roman": null,
+   "start": 37.2,
+   "end": 40.8,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "Sweet",
+   "roman": null,
+   "start": 41.4,
+   "end": 42.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "Adeline,",
+   "roman": null,
+   "start": 42.0,
+   "end": 46.2,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "my",
+   "roman": null,
+   "start": 46.2,
+   "end": 46.8,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "Adeline,",
+   "roman": null,
+   "start": 46.8,
+   "end": 51.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "at",
+   "roman": null,
+   "start": 51.0,
+   "end": 51.6,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "night,",
+   "roman": null,
+   "start": 51.6,
+   "end": 52.2,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "dear",
+   "roman": null,
+   "start": 52.2,
+   "end": 52.8,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "heart,",
+   "roman": null,
+   "start": 52.8,
+   "end": 55.8,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w36",
+   "text": "for",
+   "roman": null,
+   "start": 55.8,
+   "end": 56.4,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w37",
+   "text": "you",
+   "roman": null,
+   "start": 56.4,
+   "end": 57.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w38",
+   "text": "I",
+   "roman": null,
+   "start": 57.0,
+   "end": 57.6,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w39",
+   "text": "pine.",
+   "roman": null,
+   "start": 57.6,
+   "end": 60.6,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w40",
+   "text": "In",
+   "roman": null,
+   "start": 60.6,
+   "end": 61.2,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w41",
+   "text": "all",
+   "roman": null,
+   "start": 61.2,
+   "end": 61.8,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w42",
+   "text": "my",
+   "roman": null,
+   "start": 61.8,
+   "end": 62.4,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w43",
+   "text": "dreams",
+   "roman": null,
+   "start": 62.4,
+   "end": 65.4,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w44",
+   "text": "your",
+   "roman": null,
+   "start": 65.4,
+   "end": 66.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w45",
+   "text": "fair",
+   "roman": null,
+   "start": 66.0,
+   "end": 66.6,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w46",
+   "text": "face",
+   "roman": null,
+   "start": 66.6,
+   "end": 67.2,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w47",
+   "text": "beams.",
+   "roman": null,
+   "start": 67.2,
+   "end": 70.8,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w48",
+   "text": "You're",
+   "roman": null,
+   "start": 70.8,
+   "end": 71.4,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w49",
+   "text": "the",
+   "roman": null,
+   "start": 71.4,
+   "end": 72.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w50",
+   "text": "flower",
+   "roman": null,
+   "start": 72.0,
+   "end": 73.2,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w51",
+   "text": "of",
+   "roman": null,
+   "start": 73.2,
+   "end": 73.8,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w52",
+   "text": "my",
+   "roman": null,
+   "start": 73.8,
+   "end": 74.4,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w53",
+   "text": "heart,",
+   "roman": null,
+   "start": 74.4,
+   "end": 75.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w54",
+   "text": "sweet",
+   "roman": null,
+   "start": 75.0,
+   "end": 75.6,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w55",
+   "text": "Adeline.",
+   "roman": null,
+   "start": 75.6,
+   "end": 79.2,
+   "line": 7,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 3.0,
+   "end": 12.6
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 12.6,
+   "end": 22.2
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 22.2,
+   "end": 32.4
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 32.4,
+   "end": 40.8
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 41.4,
+   "end": 51.0
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 51.0,
+   "end": 60.6
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 60.6,
+   "end": 70.8
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 70.8,
+   "end": 79.2
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 3.0,
+   "end": 3.6,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 3.6,
+   "end": 4.2,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 4.2,
+   "end": 4.8,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 4.8,
+   "end": 7.2,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 7.2,
+   "end": 7.8,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 7.8,
+   "end": 8.4,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 8.4,
+   "end": 9.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 9.0,
+   "end": 9.6,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 9.6,
+   "end": 12.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 12.0,
+   "end": 12.6,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 12.6,
+   "end": 13.2,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 13.2,
+   "end": 13.8,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 13.8,
+   "end": 14.4,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 14.4,
+   "end": 16.8,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n14",
+   "start": 16.8,
+   "end": 17.4,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 17.4,
+   "end": 18.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 18.0,
+   "end": 18.6,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 18.6,
+   "end": 19.2,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 19.2,
+   "end": 21.6,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 21.6,
+   "end": 22.2,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 22.2,
+   "end": 22.8,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 22.8,
+   "end": 23.4,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 23.4,
+   "end": 24.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 24.0,
+   "end": 26.4,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 26.4,
+   "end": 27.0,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 27.0,
+   "end": 27.6,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 27.6,
+   "end": 28.2,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 28.2,
+   "end": 28.8,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 28.8,
+   "end": 31.2,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 31.2,
+   "end": 32.4,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 32.4,
+   "end": 33.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 33.0,
+   "end": 33.6,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n32",
+   "start": 33.6,
+   "end": 34.2,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 34.2,
+   "end": 34.8,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 34.8,
+   "end": 35.4,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 35.4,
+   "end": 36.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 36.0,
+   "end": 36.6,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 36.6,
+   "end": 37.2,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 37.2,
+   "end": 38.1,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 38.1,
+   "end": 38.4,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 38.4,
+   "end": 40.8,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 41.4,
+   "end": 42.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 42.0,
+   "end": 42.6,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 42.6,
+   "end": 43.2,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 43.2,
+   "end": 45.6,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 45.6,
+   "end": 46.2,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n47",
+   "start": 46.2,
+   "end": 46.8,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 46.8,
+   "end": 47.4,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 47.4,
+   "end": 48.0,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 48.0,
+   "end": 50.4,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n51",
+   "start": 50.4,
+   "end": 51.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n52",
+   "start": 51.0,
+   "end": 51.6,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 51.6,
+   "end": 52.2,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n54",
+   "start": 52.2,
+   "end": 52.8,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n55",
+   "start": 52.8,
+   "end": 55.2,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n56",
+   "start": 55.2,
+   "end": 55.8,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n57",
+   "start": 55.8,
+   "end": 56.4,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n58",
+   "start": 56.4,
+   "end": 57.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n59",
+   "start": 57.0,
+   "end": 57.6,
+   "midi": 64,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n60",
+   "start": 57.6,
+   "end": 60.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n61",
+   "start": 60.0,
+   "end": 60.6,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n62",
+   "start": 60.6,
+   "end": 61.2,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w40",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n63",
+   "start": 61.2,
+   "end": 61.8,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n64",
+   "start": 61.8,
+   "end": 62.4,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n65",
+   "start": 62.4,
+   "end": 64.8,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n66",
+   "start": 64.8,
+   "end": 65.4,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n67",
+   "start": 65.4,
+   "end": 66.0,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w44",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n68",
+   "start": 66.0,
+   "end": 66.6,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w45",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n69",
+   "start": 66.6,
+   "end": 67.2,
+   "midi": 66,
+   "confidence": 1.0,
+   "word": "w46",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n70",
+   "start": 67.2,
+   "end": 69.6,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n71",
+   "start": 69.6,
+   "end": 70.8,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n72",
+   "start": 70.8,
+   "end": 71.4,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w48",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n73",
+   "start": 71.4,
+   "end": 72.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w49",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n74",
+   "start": 72.0,
+   "end": 72.6,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w50",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n75",
+   "start": 72.6,
+   "end": 73.2,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w50",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n76",
+   "start": 73.2,
+   "end": 73.8,
+   "midi": 75,
+   "confidence": 1.0,
+   "word": "w51",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n77",
+   "start": 73.8,
+   "end": 74.4,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w52",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n78",
+   "start": 74.4,
+   "end": 75.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w53",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n79",
+   "start": 75.0,
+   "end": 75.6,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w54",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n80",
+   "start": 75.6,
+   "end": 76.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w55",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n81",
+   "start": 76.5,
+   "end": 76.8,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w55",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n82",
+   "start": 76.8,
+   "end": 79.2,
+   "midi": 70,
+   "confidence": 1.0,
+   "word": "w55",
+   "line": 7,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "original"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null,
+ "quality": {}
+}

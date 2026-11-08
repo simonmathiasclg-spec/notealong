@@ -1,0 +1,53 @@
+title: Hamabe no Uta
+artist: Tamezō Narita / Kokei Hayashi
+origin: Japan
+culture: Japanese
+genre: Classical
+language: ja
+key: Ab major
+tempo: 100
+meter: 6/8
+pickup: 1
+intro: 1
+outro: 1
+style: asian
+guide: flute
+year: 1918
+attribution: "Song of the Seashore": music by Tamezō Narita (died 1945), composed by 1916 to a poem by Kokei Hayashi (died 1947) first printed in 1913, published by Senō Gakufu in 1918. Public domain: published before 1931 (United States) and all authors died before 1972 (Canada). Verses 1 and 2 (the third verse, which Hayashi disowned, is left out), in the original key of A flat.
+source_url: https://ja.wikipedia.org/wiki/浜辺の歌
+tags: japan, sea, shore, taishō, art song
+# 6/8 with the eighth note as the beat (6 beats per bar). Melody from the Japanese Wikipedia score (LilyPond, A flat, Senō edition)
+# cross-checked with the flutetunes.com MIDI; the paired sixteenths are slurred onto one syllable.
+
+chords:
+| Ab | Eb7 | Ab | Eb7 | Ab | Eb7 | Ab Eb7 | Ab |
+| Eb | Ab Fm | Db Eb7 | Eb7 | Ab | Eb7 | Ab Eb7 | Ab |
+
+melody:
+# Verse 1
+A-shi-ta ha-ma-be wo sa-ma-yo-e-ba,
+= あした 浜辺 を さまよえば
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) Ab4 C5(2) ~Bb4/ ~Ab4/ ~Bb4(4) r
+mu-ka-shi no ko-to zo shi-no-ba-ru-ru.
+= 昔 の こと ぞ しのばるる
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) C5 Eb4(2) ~Bb4 ~Ab4(4) r
+Ka-ze no o-to yo, ku-mo no sa-ma yo,
+= 風 の 音 よ 雲 の さま よ
+Eb5 Eb5(2) Bb4 Eb5(2) B4 Eb5(3) C5(2) F5 F5(2) Db5 Ab4(2) Bb4 ~Eb5(4) r
+yo-su-ru na-mi mo ka-i no i-ro mo.
+= 寄する 波 も 貝 の 色 も
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) C5 Eb4(2) ~Bb4 ~Ab4(4) r
+
+# Verse 2
+Yu-u-be ha-ma-be wo mo-to-o-re-ba,
+= ゆうべ 浜辺 を もとおれば
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) Ab4 C5(2) ~Bb4/ ~Ab4/ ~Bb4(4) r
+mu-ka-shi no hi-to zo shi-no-ba-ru-ru.
+= 昔 の 人 ぞ しのばるる
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) C5 Eb4(2) ~Bb4 ~Ab4(4) r
+Yo-su-ru na-mi yo, ka-e-su na-mi yo,
+= 寄する 波 よ かえす 波 よ
+Eb5 Eb5(2) Bb4 Eb5(2) B4 Eb5(3) C5(2) F5 F5(2) Db5 Ab4(2) Bb4 ~Eb5(4) r
+tsu-ki no i-ro mo ho-shi no ka-ge mo.
+= 月 の 色 も 星 の かげ も
+Eb4 Eb4(2) Ab4/ ~Bb4/ C5(2) Bb4/ ~Ab4/ Bb4(2) F4 Ab4(2) G4/ ~F4/ Eb4(2) C5 Eb4(2) ~Bb4 ~Ab4(4) r(2)

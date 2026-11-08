@@ -1,0 +1,1805 @@
+{
+ "schema_version": 1,
+ "id": "akatonbo",
+ "title": "Akatonbo",
+ "artist": "Kōsaku Yamada / Rofū Miki",
+ "duration": 105.0,
+ "tempo_bpm": 60.0,
+ "created_at": "2026-11-08T16:21:23.225619+00:00",
+ "updated_at": "2026-11-08T16:21:23.225630+00:00",
+ "status": "ready",
+ "source": {
+  "kind": "catalog",
+  "origin": "traditional",
+  "format": "mp3"
+ },
+ "files": {
+  "original": "backing.mp3",
+  "backing": "backing.mp3",
+  "vocals": "vocals.mp3"
+ },
+ "language": {
+  "detected": "ja",
+  "override": null,
+  "script": "other"
+ },
+ "key": {
+  "tonic": 5,
+  "mode": "major",
+  "name": "F major",
+  "confidence": 1.0
+ },
+ "words": [
+  {
+   "id": "w0",
+   "text": "夕焼",
+   "roman": "Yuuyake",
+   "start": 6.0,
+   "end": 9.0,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w1",
+   "text": "小焼",
+   "roman": "koyake",
+   "start": 9.0,
+   "end": 11.0,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w2",
+   "text": "の",
+   "roman": "no",
+   "start": 11.0,
+   "end": 12.0,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w3",
+   "text": "あかとんぼ",
+   "roman": "akatonbo,",
+   "start": 12.0,
+   "end": 17.0,
+   "line": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": "w4",
+   "text": "負われて",
+   "roman": "owarete",
+   "start": 18.0,
+   "end": 21.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w5",
+   "text": "見た",
+   "roman": "mita",
+   "start": 21.0,
+   "end": 22.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w6",
+   "text": "の",
+   "roman": "no",
+   "start": 22.0,
+   "end": 23.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w7",
+   "text": "は",
+   "roman": "wa",
+   "start": 23.0,
+   "end": 24.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w8",
+   "text": "いつ",
+   "roman": "itsu",
+   "start": 24.0,
+   "end": 25.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w9",
+   "text": "の",
+   "roman": "no",
+   "start": 25.0,
+   "end": 26.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w10",
+   "text": "日",
+   "roman": "hi",
+   "start": 26.0,
+   "end": 27.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w11",
+   "text": "か",
+   "roman": "ka.",
+   "start": 27.0,
+   "end": 29.0,
+   "line": 1,
+   "confidence": 1.0
+  },
+  {
+   "id": "w12",
+   "text": "山",
+   "roman": "Yama",
+   "start": 30.0,
+   "end": 32.5,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w13",
+   "text": "の",
+   "roman": "no",
+   "start": 32.5,
+   "end": 33.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w14",
+   "text": "畑",
+   "roman": "hatake",
+   "start": 33.0,
+   "end": 35.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w15",
+   "text": "の",
+   "roman": "no",
+   "start": 35.0,
+   "end": 36.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w16",
+   "text": "桑",
+   "roman": "kuwa",
+   "start": 36.0,
+   "end": 37.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w17",
+   "text": "の",
+   "roman": "no",
+   "start": 37.0,
+   "end": 38.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w18",
+   "text": "実",
+   "roman": "mi",
+   "start": 38.0,
+   "end": 39.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w19",
+   "text": "を",
+   "roman": "wo,",
+   "start": 39.0,
+   "end": 41.0,
+   "line": 2,
+   "confidence": 1.0
+  },
+  {
+   "id": "w20",
+   "text": "小籠",
+   "roman": "kokago",
+   "start": 42.0,
+   "end": 44.5,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w21",
+   "text": "に",
+   "roman": "ni",
+   "start": 44.5,
+   "end": 45.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w22",
+   "text": "摘んだ",
+   "roman": "tsunda",
+   "start": 45.0,
+   "end": 47.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w23",
+   "text": "は",
+   "roman": "wa",
+   "start": 47.0,
+   "end": 48.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w24",
+   "text": "まぼろし",
+   "roman": "maboroshi",
+   "start": 48.0,
+   "end": 51.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w25",
+   "text": "か",
+   "roman": "ka.",
+   "start": 51.0,
+   "end": 53.0,
+   "line": 3,
+   "confidence": 1.0
+  },
+  {
+   "id": "w26",
+   "text": "十五",
+   "roman": "Jūgo",
+   "start": 54.0,
+   "end": 56.5,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w27",
+   "text": "で",
+   "roman": "de",
+   "start": 56.5,
+   "end": 57.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w28",
+   "text": "ねえや",
+   "roman": "neeya",
+   "start": 57.0,
+   "end": 59.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w29",
+   "text": "は",
+   "roman": "wa",
+   "start": 59.0,
+   "end": 60.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w30",
+   "text": "嫁",
+   "roman": "yome",
+   "start": 60.0,
+   "end": 61.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w31",
+   "text": "に",
+   "roman": "ni",
+   "start": 61.0,
+   "end": 62.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w32",
+   "text": "行き",
+   "roman": "yuki,",
+   "start": 62.0,
+   "end": 65.0,
+   "line": 4,
+   "confidence": 1.0
+  },
+  {
+   "id": "w33",
+   "text": "お里",
+   "roman": "osato",
+   "start": 66.0,
+   "end": 68.5,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w34",
+   "text": "の",
+   "roman": "no",
+   "start": 68.5,
+   "end": 69.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w35",
+   "text": "便り",
+   "roman": "tayori",
+   "start": 69.0,
+   "end": 71.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w36",
+   "text": "も",
+   "roman": "mo",
+   "start": 71.0,
+   "end": 72.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w37",
+   "text": "絶えはてた",
+   "roman": "taehateta.",
+   "start": 72.0,
+   "end": 77.0,
+   "line": 5,
+   "confidence": 1.0
+  },
+  {
+   "id": "w38",
+   "text": "夕焼",
+   "roman": "Yuuyake",
+   "start": 78.0,
+   "end": 81.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w39",
+   "text": "小焼",
+   "roman": "koyake",
+   "start": 81.0,
+   "end": 83.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w40",
+   "text": "の",
+   "roman": "no",
+   "start": 83.0,
+   "end": 84.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w41",
+   "text": "赤とんぼ",
+   "roman": "akatonbo,",
+   "start": 84.0,
+   "end": 89.0,
+   "line": 6,
+   "confidence": 1.0
+  },
+  {
+   "id": "w42",
+   "text": "とまって",
+   "roman": "tomatte",
+   "start": 90.0,
+   "end": 93.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w43",
+   "text": "いる",
+   "roman": "iru",
+   "start": 93.0,
+   "end": 95.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w44",
+   "text": "よ",
+   "roman": "yo",
+   "start": 95.0,
+   "end": 96.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w45",
+   "text": "竿",
+   "roman": "sao",
+   "start": 96.0,
+   "end": 97.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w46",
+   "text": "の",
+   "roman": "no",
+   "start": 97.0,
+   "end": 98.0,
+   "line": 7,
+   "confidence": 1.0
+  },
+  {
+   "id": "w47",
+   "text": "先",
+   "roman": "saki.",
+   "start": 98.0,
+   "end": 101.0,
+   "line": 7,
+   "confidence": 1.0
+  }
+ ],
+ "lines": [
+  {
+   "index": 0,
+   "kind": "lyric",
+   "start": 6.0,
+   "end": 17.0
+  },
+  {
+   "index": 1,
+   "kind": "lyric",
+   "start": 18.0,
+   "end": 29.0
+  },
+  {
+   "index": 2,
+   "kind": "lyric",
+   "start": 30.0,
+   "end": 41.0
+  },
+  {
+   "index": 3,
+   "kind": "lyric",
+   "start": 42.0,
+   "end": 53.0
+  },
+  {
+   "index": 4,
+   "kind": "lyric",
+   "start": 54.0,
+   "end": 65.0
+  },
+  {
+   "index": 5,
+   "kind": "lyric",
+   "start": 66.0,
+   "end": 77.0
+  },
+  {
+   "index": 6,
+   "kind": "lyric",
+   "start": 78.0,
+   "end": 89.0
+  },
+  {
+   "index": 7,
+   "kind": "lyric",
+   "start": 90.0,
+   "end": 101.0
+  }
+ ],
+ "notes": [
+  {
+   "id": "n0",
+   "start": 6.0,
+   "end": 6.5,
+   "midi": 60,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n1",
+   "start": 6.5,
+   "end": 7.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n2",
+   "start": 7.0,
+   "end": 8.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n3",
+   "start": 8.5,
+   "end": 9.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w0",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n4",
+   "start": 9.0,
+   "end": 9.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n5",
+   "start": 9.5,
+   "end": 10.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n6",
+   "start": 10.0,
+   "end": 10.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n7",
+   "start": 10.5,
+   "end": 11.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w1",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n8",
+   "start": 11.0,
+   "end": 12.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w2",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n9",
+   "start": 12.0,
+   "end": 12.5,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n10",
+   "start": 12.5,
+   "end": 13.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n11",
+   "start": 13.0,
+   "end": 14.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n12",
+   "start": 14.0,
+   "end": 15.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n13",
+   "start": 15.0,
+   "end": 17.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w3",
+   "line": 0,
+   "edited": false
+  },
+  {
+   "id": "n15",
+   "start": 18.0,
+   "end": 18.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n16",
+   "start": 18.5,
+   "end": 19.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n17",
+   "start": 19.0,
+   "end": 20.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n18",
+   "start": 20.5,
+   "end": 21.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w4",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n19",
+   "start": 21.0,
+   "end": 21.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n20",
+   "start": 21.5,
+   "end": 22.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w5",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n21",
+   "start": 22.0,
+   "end": 22.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n22",
+   "start": 22.5,
+   "end": 23.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w6",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n23",
+   "start": 23.0,
+   "end": 23.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n24",
+   "start": 23.5,
+   "end": 24.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w7",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n25",
+   "start": 24.0,
+   "end": 24.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n26",
+   "start": 24.5,
+   "end": 25.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w8",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n27",
+   "start": 25.0,
+   "end": 25.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n28",
+   "start": 25.5,
+   "end": 26.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w9",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n29",
+   "start": 26.0,
+   "end": 26.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n30",
+   "start": 26.5,
+   "end": 27.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w10",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n31",
+   "start": 27.0,
+   "end": 29.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w11",
+   "line": 1,
+   "edited": false
+  },
+  {
+   "id": "n33",
+   "start": 30.0,
+   "end": 30.5,
+   "midi": 60,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n34",
+   "start": 30.5,
+   "end": 31.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n35",
+   "start": 31.0,
+   "end": 32.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w12",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n36",
+   "start": 32.5,
+   "end": 33.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w13",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n37",
+   "start": 33.0,
+   "end": 33.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n38",
+   "start": 33.5,
+   "end": 34.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n39",
+   "start": 34.0,
+   "end": 34.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n40",
+   "start": 34.5,
+   "end": 35.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w14",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n41",
+   "start": 35.0,
+   "end": 36.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w15",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n42",
+   "start": 36.0,
+   "end": 36.5,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n43",
+   "start": 36.5,
+   "end": 37.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w16",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n44",
+   "start": 37.0,
+   "end": 38.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w17",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n45",
+   "start": 38.0,
+   "end": 39.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w18",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n46",
+   "start": 39.0,
+   "end": 41.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w19",
+   "line": 2,
+   "edited": false
+  },
+  {
+   "id": "n48",
+   "start": 42.0,
+   "end": 42.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n49",
+   "start": 42.5,
+   "end": 43.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n50",
+   "start": 43.0,
+   "end": 44.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w20",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n51",
+   "start": 44.5,
+   "end": 45.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w21",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n52",
+   "start": 45.0,
+   "end": 45.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n53",
+   "start": 45.5,
+   "end": 46.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n54",
+   "start": 46.0,
+   "end": 46.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n55",
+   "start": 46.5,
+   "end": 47.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w22",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n56",
+   "start": 47.0,
+   "end": 47.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n57",
+   "start": 47.5,
+   "end": 48.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w23",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n58",
+   "start": 48.0,
+   "end": 48.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n59",
+   "start": 48.5,
+   "end": 49.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n60",
+   "start": 49.0,
+   "end": 49.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n61",
+   "start": 49.5,
+   "end": 50.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n62",
+   "start": 50.0,
+   "end": 50.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n63",
+   "start": 50.5,
+   "end": 51.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w24",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n64",
+   "start": 51.0,
+   "end": 53.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w25",
+   "line": 3,
+   "edited": false
+  },
+  {
+   "id": "n66",
+   "start": 54.0,
+   "end": 54.5,
+   "midi": 60,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n67",
+   "start": 54.5,
+   "end": 55.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n68",
+   "start": 55.0,
+   "end": 56.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w26",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n69",
+   "start": 56.5,
+   "end": 57.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w27",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n70",
+   "start": 57.0,
+   "end": 57.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n71",
+   "start": 57.5,
+   "end": 58.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n72",
+   "start": 58.0,
+   "end": 58.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n73",
+   "start": 58.5,
+   "end": 59.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w28",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n74",
+   "start": 59.0,
+   "end": 60.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w29",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n75",
+   "start": 60.0,
+   "end": 60.5,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n76",
+   "start": 60.5,
+   "end": 61.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w30",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n77",
+   "start": 61.0,
+   "end": 62.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w31",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n78",
+   "start": 62.0,
+   "end": 63.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n79",
+   "start": 63.0,
+   "end": 65.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w32",
+   "line": 4,
+   "edited": false
+  },
+  {
+   "id": "n81",
+   "start": 66.0,
+   "end": 66.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n82",
+   "start": 66.5,
+   "end": 67.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n83",
+   "start": 67.0,
+   "end": 68.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w33",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n84",
+   "start": 68.5,
+   "end": 69.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w34",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n85",
+   "start": 69.0,
+   "end": 69.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n86",
+   "start": 69.5,
+   "end": 70.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n87",
+   "start": 70.0,
+   "end": 70.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n88",
+   "start": 70.5,
+   "end": 71.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w35",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n89",
+   "start": 71.0,
+   "end": 71.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n90",
+   "start": 71.5,
+   "end": 72.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w36",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n91",
+   "start": 72.0,
+   "end": 72.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n92",
+   "start": 72.5,
+   "end": 73.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n93",
+   "start": 73.0,
+   "end": 73.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n94",
+   "start": 73.5,
+   "end": 74.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n95",
+   "start": 74.0,
+   "end": 74.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n96",
+   "start": 74.5,
+   "end": 75.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n97",
+   "start": 75.0,
+   "end": 77.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w37",
+   "line": 5,
+   "edited": false
+  },
+  {
+   "id": "n99",
+   "start": 78.0,
+   "end": 78.5,
+   "midi": 60,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n100",
+   "start": 78.5,
+   "end": 79.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n101",
+   "start": 79.0,
+   "end": 80.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n102",
+   "start": 80.5,
+   "end": 81.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w38",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n103",
+   "start": 81.0,
+   "end": 81.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n104",
+   "start": 81.5,
+   "end": 82.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n105",
+   "start": 82.0,
+   "end": 82.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n106",
+   "start": 82.5,
+   "end": 83.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w39",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n107",
+   "start": 83.0,
+   "end": 84.0,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w40",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n108",
+   "start": 84.0,
+   "end": 84.5,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n109",
+   "start": 84.5,
+   "end": 85.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n110",
+   "start": 85.0,
+   "end": 86.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n111",
+   "start": 86.0,
+   "end": 87.0,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n112",
+   "start": 87.0,
+   "end": 89.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w41",
+   "line": 6,
+   "edited": false
+  },
+  {
+   "id": "n114",
+   "start": 90.0,
+   "end": 90.5,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n115",
+   "start": 90.5,
+   "end": 91.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n116",
+   "start": 91.0,
+   "end": 92.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n117",
+   "start": 92.5,
+   "end": 93.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w42",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n118",
+   "start": 93.0,
+   "end": 93.5,
+   "midi": 77,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n119",
+   "start": 93.5,
+   "end": 94.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n120",
+   "start": 94.0,
+   "end": 94.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n121",
+   "start": 94.5,
+   "end": 95.0,
+   "midi": 74,
+   "confidence": 1.0,
+   "word": "w43",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n122",
+   "start": 95.0,
+   "end": 95.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w44",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n123",
+   "start": 95.5,
+   "end": 96.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w44",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n124",
+   "start": 96.0,
+   "end": 96.5,
+   "midi": 72,
+   "confidence": 1.0,
+   "word": "w45",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n125",
+   "start": 96.5,
+   "end": 97.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w45",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n126",
+   "start": 97.0,
+   "end": 97.5,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w46",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n127",
+   "start": 97.5,
+   "end": 98.0,
+   "midi": 69,
+   "confidence": 1.0,
+   "word": "w46",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n128",
+   "start": 98.0,
+   "end": 98.5,
+   "midi": 67,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n129",
+   "start": 98.5,
+   "end": 99.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 7,
+   "edited": false
+  },
+  {
+   "id": "n130",
+   "start": 99.0,
+   "end": 101.0,
+   "midi": 65,
+   "confidence": 1.0,
+   "word": "w47",
+   "line": 7,
+   "edited": false
+  }
+ ],
+ "settings": {
+  "detail_level": "balanced",
+  "cleanup": {},
+  "lyrics_source": "pasted",
+  "whisper_model": null
+ },
+ "user": {
+  "instrument": "alto_sax",
+  "key_shift": 0,
+  "octave": "auto",
+  "notation": "sharps",
+  "speed": 1.0,
+  "loop": null,
+  "position": 0.0,
+  "backing_volume": 1.0,
+  "guide_vocal": false,
+  "guide_volume": 0.35,
+  "script": "roman"
+ },
+ "steps": {
+  "stems": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "melody": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "lyrics": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  },
+  "attach": {
+   "status": "done",
+   "progress": 1.0,
+   "seconds": null,
+   "error": null
+  }
+ },
+ "error": null,
+ "quality": {}
+}

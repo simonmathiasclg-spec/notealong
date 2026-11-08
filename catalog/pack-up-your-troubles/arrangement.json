@@ -1,0 +1,36 @@
+{
+ "style": "march",
+ "intro_bars": 4,
+ "intro_seconds": 4.62,
+ "first_note": 4.62,
+ "parts": [
+  {
+   "part": "brass",
+   "role": "comp",
+   "notes": 411,
+   "raw_lufs": -33.0,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "horns",
+   "role": "pad",
+   "notes": 171,
+   "raw_lufs": -28.9,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "tuba",
+   "role": "bass",
+   "notes": 137,
+   "raw_lufs": -34.1,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "drums",
+   "role": "perc",
+   "notes": 454,
+   "raw_lufs": -34.4,
+   "mix_lufs": -23.5
+  }
+ ]
+}

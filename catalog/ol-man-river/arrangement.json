@@ -1,0 +1,36 @@
+{
+ "style": "ballad",
+ "intro_bars": 1,
+ "intro_seconds": 3.33,
+ "first_note": 3.33,
+ "parts": [
+  {
+   "part": "piano",
+   "role": "comp",
+   "notes": 474,
+   "raw_lufs": -34.8,
+   "mix_lufs": -22.0
+  },
+  {
+   "part": "strings",
+   "role": "pad",
+   "notes": 192,
+   "raw_lufs": -32.9,
+   "mix_lufs": -27.5
+  },
+  {
+   "part": "bass",
+   "role": "bass",
+   "notes": 66,
+   "raw_lufs": -32.8,
+   "mix_lufs": -24.0
+  },
+  {
+   "part": "percussion",
+   "role": "perc",
+   "notes": 154,
+   "raw_lufs": -44.9,
+   "mix_lufs": -23.5
+  }
+ ]
+}
