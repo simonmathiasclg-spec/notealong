@@ -16,6 +16,7 @@ What makes it sound played rather than programmed:
 """
 from __future__ import annotations
 
+import dataclasses
 import random
 from dataclasses import dataclass, field
 
@@ -43,11 +44,13 @@ BRUSH_TAP, BRUSH_SLAP, BRUSH_SWIRL = 38, 39, 40      # in the brush kit
 
 @dataclass(frozen=True)
 class Sound:
-    """One preset in one of the soundfonts ("gu" = GeneralUser GS, "ms" = MuseScore General)."""
+    """One preset in one of the soundfonts ("gu" = GeneralUser GS, "ms" = MuseScore General), or a
+    sampled instrument in SFZ format (sf="sfz", sfz=<library name in render.SFZ_LIBS>)."""
     sf: str
     program: int
     bank: int = 0
     drum: bool = False
+    sfz: str = ""
 
 
 @dataclass
@@ -70,6 +73,10 @@ MANDOLIN = Sound("gu", 25, bank=16)
 UKULELE = Sound("gu", 24, bank=8)
 BANJO = Sound("gu", 105)
 PIANO = Sound("ms", 0)
+# Sampled instruments (SFZ, rendered with sfizz; see catalog/LICENSES.md and catalog/sfz_sources.py)
+GRAND = Sound("sfz", 0, sfz="salamander")            # Salamander Grand Piano V3 (Yamaha C5), CC BY 3.0
+STICKS_KIT = Sound("sfz", 0, drum=True, sfz="virtuosity")   # Virtuosity Drums, jazz kit played with sticks, CC0
+ELECTRIC_BASS = Sound("sfz", 33, sfz="swagbass")     # Swagbass, Karoryfer, CC0
 MELLOW_PIANO = Sound("ms", 0, bank=8)
 EPIANO = Sound("gu", 4)
 CELESTA = Sound("gu", 8)
@@ -136,13 +143,13 @@ STYLES: dict[str, Style] = {
         P("drums", BRUSH_KIT, "drums_train", "perc", reverb=0.1),
     ]),
     "ballad": Style([
-        P("piano", PIANO, "piano_ballad", "comp", pan=-0.1, reverb=0.25),
+        P("piano", GRAND, "piano_ballad", "comp", pan=-0.1, reverb=0.25),
         P("strings", STRINGS, "pad", "pad", pan=0.15, reverb=0.4),
         P("bass", UPRIGHT, "bass_long", "bass", reverb=0.05),
         P("percussion", BRUSH_KIT, "drums_brush_ballad", "perc", reverb=0.2),
     ], room="hall"),
     "waltz": Style([
-        P("piano", PIANO, "offbeat", "comp", pan=-0.2, reverb=0.2),
+        P("piano", GRAND, "offbeat", "comp", pan=-0.2, reverb=0.2),
         P("strings", STRINGS, "pad", "pad", pan=0.2, reverb=0.4),
         P("bass", UPRIGHT, "bass_oom", "bass", reverb=0.05),
         P("percussion", BRUSH_KIT, "drums_waltz", "perc", reverb=0.15),
@@ -154,7 +161,7 @@ STYLES: dict[str, Style] = {
         P("drums", ORCH_KIT, "drums_march", "perc", reverb=0.2),
     ], room="hall", loose=0.006),
     "swing": Style([
-        P("piano", PIANO, "swing_comp", "comp", pan=-0.25, reverb=0.15),
+        P("piano", GRAND, "swing_comp", "comp", pan=-0.25, reverb=0.15),
         P("horns", BRASS, "stabs", "color", pan=0.3, reverb=0.25),
         P("bass", UPRIGHT, "bass_walk", "bass", reverb=0.05),
         P("drums", BRUSH_KIT, "drums_swing", "perc", reverb=0.12),
@@ -166,7 +173,7 @@ STYLES: dict[str, Style] = {
         P("percussion", KIT, "drums_latin", "perc", reverb=0.12),
     ]),
     "lullaby": Style([
-        P("piano", MELLOW_PIANO, "arp", "comp", pan=-0.1, reverb=0.3, soft=True),
+        P("piano", GRAND, "arp", "comp", pan=-0.1, reverb=0.3, soft=True),
         P("pad", WARM_PAD, "pad", "pad", pan=0.1, reverb=0.45),
         P("music box", MUSIC_BOX, "sparkle", "color", pan=0.3, reverb=0.4),
         P("bass", UPRIGHT, "bass_long", "bass", reverb=0.05),
@@ -177,10 +184,10 @@ STYLES: dict[str, Style] = {
         P("pedal", CONTRABASS, "bass_long", "bass", reverb=0.2),
     ], room="chapel", loose=0.005),
     "gospel": Style([
-        P("piano", PIANO, "gospel_piano", "comp", pan=-0.25, reverb=0.18),
+        P("piano", GRAND, "gospel_piano", "comp", pan=-0.25, reverb=0.18),
         P("organ", ORGAN, "organ", "pad", pan=0.25, reverb=0.3, rhythmic=True),
-        P("bass", FINGER_BASS, "bass_two", "bass", reverb=0.05, walkups=True),
-        P("drums", ROOM_KIT, "drums_gospel", "perc", reverb=0.15),
+        P("bass", ELECTRIC_BASS, "bass_two", "bass", reverb=0.05, walkups=True),
+        P("drums", STICKS_KIT, "drums_gospel", "perc", reverb=0.15),
     ], room="chapel", swing=0.58),
     "carol": Style([
         P("strings", STRINGS, "pad", "comp", pan=-0.15, reverb=0.4, rearticulate=True),
@@ -314,10 +321,15 @@ class Arranger:
         if self.spec.meta.get("intro_exact"):
             return max(0, self.spec.intro_bars)
         if self.bar_len >= 3.2:
-            return 1
-        if self.bar_len * 2 < 2.6:
-            return 4
-        return 2
+            n = 1
+        elif self.bar_len * 2 < 2.6:
+            n = 4
+        else:
+            n = 2
+        # a pickup starts the melody before bar 1 and eats into the intro: keep at least 2.4 s of band first
+        while n < 8 and n * self.bar_len - self.spec.pickup * self.beat_len < 2.4:
+            n += 1
+        return n
 
     @property
     def compound(self) -> bool:
@@ -423,9 +435,31 @@ class Arranger:
     def _vel(self, v: float, spread: float = 5) -> int:
         return int(max(8, min(124, round(v + self.rng.gauss(0, spread)))))
 
+    @property
+    def two_feel_bars(self) -> int:
+        """In swing, the bass plays "in two" (half notes) through the first section and starts walking
+        after it, the way a jazz rhythm section builds a chorus. Short songs walk from the start."""
+        return min(16, self.song_bars // 2) if self.song_bars >= 24 else 0
+
+    def energy(self, t: float) -> float:
+        """How hard the band plays at time t: a little softer in the intro and first section, full
+        in the middle, a lift in the last eight bars. Multiplies the velocity of every band note."""
+        bar = int((t - self.bar1) // self.bar_len) if t >= self.bar1 else -1
+        if bar < 0:
+            return 0.92
+        if self.is_ending(bar):
+            return 1.0
+        first = min(8, self.song_bars // 3) if self.song_bars >= 16 else 0
+        if bar < first:
+            return 0.9
+        if self.song_bars >= 24 and bar >= self.song_bars - 8:
+            return 1.06
+        return 1.0
+
     def _add(self, inst, pitch, s, e, vel, loose: float = 1.0):
         if pitch is None or e - s <= 0.015:
             return
+        vel = vel * self.energy(s)
         s2 = self._loose(s, loose) if loose else s
         inst.notes.append(pretty_midi.Note(velocity=self._vel(vel, 4 if loose else 0), pitch=int(max(0, min(127, pitch))), start=float(s2), end=float(max(s2 + 0.03, e))))
 
@@ -502,9 +536,19 @@ class Arranger:
         return out
 
     # ---- building the band --------------------------------------------------------
-    def band(self) -> list[tuple[Part, pretty_midi.Instrument]]:
+    def parts(self) -> list[Part]:
+        """The style's band, adapted to this song: an up-tempo swing tune gets a drummer with sticks
+        (ride cymbal, snare comping) instead of brushes."""
         out = []
         for part in self.style.parts:
+            if part.pattern == "drums_swing" and self.spec.tempo >= 150 and not self.compound:
+                part = dataclasses.replace(part, sound=STICKS_KIT, pattern="drums_sticks")
+            out.append(part)
+        return out
+
+    def band(self) -> list[tuple[Part, pretty_midi.Instrument]]:
+        out = []
+        for part in self.parts():
             inst = pretty_midi.Instrument(program=part.sound.program, is_drum=part.sound.drum, name=part.name)
             getattr(self, f"_p_{part.pattern}")(inst, part)
             inst.notes.sort(key=lambda n: n.start)
@@ -600,6 +644,22 @@ class Arranger:
         prev = None
         for bar in self.bars():
             if self._bass_ending(inst, bar):
+                continue
+            if 0 <= bar < self.two_feel_bars and self.pulses == 4:
+                # "in two": root on one, the fifth (or a step into the next chord) on three
+                for pu in (0, 2):
+                    t = self.at(bar, pu)
+                    ev = self.chord_at(t + 0.01)
+                    if ev.root is None:
+                        continue
+                    root, fifth, _ = self.bass_tones(ev)
+                    nxt = self.chord_at(self.at(bar, pu + 2) + 0.01)
+                    if pu == 2 and nxt.root is not None and nxt.root != ev.root:
+                        pitch = self.approach(root, self.bass_tones(nxt)[0])
+                    else:
+                        pitch = root if pu == 0 or self.chord_at(t - 0.01).root != ev.root else fifth
+                    self._add(inst, pitch, t, self.at(bar, pu + 2) - 0.05, 86 if pu == 0 else 78)
+                    prev = pitch
                 continue
             for pu in range(self.pulses):
                 t = self.at(bar, pu)
@@ -1199,9 +1259,9 @@ class Arranger:
                         self._hit(inst, KICK, self.bar_start(bar), 70, 0.3)
                         self._add(inst, RIDE, self.bar_start(bar), self.bar_start(bar) + 2, 60, 0.3)
                     else:
-                        self._hit(inst, KICK, self.bar_start(bar), 88, 0.3)
+                        self._hit(inst, KICK, self.bar_start(bar), 92, 0.3)
                         if crash:
-                            self._crash(inst, bar, 84)
+                            self._crash(inst, bar, 88)
                 continue
             yield bar, self.is_fill(bar)
             if self.is_fill(bar):
@@ -1300,6 +1360,38 @@ class Arranger:
                     self._hit(inst, KICK, t, 40)
                 if back and not fill and self.rng.random() < 0.25:
                     self._hit(inst, BRUSH_SLAP, self.at(bar, pu, self.off), 44)
+
+    def _p_drums_sticks(self, inst, part):
+        """Up-tempo swing with sticks: the ride's "ding, ding-a ding" with the hi-hat closing on two
+        and four, a feathered bass drum, the snare comping on off-beats. In the two-feel section the
+        ride is lighter and a cross-stick marks four; the walking section opens up with a crash.
+        Velocities are General MIDI style; the renderer maps them for the sampled kit (render.SFZ_VELOCITY)."""
+        for bar, fill in self._drum_bars(inst, "kit"):
+            if bar < 0:
+                for pu in range(self.pulses):
+                    self._hit(inst, HAT_PEDAL if pu % 2 else RIDE, self.at(bar, pu), 54 if pu % 2 else 50)
+                continue
+            two = bar < self.two_feel_bars
+            if bar == self.two_feel_bars and bar > 0:
+                self._crash(inst, bar, 74)
+            for pu in range(self.pulses):
+                t = self.at(bar, pu)
+                back = pu % 2 == 1
+                self._hit(inst, RIDE, t, (56 if back else 50) - (6 if two else 0))
+                if pu == 0 or not two:
+                    self._hit(inst, KICK, t, 26 if two else 32, 0.3)      # feathered, felt more than heard
+                if back:
+                    self._hit(inst, HAT_PEDAL, t, 58)
+                    self._hit(inst, RIDE, self.at(bar, pu, self.off), 44 - (6 if two else 0))
+                if fill:
+                    continue
+                if two:
+                    if pu == 3:
+                        self._hit(inst, RIM, t, 48)
+                elif self.rng.random() < 0.22:
+                    self._hit(inst, SNARE, self.at(bar, pu, self.off), self.rng.choice((26, 32, 38)))
+            if not two and not fill and bar % 4 == 3 and self.rng.random() < 0.5:
+                self._hit(inst, KICK, self.at(bar, 3, self.off), 56)           # a "bomb" into the next phrase
 
     def _p_drums_gospel(self, inst, part):
         """Kick, a snare back-beat with tambourine, steady hi-hat; a crash at each new section."""

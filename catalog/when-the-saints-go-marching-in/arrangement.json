@@ -1,34 +1,34 @@
 {
  "style": "swing",
- "intro_bars": 2,
- "intro_seconds": 3.81,
- "first_note": 2.38,
+ "intro_bars": 3,
+ "intro_seconds": 5.71,
+ "first_note": 4.29,
  "parts": [
   {
    "part": "piano",
    "role": "comp",
-   "notes": 220,
-   "raw_lufs": -31.6,
+   "notes": 232,
+   "raw_lufs": -31.9,
    "mix_lufs": -22.0
   },
   {
    "part": "horns",
    "role": "color",
    "notes": 46,
-   "raw_lufs": -28.5,
+   "raw_lufs": -27.5,
    "mix_lufs": -26.5
   },
   {
    "part": "bass",
    "role": "bass",
-   "notes": 133,
-   "raw_lufs": -28.1,
+   "notes": 107,
+   "raw_lufs": -29.3,
    "mix_lufs": -24.0
   },
   {
    "part": "drums",
    "role": "perc",
-   "notes": 397,
+   "notes": 415,
    "raw_lufs": -45.1,
    "mix_lufs": -23.5
   }

@@ -50,6 +50,87 @@ def ensure_soundfont(which: str = "ms") -> Path:
     return path
 
 
+# Sampled instruments in SFZ format, rendered with sfizz (pysfizz). Each entry: the folder under
+# service/models/sfz, the .sfz file inside it, and where it comes from (catalog/LICENSES.md has the
+# licence of each). Like the soundfonts they are downloaded on first use and never shipped.
+SFZ_DIR = Path(os.environ.get("NOTEALONG_SFZ_DIR", SERVICE_DIR / "models" / "sfz"))
+SFZ_LIBS: dict[str, dict] = {}
+
+
+def sfz_path(name: str) -> Path:
+    lib = SFZ_LIBS[name]
+    path = SFZ_DIR / lib["folder"] / lib["sfz"]
+    if not path.exists():
+        from .sfz_sources import fetch
+        fetch(name)
+    if not path.exists():
+        raise FileNotFoundError(f"{name}: {path} is missing; see catalog/LICENSES.md for where it comes from")
+    return path
+
+
+_SFZ_SYNTHS: dict[str, object] = {}
+
+# A sampled kit has the real dynamic range of the instrument: at the same MIDI velocity its kick is far
+# louder than its ride. The drum patterns are written with General MIDI kit velocities, so each drum of a
+# sampled kit gets a velocity factor that restores the General MIDI balance (measured part by part).
+SFZ_VELOCITY: dict[str, dict[int, float]] = {
+    "virtuosity": {36: 0.6, 35: 0.6, 37: 0.85, 38: 0.65, 40: 0.65, 41: 0.8, 43: 0.8, 45: 0.8, 47: 0.8, 48: 0.8, 50: 0.8,
+                   42: 1.7, 44: 1.4, 46: 1.3, 51: 1.6, 53: 1.4, 59: 1.6, 49: 1.0, 57: 1.0, 54: 1.2},
+}
+
+
+def _sfizz(name: str):
+    """One loaded sfizz synth per library (loading the big ones takes seconds)."""
+    if name not in _SFZ_SYNTHS:
+        from pysfizz import _sfizz as sfz
+        synth = sfz.Synth(SR, 512)
+        synth.enable_freewheeling()
+        synth.set_num_voices(256)
+        if not synth.load_sfz_file(str(sfz_path(name))) or synth.get_num_regions() == 0:
+            raise RuntimeError(f"sfizz could not load {name}")
+        _SFZ_SYNTHS[name] = synth
+    return _SFZ_SYNTHS[name]
+
+
+def render_sfz(inst, name: str, n: int, gain: float = 1.0, cc: dict[int, int] | None = None) -> np.ndarray:
+    """Render one pretty_midi Instrument with an SFZ library to an (n, 2) float array at SR.
+
+    Events are scheduled sample-accurately inside sfizz's blocks; the tail is rendered until the
+    voices die away or the length is reached."""
+    synth = _sfizz(name)
+    block = synth.get_block_size()
+    vmap = SFZ_VELOCITY.get(name, {})
+    events: list[tuple[int, int, int, int]] = []       # (sample, kind 1=on 0=off, pitch, velocity)
+    for note in inst.notes:
+        on, off = int(note.start * SR), max(int(note.end * SR), int(note.start * SR) + 1)
+        vel = int(max(1, min(127, round(note.velocity * vmap.get(note.pitch, 1.0)))))
+        events.append((on, 1, note.pitch, vel))
+        events.append((off, 0, note.pitch, 0))
+    events.sort(key=lambda e: (e[0], e[1]))              # note-offs before note-ons at the same sample
+    synth.all_sound_off()
+    for num, val in (cc or {}).items():
+        synth.cc(0, num, val)
+    out = np.zeros((n + block, 2))
+    ei, pos = 0, 0
+    while pos < n:
+        end = pos + block
+        while ei < len(events) and events[ei][0] < end:
+            t, kind, pitch, vel = events[ei]
+            delay = max(0, t - pos)
+            if kind:
+                synth.note_on(delay, pitch, vel)
+            else:
+                synth.note_off(delay, pitch, 0)
+            ei += 1
+        left, right = synth.render_block()
+        out[pos:end, 0] = left
+        out[pos:end, 1] = right
+        pos = end
+        if ei >= len(events) and synth.get_num_active_voices() == 0:
+            break
+    return out[:n] * gain
+
+
 def check_tools() -> None:
     for tool in ("fluidsynth", "ffmpeg"):
         if shutil.which(tool) is None:
@@ -190,9 +271,13 @@ def mix_band(arranger, duration: float, workdir: Path) -> tuple[np.ndarray, list
     for i, (part, inst) in enumerate(arranger.band()):
         mid = workdir / f"part{i}.mid"
         wav = workdir / f"part{i}.wav"
-        _write_part_midi(inst, arranger.spec.tempo, part.sound.bank, mid)
-        _fluidsynth(mid, wav, ensure_soundfont(part.sound.sf))
-        x = _read(wav, n)
+        if part.sound.sf == "sfz":
+            from . import sfz_sources  # noqa: F401  (registers the libraries)
+            x = render_sfz(inst, part.sound.sfz, n)
+        else:
+            _write_part_midi(inst, arranger.spec.tempo, part.sound.bank, mid)
+            _fluidsynth(mid, wav, ensure_soundfont(part.sound.sf))
+            x = _read(wav, n)
         x = _filt(x, "highpass", ROLE_LOWCUT.get(part.role, 80))
         carve = ROLE_CARVE_DB.get(part.role, 0.0)
         if carve:
@@ -224,7 +309,9 @@ def master(mix: np.ndarray, out_mp3: Path, duration: float, loudness: float = -1
         wav = Path(td) / "mix.wav"
         sf.write(str(wav), (mix / peak * 0.5).astype(np.float32), SR, subtype="FLOAT")
         pre = "acompressor=threshold=0.09:ratio=2:attack=25:release=260:makeup=1.4:knee=6," if compress else ""
-        norm = f"loudnorm=I={loudness}:TP=-3.0:LRA=11"     # the mp3 encoder overshoots by up to a decibel
+        # loudnorm may go up to -1.5 dBTP so a track with sharp drum transients still reaches the target;
+        # the limiter below then holds the peaks at its ceiling (the mp3 encoder overshoots by up to a decibel)
+        norm = f"loudnorm=I={loudness}:TP=-1.5:LRA=11"
         m = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(wav), "-t", f"{duration:.3f}", "-af", f"{pre}{norm}:print_format=json", "-f", "null", "-"],
                            capture_output=True, text=True)
         stats = json.loads(m.stderr[m.stderr.rindex("{"):m.stderr.rindex("}") + 1])
