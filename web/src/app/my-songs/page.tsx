@@ -2,8 +2,9 @@
 // My songs: what you added yourself. Built-in songs live on Discover.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, Loader2, Search, Trash2 } from "lucide-react";
-import { AppHeader } from "@/components/AppHeader";
+import { AlertCircle, Loader2, Trash2 } from "lucide-react";
+import { FavouriteButton } from "@/components/Favourite";
+import { AppHeader, MobileSearch } from "@/components/AppHeader";
 import { PageDropZone } from "@/components/UploadZone";
 import { DropHero } from "@/components/DropHero";
 import { ServiceDown } from "@/components/ServiceDown";
@@ -21,7 +22,6 @@ export default function LibraryPage() {
   const [songs, setSongs] = useState<SongSummary[] | null>(null);
   const [serviceDown, setServiceDown] = useState(false);
   const { uploads, addFiles: onFiles } = useUploads();
-  const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"recent" | "title">("recent");
   const [instrument] = useInstrumentPref();
   const entitlements = useEntitlements([songs?.length]);
@@ -42,17 +42,16 @@ export default function LibraryPage() {
   }, [songs, refresh]);
 
   const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
     let list = songs ?? [];
-    if (q) list = list.filter((s) => `${s.title} ${s.artist ?? ""}`.toLowerCase().includes(q));
     if (sort === "title") list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     return list;
-  }, [songs, query, sort]);
+  }, [songs, sort]);
   const many = (songs?.length ?? 0) > 4;
 
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
+      <MobileSearch />
       <PageDropZone onFiles={onFiles} />
       <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-20 sm:px-8">
         {serviceDown && <div className="mb-8"><ServiceDown what="your songs" /></div>}
@@ -72,10 +71,6 @@ export default function LibraryPage() {
               </div>
               {many && (
                 <div className="flex items-center gap-2">
-                  <label className="relative">
-                    <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
-                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search" aria-label="Search my songs" className="field w-44 pl-10" />
-                  </label>
                   <div className="seg">
                     <button aria-pressed={sort === "recent"} onClick={() => setSort("recent")}>Recent</button>
                     <button aria-pressed={sort === "title"} onClick={() => setSort("title")}>A to Z</button>
@@ -87,7 +82,7 @@ export default function LibraryPage() {
               {visible.map((s) => <SongRow key={s.id} song={s} onDeleted={refresh} />)}
               {visible.length === 0 && <div className="p-8 text-center text-sm text-muted">No song matches that.</div>}
             </div>
-            <p className="mt-6 text-xs text-faint">Looking for something to play right now? <Link href="/" className="underline underline-offset-4">Discover</Link> has {"built-in"} songs that start instantly.</p>
+            <p className="mt-6 text-xs text-faint">Search all your songs and the built-in ones with the search box at the top. Looking for something to play right now? <Link href="/" className="underline underline-offset-4">Discover</Link> has {"built-in"} songs that start instantly.</p>
           </>
         )}
       </main>
@@ -126,6 +121,7 @@ function SongRow({ song, onDeleted }: { song: SongSummary; onDeleted: () => void
         </div>
       </div>
       {status === "ready" && <span className="hidden items-center gap-1.5 text-xs text-muted sm:inline-flex"><InstrumentIcon icon={inst.icon} className="h-4 w-4" /> {inst.name}</span>}
+      {status === "ready" && <FavouriteButton id={song.id} title={song.title} variant="icon" className="h-8 w-8" />}
       <button onClick={remove} className="rounded-full p-2 text-faint opacity-0 transition hover:bg-sunken hover:text-danger focus-visible:opacity-100 group-hover:opacity-100" aria-label={`Delete ${song.title}`}><Trash2 className="h-4 w-4" /></button>
     </Link>
   );

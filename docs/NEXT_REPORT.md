@@ -211,3 +211,49 @@ What changed, all tried in Chromium against the running app:
 
 Found on the way: a title with an ampersand produced an invalid SVG cover (the catalog's "Lovers &
 Liars" had a broken image). Fixed by escaping, and that cover was rebuilt.
+
+## Part 6: finding songs (search, filters, favourites, setlists, song pages)
+
+Done ahead of Parts 4 and 5 in time (it needed no heavy jobs while the standards were being written),
+and committed on its own.
+
+* **One search box** in the header of every page (and under it on phones; "/" focuses it). Typing opens
+  the browse page and updates the results as you type. It searches built-in songs and your own songs
+  together, over title, artist, style, country or region, language, decade, tags and the words of the
+  song. It forgives typos and accents: "amazng grase" finds Amazing Grace, "georgai" finds Sweet
+  Georgia Brown, and "wretch like me" finds Amazing Grace by its words. Title matches rank above
+  artist, style and place, which rank above lyrics. The service builds the index once per change of a
+  song file (`GET /api/search-index`, about 200 KB for 164 songs including lyrics).
+* **Filters** as chips: Fits my instrument, Favourites, Easy, Medium, Hard, Public domain, Real
+  recordings, My songs; and in the Filters panel style, decade, language, country and tempo (slow under
+  90 beats a minute, fast from 130). The filters in use show as removable chips with "Clear all".
+  The URL keeps the search, filters and sort, so Back works and a search can be bookmarked.
+  "Fits my instrument" checks the melody's lowest and highest note against the instrument's written
+  range at any octave with a key change of at most three semitones.
+* **Sort**: best match, most played (counted on this install when a song really starts playing), newest,
+  A to Z, easiest first.
+* **Favourites**: a heart on every tile (shown on hover, always shown once it is a favourite), in the
+  player, on My songs and on song pages. "Your favourites" is the first row on Discover.
+* **Setlists**: a Setlists page to create, open and delete them; each setlist can be renamed, given a
+  gap between songs (none to 30 s), reordered by dragging or with up and down buttons, and filled
+  from a search over all songs. "Play the set" starts the first song by itself; when a song ends, a
+  countdown says what comes next ("Next: Happy Birthday to You in 3") with Play now and Stop, then the
+  next song starts. A thin bar in the player shows the setlist and the position, with previous and
+  next. The player's list button adds the current song to any setlist or a new one.
+* **Song pages** (`/song/<id>`, the "i" button in the player): cover, Play, favourite, add to setlist,
+  whether the melody fits your instrument, style, origin, year, language, key, tempo, length,
+  difficulty, melody range, attribution and licence, the words, and songs like it.
+* **Discover** is shorter: the drop zone, then rows (your favourites, jump back in, new this week, jazz
+  and classic standards, good on your instrument, great for beginners, real recordings), then the
+  Browse lists. Every "See all" and Browse entry opens the browse page with that filter set; the long
+  "every song" grid is gone in favour of "Browse all songs".
+* Favourites, plays and setlists live in `library/.me/` beside the uploads (no accounts yet), behind
+  `GET /api/me/library`, `PUT /api/me/favourites/{id}`, `POST /api/songs/{id}/played` and
+  `/api/me/setlists`. Deleting an upload removes it from favourites, plays and setlists.
+
+Checked in Chromium: the typo and lyrics searches above, Easy plus Fits my alto sax (32 songs, the URL
+`?difficulty=easy&fits=1`), removing a chip, favouriting from a tile and filtering by favourites, a
+two-song setlist reordered with the arrow button and played through (the first song started by itself,
+the countdown appeared at the end, the second song started), the song page, and the play counts that
+resulted. No page errors. Tests: `web/src/lib/__tests__/search.test.ts` (search, typos, ranking,
+filters, sorting, URL round trip) and `service/tests/test_me.py` (favourites, plays, setlists, index).

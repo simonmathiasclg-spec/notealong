@@ -128,3 +128,7 @@ export type ProgressSnapshot = {
   current: string | null;
   estimated_seconds_left: number;
 };
+
+export type Setlist = { id: string; name: string; songs: string[]; gap_seconds: number; created_at: string; updated_at: string };
+/** What this user keeps (service/notealong/me.py). */
+export type MyLibrary = { favourites: string[]; plays: Record<string, { count: number; last?: string }>; setlists: Setlist[] };

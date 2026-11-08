@@ -5,6 +5,7 @@ import { api, formatTime } from "@/lib/api";
 import { DIFFICULTY_LABEL, SORT_LABEL, cultureOf, languageName, type Category, type Facet, type SortMode } from "@/lib/catalog";
 import { accentFor } from "@/lib/color";
 import { useTheme } from "@/lib/prefs";
+import { FavouriteButton } from "@/components/Favourite";
 import type { CatalogEntry, Difficulty } from "@/lib/types";
 
 export function Cover({ song, className = "", priority = false }: { song: CatalogEntry; className?: string; priority?: boolean }) {
@@ -30,12 +31,15 @@ export function Meta({ song, className = "" }: { song: CatalogEntry; className?:
 
 export function SongTile({ song, priority = false }: { song: CatalogEntry; priority?: boolean }) {
   return (
-    <Link href={`/songs/${song.id}`} className="tile group" aria-label={`${song.title}, ${song.artist}, ${DIFFICULTY_LABEL[song.difficulty]}`}>
-      <Cover song={song} priority={priority} />
-      <div className="mt-2.5 truncate text-[0.9rem] font-semibold leading-tight">{song.title}</div>
-      <div className="mt-1 truncate text-[0.8rem]"><span className="text-muted">{song.artist === "Traditional" ? cultureOf(song) || song.artist : song.artist}</span></div>
-      <Meta song={song} className="mt-0.5 text-[0.78rem]" />
-    </Link>
+    <div className="group/tile relative">
+      <Link href={`/songs/${song.id}`} className="tile group" aria-label={`${song.title}, ${song.artist}, ${DIFFICULTY_LABEL[song.difficulty]}`}>
+        <Cover song={song} priority={priority} />
+        <div className="mt-2.5 truncate text-[0.9rem] font-semibold leading-tight">{song.title}</div>
+        <div className="mt-1 truncate text-[0.8rem]"><span className="text-muted">{song.artist === "Traditional" ? cultureOf(song) || song.artist : song.artist}</span></div>
+        <Meta song={song} className="mt-0.5 text-[0.78rem]" />
+      </Link>
+      <FavouriteButton id={song.id} title={song.title} variant="overlay" />
+    </div>
   );
 }
 
@@ -151,7 +155,7 @@ export function Chip({ active, children, onClick, count }: { active: boolean; ch
 
 type Counted = { value: string; n: number };
 
-export function Filters({ facet, setFacet, genres, cultures, regions, languages, hasNew }: { facet: Facet; setFacet: (f: Facet) => void; genres: Counted[]; cultures: Counted[]; regions: Counted[]; languages: Counted[]; hasNew: boolean }) {
+export function Filters({ facet, setFacet, genres, cultures, regions, languages, hasNew, hasStandards = false }: { facet: Facet; setFacet: (f: Facet) => void; genres: Counted[]; cultures: Counted[]; regions: Counted[]; languages: Counted[]; hasNew: boolean; hasStandards?: boolean }) {
   const deep = facet.kind === "genre" || facet.kind === "culture" || facet.kind === "region" || facet.kind === "language";
   return (
     <div className="space-y-3">
@@ -161,6 +165,7 @@ export function Filters({ facet, setFacet, genres, cultures, regions, languages,
           <Chip key={d} active={facet.kind === "difficulty" && facet.value === d} onClick={() => setFacet({ kind: "difficulty", value: d })}>{DIFFICULTY_LABEL[d]}</Chip>
         ))}
         <Chip active={facet.kind === "recordings"} onClick={() => setFacet({ kind: "recordings" })}>Real recordings</Chip>
+        {hasStandards && <Chip active={facet.kind === "standards"} onClick={() => setFacet({ kind: "standards" })}>Standards</Chip>}
         {hasNew && <Chip active={facet.kind === "new"} onClick={() => setFacet({ kind: "new" })}>New</Chip>}
       </div>
       <details className="group" open={deep}>

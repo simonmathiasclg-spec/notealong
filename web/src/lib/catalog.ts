@@ -10,6 +10,7 @@ export type Facet =
   | { kind: "language"; value: string }
   | { kind: "difficulty"; value: Difficulty }
   | { kind: "recordings" }
+  | { kind: "standards" }
   | { kind: "new" }
   | { kind: "recent" };
 
@@ -81,6 +82,7 @@ export function applyFacet(songs: CatalogEntry[], facet: Facet, now = new Date()
     case "language": return songs.filter((s) => (s.language ?? "") === facet.value);
     case "difficulty": return songs.filter((s) => s.difficulty === facet.value);
     case "recordings": return songs.filter((s) => s.source.kind === "cc");
+    case "standards": return songs.filter(isStandard);
     case "new": return newSongs(songs, now);
     case "recent": return sortSongs(songs.filter((s) => s.last_played), "recent");
   }
@@ -90,6 +92,7 @@ export function facetLabel(facet: Facet): string {
   switch (facet.kind) {
     case "all": return "";
     case "recordings": return "Real recordings";
+    case "standards": return "Jazz and classic standards";
     case "new": return "New this week";
     case "recent": return "Jump back in";
     case "difficulty": return `${DIFFICULTY_LABEL[facet.value]} songs`;
@@ -133,6 +136,11 @@ export function facetValues(songs: CatalogEntry[]) {
   };
 }
 
+/** A hand-authored standard: tagged "standard" when it was written out (see catalog/songs). */
+export function isStandard(s: CatalogEntry): boolean {
+  return (s.tags ?? []).includes("standard");
+}
+
 export type Shelf = { id: string; title: string; subtitle?: string; songs: CatalogEntry[]; total: number; facet?: Facet };
 
 /** How many tiles a row shows before "See all". */
@@ -163,6 +171,7 @@ export function buildShelves(songs: CatalogEntry[], now = new Date(), minPerRow 
   push("new", "New this week", sortSongs(newSongs(ranked, now), "new"), { kind: "new" });
   push("featured", "Featured", ranked.filter((s) => s.featured));
   push("beginners", "Great for beginners", sortSongs(songs.filter((s) => s.beginner || s.difficulty === "easy"), "easy"), { kind: "difficulty", value: "easy" }, DIFFICULTY_HINT.easy);
+  push("standards", "Jazz and classic standards", ranked.filter(isStandard), { kind: "standards" }, "Famous songs of the jazz age and before, all public domain", 4);
   push("recordings", "Real recordings", ranked.filter((s) => s.source.kind === "cc"), { kind: "recordings" }, "Songs by independent artists, shared under Creative Commons");
   push("celebrate", "Holidays and celebrations", ranked.filter((s) => s.genre === "Christmas" || s.genre === "Celebration"));
   let rows = 0;

@@ -5,6 +5,8 @@ import { Moon, Plus, Sun } from "lucide-react";
 import { useTheme } from "@/lib/prefs";
 import { useUploads } from "@/lib/uploads";
 import { UploadButton } from "./UploadZone";
+import { HeaderSearch } from "./HeaderSearch";
+import { Suspense } from "react";
 
 /** The mark: a stage light over a note. */
 export function Mark({ className = "h-7 w-7" }: { className?: string }) {
@@ -36,7 +38,7 @@ export function ThemeToggle() {
   );
 }
 
-const NAV: [string, string][] = [["/", "Discover"], ["/my-songs", "My songs"]];
+const NAV: [string, string][] = [["/", "Discover"], ["/my-songs", "My songs"], ["/setlists", "Setlists"]];
 
 export function MainNav() {
   const path = usePathname();
@@ -56,16 +58,22 @@ export function MainNav() {
   );
 }
 
-export function AppHeader({ right, nav = true, children }: { right?: React.ReactNode; nav?: boolean; children?: React.ReactNode }) {
+export function AppHeader({ right, nav = true, search = true, children }: { right?: React.ReactNode; nav?: boolean; search?: boolean; children?: React.ReactNode }) {
   const { addFiles } = useUploads();
   return (
     <header className="no-print mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
       <div className="flex items-center gap-5 sm:gap-8"><Logo />{nav && <MainNav />}</div>
-      <div className="flex items-center gap-2">
+      <div className="flex min-w-0 items-center gap-2">
         {children}
+        {search && <Suspense><HeaderSearch className="hidden w-72 lg:block" /></Suspense>}
         {right ?? <UploadButton onFiles={addFiles} label="Add a song" icon={<Plus className="h-4 w-4" />} variant="plain" />}
         <ThemeToggle />
       </div>
     </header>
   );
+}
+
+/** The search box for narrow screens, under the header (wide screens have it in the header). */
+export function MobileSearch() {
+  return <div className="mx-auto mb-6 w-full max-w-7xl px-5 sm:px-8 lg:hidden"><Suspense><HeaderSearch /></Suspense></div>;
 }

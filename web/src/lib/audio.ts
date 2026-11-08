@@ -32,6 +32,8 @@ export class AudioEngine {
   private syncTimer: ReturnType<typeof setInterval> | null = null;
   loop: [number, number] | null = null;
   duration = 0;
+  /** Called when the song plays through to its end. */
+  onEnded: (() => void) | null = null;
   /** Called right after the position jumps (a seek or a loop wrapping round). */
   onJump: (() => void) | null = null;
   private loopTimer: ReturnType<typeof setTimeout> | null = null;
@@ -46,7 +48,7 @@ export class AudioEngine {
       (el as HTMLAudioElement & { preservesPitch: boolean }).preservesPitch = true;
     }
     this.vocals.volume = 0;
-    this.backing.addEventListener("ended", () => this.setState({ playing: false }));
+    this.backing.addEventListener("ended", () => { this.setState({ playing: false }); this.onEnded?.(); });
     this.backing.addEventListener("loadedmetadata", () => { this.duration = this.backing.duration; });
     this.backing.addEventListener("waiting", () => this.setState({ loading: true }));
     this.backing.addEventListener("playing", () => this.setState({ loading: false }));

@@ -1,131 +1,149 @@
 "use client";
-// Discover: the built-in song library. Open a song and it plays at once.
+// Discover: drop in a song you love, or start one of the built-in songs. A short page of rows;
+// "See all" and the Browse lists open the full search (/browse) with that filter on.
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, X } from "lucide-react";
-import { AppHeader } from "@/components/AppHeader";
+import { ArrowRight } from "lucide-react";
+import { AppHeader, MobileSearch } from "@/components/AppHeader";
 import { Welcome } from "@/components/Welcome";
 import { PageDropZone } from "@/components/UploadZone";
 import { ServiceDown } from "@/components/ServiceDown";
-import { Browse, DiscoverSkeleton, Filters, Shelf, SongTile, SortMenu } from "@/components/discover/Discover";
+import { DiscoverSkeleton, Shelf } from "@/components/discover/Discover";
 import { DropHero } from "@/components/DropHero";
 import { api } from "@/lib/api";
-import { applyFacet, buildCategories, buildShelves, facetLabel, facetValues, newSongs, pickTonight, searchCatalog, sortSongs, type Facet, type SortMode } from "@/lib/catalog";
+import { DIFFICULTY_HINT, buildCategories, isStandard, newSongs, pickTonight, sortSongs, type Category, type Facet } from "@/lib/catalog";
+import { getInstrument } from "@/lib/instruments";
+import { useMe } from "@/lib/me";
 import { hasChosenInstrument, useInstrumentPref } from "@/lib/prefs";
+import { fitsInstrument } from "@/lib/search";
 import { useUploads } from "@/lib/uploads";
 import type { CatalogEntry } from "@/lib/types";
 
+/** The browse URL for one of the Discover groupings. */
+function browseHref(f: Facet): string {
+  const p = new URLSearchParams();
+  switch (f.kind) {
+    case "genre": p.set("genre", f.value); break;
+    case "culture": p.set("country", f.value); break;
+    case "region": p.set("q", f.value); break;
+    case "language": p.set("language", f.value); break;
+    case "difficulty": p.set("difficulty", f.value); break;
+    case "recordings": p.set("source", "cc"); break;
+    case "standards": p.set("tag", "standard"); break;
+    case "new": p.set("sort", "new"); break;
+    default: break;
+  }
+  return `/browse${p.toString() ? `?${p}` : ""}`;
+}
+
 export default function DiscoverPage() {
   const [songs, setSongs] = useState<CatalogEntry[] | null>(null);
+  const [ranges, setRanges] = useState<Record<string, [number, number] | null>>({});
   const [serviceDown, setServiceDown] = useState(false);
-  const [query, setQuery] = useState("");
-  const [facet, setFacetState] = useState<Facet>({ kind: "all" });
-  // "Most played" is offered too; until the app reports plays it orders by featured, then title
-  const [sort, setSort] = useState<SortMode>("az");
-  const setFacet = (f: Facet) => { setFacetState(f); if (f.kind !== "all") window.scrollTo({ top: 0, behavior: "smooth" }); };
   const [welcome, setWelcome] = useState(false);
-  const [, setInstrument, loaded] = useInstrumentPref();
-  const { addFiles, uploads } = useUploads();
-  const adding = uploads.some((u) => u.status === "uploading" || u.status === "processing");
+  const [instrumentId, setInstrument, loaded] = useInstrumentPref();
+  const instrument = getInstrument(instrumentId);
+  const { addFiles } = useUploads();
+  const { favourites, plays } = useMe();
 
   useEffect(() => {
     api.catalog().then((c) => { setSongs(c.songs); setServiceDown(false); }).catch(() => { setSongs([]); setServiceDown(true); });
+    api.searchIndex().then((r) => setRanges(Object.fromEntries(r.songs.map((s) => [s.id, s.range ?? null])))).catch(() => undefined);
   }, []);
   useEffect(() => { if (loaded && !hasChosenInstrument()) queueMicrotask(() => setWelcome(true)); }, [loaded]);
 
-  const all = useMemo(() => songs ?? [], [songs]);
-  const { genres, cultures, regions, languages } = useMemo(() => facetValues(all), [all]);
-  const filtered = useMemo(() => {
-    const list = applyFacet(searchCatalog(all, query), facet);
-    return facet.kind === "recent" ? list : sortSongs(list, sort);
-  }, [all, query, facet, sort]);
-  const shelves = useMemo(() => buildShelves(all), [all]);
+  // plays recorded by the player give "Most played" and "Jump back in" their order
+  const all = useMemo((): CatalogEntry[] => (songs ?? []).map((s) => {
+    const p = plays[s.id];
+    const last = [s.last_played, p?.last].filter(Boolean).sort().pop() ?? null;
+    return { ...s, popularity: p?.count ?? s.popularity ?? 0, last_played: last };
+  }), [songs, plays]);
+  const byId = useMemo(() => new Map<string, CatalogEntry>(all.map((s) => [s.id, s])), [all]);
   const tonight = useMemo(() => pickTonight(all), [all]);
-  const hasNew = useMemo(() => newSongs(all).length > 0, [all]);
   const categories = useMemo(() => buildCategories(all), [all]);
-  const [showAll, setShowAll] = useState(false);
-  const browsing = query.trim().length > 0 || facet.kind !== "all";
+
+  const shelves = useMemo(() => {
+    const ranked = sortSongs(all, "popular");
+    const rows: { id: string; title: string; subtitle?: string; songs: CatalogEntry[]; href?: string }[] = [];
+    const push = (id: string, title: string, list: CatalogEntry[], href?: string, subtitle?: string, min = 1) => { if (list.length >= min) rows.push({ id, title, subtitle, songs: list, href }); };
+    push("favourites", "Your favourites", favourites.map((id) => byId.get(id)).filter((s): s is CatalogEntry => !!s), "/browse?favourites=1");
+    push("recent", "Jump back in", sortSongs(all.filter((s) => s.last_played), "recent").slice(0, 12), undefined, "Songs you played lately");
+    push("new", "New this week", sortSongs(newSongs(ranked), "new"), "/browse?sort=new");
+    push("standards", "Jazz and classic standards", ranked.filter(isStandard), "/browse?tag=standard", "Famous songs of the jazz age and before, all public domain", 4);
+    const fits = ranked.filter((s) => s.difficulty !== "hard" && fitsInstrument(ranges[s.id], instrument));
+    push("fits", `Good on the ${instrument.name.toLowerCase()}`, fits, "/browse?fits=1", "Whole melody in your range, without changing key", 6);
+    push("beginners", "Great for beginners", sortSongs(all.filter((s) => s.beginner || s.difficulty === "easy"), "easy"), browseHref({ kind: "difficulty", value: "easy" }), DIFFICULTY_HINT.easy);
+    push("recordings", "Real recordings", ranked.filter((s) => s.source.kind === "cc"), browseHref({ kind: "recordings" }), "Independent artists, shared under Creative Commons");
+    return rows;
+  }, [all, byId, favourites, ranges, instrument]);
 
   return (
     <div className="flex min-h-full flex-col">
-      <AppHeader>
-        <label className="relative hidden lg:block">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search songs, styles, countries" aria-label="Search songs" className="field w-72 pl-10 pr-9" />
-          {query && <button className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-faint hover:text-fg" onClick={() => setQuery("")} aria-label="Clear search"><X className="h-4 w-4" /></button>}
-        </label>
-      </AppHeader>
+      <AppHeader />
+      <MobileSearch />
       <PageDropZone onFiles={addFiles} />
       <Welcome open={welcome} onDone={(id) => { setInstrument(id); setWelcome(false); }} />
 
       <main className="mx-auto w-full max-w-7xl flex-1 px-5 pb-20 sm:px-8">
-        <label className="relative mb-6 block lg:hidden">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search songs" aria-label="Search songs" className="field w-full pl-10" />
-        </label>
-
         {serviceDown && <div className="mb-8"><ServiceDown what="the song library" /></div>}
-
         {songs === null ? (
           <DiscoverSkeleton />
-        ) : all.length === 0 ? (
-          !serviceDown && (
-            <div className="panel mx-auto max-w-lg p-8 text-center">
-              <h1 className="display-md text-2xl">No built-in songs yet</h1>
-              <p className="mt-2 text-sm text-muted">Build the catalog with <code className="kbd">python -m notealong.catalog.build</code> in the service folder, or add your own song.</p>
-            </div>
-          )
         ) : (
           <div className="space-y-12">
-            {!browsing && <DropHero pick={tonight} />}
-            <div className="space-y-5">
-              <Filters facet={facet} setFacet={setFacet} genres={genres} cultures={cultures} regions={regions} languages={languages} hasNew={hasNew} />
-            </div>
-            {browsing ? (
-              <section aria-live="polite">
-                <div className="mb-5 flex items-baseline justify-between gap-4">
-                  <h2 className="display-md text-[1.45rem]">
-                    {query.trim() ? `“${query.trim()}”` : facetLabel(facet)}
-                    <span className="ml-3 text-base font-normal text-muted">{filtered.length === 1 ? "1 song" : `${filtered.length} songs`}</span>
-                  </h2>
-                  <div className="flex items-center gap-2">
-                    {facet.kind !== "recent" && <SortMenu value={sort} onChange={setSort} />}
-                    <button className="btn btn-ghost btn-sm" onClick={() => { setQuery(""); setFacet({ kind: "all" }); }}><X className="h-3.5 w-3.5" /> Clear</button>
-                  </div>
-                </div>
-                {filtered.length === 0 ? (
-                  <div className="panel p-8 text-center">
-                    <div className="font-medium">Nothing matches that.</div>
-                    <p className="mt-1 text-sm text-muted">Try another word, pick a different style, or <Link href="/my-songs" className="underline underline-offset-4">add the song yourself</Link>.</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{filtered.map((s) => <SongTile key={s.id} song={s} />)}</div>
-                )}
-              </section>
-            ) : (
-              <>
-                <div className="space-y-10">
+            <DropHero pick={tonight} />
+            {all.length > 0 && (
+              <div className="space-y-10">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-2">
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h2 className="display-md text-[1.45rem]">{adding ? "Or start with one of these while it processes" : "Or start with one of these"}</h2>
+                    <h2 className="display-md text-[1.45rem]">Or start with one of these</h2>
                     <span className="text-sm text-muted">{all.length} songs, free to play right now</span>
                   </div>
-                  {shelves.map((sh) => <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs} total={sh.total} onSeeAll={sh.facet ? () => setFacet(sh.facet!) : undefined} />)}
+                  <Link href="/browse" className="btn btn-ghost btn-sm">Browse all songs <ArrowRight className="h-3.5 w-3.5" /></Link>
                 </div>
-                <Browse categories={categories} onPick={setFacet} />
-                <div>
-                  <Shelf title="Every song" subtitle={`${all.length} songs`} songs={showAll ? sortSongs(all, sort) : sortSongs(all, sort).slice(0, 24)} grid action={<SortMenu value={sort} onChange={setSort} />} />
-                  {!showAll && all.length > 24 && (
-                    <div className="mt-8 flex justify-center"><button className="btn" onClick={() => setShowAll(true)}>Show all {all.length} songs</button></div>
-                  )}
-                </div>
-              </>
+                {shelves.map((sh) => (
+                  <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs.slice(0, 18)} total={sh.songs.length}
+                    action={sh.href && sh.songs.length > 6 ? <Link href={sh.href} className="btn btn-ghost btn-sm shrink-0">See all {sh.songs.length} <ArrowRight className="h-3.5 w-3.5" /></Link> : undefined} />
+                ))}
+                <BrowseLinks categories={categories} />
+              </div>
             )}
             <p className="hairline pt-6 text-xs leading-relaxed text-faint">
-              Built-in songs are public domain or Creative Commons; each song shows where it comes from in its settings. Your own uploads live in <Link href="/my-songs" className="underline underline-offset-4">My songs</Link>.
+              Built-in songs are public domain or Creative Commons; each song&apos;s page shows where it comes from. Your own uploads stay private in <Link href="/my-songs" className="underline underline-offset-4">My songs</Link>.
             </p>
           </div>
         )}
       </main>
     </div>
+  );
+}
+
+/** Styles, parts of the world and languages, each opening the search with that filter. */
+function BrowseLinks({ categories }: { categories: Category[] }) {
+  const groups = ["Styles", "Around the world", "Languages"] as const;
+  return (
+    <section aria-label="Browse">
+      <h2 className="display-md mb-5 text-[1.45rem]">Browse</h2>
+      <div className="grid gap-x-10 gap-y-8 lg:grid-cols-3">
+        {groups.map((g) => {
+          const items = categories.filter((c) => c.group === g).slice(0, 10);
+          if (!items.length) return null;
+          return (
+            <div key={g}>
+              <h3 className="label mb-3">{g}</h3>
+              <ul className="divide-y divide-border border-y border-border">
+                {items.map((c) => (
+                  <li key={c.id}>
+                    <Link href={browseHref(c.facet)} className="group flex w-full items-center justify-between gap-3 py-2.5 text-[0.95rem] transition hover:text-accent">
+                      <span className="truncate font-medium">{c.title}</span>
+                      <span className="flex shrink-0 items-center gap-2 text-[0.8rem] text-faint"><span className="tabular">{c.n} {c.n === 1 ? "song" : "songs"}</span><ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" /></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }

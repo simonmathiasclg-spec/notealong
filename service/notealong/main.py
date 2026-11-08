@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse, Response, StreamingResponse
 from pydantic import BaseModel
 
 from . import entitlements, library
+from . import me as me_store
 from .catalog import store as catalog_store
 from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
 from .jobs import manager, recover_interrupted
@@ -281,10 +282,119 @@ def patch_song(song_id: str, patch: SongPatch):
 def delete_song(song_id: str):
     """Deletes an upload; for a built-in song, resets your settings and note edits."""
     try:
+        upload = not library.is_catalog(song_id)
         library.delete_song(song_id)
     except ValueError:
         raise HTTPException(404, "Song not found")
+    if upload:
+        me_store.forget_song(song_id)
     return {"ok": True}
+
+
+# ---- favourites, plays, setlists -------------------------------------------------
+class FavouriteBody(BaseModel):
+    on: bool = True
+
+
+@app.get("/api/me/library")
+def my_library():
+    """Everything the browse screens need about this user: favourites, play counts, setlists."""
+    return {"favourites": me_store.favourites(), "plays": me_store.plays(), "setlists": me_store.setlists()}
+
+
+@app.put("/api/me/favourites/{song_id}")
+def put_favourite(song_id: str, body: FavouriteBody):
+    try:
+        return {"favourites": me_store.set_favourite(song_id, body.on)}
+    except ValueError:
+        raise HTTPException(400, "Bad song id")
+
+
+@app.post("/api/songs/{song_id}/played")
+def song_played(song_id: str):
+    """Called once when a song really starts playing; drives "Most played" and "Jump back in"."""
+    try:
+        return me_store.record_play(song_id)
+    except ValueError:
+        raise HTTPException(400, "Bad song id")
+
+
+class SetlistBody(BaseModel):
+    name: Optional[str] = None
+    songs: Optional[list[str]] = None
+    gap_seconds: Optional[int] = None
+
+
+@app.post("/api/me/setlists")
+def create_setlist(body: SetlistBody):
+    try:
+        return me_store.create_setlist(body.model_dump(exclude_none=True))
+    except ValueError:
+        raise HTTPException(400, "A song id in that setlist is not valid.")
+
+
+@app.put("/api/me/setlists/{set_id}")
+def update_setlist(set_id: str, body: SetlistBody):
+    try:
+        return me_store.update_setlist(set_id, body.model_dump(exclude_none=True))
+    except KeyError:
+        raise HTTPException(404, "Setlist not found")
+    except ValueError:
+        raise HTTPException(400, "A song id in that setlist is not valid.")
+
+
+@app.delete("/api/me/setlists/{set_id}")
+def delete_setlist(set_id: str):
+    me_store.delete_setlist(set_id)
+    return {"ok": True}
+
+
+# ---- one search index over the catalog and the user's own songs ------------------
+_INDEX_CACHE: dict[str, tuple[float, dict]] = {}
+
+
+def _index_row(song_json: Path, extra: dict) -> dict:
+    """Fields to search and filter on, cached by the file's modification time."""
+    key = str(song_json)
+    mtime = song_json.stat().st_mtime
+    hit = _INDEX_CACHE.get(key)
+    if hit and hit[0] == mtime:
+        return {**hit[1], **extra}
+    from .catalog.difficulty import rate_difficulty
+    d = json.loads(song_json.read_text(encoding="utf-8"))
+    notes = d.get("notes") or []
+    midis = [n["midi"] for n in notes]
+    words = " ".join(w.get("text", "") for w in d.get("words") or [])
+    row = {"range": [min(midis), max(midis)] if midis else None, "lyrics": words[:4000], "note_count": len(notes)}
+    if notes and "difficulty" not in extra:
+        row["difficulty"] = rate_difficulty(notes)[0]
+    _INDEX_CACHE[key] = (mtime, row)
+    return {**row, **extra}
+
+
+@app.get("/api/search-index")
+def search_index():
+    """One list over the built-in songs and this user's uploads, with what search and the filters
+    need (lyrics text, note range, tempo, year). The uploads are this user's own and stay on this install."""
+    out = []
+    for s in catalog_store.load_index()["songs"]:
+        p = CATALOG_DIR / s["id"] / "song.json"
+        if not p.exists():
+            continue
+        out.append(_index_row(p, {"id": s["id"], "kind": "catalog", "title": s["title"], "artist": s.get("artist"), "genre": s.get("genre"),
+                                  "culture": s.get("culture") or s.get("origin"), "origin": s.get("origin"), "language": s.get("language"),
+                                  "year": s.get("year"), "tempo_bpm": s.get("tempo_bpm"), "difficulty": s.get("difficulty"),
+                                  "duration": s.get("duration"), "source": (s.get("source") or {}).get("kind"), "tags": s.get("tags", []),
+                                  "added": s.get("added"), "featured": s.get("featured", False), "accent_hue": s.get("accent_hue")}))
+    for song in library.list_songs():
+        if song.status != "ready":
+            continue
+        p = library.song_path(song.id)
+        out.append(_index_row(p, {"id": song.id, "kind": "upload", "title": song.title, "artist": song.artist, "genre": None,
+                                  "culture": None, "origin": None, "language": song.language.override or song.language.detected,
+                                  "year": None, "tempo_bpm": song.tempo_bpm, "duration": song.duration, "source": "upload", "tags": [],
+                                  "added": song.created_at[:10], "featured": False, "accent_hue": None}))
+    return {"songs": out}
 
 
 def _not_catalog(song_id: str) -> None:

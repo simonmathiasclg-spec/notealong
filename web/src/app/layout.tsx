@@ -4,6 +4,7 @@ import { ThemeScript } from "@/components/ThemeScript";
 import { UploadsProvider } from "@/lib/uploads";
 import { Motion } from "@/components/Motion";
 import { UploadQueue } from "@/components/UploadQueue";
+import { MeProvider } from "@/lib/me";
 
 export const metadata: Metadata = {
   title: "NoteAlong",
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
       </head>
       <body className="min-h-full flex flex-col">
-        <Motion><UploadsProvider>{children}<UploadQueue /></UploadsProvider></Motion>
+        <Motion><MeProvider><UploadsProvider>{children}<UploadQueue /></UploadsProvider></MeProvider></Motion>
       </body>
     </html>
   );

@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Check, HelpCircle, Loader2, Maximize2, Minimize2, Pencil, Redo2, SlidersHorizontal, Undo2 } from "lucide-react";
+import { ArrowLeft, Check, HelpCircle, Info, Loader2, Maximize2, Minimize2, Pencil, Redo2, SlidersHorizontal, Undo2 } from "lucide-react";
+import { Suspense } from "react";
 import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
 import { buildDisplayLines, currentLineIndex, type DisplayLine } from "@/lib/display";
@@ -25,6 +26,10 @@ import { HelpOverlay } from "./HelpOverlay";
 import { FingeringHint } from "./FingeringHint";
 import { usePref } from "@/lib/prefs";
 import { NotePopover, WordPopover, type Anchor } from "./EditPopover";
+import { SetlistBar } from "./SetlistBar";
+import { FavouriteButton } from "../Favourite";
+import { AddToSetlistButton } from "../AddToSetlist";
+import { useMe } from "@/lib/me";
 
 type Snapshot = { notes: Note[]; words: Word[] };
 
@@ -43,6 +48,9 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [ended, setEnded] = useState(0);
+  const { recordPlay } = useMe();
+  const playRecorded = useRef(false);
   const [keyLoading, setKeyLoading] = useState(false);
   const [fingeringPref, setFingeringPref] = usePref("na.fingering", "0");
   const showFingering = fingeringPref === "1" && instrumentIsSax(session.instrument);
@@ -63,6 +71,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     const engine = new AudioEngine((stem, shift) => api.audioUrl(song.id, stem, shift));
     engineRef.current = engine;
     const unsub = engine.subscribe(setEngineState);
+    engine.onEnded = () => setEnded((n) => n + 1);
     engine.setBackingVolume(session.backing_volume);
     engine.setGuideVolume(session.guide_vocal ? session.guide_volume : 0);
     engine.setSpeed(session.speed);
@@ -347,6 +356,10 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   };
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 4000); return () => clearTimeout(t); }, [toast]);
+  // one play counted per visit, once the song really plays (drives "Most played" and "Jump back in")
+  useEffect(() => {
+    if (engineState.playing && !playRecorded.current) { playRecorded.current = true; recordPlay(initial.id); }
+  }, [engineState.playing, recordPlay, initial.id]);
   const leftoverNoted = useRef(false);
   useEffect(() => {
     if (!engineState.playing || leftoverNoted.current || (song.quality?.leftover_vocal_db ?? -99) <= LEFTOVER_VOICE_NOTICEABLE_DB) return;
@@ -395,6 +408,9 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
                 <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument">
                   <span className="text-accent"><InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" /></span> {instrument.name}
                 </button>
+                <FavouriteButton id={song.id} title={song.title} variant="icon" />
+                <AddToSetlistButton songId={song.id} title={song.title} />
+                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" /></Link>
                 <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" /></button>
                 <button className="btn btn-ghost btn-icon" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" /></button>
                 <button className="btn btn-ghost btn-icon" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" /></button>
@@ -406,6 +422,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         )}
       </AnimatePresence>
 
+      {!focus && <Suspense><SetlistBar songId={song.id} ended={ended} ready={engineState.ready} onAutoplay={togglePlay} /></Suspense>}
       {/* Stage */}
       <main className={`relative min-h-0 flex-1 transition-[margin] duration-300 ${settingsOpen && !focus ? "lg:mr-[22.5rem]" : ""}`}>
         <LyricStage

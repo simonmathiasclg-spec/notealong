@@ -1,4 +1,5 @@
-import type { Catalog, Entitlements, ProgressSnapshot, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
+import type { Catalog, Entitlements, MyLibrary, ProgressSnapshot, Setlist, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
+import type { SearchRow } from "./search";
 
 export const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -54,6 +55,13 @@ export const api = {
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
   getPastedLyrics: (id: string) => fetch(`${API}/api/songs/${id}/lyrics`).then(j<{ text: string }>),
   stopJob: (id: string) => fetch(`${API}/api/songs/${id}/stop`, { method: "POST" }).then(j<{ stopped: boolean }>),
+  searchIndex: () => fetch(`${API}/api/search-index`, { cache: "no-store" }).then(j<{ songs: SearchRow[] }>),
+  myLibrary: () => fetch(`${API}/api/me/library`, { cache: "no-store" }).then(j<MyLibrary>),
+  setFavourite: (id: string, on: boolean) => fetch(`${API}/api/me/favourites/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ on }) }).then(j<{ favourites: string[] }>),
+  played: (id: string) => fetch(`${API}/api/songs/${id}/played`, { method: "POST" }).then(j<{ count: number; last: string }>),
+  createSetlist: (body: Partial<Pick<Setlist, "name" | "songs" | "gap_seconds">>) => fetch(`${API}/api/me/setlists`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(j<Setlist>),
+  updateSetlist: (id: string, body: Partial<Pick<Setlist, "name" | "songs" | "gap_seconds">>) => fetch(`${API}/api/me/setlists/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(j<Setlist>),
+  deleteSetlist: (id: string) => fetch(`${API}/api/me/setlists/${id}`, { method: "DELETE" }).then(j<{ ok: boolean }>),
   /** Ask the service to render the keys one step up and down from `shift` now, so the next key change is instant. */
   prepareKeys: (id: string, shift: number) => fetch(`${API}/api/songs/${id}/prepare?shift=${shift}`, { method: "POST" }).then(j<{ queued: number }>),
   progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
