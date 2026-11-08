@@ -435,7 +435,7 @@ the gospel piano is the fix. And the lullaby's stereo image is narrower with the
 1. **Listen.** I measured every track but cannot hear them. The gospel tracks and the sticks swing drummer
    are the biggest changes (`docs/listening-samples/v3/`). A musician should also play through a handful
    of the new standards; the transcribers flagged the few notes they were unsure of (in the Part 4 notes and
-   the batch notes behind the `catalog/LICENSES.md` table).
+   `docs/STANDARDS_NOTES.md`, which has every transcriber's notes).
 2. **More standards.** Seven were left out only for want of a readable source (Till We Meet Again,
    K-K-K-Katy, When the Red Red Robin, Estrellita, Nobody Knows You When You're Down and Out, Sous les
    ponts de Paris, Waiting for the Robert E. Lee). IMSLP's scans sit behind a bot check; a person
