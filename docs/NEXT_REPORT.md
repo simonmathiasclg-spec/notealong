@@ -6,6 +6,20 @@ the app running as a user would run it (`./start.sh`, Chromium driving http://lo
 
 Working rules kept throughout: one heavy job at a time (`service/scripts/heavy.sh` refuses to start a
 second one and checks free memory first), thread counts capped at 6, commit and push after each part.
+Part 6 was done before Parts 4 and 5 finished, while the standards were being transcribed (it needed no
+heavy job), and was committed on its own; Part 4's first commit went out with only a `.gitignore` line
+because of a shell quoting slip, and the next commit added its files.
+
+## Summary
+
+| Part | Result |
+|---|---|
+| 1. Uploads | Six CC songs in five styles and three languages processed in 32 to 66 s each through the browser, all playing with the timing guide and Hear it played. Steps run in a child process with a stall timeout and a Stop button; plain failure messages; video and nine audio formats; French word fragments fixed; a leftover-voice measure on every upload. Demucs was already on the GPU: 16.7 s against 47.5 s on the CPU for a 3:08 song; the fine-tuned model is 4 times slower for no cleaner backing, so it stays optional. |
+| 2. Key change | Was broken (the Homebrew ffmpeg no longer has the Rubber Band filter); now uses the Rubber Band tool. Verified exact to the semitone at −3, +2 and +5 on an upload and a catalog song with length and onsets unchanged; notes, guide vocal and Hear it played follow the loaded key. One step up or down takes 0.4 to 0.7 s; keys are cached and the neighbours pre-rendered. Automated tests cover three engines. |
+| 3. Effortless uploads | Drop-zone hero, drop anywhere, picker, paste, a queue that follows you, video, tags and covers with editing, Chromaprint duplicate detection, a note when the backing still carries the singer. |
+| 4. Legal famous songs | 54 public-domain standards (US and Canada checked author by author, table in `catalog/LICENSES.md`), 10 more CC recordings; a cover that slipped in was removed and the screen tightened. 208 songs in all. |
+| 5. Backing tracks | Sampled grand piano, jazz kit and electric bass (CC BY and CC0) through sfizz; a sticks swing drummer, two-feel then walking bass, section dynamics, firmer endings; all 148 hand-authored songs re-rendered, 0 audit problems; before/after excerpts in `docs/listening-samples/v3/`. |
+| 6. Browsing | One typo-tolerant search over built-in songs and your own (words too), filter chips, sorting by plays, favourites, setlists that play straight through, song pages, a shorter Discover. |
 
 ## Part 1: the upload path, end to end
 
@@ -415,3 +429,23 @@ Not verified by ear: I can measure the tracks but not listen to them. Two things
 gospel tracks moved weight from the bass band to the low-mids (the sampled electric bass has less deep
 low end than the soundfont bass, and the grand piano is fuller); if they sound boxy, a low-mid cut on
 the gospel piano is the fix. And the lullaby's stereo image is narrower with the sampled piano.
+
+## Next steps
+
+1. **Listen.** I measured every track but cannot hear them. The gospel tracks and the sticks swing drummer
+   are the biggest changes (`docs/listening-samples/v3/`). A musician should also play through a handful
+   of the new standards; the transcribers flagged the few notes they were unsure of (in the Part 4 notes and
+   the batch notes behind the `catalog/LICENSES.md` table).
+2. **More standards.** Seven were left out only for want of a readable source (Till We Meet Again,
+   K-K-K-Katy, When the Red Red Robin, Estrellita, Nobody Knows You When You're Down and Out, Sous les
+   ponts de Paris, Waiting for the Robert E. Lee). IMSLP's scans sit behind a bot check; a person
+   downloading them once would unlock most of these. Songs from 1931 become public domain in the US on
+   1 January 2027 (but check Canada's author rule for each).
+3. **Strings and acoustic guitars.** VSCO 2 Community Edition (CC0) has section strings that could replace
+   the soundfont strings; no clearly licensed multi-sampled steel-string or nylon guitar was found, so the
+   folk and Latin bands still use the soundfont guitars.
+4. **Rock and pop band styles** for the CC recordings' world: Naked Drums (CC BY 4.0) is a good candidate kit.
+5. **Accounts.** Favourites, plays and setlists live in `library/.me/` on this install; with accounts they
+   move per user, next to the uploads, which must stay private to the user who uploaded them.
+6. **Leftover voice.** The cheap measure is on every upload; if the note fires too often or too rarely in
+   use, the threshold is `LEFTOVER_VOICE_NOTICEABLE_DB` in `web/src/lib/types.ts` (−28 dB).

@@ -1,6 +1,7 @@
 # NoteAlong (Phase 1 prototype)
 
-Turn any song into a play-along screen for melody instruments. Upload an MP3, WAV or M4A; NoteAlong
+Turn any song into a play-along screen for melody instruments. Drop in a song you love (an audio file or a
+video); NoteAlong
 separates the vocals, finds the notes of the vocal melody, reads the lyrics with word timing, and shows
 plain note names (C, D♯, G…) above each word while the backing track plays. No sheet music needed.
 
@@ -14,7 +15,7 @@ notealong/
 │   ├── songs/   hand-authored melodies in a small text format (*.song)
 │   └── LICENSES.md  every sound source used (instrument recordings, soundfonts) and its licence
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
-├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md (the latest round of work),
+├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md and NEXT_REPORT.md (the rounds of work),
 │                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
@@ -30,8 +31,8 @@ Ctrl-C stops them. Logs go to `logs/`.
 **By hand:**
 
 ```bash
-# 1. System tools (ffmpeg is built with Rubber Band, which handles key changes)
-brew install ffmpeg python@3.11 node
+# 1. System tools: ffmpeg, Rubber Band (key changes), Chromaprint (duplicate uploads), FluidSynth (catalog builds)
+brew install ffmpeg rubberband chromaprint fluid-synth python@3.11 node
 
 # 2. Processing service
 cd service
@@ -68,10 +69,31 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
 ## Using it
 
 1. Pick your instrument (alto sax is preselected). You can change it any time from the player.
-2. **Discover** lists the built-in songs: tap one and it plays straight away. Browse by difficulty, genre or
-   culture, or search. **My songs** holds what you add yourself.
-3. Add a song (button or drag a file anywhere). Processing continues even if you leave the page, so you can
-   play something from Discover while you wait.
+2. **Add a song you love**: drop files on the big drop zone (or anywhere on any page), choose them with the
+   button, or paste them (⌘V). Several at once is fine: they upload one after another and a small queue in
+   the corner follows them while you browse or play something else, then says "Ready to play".
+   - **File types:** MP3, M4A/AAC, WAV, FLAC, AIFF, Ogg/Opus, WMA, and video (MP4, MOV, M4V, WEBM, MKV, AVI;
+     only the soundtrack is kept). Between 5 seconds and 15 minutes. Copy-protected files (Apple Music
+     .m4p, audiobooks), damaged files and silent videos are refused with a sentence saying why.
+   - **Title, artist and cover** come from the file's tags when it has them (the embedded picture becomes
+     the cover); otherwise a cover is generated. Change them under Settings, "Edit the details".
+   - **Duplicates:** every upload is fingerprinted (Chromaprint). The same recording again, at another
+     bitrate, in another format or as the soundtrack of a video, opens the song you already have instead of
+     processing it again.
+   - Processing takes about a quarter of the song's length on Apple silicon (Demucs on the GPU), can be
+     stopped, and is retried from the last finished step. If the backing track still carries some of the
+     singer, the player says so once.
+   - Uploads and everything made from them stay private to you.
+3. **Discover** offers the built-in songs, which start at once: your favourites, jump back in, jazz and
+   classic standards, songs that suit your instrument, beginners' songs, real recordings, and Browse lists.
+   **Search** (the box at the top of every page, or `/`) covers built-in songs and your own together:
+   titles, artists, styles, countries and the words, forgiving typos. Narrow the results with filter chips
+   (fits my instrument, favourites, difficulty, source, style, decade, language, country, tempo) and sort by
+   best match, most played, newest, A to Z or easiest. Every song has its own page (the ⓘ button) with its
+   details, origin and licence, the words and songs like it.
+   **Favourites:** the heart on any tile, in the player or on a song page. **Setlists:** name one, add songs
+   (the list button in the player, or search on the setlist page), drag them into order, choose the gap,
+   and "Play the set" plays them straight through with a countdown between songs.
 4. Open the song: press play (or space). After a short count-in the backing track plays and the current
    word and note light up. Notes above words are what you finger on your instrument.
    - **Timing guide** (on by default, switch in settings): a bar under each note shows how long to hold it,
@@ -103,8 +125,18 @@ every screen before and after the redesign.
 
 ## The built-in catalog (Discover)
 
-144 songs at the moment: 94 hand-authored public-domain songs and 50 Creative Commons recordings, in 19
-languages. `docs/OVERNIGHT_REPORT.md` lists what was added last, what was skipped and why.
+208 songs at the moment, from three sources:
+
+| Source | Songs |
+|---|---|
+| Hand-authored public-domain songs (traditional songs, hymns, carols, classics from around the world) | 94 |
+| Hand-authored public-domain jazz and classic standards (published 1784–1928, every author died by 1971, so public domain in the US and in Canada) | 54 |
+| Creative Commons recordings by independent artists (CC BY or CC BY-SA, from Jamendo via the Internet Archive) | 60 |
+
+`catalog/LICENSES.md` has the rights check of every standard and the licence of every sound source;
+`docs/OVERNIGHT_REPORT.md` and `docs/NEXT_REPORT.md` list what was added in each run, what was skipped and why.
+No copyrighted recordings, backing tracks, lyrics or album art are in the catalog: today's pop songs are
+available only by uploading your own file.
 
 `catalog/catalog.json` is the index; every song lives in `catalog/<id>/` with `song.json` (the same format
 the pipeline produces), `backing.mp3`, `vocals.mp3` (the guide melody or the separated singer), `cover.svg`
@@ -118,7 +150,9 @@ Two kinds of song:
   per bar, then lyric lines with one note per syllable (see `catalog/songs/README.md`). The build turns each
   file into exact note data and renders a backing track played by a small band chosen for the song (23
   styles: folk, gospel, carol, swing, waltz, latin, celtic, shanty and more), with an instrumental intro,
-  a moving bass line, drum fills and a proper mix (`arrange.py`, `render.py`), plus a quiet guide melody,
+  a moving bass line, drum fills and a proper mix (`arrange.py`, `render.py`). The piano is a sampled
+  concert grand and up-tempo swing and gospel use a sampled jazz kit (SFZ libraries played by sfizz, fetched
+  on first build); the other instruments come from two General MIDI soundfonts. Plus a quiet guide melody,
   cover art and a difficulty rating. Each melody was checked against a notated source, recorded in the
   file's `source_url` and `attribution` lines.
 - **Creative Commons recordings** imported with `import_cc`: the recording goes through the normal pipeline
@@ -126,17 +160,26 @@ Two kinds of song:
   mistakes are fixed or dropped. The stems are loudness-matched to the built-in tracks. Hand-made word
   timings can be supplied instead of Whisper. Artist, source and licence are stored and shown on the song page.
 
-Discover is built for a large catalog: "Jump back in", "New this week", featured and beginner rows, real
-recordings, the biggest styles, a Browse index (styles, parts of the world, languages), search, and sorting.
+Discover is built for a large catalog: a few rows, then Browse lists (styles, parts of the world,
+languages) that open the shared search page with that filter set.
 
 Built-in songs are read-only: your settings and any note fixes for them are kept in `library/.catalog/`, and
 key-shifted renders in `library/.cache/`. "Delete" on a built-in song only resets those.
 
 ### Adding a song to the catalog
 
+Rule for a hand-authored song: published in 1930 or earlier and every credited author dead by the end of
+1971 (public domain in both the US and Canada), using only the original published melody and words. Record
+the check in the song's `attribution` line and in the table in `catalog/LICENSES.md`.
+
+Building, importing, evaluating and rendering are heavy (Demucs, Whisper, FluidSynth, sfizz): run one at a
+time, through `scripts/heavy.sh`, which refuses to start when another heavy job is running or less than 5 GB
+of memory is free, and caps thread counts.
+
 ```bash
 cd service && source .venv/bin/activate
-brew install fluid-synth                      # once; the soundfont (~40 MB) downloads on first build
+brew install fluid-synth                      # once; the soundfonts and sample libraries (~4 GB) download on first build
+scripts/heavy.sh python -m notealong.catalog.build    # the same commands as below, run through the guard
 
 # A public-domain song: write catalog/songs/<id>.song, then
 python -m notealong.catalog.build --check      # parse every file, report problems
