@@ -467,6 +467,7 @@ class StepParams(BaseModel):
     detail_level: Optional[str] = None
     overrides: Optional[dict] = None
     language: Optional[str] = None
+    hold_across_words: Optional[bool] = None   # keep one held note when the singer carries a vowel into the next word
 
 
 @app.post("/api/songs/{song_id}/steps/{step}")
@@ -503,6 +504,8 @@ def rerun_step(song_id: str, step: str, params: StepParams | None = None):
         library.update_song(song_id, lambda s: setattr(s.language, "override", params.language or None))
     if "melody" in steps and params.detail_level:
         library.update_song(song_id, lambda s: setattr(s.settings, "detail_level", params.detail_level))
+    if params.hold_across_words is not None:
+        library.update_song(song_id, lambda s: s.settings.cleanup.__setitem__("hold_across_words", bool(params.hold_across_words)))
     manager.submit(song_id, steps, job_params)
     return manager.snapshot(song_id)
 

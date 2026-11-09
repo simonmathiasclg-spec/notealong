@@ -37,6 +37,8 @@ type Props = {
   setHearVolume: (v: number) => void;
   busy: string | null;
   onDetailLevel: (level: string) => void;
+  /** Keep one held note when the singer carries a vowel into the next word (uploads). */
+  onHoldAcrossWords?: (on: boolean) => void;
   onLanguage: (lang: string) => void;
   onPasteLyrics: (text: string) => Promise<void>;
   onReprocess: () => void;
@@ -191,6 +193,13 @@ export function SettingsPanel(p: Props) {
                       ))}
                     </div>
                     <p className="mt-1.5 text-xs text-faint">Simple leaves out quick slides and runs. Detailed keeps them.</p>
+                    {p.onHoldAcrossWords && (
+                      <div className="mt-3">
+                        <Switch checked={!!song.settings.cleanup?.hold_across_words} onChange={(v) => p.onHoldAcrossWords?.(v)}
+                          label="Hold a note across words when the singer does" />
+                        <p className="mt-1 text-xs text-faint">For players who sustain: one long note where the voice carries straight into the next word on the same pitch.</p>
+                      </div>
+                    )}
                   </Row>
                 )}
 

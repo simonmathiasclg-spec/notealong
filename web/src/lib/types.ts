@@ -106,7 +106,7 @@ export type Song = {
   words: Word[];
   lines: Line[];
   notes: Note[];
-  settings: { detail_level: string; cleanup: Record<string, number>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
+  settings: { detail_level: string; cleanup: Record<string, number | boolean>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
   user: UserSession;
   steps: Record<string, StepState>;
   error?: string | null;

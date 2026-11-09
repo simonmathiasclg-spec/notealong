@@ -359,7 +359,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     }
     return false;
   }, [song.id]);
-  const runStep = async (label: string, step: string, params: { detail_level?: string; language?: string }) => {
+  const runStep = async (label: string, step: string, params: { detail_level?: string; language?: string; hold_across_words?: boolean }) => {
     setBusy(label);
     try {
       await api.rerun(song.id, step, params);
@@ -520,6 +520,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         timing={timing} setTiming={(v) => setTimingPref(v ? "1" : "0")}
         hear={hear} hearState={hearState} onHear={toggleHear} hearVolume={hearVolume} setHearVolume={(v) => setHearVolumePref(String(v))}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
+        onHoldAcrossWords={catalog ? undefined : (on) => runStep("Updating the notes…", on ? "attach" : "cleanup", { hold_across_words: on })}
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
         onReprocess={async () => { await api.rerun(song.id, "all"); await reload(); }}

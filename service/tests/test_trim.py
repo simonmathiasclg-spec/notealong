@@ -41,3 +41,17 @@ def test_trim_moves_everything(tmp_path, monkeypatch):
     out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(tmp_path / "s1" / "backing.mp3")],
                          capture_output=True, text=True).stdout
     assert abs(float(out) - 18.0) < 0.1
+
+
+def test_cleanup_keeps_hand_edited_notes(tmp_path, monkeypatch):
+    import json
+    library = make_song(tmp_path, monkeypatch)
+    from notealong.pipeline import runner
+    raw = [{"start": 11.9, "end": 13.1, "midi": 70, "confidence": 0.9, "amp": 0.8}, {"start": 20.0, "end": 21.0, "midi": 65, "confidence": 0.9, "amp": 0.8}]
+    (tmp_path / "s1" / "notes_raw.json").write_text(json.dumps(raw))
+    monkeypatch.setattr(runner, "run_attach", lambda song_id, progress=None: None)
+    runner.run_cleanup("s1")
+    s = library.load_song("s1")
+    kept = [n for n in s.notes if n.edited]
+    assert [(n.id, n.midi) for n in kept] == [("n2", 62)]                    # the fixed note survives
+    assert not any(n.midi == 70 for n in s.notes)                            # the fresh note on top of it gave way

@@ -132,12 +132,18 @@ def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict |
     level = detail_level or song.settings.detail_level
     notes, params = clean_notes(raw, level, overrides, tempo=song.tempo_bpm)
     key = detect_key(notes)
+    # notes the user fixed by hand stay; fresh notes that overlap them give way
+    edited = [n.model_dump() for n in song.notes if n.edited]
+    if edited:
+        notes = [n for n in notes if not any(e["start"] < n["end"] - 0.02 and e["end"] > n["start"] + 0.02 for e in edited)] + edited
+        notes.sort(key=lambda n: n["start"])
 
     def upd(s: Song):
         s.notes = [Note(**n) for n in notes]
         s.key = KeyInfo(**key) if key else None
         s.settings.detail_level = level
-        s.settings.cleanup = params.to_dict()
+        keep = {k: v for k, v in s.settings.cleanup.items() if k == "hold_across_words"}   # the user's own choice survives
+        s.settings.cleanup = {**params.to_dict(), **keep}
     library.update_song(song_id, upd)
     run_attach(song_id)
     progress(1.0)
@@ -247,8 +253,9 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
         if curve is not None:
             # the singer's pitch curve corrects each note's pitch, joins a held note the detector chopped
             # up, lets it last as long as the voice holds it, and drops "notes" with no pitch at all
-            from .pitchnotes import refine_with_pitch
-            notes = refine_with_pitch(notes, *curve, art=art)
+            from .pitchnotes import RefineParams, refine_with_pitch
+            across = bool(s.settings.cleanup.get("hold_across_words", False))
+            notes = refine_with_pitch(notes, *curve, art=art, p=RefineParams(across_words=across))
             s.quality["pipeline"] = PIPELINE_VERSION
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]

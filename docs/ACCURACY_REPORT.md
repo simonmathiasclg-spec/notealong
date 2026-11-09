@@ -209,3 +209,79 @@ applause at the end there is now a trim control (below).
   processing: spelled-out words are joined and the notes refined with the pitch curve. Hand-edited notes and
   words are never changed, and the old result stays until the new one is saved in one write. All 11 uploads
   on this machine were upgraded, Despacito included.
+* **"Hold a note across words when the singer does"** (Settings, uploads, off by default): the across-word
+  join of experiment 9 as the owner's choice. On Despacito it takes the held notes shown as one note from 11
+  to 17 of 25 (with the strictest thresholds tried, 14; with looser ones, 19). It stays off by default
+  because the regression reference is cut at every word, so it cannot reward this and scores it 0.01 F1
+  lower. Switching it off rebuilds the notes from the detection, keeping hand-edited notes (the cleanup step
+  now always keeps them, which also fixes the detail-level switch throwing fixes away).
+
+## Final numbers
+
+The pipeline at the start of this run against the pipeline as it now ships, both scored over the sung part:
+
+| Set | | pitch (note name) | off>1 | F1 | onset med / p90 | bias | dur | sustain | frames |
+|---|---|---|---|---|---|---|---|---|---|
+| Despacito, strict key (282 notes) | before | 0.726 (0.754) | 20.0 % | 0.392 | 70 / 171 ms | +20 | 0.29 | 0.12 | 0.554 |
+| | after | **0.762 (0.780)** | **17.3 %** | **0.406** | 70 / 184 ms | +15 | 0.32 | 0.12 | **0.578** |
+| Despacito, full key (2 of 4 covers) | before | 0.684 (0.721) | 25.6 % | 0.392 | 65 / 190 ms | | 0.32 | 0.06 | 0.486 |
+| | after | **0.710 (0.746)** | **21.5 %** | **0.406** | 63 / 184 ms | | 0.33 | 0.06 | **0.499** |
+| Regression, 11 songs | before | 0.804 (0.819) | 6.1 % | 0.610 | 25 / 108 ms | +2 | 0.23 | 0.59 | 0.647 |
+| | after | **0.811 (0.823)** | **4.4 %** | **0.616** | 25 / **104** ms | +2 | 0.23 | **0.68** | **0.670** |
+| Vocadito, 40 excerpts | before | 0.793 | 1.5 % | 0.571 | 25 / 115 ms | +10 | 0.31 | 0.08 | 0.691 |
+| | after | **0.835** | **0.9 %** | **0.642** | **21 / 101** ms | +10 | **0.21** | **0.55** | **0.722** |
+
+Despacito's held notes, by note name (25 notes of 0.45 s or more in the key): shown as one note 9 before, 11
+now, 17 with "hold a note across words" on.
+
+Also: 615 notes shown on Despacito instead of 664 (49 unpitched or merged), and its lyrics read
+"DIWAR" instead of "D I W A R".
+
+## Listening samples
+
+`docs/listening-samples/accuracy/`: the first chorus ("Despacito, quiero respirar tu cuello despacito…",
+85-115 s of the music video) played by the app's alto sax samples, 30 seconds each, rendered offline the way
+"Hear it played" plays notes (`service/scripts/accuracy/render_hear.py`):
+* `despacito-chorus-alto-sax-before.mp3`: the notes as they were at the start of this run (91 notes)
+* `despacito-chorus-alto-sax-after.mp3`: the notes now (80 notes)
+* `despacito-chorus-alto-sax-answer-key.mp3`: what at least three of the four sax covers play (53 notes),
+  for reference
+
+They are the sax line alone: the song's own recording is copyrighted and is not put in the repository. To hear
+it against the band, open Despacito in the app with Hear it played on.
+
+## Models and data, and their licences
+
+| What | Used for | Licence | Shipped |
+|---|---|---|---|
+| FCPE (torchfcpe 0.0.4, weights in the package) | the singer's pitch curve in the pipeline | MIT | yes |
+| Demucs htdemucs (already used) | vocal separation | MIT | yes |
+| Basic Pitch (already used) | note detection | Apache 2.0 | yes |
+| CREPE (torchcrepe) | pitch of the covers, the regression reference, a comparison tracker | MIT | no (evaluation only) |
+| Beat This! (CPJKU) | beat grid experiment | MIT | no (not kept) |
+| htdemucs_ft | separation comparison | MIT | no (not kept) |
+| RMVPE | not used: its weights carry a research-only clause | | |
+| BS-RoFormer, Mel-RoFormer vocal checkpoints | not used: unlicensed, non-commercial or research-only | | |
+| YouTube sax covers (7) | the Despacito answer key | the uploaders' | no: internal, gitignored, never committed |
+| JamendoLyrics (11 recordings, CC) | regression set | CC BY / BY-SA recordings | no (already in the catalog as stems) |
+| Vocadito (40 excerpts) | regression set with human note labels | CC BY 4.0 | no: internal, gitignored |
+
+## Top remaining problems
+
+1. **Held notes split at word boundaries.** Whisper's word timings put boundaries inside sung vowels, and
+   the notes follow them. "Hold a note across words" fixes most of this on Despacito but is off by default;
+   a better test set (human-marked held notes in a few pop songs) would let it be judged fairly and probably
+   switched on.
+2. **The answer key itself.** Four sax covers agree on 72 notes completely and on 613 by at least two. They
+   disagree on octaves and on ornaments, and their timing spreads by about 50 ms, so Despacito's timing
+   numbers (median 70 ms) are partly the key's own noise. The owner's own recording over the backing track
+   (`test-recordings/despacito-sax.m4a`) would make a much better key.
+3. **Slides into notes.** Most of Despacito's remaining "wrong" notes are the singer sliding in from a tone
+   below; sax players play the target. Absorbing them hurts the other songs. A rule that looks at how the
+   pitch moves (a smooth glide, not a held lower note) could separate the two.
+4. **Timing.** No global offset exists and the beat grid did not help; the start error against the covers is
+   70 ms median, 184 ms at the 90th percentile. Starting notes at the syllable's attack helped Despacito but
+   not the others.
+5. **Rap sections.** In Daddy Yankee's verse (about 100-140 and 180-220 s) pitch accuracy drops to 0.55-0.75:
+   rapped words have no stable pitch, and the covers play their own line there. The confidence marks flag
+   many of these lines.

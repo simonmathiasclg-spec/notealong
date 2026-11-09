@@ -49,7 +49,7 @@ export const api = {
   patchSong: (id: string, patch: Partial<{ title: string; artist: string; words: Word[]; notes: Note[]; lines: Line[]; user: UserSession; language_override: string }>) =>
     fetch(`${API}/api/songs/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) }).then(j<Song>),
   deleteSong: (id: string) => fetch(`${API}/api/songs/${id}`, { method: "DELETE" }).then(j<{ ok: boolean }>),
-  rerun: (id: string, step: string, params: { detail_level?: string; language?: string } = {}) =>
+  rerun: (id: string, step: string, params: { detail_level?: string; language?: string; hold_across_words?: boolean } = {}) =>
     fetch(`${API}/api/songs/${id}/steps/${step}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(params) }).then(j<ProgressSnapshot>),
   pasteLyrics: (id: string, text: string) =>
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),

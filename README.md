@@ -15,7 +15,7 @@ notealong/
 │   ├── songs/   hand-authored melodies in a small text format (*.song)
 │   └── LICENSES.md  every sound source used (instrument recordings, soundfonts) and its licence
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
-├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md and NEXT_REPORT.md (the rounds of work),
+├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md, NEXT_REPORT.md, ACCURACY_REPORT.md (the rounds of work),
 │                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
@@ -106,8 +106,13 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
 5. Side panel (⚙︎): key (higher/lower), octave, speed, loop, backing volume, quiet guide vocal, note
    names (C♯ / D♭ / Do Re Mi / Sa Re Ga), detail level, lyric language and script, paste the correct lyrics,
    export (PDF sheet, MusicXML).
-6. Edit mode (✎ or `E`): click a note to move it up or down a semitone or delete it; click a word to fix
-   its text or add a note. Undo/redo. Edits are saved to `song.json`.
+6. Edit mode (✎ or `E`): click a note to fix it. ↑/↓ move it a semitone; drag the ends of its timing strip,
+   or press ←/→ (Shift for small steps), to change when it starts and stops; `[` and `]` move its whole line;
+   `S` splits it in two and `J` joins it with the next note. Click a word to fix its text or add a note.
+   Undo/redo. Edits are saved to `song.json` and are never overwritten when a song is processed again.
+   A small amber dot beside a line in your own songs means its notes were hard to hear: worth a listen.
+   For your own songs, Settings also has **Trim the start or end** (cut a video's intro without processing
+   again) and **Hold a note across words** (one long note where the singer carries a vowel into the next word).
 7. Focus mode (`F`) hides everything except play/pause. `?` shows all shortcuts.
 
 Octave markers: ▲ after a note means the higher version of that note on your instrument, ▼ the lower
