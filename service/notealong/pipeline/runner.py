@@ -56,7 +56,7 @@ def articulation(d: Path) -> Articulation | None:
 PITCH_VERSION = 1
 # The note pipeline's version, stored on each upload (song.quality["pipeline"]). Uploads made with an older
 # version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
-PIPELINE_VERSION = 2
+PIPELINE_VERSION = 3   # 3: held notes are held across words by default
 
 
 def pitch_curve(d: Path, compute: bool = True):
@@ -254,7 +254,7 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             # the singer's pitch curve corrects each note's pitch, joins a held note the detector chopped
             # up, lets it last as long as the voice holds it, and drops "notes" with no pitch at all
             from .pitchnotes import RefineParams, refine_with_pitch
-            across = bool(s.settings.cleanup.get("hold_across_words", False))
+            across = bool(s.settings.cleanup.get("hold_across_words", True))   # on unless the user switched it off
             notes = refine_with_pitch(notes, *curve, art=art, p=RefineParams(across_words=across))
             s.quality["pipeline"] = PIPELINE_VERSION
         s.notes = [Note(**n) for n in notes]

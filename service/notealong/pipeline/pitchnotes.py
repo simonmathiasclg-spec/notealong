@@ -260,7 +260,7 @@ class RefineParams:
     dip_db: float = 6.0              # level dip this deep at the junction: a re-attack
     extend_max: float = 1.5          # a held note may grow by at most this much while the voice holds its pitch
     hold_tol: float = 0.6            # semitones: the voice still holds the note's pitch within this
-    across_words: bool = False       # join the same pitch across a word boundary too, when nothing is re-attacked:
+    across_words: bool = True        # join the same pitch across a word boundary too, when nothing is re-attacked:
     across_onset: float = 0.3        #   the onset at the junction is below this (a vowel carried into the next word)
     across_dip: float = 3.0          #   and the level dips by less than this
 

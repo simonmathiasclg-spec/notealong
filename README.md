@@ -112,7 +112,8 @@ The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
    Undo/redo. Edits are saved to `song.json` and are never overwritten when a song is processed again.
    A small amber dot beside a line in your own songs means its notes were hard to hear: worth a listen.
    For your own songs, Settings also has **Trim the start or end** (cut a video's intro without processing
-   again) and **Hold a note across words** (one long note where the singer carries a vowel into the next word).
+   again) and **Hold a note across words** (on by default: one long note where the singer carries a vowel into the
+   next word; switch it off for one note per word).
 7. Focus mode (`F`) hides everything except play/pause. `?` shows all shortcuts.
 
 Octave markers: ▲ after a note means the higher version of that note on your instrument, ▼ the lower

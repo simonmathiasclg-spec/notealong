@@ -209,11 +209,13 @@ applause at the end there is now a trim control (below).
   processing: spelled-out words are joined and the notes refined with the pitch curve. Hand-edited notes and
   words are never changed, and the old result stays until the new one is saved in one write. All 11 uploads
   on this machine were upgraded, Despacito included.
-* **"Hold a note across words when the singer does"** (Settings, uploads, off by default): the across-word
-  join of experiment 9 as the owner's choice. On Despacito it takes the held notes shown as one note from 11
-  to 17 of 25 (with the strictest thresholds tried, 14; with looser ones, 19). It stays off by default
-  because the regression reference is cut at every word, so it cannot reward this and scores it 0.01 F1
-  lower. Switching it off rebuilds the notes from the detection, keeping hand-edited notes (the cleanup step
+* **"Hold a note across words when the singer does"** (Settings, uploads, **on by default**): the
+  across-word join of experiment 9. On Despacito it takes the held notes shown as one note from 11 to 17 of
+  25 (with the strictest thresholds tried, 14; with looser ones, 19). It was first left off because the
+  regression reference is cut at every word, so it cannot reward this and scores it 0.01 F1 lower
+  (0.616 to 0.605). The owner chose to have it on by default, since sustain is the main complaint; a song
+  can still have it switched off in Settings. Pipeline version 3 applied it to every existing upload
+  (Despacito 619 to 585 notes, 17 of 25 held notes now one note). Switching it off rebuilds the notes from the detection, keeping hand-edited notes (the cleanup step
   now always keeps them, which also fixes the detail-level switch throwing fixes away).
 
 ## Final numbers
@@ -231,8 +233,9 @@ The pipeline at the start of this run against the pipeline as it now ships, both
 | Vocadito, 40 excerpts | before | 0.793 | 1.5 % | 0.571 | 25 / 115 ms | +10 | 0.31 | 0.08 | 0.691 |
 | | after | **0.835** | **0.9 %** | **0.642** | **21 / 101** ms | +10 | **0.21** | **0.55** | **0.722** |
 
-Despacito's held notes, by note name (25 notes of 0.45 s or more in the key): shown as one note 9 before, 11
-now, 17 with "hold a note across words" on.
+Despacito's held notes, by note name (25 notes of 0.45 s or more in the key): shown as one note 9 before,
+**17 now** (11 with "hold a note across words" switched off). With it on, the regression set's F1 is 0.605
+instead of 0.616 above, for the reason given under Product additions.
 
 Also: 615 notes shown on Despacito instead of 664 (49 unpitched or merged), and its lyrics read
 "DIWAR" instead of "D I W A R".
@@ -243,7 +246,7 @@ Also: 615 notes shown on Despacito instead of 664 (49 unpitched or merged), and 
 85-115 s of the music video) played by the app's alto sax samples, 30 seconds each, rendered offline the way
 "Hear it played" plays notes (`service/scripts/accuracy/render_hear.py`):
 * `despacito-chorus-alto-sax-before.mp3`: the notes as they were at the start of this run (91 notes)
-* `despacito-chorus-alto-sax-after.mp3`: the notes now (80 notes)
+* `despacito-chorus-alto-sax-after.mp3`: the notes now, held notes held across words (73 notes)
 * `despacito-chorus-alto-sax-answer-key.mp3`: what at least three of the four sax covers play (53 notes),
   for reference
 
@@ -268,10 +271,10 @@ it against the band, open Despacito in the app with Hear it played on.
 
 ## Top remaining problems
 
-1. **Held notes split at word boundaries.** Whisper's word timings put boundaries inside sung vowels, and
-   the notes follow them. "Hold a note across words" fixes most of this on Despacito but is off by default;
-   a better test set (human-marked held notes in a few pop songs) would let it be judged fairly and probably
-   switched on.
+1. **Held notes split at word boundaries.** Whisper's word timings put boundaries inside sung vowels.
+   "Hold a note across words" (now on by default) joins 17 of Despacito's 25 held notes; 8 still split,
+   mostly where the voice dips or re-attacks a little at the boundary. A test set with human-marked held
+   notes in a few pop songs would let the thresholds be tuned fairly.
 2. **The answer key itself.** Four sax covers agree on 72 notes completely and on 613 by at least two. They
    disagree on octaves and on ornaments, and their timing spreads by about 50 ms, so Despacito's timing
    numbers (median 70 ms) are partly the key's own noise. The owner's own recording over the backing track

@@ -195,7 +195,7 @@ export function SettingsPanel(p: Props) {
                     <p className="mt-1.5 text-xs text-faint">Simple leaves out quick slides and runs. Detailed keeps them.</p>
                     {p.onHoldAcrossWords && (
                       <div className="mt-3">
-                        <Switch checked={!!song.settings.cleanup?.hold_across_words} onChange={(v) => p.onHoldAcrossWords?.(v)}
+                        <Switch checked={song.settings.cleanup?.hold_across_words !== false} onChange={(v) => p.onHoldAcrossWords?.(v)}
                           label="Hold a note across words when the singer does" />
                         <p className="mt-1 text-xs text-faint">For players who sustain: one long note where the voice carries straight into the next word on the same pitch.</p>
                       </div>
