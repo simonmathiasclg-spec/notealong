@@ -27,3 +27,4 @@ pytest>=8
 httpx>=0.27   # FastAPI TestClient
 mido>=1.3
 pysfizz==0.1.3              # SFZ sampled instruments for the catalog's backing tracks (catalog/LICENSES.md)
+torchfcpe==0.0.4          # FCPE pitch tracker (MIT) for note refinement

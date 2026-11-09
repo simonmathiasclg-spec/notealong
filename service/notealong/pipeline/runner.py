@@ -53,6 +53,29 @@ def articulation(d: Path) -> Articulation | None:
         return None
 
 
+PITCH_VERSION = 1
+
+
+def pitch_curve(d: Path, compute: bool = True):
+    """The singer's pitch every 10 ms (FCPE) with its confidence and the vocals' level, cached as pitch.npz."""
+    import numpy as np
+    from . import pitchnotes
+    cache = d / "pitch.npz"
+    if cache.exists():
+        z = np.load(cache)
+        if int(z.get("version", 0)) == PITCH_VERSION:
+            return z["midi"], z["conf"], z["db"]
+    if not compute:
+        return None
+    src = _vocals_source(d)
+    if not src.exists():
+        return None
+    midi, conf = pitchnotes.track_fcpe(src)
+    db = pitchnotes.level_db(src, len(midi))
+    np.savez_compressed(cache, midi=midi, conf=conf, db=db, version=PITCH_VERSION)
+    return midi, conf, db
+
+
 def run_stems(song_id: str, progress: Progress = _noop) -> None:
     d = library.song_dir(song_id)
     song = library.load_song(song_id)
@@ -68,6 +91,7 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
     for f in d.glob("shift_*"):
         f.unlink()
     (d / "envelope.json").unlink(missing_ok=True)
+    (d / "pitch.npz").unlink(missing_ok=True)
     (d / "backing.wav").unlink(missing_ok=True)   # the mp3 is what the player streams
 
     def upd(s: Song):
@@ -81,6 +105,11 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
 def run_melody(song_id: str, progress: Progress = _noop) -> None:
     d = library.song_dir(song_id)
     raw = detect_notes(_vocals_source(d))
+    progress(0.7)
+    try:
+        pitch_curve(d)                  # the singer's pitch curve, used to correct the notes (pitchnotes.py)
+    except Exception:
+        pass
     progress(0.8)
     library.write_json(d / "notes_raw.json", raw)
     tempo = estimate_tempo(d / library.load_song(song_id).files["original"])
@@ -190,7 +219,14 @@ def run_paste_lyrics(song_id: str, text: str) -> None:
 
 
 def run_attach(song_id: str, progress: Progress = _noop) -> None:
-    art = articulation(library.song_dir(song_id))
+    d = library.song_dir(song_id)
+    art = articulation(d)
+    curve = None
+    if not library.is_catalog(song_id):
+        try:
+            curve = pitch_curve(d)
+        except Exception:
+            curve = None
 
     def upd(s: Song):
         notes = [n.model_dump() for n in s.notes]
@@ -205,6 +241,11 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
         all_lines = attach_notes(notes, words, lyric_lines, art=art,
                                  params=tempo_scaled(params_for(s.settings.detail_level), s.tempo_bpm),
                                  language=s.language.override or s.language.detected)
+        if curve is not None:
+            # the singer's pitch curve corrects each note's pitch, joins a held note the detector chopped
+            # up, lets it last as long as the voice holds it, and drops "notes" with no pitch at all
+            from .pitchnotes import refine_with_pitch
+            notes = refine_with_pitch(notes, *curve, art=art)
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]
         s.lines = [Line(**l) for l in all_lines]

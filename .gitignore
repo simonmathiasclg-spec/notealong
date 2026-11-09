@@ -22,3 +22,6 @@ logs/
 catalog/.cache/
 service/models/instrument_sources/
 service/models/sfz/
+
+# internal accuracy testing only: never committed, never shipped
+test-recordings/
