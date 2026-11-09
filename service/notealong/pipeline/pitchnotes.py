@@ -260,6 +260,9 @@ class RefineParams:
     dip_db: float = 6.0              # level dip this deep at the junction: a re-attack
     extend_max: float = 1.5          # a held note may grow by at most this much while the voice holds its pitch
     hold_tol: float = 0.6            # semitones: the voice still holds the note's pitch within this
+    across_words: bool = False       # join the same pitch across a word boundary too, when nothing is re-attacked:
+    across_onset: float = 0.3        #   the onset at the junction is below this (a vowel carried into the next word)
+    across_dip: float = 3.0          #   and the level dips by less than this
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -299,13 +302,29 @@ def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db:
     for nt in out:
         prev = merged[-1] if merged else None
         if (prev is not None and prev["midi"] == nt["midi"] and not prev.get("edited") and not nt.get("edited")
-                and nt["start"] - prev["end"] <= p.merge_gap and prev.get("word", nt.get("word")) == nt.get("word", prev.get("word"))):
-            reattack = art is not None and art.rearticulated(prev["end"], nt["start"], p.onset_min, p.dip_db)
-            if not reattack:
+                and nt["start"] - prev["end"] <= p.merge_gap):
+            same_word = prev.get("word", nt.get("word")) == nt.get("word", prev.get("word"))
+            if same_word:
+                joined = not (art is not None and art.rearticulated(prev["end"], nt["start"], p.onset_min, p.dip_db))
+            else:
+                # across words only when the sound is plainly continuous (no attack, no dip at all)
+                joined = (p.across_words and art is not None and art.onset_at(nt["start"]) < p.across_onset
+                          and art.dip_at(prev["end"], nt["start"]) < p.across_dip)
+            if joined:
                 prev["end"] = max(prev["end"], nt["end"])
+                if prev.get("word") is None:
+                    prev["word"] = nt.get("word")
                 rep["merged_held"] += 1
                 continue
         merged.append(nt)
+    # how sure we are of each note: the share of its frames where the voice is on its pitch
+    for nt in merged:
+        if nt.get("edited"):
+            continue
+        a, b = int(nt["start"] / HOP), min(n, int(nt["end"] / HOP))
+        if b > a:
+            on = ok[a:b] & (np.abs(midi[a:b] - nt["midi"]) <= p.hold_tol)
+            nt["confidence"] = round(float(on.mean()), 3)
     # sustain: a note lasts while the voice stays on its pitch, up to the next note
     for k, nt in enumerate(merged):
         if nt.get("edited"):
@@ -321,3 +340,34 @@ def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db:
             nt["end"] = round(j * HOP, 3)
             rep["extended"] += 1
     return merged
+
+
+def align_to_attacks(notes: list[dict], art, window: float = 0.08, min_onset: float = 0.35, report: dict | None = None) -> list[dict]:
+    """Moves a note's start back to the singer's attack: the strongest vocal onset (spectral flux) in the
+    `window` seconds before the detected start, when there is a clear one. The pitch detector tends to start a
+    note once the pitch has settled, after the consonant; a player starts it with the syllable."""
+    rep = report if report is not None else {}
+    rep["attack_aligned"] = 0
+    if art is None:
+        return notes
+    notes = sorted(notes, key=lambda n: n["start"])
+    hop = art.hop
+    for k, nt in enumerate(notes):
+        if nt.get("edited"):
+            continue
+        a = int(max(0, (nt["start"] - window) / hop))
+        b = int(nt["start"] / hop) + 1
+        seg = art.onset[a:b]
+        if not len(seg):
+            continue
+        i = int(np.argmax(seg))
+        if seg[i] < min_onset:
+            continue
+        t = (a + i) * hop
+        prev = notes[k - 1] if k > 0 else None
+        if t < nt["start"] - 0.012 and (prev is None or t > prev["start"] + 0.06):
+            if prev is not None and prev["end"] > t:
+                prev["end"] = round(t, 3)
+            nt["start"] = round(t, 3)
+            rep["attack_aligned"] += 1
+    return notes

@@ -69,3 +69,10 @@ def test_split_fragments_are_glued_back_to_their_word():
     assert [w["text"] for w in words] == ["Est-ce", "qu'on", "respire?", "it's", "fine"]
     assert words[0]["end"] == 0.3 and words[1]["start"] == 0.3
     assert postprocess_words([{"text": "?", "start": 0, "end": 0.1}]) == []
+
+
+def test_spelled_out_letters_are_joined_into_one_word():
+    from notealong.pipeline.lyrics import postprocess_words
+    words = [{"text": t, "start": 1 + i * 0.1, "end": 1.08 + i * 0.1} for i, t in enumerate(["D", "I", "W", "A", "R"])]
+    words += [{"text": "Sabes", "start": 3.0, "end": 3.4}, {"text": "I", "start": 3.5, "end": 3.6}, {"text": "know", "start": 3.7, "end": 3.9}]
+    assert [w["text"] for w in postprocess_words(words)] == ["DIWAR", "Sabes", "I", "know"]

@@ -212,15 +212,44 @@ def _refined(engine: str):
     def fn(vocals: Path, song: dict, cache: Path, raw_path: Path | None, overrides: dict | None = None) -> list[dict]:
         from notealong.pipeline import pitchnotes as pn
         from notealong.pipeline.onsets import Articulation, vocal_envelope
-        notes = chain_current(vocals, song, cache, raw_path, None)
+        notes = chain_current(vocals, song, cache, raw_path, overrides)
         midi, conf, db = _pitch(vocals, cache, engine)
         env = _cached(cache, "envelope.json", lambda: vocal_envelope(vocals))
         params = pn.RefineParams(**{k: v for k, v in (overrides or {}).items() if k in pn.RefineParams.__dataclass_fields__})
-        return pn.refine_with_pitch(notes, midi, conf, db, Articulation(env), params)
+        notes = pn.refine_with_pitch(notes, midi, conf, db, Articulation(env), params)
+        o = overrides or {}
+        if o.get("attack_window", 0) > 0:
+            notes = pn.align_to_attacks(notes, Articulation(env), float(o["attack_window"]), float(o.get("attack_onset", 0.35)))
+        return notes
     return fn
 
 
-METHODS = {"current": chain_current, "hybrid_crepe": _hybrid("crepe_full"), "hybrid_fcpe": _hybrid("fcpe"),
+def _backing(vocals: Path) -> Path | None:
+    for name in ("backing.mp3", "backing.wav"):
+        p = vocals.parent / name
+        if p.exists():
+            return p
+    return None
+
+
+def _gridded(engine: str):
+    """refined, then note starts pulled onto the beat grid of the backing track (beats.py)."""
+    base = _refined(engine)
+
+    def fn(vocals: Path, song: dict, cache: Path, raw_path: Path | None, overrides: dict | None = None) -> list[dict]:
+        from notealong.pipeline import beats as bt
+        notes = base(vocals, song, cache, raw_path, overrides)
+        back = _backing(vocals)
+        if back is None:
+            return notes
+        b = _cached(cache, "beats.json", lambda: bt.detect_beats(back))
+        o = overrides or {}
+        return bt.snap_notes(notes, b["beats"], int(o.get("subdivisions", 4)), float(o.get("snap_tol", 0.04)),
+                             float(o.get("snap_frac", 0.3)), bool(o.get("snap_ends", False)))
+    return fn
+
+
+METHODS = {"current": chain_current, "hybrid_crepe": _hybrid("crepe_full"), "hybrid_fcpe": _hybrid("fcpe"), "gridded_fcpe": _gridded("fcpe"),
            "refined_fcpe": _refined("fcpe"), "refined_crepe": _refined("crepe_full"),
            "fcpe": _pitch_method("fcpe", False), "fcpe_attach": _pitch_method("fcpe", True),
            "crepe_tiny": _pitch_method("crepe_tiny", False), "crepe_full": _pitch_method("crepe_full", False),
@@ -272,7 +301,10 @@ def run(method: str, overrides: dict | None = None, despacito_only: bool = False
         d = LIBRARY_DIR / DESPACITO
         song = json.loads((d / "song.json").read_text())
         est = fn(*_vc(DESPACITO, d, vocals_variant), overrides)
-        ref = key["notes"]
+        # judge only where the song is sung: from the first real word (the covers also play the guitar intro)
+        real = [w for w in song["words"] if len(w["text"].strip(".,!?¡¿'")) >= 2]
+        sung = (real[0]["start"] - 0.5, real[-1]["end"] + 0.5) if real else (0, 1e9)
+        ref = [n for n in key["notes"] if sung[0] <= n["start"] <= sung[1]]
         span = (ref[0]["start"], ref[-1]["end"])
         full = metrics(ref, est, span=span)
         # pitch and timing are judged on the notes at least three of the four covers play (the singer matches

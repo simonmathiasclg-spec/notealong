@@ -55,6 +55,8 @@ export const api = {
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
   getPastedLyrics: (id: string) => fetch(`${API}/api/songs/${id}/lyrics`).then(j<{ text: string }>),
   stopJob: (id: string) => fetch(`${API}/api/songs/${id}/stop`, { method: "POST" }).then(j<{ stopped: boolean }>),
+  trimSong: (id: string, start: number, end: number | null) =>
+    fetch(`${API}/api/songs/${id}/trim`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ start, end }) }).then(j<Song>),
   searchIndex: () => fetch(`${API}/api/search-index`, { cache: "no-store" }).then(j<{ songs: SearchRow[] }>),
   myLibrary: () => fetch(`${API}/api/me/library`, { cache: "no-store" }).then(j<MyLibrary>),
   setFavourite: (id: string, on: boolean) => fetch(`${API}/api/me/favourites/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ on }) }).then(j<{ favourites: string[] }>),

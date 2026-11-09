@@ -252,3 +252,42 @@ def recover_interrupted() -> None:
 
 
 manager = JobManager()
+
+
+class Upgrader:
+    """Brings uploads made with an older note pipeline up to date, one at a time in a child process, only
+    while no upload is being processed. The song keeps its old notes until the new ones are saved."""
+
+    def __init__(self) -> None:
+        self.thread: threading.Thread | None = None
+        self.done: list[str] = []
+        self.failed: dict[str, str] = {}
+
+    def pending(self) -> list[str]:
+        return [s.id for s in library.list_songs()
+                if s.status == "ready" and int(s.quality.get("pipeline", 1)) < runner.PIPELINE_VERSION and s.id not in self.failed]
+
+    def start(self) -> None:
+        if self.thread and self.thread.is_alive():
+            return
+        self.thread = threading.Thread(target=self._run, name="upgrader", daemon=True)
+        self.thread.start()
+
+    def _busy(self) -> bool:
+        with manager.lock:
+            return any(not j.done for j in manager.jobs.values()) or not manager.q.empty()
+
+    def _run(self) -> None:
+        time.sleep(5)                 # let the service finish starting
+        for song_id in self.pending():
+            while self._busy():
+                time.sleep(5)
+            try:
+                job = Job(song_id=song_id, steps=["upgrade"], params={})
+                manager._run_step(job, "upgrade", {})
+                self.done.append(song_id)
+            except Exception as e:  # noqa: BLE001  (an upgrade that fails leaves the old result in place)
+                self.failed[song_id] = str(e)[:300]
+
+
+upgrader = Upgrader()

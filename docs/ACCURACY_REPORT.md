@@ -138,3 +138,74 @@ breaths and bleed into notes and merges repeated syllables. Basic Pitch is bette
 With CREPE full instead of FCPE: Despacito pitch the same (0.762), F1 0.413, but 4.5 minutes per song
 against about a second. FCPE is used. The pitch curve is computed in the melody step and cached as
 `pitch.npz` next to the stems; hand-edited notes are never changed.
+
+Scored from here on only over the part that is sung (from the first real word): the covers also play the
+music video's guitar intro, where nobody sings, which made every method look worse. On that span the
+pipeline before this run scores F1 0.401 and the refinement 0.416.
+
+### 6. Wider scoop absorption: not kept
+
+Most wrong notes left on Despacito are not tracking errors: the pitch curve agrees with the note shown. They
+are the singer sliding up into a note from a tone below (E4 into F#4), which the sax players simplify to the
+target. Absorbing scoops of up to two semitones, or longer ones, made every set worse:
+
+| Setting | Despacito pitch | Despacito F1 | Regression pitch | Regression F1 |
+|---|---|---|---|---|
+| a semitone, at most 0.2 s, target 1.5x longer (kept) | 0.762 | 0.403 | 0.811 | 0.616 |
+| up to two semitones | 0.760 | 0.401 | 0.805 | 0.610 |
+| two semitones, target as long | 0.754 | 0.399 | 0.797 | 0.603 |
+| two semitones, 0.3 s | 0.754 | 0.399 | 0.789 | 0.594 |
+
+So these differences are the players' interpretation, not the pipeline's mistakes. The settings are now
+parameters (`bend_semitones`, `bend_ratio`) for later tuning.
+
+### 7. Beat grid: not kept
+
+Beats from the backing track with Beat This! (CPJKU, MIT); note starts pulled onto the nearest sixteenth when
+within 25 to 60 ms. Despacito's F1 fell (0.403 to 0.38-0.40), its 90th-percentile start error grew, and the
+regression set got no better at any tolerance. The singer's own timing is closer to what players do than the
+grid. (`notealong/pipeline/beats.py` stays for the evaluation; the app does not use it and `beat_this` is
+not in requirements.txt.)
+
+### 8. Starts moved to the singer's attack: not kept
+
+Basic Pitch starts a note when the pitch settles, after the consonant. Moving starts back to the strongest
+vocal onset in the 60-100 ms before improved Despacito's timing a little (median 70 to 62-67 ms) but made
+both regression sets worse (regression pitch 0.811 to 0.77-0.79, Vocadito 0.835 to 0.79-0.81).
+
+### 9. Held notes across word boundaries: not kept (available as an option)
+
+Many held notes on Despacito still show as two touching notes on the same pitch where Whisper put a word
+boundary inside one sung vowel (the onset strength at the junction is 0.01-0.4, the level dips 0-5 dB).
+Joining those (only when the junction has essentially no onset and no dip) left Despacito's measures flat
+(its strict key has only 8 held notes, too few to judge) and lowered the regression F1 slightly (0.616 to
+0.605-0.611), so it is off by default (`RefineParams.across_words`).
+
+### Non-singing sounds
+
+The ocean and shouting before the song produce no notes (the vocal stem is quiet or unpitched there, and
+the refinement drops "notes" that are less than a quarter pitched). The sung ad-libs at the start of the
+song ("Oh no, oh no", "Diridiri, dirididi, Daddy") are real singing and keep their notes; Whisper had
+spelled "diridiri" out as "D I W A R", which is now joined back into one word. For a video's intro or the
+applause at the end there is now a trim control (below).
+
+## Product additions
+
+* **Confidence marks.** Each note's confidence is now the share of its length where the singer's pitch is
+  on the note. On the test songs a note under 0.6 has the right pitch about half the time, a note over 0.8
+  nine times in ten (Despacito: 0.20 / 0.60 / 0.84 / 0.81 by band; regression: 0.24 / 0.49 / 0.75 / 0.92).
+  A line where at least 30 % of the notes (and at least two) are under 0.6 shows a small amber dot beside it
+  ("The notes in this line were hard to hear: worth a check"). Uploads only.
+* **Faster fixing in edit mode.** Selecting a note opens an editor with a timing strip: drag the start or
+  end handle, or the note itself, in 10 ms steps, between its neighbours. Keys: ↑/↓ a semitone, ←/→ earlier
+  or later by 50 ms (Shift: 10 ms), [ and ] move the whole line, S splits the note in two, J joins it with the
+  next. A run of the same edit (a drag, a held key) is one undo step. A bug that predates this run is fixed:
+  the first arrow key after selecting a note also moved the playback to the next line (or changed the key).
+* **Trim the start or end** (Settings, uploads): type minutes:seconds or press "Here" at the current
+  position. The audio files are cut and every note, word and line moves with them; nothing is processed
+  again and fixes are kept.
+* **Existing uploads re-processed.** The note pipeline has a version on each upload. When the service starts
+  it brings older uploads up to date in the background, one at a time and only while nothing else is
+  processing: spelled-out words are joined and the notes refined with the pitch curve. Hand-edited notes and
+  words are never changed, and the old result stays until the new one is saved in one write. All 11 uploads
+  on this machine were upgraded, Despacito included.

@@ -34,3 +34,14 @@ describe("display lines", () => {
     expect(currentLineIndex(lines, 3)).toBe(1);
   });
 });
+
+
+describe("unsure lines", () => {
+  it("marks a line when a third of its notes are unsure", async () => {
+    const { unsureLines } = await import("../display");
+    const note = (id: string, c: number) => ({ id, start: 0, end: 1, midi: 60, confidence: c, word: null, line: 0, edited: false });
+    const line = (index: number, cs: number[]) => ({ index, kind: "lyric" as const, start: 0, end: 1, text: "", items: [{ word: null, notes: cs.map((c, i) => note(`${index}-${i}`, c)) }] });
+    const out = unsureLines([line(0, [0.9, 0.95, 0.3, 0.4]), line(1, [0.9, 0.9, 0.9, 0.5]), line(2, [0.2])]);
+    expect([...out]).toEqual([0]);
+  });
+});

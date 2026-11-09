@@ -28,6 +28,8 @@ export type StageProps = {
   onWordClick?: (word: Word, el: HTMLElement) => void;
   onAddNote?: (wordId: string | null, lineIndex: number) => void;
   onLineClick?: (line: DisplayLine) => void;
+  /** Lines whose notes were hard to hear (uploads only): shown with a quiet mark. */
+  unsure?: Set<number>;
 };
 
 /**
@@ -98,6 +100,10 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
       <div ref={fit.ref} data-line={line.index} style={{ "--fit": fit.scale } as React.CSSProperties}
         className={`stage-line ${role === "current" ? "" : "is-far"} relative flex w-max max-w-none flex-nowrap items-end justify-center gap-x-[.42em] text-center leading-none ${sizeClass}`}>
         {sweeping && <div id={`sweep-${line.index}`} className="sweep" aria-hidden="true" />}
+        {p.unsure?.has(line.index) && (
+          <span className="absolute -left-[.9em] top-1/2 h-[.32em] w-[.32em] -translate-y-1/2 rounded-full bg-[#e0a63a]"
+            role="img" aria-label="The notes in this line were hard to hear: worth a check" title="The notes in this line were hard to hear: worth a check" />
+        )}
         {line.items.map((item, idx) => {
           const word = item.word;
           const wordState: ChipState = !word ? "future" : word.id === p.currentWordId ? "current" : p.time >= word.end ? "past" : "future";

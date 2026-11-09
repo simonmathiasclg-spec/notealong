@@ -6,7 +6,7 @@ import { ArrowLeft, Check, HelpCircle, Info, Loader2, Maximize2, Minimize2, Penc
 import { Suspense } from "react";
 import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
-import { buildDisplayLines, currentLineIndex, type DisplayLine } from "@/lib/display";
+import { buildDisplayLines, currentLineIndex, unsureLines, type DisplayLine } from "@/lib/display";
 import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/lib/notes";
 import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
@@ -26,6 +26,7 @@ import { HelpOverlay } from "./HelpOverlay";
 import { FingeringHint } from "./FingeringHint";
 import { usePref } from "@/lib/prefs";
 import { NotePopover, WordPopover, type Anchor } from "./EditPopover";
+import * as noteEdit from "@/lib/noteedit";
 import { SetlistBar } from "./SetlistBar";
 import { FavouriteButton } from "../Favourite";
 import { AddToSetlistButton } from "../AddToSetlist";
@@ -248,7 +249,8 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable)) return;
-      if (noteAnchor) return; // the note popover owns the arrow keys
+      // the note editor owns the arrow keys while it is open (checked now, not when this handler was made)
+      if (document.querySelector("[role=dialog][aria-label='Change this note']")) return;
       switch (e.key) {
         case " ": e.preventDefault(); togglePlay(); break;
         case "ArrowLeft": e.preventDefault(); skipLine(-1); break;
@@ -265,7 +267,6 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, toggleHear]);
 
   // ---- editing -------------------------------------------------------
@@ -277,9 +278,14 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const editTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
-  const commit = useCallback((fn: (s: Snapshot) => Snapshot) => {
+  const lastEdit = useRef<{ key: string; at: number } | null>(null);
+  const commit = useCallback((fn: (s: Snapshot) => Snapshot, coalesce?: string) => {
+    // a drag or a held key sends many small edits: one undo step for a run of the same edit
+    const now = Date.now();
+    const same = !!coalesce && lastEdit.current?.key === coalesce && now - lastEdit.current.at < 600;
+    lastEdit.current = coalesce ? { key: coalesce, at: now } : null;
     setSong((s) => {
-      undoStack.current.push({ notes: s.notes, words: s.words });
+      if (!same) undoStack.current.push({ notes: s.notes, words: s.words });
       if (undoStack.current.length > 100) undoStack.current.shift();
       redoStack.current = [];
       const next = fn({ notes: s.notes, words: s.words });
@@ -330,6 +336,14 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     return { ...s, notes: [...notes, { id: `n_${Date.now()}`, start, end, midi: ref?.midi ?? 60, confidence: 1, word: wordId, line: lineIndex, edited: true }] };
   });
   const editWord = (id: string, text: string) => commit((s) => ({ ...s, words: s.words.map((w) => (w.id === id ? { ...w, text } : w)) }));
+  const retimeNote = (id: string, start: number, end: number) => commit((s) => ({ ...s, notes: noteEdit.retime(s.notes, id, start, end) }), `retime:${id}`);
+  const nudgeNote = (id: string, d: number) => commit((s) => ({ ...s, notes: noteEdit.nudge(s.notes, id, d) }), `nudge:${id}`);
+  const splitNote = (id: string) => commit((s) => ({ ...s, notes: noteEdit.split(s.notes, id) }));
+  const joinNote = (id: string) => commit((s) => ({ ...s, notes: noteEdit.joinNext(s.notes, id) }));
+  const shiftNoteLine = (id: string, d: number) => commit((s) => {
+    const n = s.notes.find((x) => x.id === id);
+    return n ? { ...s, notes: noteEdit.shiftLine(s.notes, n.line, d) } : s;
+  }, `line:${id}`);
 
   // ---- processing actions ----------------------------------------------
   const refreshSong = useCallback(async () => {
@@ -375,6 +389,14 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const exportMusicXml = () => downloadText(`${song.title}.musicxml`, songToMusicXml(song, session.instrument, session.key_shift, octaveShift), "application/vnd.recordare.musicxml+xml");
 
   const editingNote = noteAnchor ? noteInfo.get(noteAnchor.id) : null;
+  const unsure = useMemo(() => (isCatalogSong(song) ? undefined : unsureLines(lines)), [song, lines]);
+  const editTiming = useMemo(() => {
+    if (!noteAnchor) return null;
+    const sorted = [...song.notes].sort((a, b) => a.start - b.start);
+    const i = sorted.findIndex((n) => n.id === noteAnchor.id);
+    if (i < 0) return null;
+    return { start: sorted[i].start, end: sorted[i].end, prevEnd: sorted[i - 1]?.end ?? null, nextStart: sorted[i + 1]?.start ?? null };
+  }, [noteAnchor, song.notes]);
   const catalog = isCatalogSong(song);
   const backHref = catalog ? "/" : "/my-songs";
   // The accent takes the song's own hue (from its cover art); uploads keep the default.
@@ -433,6 +455,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
           onWordClick={(word, el) => { setNoteAnchor(null); setWordAnchor({ word, el }); }}
           onAddNote={addNote}
           onLineClick={seekToLine}
+          unsure={unsure}
         />
         {/* overlays */}
         <AnimatePresence>
@@ -501,14 +524,25 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}
         onReprocess={async () => { await api.rerun(song.id, "all"); await reload(); }}
         onSongChanged={(s) => setSong((cur) => ({ ...cur, title: s.title, artist: s.artist }))}
+        getTime={() => engineRef.current?.currentTime ?? 0}
+        onTrim={catalog ? undefined : async (a, b) => {
+          engineRef.current?.pause();
+          setBusy("Trimming the song…");
+          try { await api.trimSong(song.id, a, b); await reload(); }
+          finally { setBusy(null); }
+        }}
         onExportPdf={exportPdf} onExportMusicXml={exportMusicXml}
         catalog={song.catalog ?? null}
       />
       <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
 
       <NotePopover anchor={noteAnchor} label={editingNote ? `${editingNote.label}${editingNote.octaveMark === "up" ? "▲" : editingNote.octaveMark === "down" ? "▼" : ""}` : ""}
+        timing={editTiming}
         onUp={() => noteAnchor && moveNote(noteAnchor.id, 1)} onDown={() => noteAnchor && moveNote(noteAnchor.id, -1)}
-        onDelete={() => noteAnchor && deleteNote(noteAnchor.id)} onClose={() => setNoteAnchor(null)} />
+        onDelete={() => noteAnchor && deleteNote(noteAnchor.id)} onClose={() => setNoteAnchor(null)}
+        onRetime={(a, b) => noteAnchor && retimeNote(noteAnchor.id, a, b)} onNudge={(d) => noteAnchor && nudgeNote(noteAnchor.id, d)}
+        onSplit={() => noteAnchor && splitNote(noteAnchor.id)} onJoin={() => noteAnchor && joinNote(noteAnchor.id)}
+        onShiftLine={(d) => noteAnchor && shiftNoteLine(noteAnchor.id, d)} />
       <WordPopover anchor={wordAnchor} value={wordAnchor?.word.text ?? ""} onSave={(t) => wordAnchor && editWord(wordAnchor.word.id, t)}
         onAddNote={() => wordAnchor && addNote(wordAnchor.word.id, wordAnchor.word.line)} onClose={() => setWordAnchor(null)} />
     </div>

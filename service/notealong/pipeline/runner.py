@@ -54,6 +54,9 @@ def articulation(d: Path) -> Articulation | None:
 
 
 PITCH_VERSION = 1
+# The note pipeline's version, stored on each upload (song.quality["pipeline"]). Uploads made with an older
+# version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
+PIPELINE_VERSION = 2
 
 
 def pitch_curve(d: Path, compute: bool = True):
@@ -246,6 +249,7 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             # up, lets it last as long as the voice holds it, and drops "notes" with no pitch at all
             from .pitchnotes import refine_with_pitch
             notes = refine_with_pitch(notes, *curve, art=art)
+            s.quality["pipeline"] = PIPELINE_VERSION
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]
         s.lines = [Line(**l) for l in all_lines]
@@ -253,7 +257,31 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
     progress(1.0)
 
 
+def run_upgrade(song_id: str, progress: Progress = _noop) -> None:
+    """Brings an upload made with an older pipeline up to date: words spelled out letter by letter are joined
+    again, and the notes are refined with the singer's pitch curve. The user's edited notes and words are kept
+    (only unedited notes change), and the song is saved once, at the end."""
+    from .lyrics import _join_spelled
+    song = library.load_song(song_id)
+    words = [w.model_dump() for w in song.words]
+    joined = _join_spelled([dict(w, confidence=w.get("confidence", 1.0)) for w in words])
+    if len(joined) != len(words):
+        kept = {w["id"] for w in joined}
+        gone = {w["id"]: next(j["id"] for j in joined if j["start"] <= w["start"] <= j["end"]) for w in words if w["id"] not in kept}
+
+        def upd(s: Song):
+            s.words = [Word(**{k: v for k, v in w.items() if k in Word.model_fields}) for w in joined]
+            for n in s.notes:
+                if n.word in gone:
+                    n.word = gone[n.word]
+        library.update_song(song_id, upd)
+    progress(0.3)
+    run_attach(song_id)
+    progress(1.0)
+
+
 STEP_FUNCS = {
+    "upgrade": run_upgrade,
     "stems": run_stems,
     "melody": run_melody,
     "cleanup": run_cleanup,

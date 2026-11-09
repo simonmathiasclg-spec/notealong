@@ -70,6 +70,8 @@ class CleanupParams:
     dip_min_db: float = 6.0    # ... and so is a dip in level this deep (a closure: p, t, k, b, d, or a breath)
     wobble_len: float = 0.16   # vibrato: a neighbour-semitone note this short between two equal notes is absorbed
     bend_len: float = 0.20     # a scoop or tail a semitone off, this short, is absorbed into the note it belongs to
+    bend_semitones: int = 1    # how far below or above the note a scoop or tail may start
+    bend_ratio: float = 1.5    # the note a scoop leads into must be this many times longer than the scoop
 
     def to_dict(self) -> dict:
         return asdict(self)

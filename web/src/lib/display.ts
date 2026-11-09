@@ -56,3 +56,20 @@ export function currentLineIndex(lines: DisplayLine[], t: number, lookahead = 0.
   if (t > cur.end + 0.4 && idx + 1 < lines.length && lines[idx + 1].start - t < ahead) return idx + 1;
   return idx;
 }
+
+/** Confidence below this means the voice was mostly off the note's pitch, or hard to hear (pitchnotes.py). */
+export const UNSURE_NOTE = 0.6;
+
+/**
+ * Lines worth a check: at least `share` of their notes (and at least two) are unsure. Measured on the test
+ * songs, an unsure note has the right pitch about half the time, a sure one about nine times in ten.
+ */
+export function unsureLines(lines: DisplayLine[], share = 0.3): Set<number> {
+  const out = new Set<number>();
+  for (const l of lines) {
+    const notes = l.items.flatMap((i) => i.notes).filter((n) => !n.edited);
+    const unsure = notes.filter((n) => (n.confidence ?? 1) < UNSURE_NOTE).length;
+    if (unsure >= 2 && unsure / Math.max(1, notes.length) >= share) out.add(l.index);
+  }
+  return out;
+}

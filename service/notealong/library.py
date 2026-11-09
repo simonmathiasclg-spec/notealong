@@ -144,6 +144,76 @@ def list_songs() -> list[Song]:
     return songs
 
 
+def trim_song(song_id: str, start: float, end: float) -> None:
+    """Keeps only [start, end] of an upload: the audio files are cut, every time in the song moves by -start,
+    and notes, words and lines outside the kept part are dropped. Caches made from the old timing go."""
+    import subprocess
+    from .config import STEM_BITRATE
+    d = song_dir(song_id)
+    song = load_song(song_id)
+    length = end - start
+
+    def cut(src: Path, codec: list[str]) -> None:
+        tmp = src.with_name(src.stem + ".trim" + src.suffix)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", f"{start:.3f}", "-i", str(src), "-t", f"{length:.3f}", "-vn", *codec, str(tmp)],
+                       check=True, capture_output=True)
+        tmp.replace(src)
+
+    with _lock:
+        for name in ("vocals.mp3", "backing.mp3"):
+            if (d / name).exists():
+                cut(d / name, ["-c:a", "libmp3lame", "-b:a", STEM_BITRATE])
+        if (d / "vocals.wav").exists():
+            cut(d / "vocals.wav", ["-c:a", "pcm_s16le"])
+        orig = d / song.files["original"]
+        if orig.exists():
+            codec = {".mp3": ["-c:a", "libmp3lame", "-b:a", "192k"], ".wav": ["-c:a", "pcm_s16le"], ".flac": ["-c:a", "flac"]}.get(orig.suffix.lower(), ["-c:a", "aac", "-b:a", "192k"])
+            if orig.suffix.lower() not in (".mp3", ".wav", ".flac", ".m4a", ".aac"):
+                new = orig.with_suffix(".m4a")
+                subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", f"{start:.3f}", "-i", str(orig), "-t", f"{length:.3f}", "-vn", "-c:a", "aac", "-b:a", "192k", str(new)],
+                               check=True, capture_output=True)
+                orig.unlink()
+                song.files["original"] = new.name
+            else:
+                cut(orig, codec)
+        for f in list(d.glob("shift_*")) + [d / "pitch.npz", d / "envelope.json"]:
+            f.unlink(missing_ok=True)
+
+        def move(items: list[dict]) -> list[dict]:
+            out = []
+            for it in items:
+                if it["end"] <= start + 0.02 or it["start"] >= end - 0.02:
+                    continue
+                it = dict(it, start=round(max(0.0, it["start"] - start), 3), end=round(min(length, it["end"] - start), 3))
+                out.append(it)
+            return out
+
+        for name in ("notes_raw.json", "transcript.json"):
+            path = d / name
+            if path.exists():
+                data = read_json(path)
+                if isinstance(data, list):
+                    write_json(path, move(data))
+                elif isinstance(data, dict):
+                    for key in ("words", "segments"):
+                        if isinstance(data.get(key), list):
+                            data[key] = move(data[key])
+                    write_json(path, data)
+
+    def upd(s: Song):
+        from .schemas import Line, Note, Word
+        s.notes = [Note(**n) for n in move([n.model_dump() for n in s.notes])]
+        s.words = [Word(**w) for w in move([w.model_dump() for w in s.words])]
+        s.lines = [Line(**l) for l in move([l.model_dump() for l in s.lines])]
+        s.duration = round(length, 3)
+        s.files["original"] = song.files["original"]
+        trims = s.source.get("trim") or {"start": 0.0, "end": None}
+        s.source["trim"] = {"start": round(float(trims.get("start") or 0.0) + start, 3), "end": round(float(trims.get("start") or 0.0) + end, 3)}
+        s.user.position = 0.0
+        s.user.loop = None
+    update_song(song_id, upd)
+
+
 def delete_song(song_id: str) -> None:
     """Deletes an upload. For a catalog song this only resets the user's changes."""
     if is_catalog(song_id):

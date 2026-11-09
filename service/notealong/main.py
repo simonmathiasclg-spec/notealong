@@ -17,7 +17,7 @@ from . import entitlements, library
 from . import me as me_store
 from .catalog import store as catalog_store
 from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
-from .jobs import manager, recover_interrupted
+from .jobs import manager, recover_interrupted, upgrader
 from .pipeline import audio as audio_mod
 from .pipeline import fingerprint as fp_mod
 from .catalog.cover import cover_svg
@@ -42,6 +42,8 @@ def _startup() -> None:
         if s.status == "ready" and "fingerprint" not in s.source and s.files.get("original"):
             print_ = fp_mod.fingerprint(library.song_dir(s.id) / s.files["original"])
             library.update_song(s.id, lambda x, print_=print_: x.source.__setitem__("fingerprint", print_))
+    # uploads made with an older note pipeline are improved in the background (edits kept)
+    upgrader.start()
 
 
 @app.get("/api/health")
@@ -289,6 +291,35 @@ def delete_song(song_id: str):
     if upload:
         me_store.forget_song(song_id)
     return {"ok": True}
+
+
+class TrimBody(BaseModel):
+    start: float = 0.0
+    end: Optional[float] = None
+
+
+@app.post("/api/songs/{song_id}/trim")
+def trim_song(song_id: str, body: TrimBody):
+    """Cuts the start and/or end off an upload (a video's intro, applause at the end). The audio files are cut
+    and every note, word and line moves with them: nothing is processed again and edits are kept."""
+    _not_catalog(song_id)
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    if song.status != "ready":
+        raise HTTPException(409, "The song is still being processed. Trim it when it is ready.")
+    start = max(0.0, float(body.start or 0.0))
+    end = min(song.duration, float(body.end)) if body.end else song.duration
+    if end - start < 5.0:
+        raise HTTPException(400, "Keep at least 5 seconds of the song.")
+    if start < 0.05 and song.duration - end < 0.05:
+        return song.model_dump()
+    try:
+        library.trim_song(song_id, start, end)
+    except Exception as e:  # noqa: BLE001
+        raise HTTPException(500, f"The song could not be trimmed: {str(e)[:200]}")
+    return library.load_song(song_id).model_dump()
 
 
 # ---- favourites, plays, setlists -------------------------------------------------

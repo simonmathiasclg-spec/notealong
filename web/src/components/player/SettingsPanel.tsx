@@ -42,6 +42,10 @@ type Props = {
   onReprocess: () => void;
   /** Title, artist or cover changed (uploads only). */
   onSongChanged: (s: Song) => void;
+  /** Cut the start and/or end off an upload (seconds from the start). */
+  onTrim?: (start: number, end: number | null) => Promise<void>;
+  /** The playback position, for "use the current position". */
+  getTime?: () => number;
   onExportPdf: () => void;
   onExportMusicXml: () => void;
   keyLoading: boolean;
@@ -235,9 +239,12 @@ export function SettingsPanel(p: Props) {
                     </p>
                   </Row>
                 ) : (
-                  <Row label="Title, artist and cover">
-                    <button className="btn w-full" onClick={() => setDetailsOpen(true)}><Pencil className="h-4 w-4" /> Edit the details</button>
-                  </Row>
+                  <>
+                    <Row label="Title, artist and cover">
+                      <button className="btn w-full" onClick={() => setDetailsOpen(true)}><Pencil className="h-4 w-4" /> Edit the details</button>
+                    </Row>
+                    {p.onTrim && <TrimRow duration={song.duration} busy={!!p.busy} getTime={p.getTime} onTrim={p.onTrim} />}
+                  </>
                 )}
                 {p.catalog ? null : (
                   <Row label="Start over" hint={song.settings.whisper_model ?? undefined}>
@@ -279,5 +286,48 @@ function LyricsModal({ open, onClose, songId, onSubmit }: { open: boolean; onClo
         </button>
       </div>
     </Modal>
+  );
+}
+
+
+function parseTime(v: string): number | null {
+  const t = v.trim();
+  if (!t) return null;
+  const m = t.match(/^(\d+):(\d{1,2}(?:\.\d+)?)$/);
+  if (m) return Number(m[1]) * 60 + Number(m[2]);
+  const n = Number(t.replace(",", "."));
+  return Number.isFinite(n) ? n : NaN;
+}
+
+/** Cut a video's intro or the applause at the end. Nothing is processed again; fixes are kept. */
+function TrimRow({ duration, busy, getTime, onTrim }: { duration: number; busy: boolean; getTime?: () => number; onTrim: (start: number, end: number | null) => Promise<void> }) {
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const a = parseTime(from) ?? 0;
+  const b = parseTime(to);
+  const valid = Number.isFinite(a) && (b === null || Number.isFinite(b)) && a >= 0 && (b ?? duration) <= duration + 0.01 && (b ?? duration) - a >= 5 && (a > 0 || (b !== null && b < duration));
+  const here = () => formatTime(getTime ? getTime() : 0);
+  return (
+    <Row label="Trim the start or end" tip="Cut what is not the song, like a music video's intro or applause at the end. The notes and words move with it.">
+      <div className="space-y-2.5 text-sm">
+        <label className="flex items-center gap-2">
+          <span className="w-24 shrink-0 text-muted">Start at</span>
+          <input className="field h-9 w-24 text-sm tabular" placeholder="0:00" value={from} onChange={(e) => setFrom(e.target.value)} aria-label="Start the song at (minutes:seconds)" />
+          {getTime && <button className="btn btn-ghost btn-sm" onClick={() => setFrom(here())}>Here</button>}
+        </label>
+        <label className="flex items-center gap-2">
+          <span className="w-24 shrink-0 text-muted">End at</span>
+          <input className="field h-9 w-24 text-sm tabular" placeholder={formatTime(duration)} value={to} onChange={(e) => setTo(e.target.value)} aria-label="End the song at (minutes:seconds)" />
+          {getTime && <button className="btn btn-ghost btn-sm" onClick={() => setTo(here())}>Here</button>}
+        </label>
+        {error && <p className="text-xs text-danger" role="alert">{error}</p>}
+        <button className="btn w-full" disabled={busy || !valid} onClick={async () => {
+          setError(null);
+          try { await onTrim(a, b); setFrom(""); setTo(""); } catch (e) { setError((e as Error).message || "The song could not be trimmed."); }
+        }}>Trim</button>
+        <p className="text-xs text-faint">Type minutes:seconds, or play to the spot and press Here. At least 5 seconds stay.</p>
+      </div>
+    </Row>
   );
 }

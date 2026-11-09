@@ -111,6 +111,35 @@ def postprocess_words(words: list[dict], min_len: float = 0.05) -> list[dict]:
             end = start + min_len
         out.append({"text": text, "start": round(start, 3), "end": round(end, 3),
                     "confidence": round(float(w.get("confidence", 1.0)), 3)})
+    out = _join_spelled(out)
     for i, w in enumerate(out):
         w["id"] = f"w{i + 1}"
+    return out
+
+
+def _join_spelled(words: list[dict]) -> list[dict]:
+    """Whisper sometimes spells a sung ad-lib out letter by letter ("D I W A R" for "diridiri"). Three or more
+    single capital letters in a row, close together, are joined back into one word."""
+    out: list[dict] = []
+    run: list[dict] = []
+
+    def flush():
+        if len(run) >= 3:
+            out.append({**run[0], "text": "".join(w["text"] for w in run), "end": run[-1]["end"],
+                        "confidence": min(w["confidence"] for w in run)})
+        else:
+            out.extend(run)
+        run.clear()
+
+    for w in words:
+        letter = len(w["text"]) == 1 and w["text"].isalpha() and w["text"].isupper()
+        if letter and (not run or w["start"] - run[-1]["end"] < 0.8):
+            run.append(w)
+            continue
+        flush()
+        if letter:
+            run.append(w)
+        else:
+            out.append(w)
+    flush()
     return out

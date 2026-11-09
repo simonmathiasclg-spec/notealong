@@ -153,13 +153,13 @@ def consolidate_held(notes: list[dict], words: list[dict], p: CleanupParams, art
             while i + 1 < len(notes):
                 a, b = notes[i], notes[i + 1]
                 rel = relation(a, b)
-                if abs(a["midi"] - b["midi"]) == 1 and b["start"] - a["end"] <= 0.05 and can_drop_one(a, b, rel) and weak(a["end"], b["start"], rel):
+                if 1 <= abs(a["midi"] - b["midi"]) <= int(p.bend_semitones) and b["start"] - a["end"] <= 0.05 and can_drop_one(a, b, rel) and weak(a["end"], b["start"], rel):
                     prev = notes[i - 1] if i > 0 else None
                     nxt = notes[i + 2] if i + 2 < len(notes) else None
                     # scoop: short first note of its group, the real note follows
                     starts_group = prev is None or relation(prev, a) == "boundary" or a["start"] - prev["end"] > 0.1
                     passing_in = prev is not None and a["start"] - prev["end"] <= 0.1 and (prev["midi"] - a["midi"]) * (a["midi"] - b["midi"]) > 0
-                    if starts_group and not passing_in and _dur(a) <= p.bend_len and _dur(b) >= 1.5 * _dur(a) and rel == "inside":
+                    if starts_group and not passing_in and _dur(a) <= p.bend_len and _dur(b) >= p.bend_ratio * _dur(a) and rel == "inside":
                         _join(a, b, b["midi"])
                         del notes[i + 1]
                         report["bends"] += 1
@@ -168,7 +168,7 @@ def consolidate_held(notes: list[dict], words: list[dict], p: CleanupParams, art
                     # tail: short last note of its group after the real note
                     ends_group = nxt is None or relation(b, nxt) == "boundary" or nxt["start"] - b["end"] > 0.1
                     passing_out = nxt is not None and nxt["start"] - b["end"] <= 0.1 and (a["midi"] - b["midi"]) * (b["midi"] - nxt["midi"]) > 0
-                    if ends_group and not passing_out and _dur(b) <= p.bend_len and _dur(a) >= 1.5 * _dur(b):
+                    if ends_group and not passing_out and _dur(b) <= p.bend_len and _dur(a) >= p.bend_ratio * _dur(b):
                         _join(a, b, a["midi"])
                         del notes[i + 1]
                         report["bends"] += 1
