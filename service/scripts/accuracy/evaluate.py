@@ -141,6 +141,15 @@ def _lyric_words(song: dict) -> tuple[list[dict], list[dict]]:
     return words, lyric
 
 
+def _only(overrides: dict | None, prefix: str, other: str) -> dict | None:
+    """Overrides for one step: `clean_x` reaches only the cleanup, `refine_x` only the refinement, plain keys both."""
+    if not overrides:
+        return overrides
+    out = {k: v for k, v in overrides.items() if not k.startswith((prefix, other))}
+    out.update({k[len(prefix):]: v for k, v in overrides.items() if k.startswith(prefix)})
+    return out
+
+
 def chain_current(vocals: Path, song: dict, cache: Path, raw_path: Path | None, overrides: dict | None = None) -> list[dict]:
     """The upload pipeline as it is: Basic Pitch raw notes, cleanup, attach (held-note merging)."""
     from notealong.pipeline.attach import attach_notes
@@ -151,7 +160,7 @@ def chain_current(vocals: Path, song: dict, cache: Path, raw_path: Path | None, 
         raw = json.loads(raw_path.read_text())
     else:
         raw = _cached(cache, "basic_pitch_raw.json", lambda: detect_notes(vocals))
-    notes, params = clean_notes(raw, song.get("settings", {}).get("detail_level", "balanced"), overrides, tempo=song.get("tempo_bpm"))
+    notes, params = clean_notes(raw, song.get("settings", {}).get("detail_level", "balanced"), _only(overrides, "clean_", "refine_"), tempo=song.get("tempo_bpm"))
     words, lyric = _lyric_words(song)
     env = _cached(cache, "envelope.json", lambda: vocal_envelope(vocals))
     if words:
@@ -222,7 +231,7 @@ def _refined(engine: str):
         notes = chain_current(vocals, song, cache, raw_path, overrides)
         midi, conf, db = _pitch(vocals, cache, engine)
         env = _cached(cache, "envelope.json", lambda: vocal_envelope(vocals))
-        params = pn.RefineParams(**{k: v for k, v in (overrides or {}).items() if k in pn.RefineParams.__dataclass_fields__})
+        params = pn.RefineParams(**{k: v for k, v in (_only(overrides, "refine_", "clean_") or {}).items() if k in pn.RefineParams.__dataclass_fields__})
         notes = pn.refine_with_pitch(notes, midi, conf, db, Articulation(env), params)
         o = overrides or {}
         if o.get("attack_window", 0) > 0:

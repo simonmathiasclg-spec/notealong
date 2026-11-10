@@ -20,9 +20,16 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     if (!row) throw new HttpError(404, "Song not found");
     const db = adminClient();
     const song = row.data as Song;
-    const busy = await db.from("jobs").select("id,created_at").eq("user_id", user.id).eq("song_id", id).eq("kind", "process")
-      .in("status", ["queued", "running"]).gte("created_at", new Date(Date.now() - 45 * 60 * 1000).toISOString()).limit(1);
-    const processing = (busy.data ?? []).length > 0;
+    // a job is live while it waits (up to 15 minutes) or runs (up to 45); older ones never finished and are closed
+    const { data: open } = await db.from("jobs").select("id,status,created_at,started_at").eq("user_id", user.id).eq("song_id", id)
+      .eq("kind", "process").in("status", ["queued", "running"]);
+    const age = (s: string | null) => (Date.now() - Date.parse(s ?? "")) / 60000;
+    const live = (open ?? []).filter((j) => (j.status === "queued" ? age(j.created_at) < 15 : age(j.started_at ?? j.created_at) < 45));
+    const stale = (open ?? []).filter((j) => !live.includes(j)).map((j) => j.id);
+    if (stale.length) {
+      await db.from("jobs").update({ status: "failed", error: "Processing didn't finish.", finished_at: new Date().toISOString() }).in("id", stale);
+    }
+    const processing = live.length > 0;
 
     if (body.kind === "process") {
       if (processing) throw new HttpError(409, "This song is already being processed.");

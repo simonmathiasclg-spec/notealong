@@ -14,7 +14,10 @@ class Supa:
     def __init__(self, url: str | None = None, key: str | None = None, timeout: float = 120.0) -> None:
         self.url = (url or os.environ["SUPABASE_URL"]).rstrip("/")
         key = key or os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-        self.http = httpx.Client(timeout=timeout, headers={"apikey": key, "Authorization": f"Bearer {key}"})
+        headers = {"apikey": key}
+        if key.startswith("eyJ"):        # a legacy JWT key also goes in Authorization; newer sb_secret_ keys only in apikey
+            headers["Authorization"] = f"Bearer {key}"
+        self.http = httpx.Client(timeout=timeout, headers=headers)
 
     # ---- rows -------------------------------------------------------------------------------------
     def select(self, table: str, query: dict[str, str], columns: str = "*") -> list[dict]:

@@ -318,9 +318,15 @@ export const cloudApi = {
   progressSnapshot: async (id: string): Promise<ProgressSnapshot> => {
     const [row, job] = await Promise.all([
       uploadRow(id),
-      supabase().from("jobs").select("status,snapshot,error,kind").eq("song_id", id).eq("kind", "process").order("created_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase().from("jobs").select("status,snapshot,error,kind,created_at,started_at").eq("song_id", id).eq("kind", "process").order("created_at", { ascending: false }).limit(1).maybeSingle(),
     ]);
-    const j = job.data as { status: string; snapshot: ProgressSnapshot | null; error: string | null } | null;
+    const j = job.data as { status: string; snapshot: ProgressSnapshot | null; error: string | null; created_at: string; started_at: string | null } | null;
+    // a job that never started, or ran far longer than any song takes, is shown as stopped so it can be retried
+    const age = (s: string | null | undefined) => (s ? (Date.now() - Date.parse(s)) / 60000 : 0);
+    if (j && ((j.status === "queued" && age(j.created_at) > 15) || (j.status === "running" && age(j.started_at) > 45))) {
+      const r = row ? fromRow(row) : null;
+      if (r) return { ...snapshotFromSong(r), status: "failed", error: "Processing didn't finish. Press retry to continue from where it left off." };
+    }
     // the same recording was already in this user's songs: the new copy is gone and the snapshot names the old one
     if (j?.snapshot?.duplicate_of) return j.snapshot;
     if (!row) throw new Error("Song not found");

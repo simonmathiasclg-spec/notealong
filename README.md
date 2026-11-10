@@ -226,7 +226,8 @@ The web app reads the index from `GET /api/catalog`; a catalog song opens throug
 accounts, so everyone is on the "local" plan with no limits; `GET /api/me` reports the plan and upload
 counts, and the upload endpoint asks `check_upload_allowed()` first. The planned paywall (3 free uploads,
 unlimited for subscribers, catalog always free) only needs that module to read a signed-in user's plan.
-Set `NOTEALONG_FREE_UPLOADS=3` to try the limit today.
+Set `NOTEALONG_FREE_UPLOADS=3` to try the limit today. The online beta has its own limit (10 new songs per user per
+24 hours, `UPLOADS_PER_DAY` in `web/src/lib/cloud/config.ts`, checked by the upload route).
 
 ## How it works
 

@@ -107,7 +107,7 @@ def _free_mb() -> float:
     return total * page / 1048576
 
 
-HEAVY = r"^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|import_cc)|import_ia_jamendo|bench_separation|check_pitch_shift|render_one|accuracy/(prepare_covers|process_test_song|render_hear))"
+HEAVY = r"^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|import_cc)|import_ia_jamendo|bench_separation|check_pitch_shift|render_one|accuracy/(prepare_covers|process_test_song|render_hear|evaluate|answer_key))"
 
 
 def _other_heavy_job() -> bool:
@@ -150,6 +150,17 @@ def local_app() -> FastAPI:
     def spawn(job: dict) -> str | None:
         enqueue(job)
         return None
+
+    # jobs queued before this process started (Modal keeps its own queue; this stand-in picks them up again)
+    try:
+        from .supa import Supa
+        since = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 3600))
+        for job in Supa().select("jobs", {"status": "eq.queued", "created_at": f"gte.{since}", "order": "created_at"},
+                                 "id,kind,params,status,user_id,song_id,result"):
+            print(f"picking up queued job {job['id']}", flush=True)
+            enqueue(job)
+    except Exception as e:  # noqa: BLE001
+        print(f"could not look for queued jobs: {e}", flush=True)
 
     def wait(job: dict, timeout: float) -> str:
         ev = enqueue(job)

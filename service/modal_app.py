@@ -32,7 +32,7 @@ def _bake_models() -> None:
 
 
 _cuda_libs = "/usr/local/lib/python3.11/site-packages/nvidia"
-image = (
+base = (
     modal.Image.debian_slim(python_version="3.11")
     .apt_install("ffmpeg", "rubberband-cli", "libsndfile1", "libchromaprint-tools")
     .pip_install_from_requirements("requirements-cloud.txt")
@@ -45,9 +45,10 @@ image = (
         "LD_LIBRARY_PATH": f"{_cuda_libs}/cublas/lib:{_cuda_libs}/cudnn/lib",
     })
     .run_function(_bake_models)
-    .add_local_python_source("notealong")
 )
-cpu_image = image.env({"NOTEALONG_WHISPER_DEVICE": "cpu"})
+# the app's own code goes in last (Modal adds local files at container start, after every build step)
+image = base.add_local_python_source("notealong")
+cpu_image = base.env({"NOTEALONG_WHISPER_DEVICE": "cpu"}).add_local_python_source("notealong")
 # the dispatcher only starts jobs: a small image starts in a second or two
 web_image = (
     modal.Image.debian_slim(python_version="3.11")
@@ -86,7 +87,7 @@ def dispatch():
         try:
             res = call.get(timeout=timeout)
             return res.get("status", "done") if isinstance(res, dict) else "done"
-        except TimeoutError:
+        except (TimeoutError, modal.exception.TimeoutError):   # still running: the page asks again
             return "running"
 
     def cancel(call_id: str) -> None:

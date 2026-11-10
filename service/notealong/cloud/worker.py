@@ -44,7 +44,19 @@ KEEP_LOCAL = {"song.json", "vocals.wav"}          # never uploaded: the row hold
 CONTENT_TYPES = {".mp3": "audio/mpeg", ".m4a": "audio/mp4", ".wav": "audio/wav", ".flac": "audio/flac", ".ogg": "audio/ogg",
                  ".json": "application/json", ".npz": "application/octet-stream", ".jpg": "image/jpeg", ".png": "image/png",
                  ".svg": "image/svg+xml", ".txt": "text/plain; charset=utf-8"}
-CONTAINER_STARTED = time.time()
+
+
+def _process_age() -> float:
+    """Seconds since this process started (Linux), so the first job's billed time includes loading the models."""
+    try:
+        start_ticks = int(open("/proc/self/stat").read().rsplit(")", 1)[1].split()[19])
+        uptime = float(open("/proc/uptime").read().split()[0])
+        return max(0.0, uptime - start_ticks / os.sysconf("SC_CLK_TCK"))
+    except Exception:  # noqa: BLE001  (not Linux)
+        return 0.0
+
+
+CONTAINER_STARTED = time.time() - _process_age()
 
 
 class Stopped(Exception):
@@ -298,7 +310,8 @@ def run_process(run: JobRun) -> None:
     library.update_song(run.song_id, mark)
     run.save_row(status="processing")
     run.push_progress(force=True)
-    if params.get("new"):
+    # a new upload (or one whose first job was stopped before its file was checked) is read and checked first
+    if params.get("new") or not song.duration:
         dup = _check_new_upload(run, song)
         if dup:
             # the same recording is already in this user's songs: open that one instead
@@ -308,6 +321,7 @@ def run_process(run: JobRun) -> None:
             return
         _write_cover(run)
         run.push_files()
+        run.save_row(status="processing")
     step_params = params.get("step_params") or {}
     for step in steps:
         run.check_stop(force=True)

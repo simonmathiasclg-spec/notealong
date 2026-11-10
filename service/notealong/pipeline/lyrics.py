@@ -31,9 +31,19 @@ def transcribe(vocals_path: Path, language: str | None = None, progress: Progres
 
 
 def _transcribe_faster(path: Path, language: str | None, progress: Progress | None, model_name: str) -> dict:
+    device = "cpu" if WHISPER_DEVICE == "auto" else WHISPER_DEVICE
+    if device == "cpu":
+        return _faster_on(path, language, progress, model_name, "cpu")
+    try:
+        return _faster_on(path, language, progress, model_name, device)
+    except Exception as e:  # noqa: BLE001  (a GPU library that won't load: the words can still be read on the CPU)
+        print(f"faster-whisper on {device} failed ({str(e)[:160]}); reading the words on the CPU instead", flush=True)
+        return _faster_on(path, language, progress, model_name, "cpu")
+
+
+def _faster_on(path: Path, language: str | None, progress: Progress | None, model_name: str, device: str) -> dict:
     from faster_whisper import WhisperModel
 
-    device = "cpu" if WHISPER_DEVICE == "auto" else WHISPER_DEVICE
     compute = "int8" if device == "cpu" else "float16"
     model = WhisperModel(model_name, device=device, compute_type=compute)
     segments, info = model.transcribe(

@@ -50,9 +50,17 @@ if [ -z "$SUPABASE_PROJECT_REF" ]; then
   done
 fi
 setvar SUPABASE_URL "https://$SUPABASE_PROJECT_REF.supabase.co"
-keys=$(supabase projects api-keys --project-ref "$SUPABASE_PROJECT_REF" -o json 2>/dev/null)
-setvar SUPABASE_ANON_KEY "$(echo "$keys" | python3 -c "import json,sys; d=json.load(sys.stdin); d=d.get('keys',d) if isinstance(d,dict) else d; print(next(k['api_key'] for k in d if k['name']=='anon'))")"
-setvar SUPABASE_SERVICE_ROLE_KEY "$(echo "$keys" | python3 -c "import json,sys; d=json.load(sys.stdin); d=d.get('keys',d) if isinstance(d,dict) else d; print(next(k['api_key'] for k in d if k['name']=='service_role'))")"
+keys=$(supabase projects api-keys --project-ref "$SUPABASE_PROJECT_REF" --reveal -o json 2>/dev/null)
+pick() {  # pick NAME...: the first of these keys the project has (legacy anon/service_role, or the newer kinds)
+  echo "$keys" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+d = d.get('keys', d) if isinstance(d, dict) else d
+by = {(k.get('name') or k.get('type') or '').lower(): k.get('api_key') for k in d}
+print(next(by[n] for n in sys.argv[1:] if by.get(n)))" "$@"
+}
+setvar SUPABASE_ANON_KEY "$(pick anon publishable default)"
+setvar SUPABASE_SERVICE_ROLE_KEY "$(pick service_role secret)"
 [ -n "$WORKER_SECRET" ] || setvar WORKER_SECRET "$(python3 -c 'import secrets;print(secrets.token_urlsafe(32))')"
 load
 
