@@ -56,7 +56,7 @@ def articulation(d: Path) -> Articulation | None:
 PITCH_VERSION = 1
 # The note pipeline's version, stored on each upload (song.quality["pipeline"]). Uploads made with an older
 # version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
-PIPELINE_VERSION = 3   # 3: held notes are held across words by default
+PIPELINE_VERSION = 4   # 3: held notes are held across words by default; 4: and kept whole while the voice stays on the pitch
 
 
 def pitch_curve(d: Path, compute: bool = True):

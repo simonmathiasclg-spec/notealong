@@ -288,3 +288,147 @@ it against the band, open Despacito in the app with Hear it played on.
 5. **Rap sections.** In Daddy Yankee's verse (about 100-140 and 180-220 s) pitch accuracy drops to 0.55-0.75:
    rapped words have no stable pitch, and the covers play their own line there. The confidence marks flag
    many of these lines.
+
+---
+
+# Round 2: a popular-song test set, three fixes tried, one kept
+
+**In short:** the notes were measured on nine popular songs instead of Despacito alone. Of the three fixes asked
+for, one is kept: a held note now stays one note while the singer's pitch never leaves it (held notes shown
+whole: 65% → 68% across the set, Despacito 17 → 18 of 25). Absorbing slides and moving note starts to the
+singer's attack both made the human-checked test sets worse, so they are not used. Pitch accuracy averaged over the
+set went from 0.755 to 0.760.
+
+## The popular-song set
+
+Built the same way as Despacito's key (`prepare_covers.py`, `answer_key.py`): the original recording through the
+upload pipeline (into a separate test library, never into My songs), six YouTube covers per song, split with
+Demucs, pitch-tracked with CREPE (tiny model, for time), aligned to the original with chroma DTW after undoing any
+key change, and a note kept when at least half of the covers that agree with the two most similar ones play it.
+Everything is in the gitignored `test-recordings/popular/` and `test-recordings/library/`; nothing is committed
+or shipped.
+
+| Song | Style, language | Covers used | Key notes (strict) | Held notes in the key |
+|---|---|---|---|---|
+| Despacito | Latin pop, Spanish (round 1 key) | 4 | 282 | 25 |
+| Someone Like You | ballad, English | 5 of 6 | 122 | 51 |
+| Perfect | ballad, English | 5 of 6 | 55 | 21 |
+| Halo | R&B ballad with runs, English | 2 of 6 | 139 | 55 |
+| Shape of You | upbeat pop, English | 6 | 154 | 2 |
+| Blinding Lights | upbeat pop / synth, English | 6 | 76 | 25 |
+| Vivir Mi Vida | Latin (salsa), Spanish | 5 of 6 | 109 | 30 |
+| Tum Hi Ho | Bollywood ballad, Hindi | 3 of 6 | 103 | 29 |
+| Dynamite | K-pop, English | 5 of 6 | 29 | 1 |
+| ~~Wonderwall~~ | rock, English | 1 of 6 | 0 | – |
+
+Wonderwall is left out: its covers (mostly guitar arrangements) never agreed with each other, so there is no key,
+and the set has no rock song. Halo's key rests on only two covers, and they play much of the song an octave away
+from the singer, so its pitch score (0.43) is mostly octaves (by note name it is 0.77). The two scores are
+reported side by side below for that reason.
+
+## Baseline: the pipeline as shipped after round 1
+
+| Song | Pitch | Off by >1 semitone | F1 | Start error (median / p90) | Held as one |
+|---|---|---|---|---|---|
+| Despacito | 0.764 | 17% | 0.405 | 70 / 179 ms | 0.68 (17 of 25) |
+| Blinding Lights | 0.945 | 4% | 0.536 | 45 / 178 ms | 0.80 |
+| Dynamite | 0.900 | 10% | 0.508 | 53 / 132 ms | – (1 held note) |
+| Halo | 0.432 (0.765 by name) | 54% | 0.129 | 55 / 173 ms | 0.58 |
+| Perfect | 0.795 | 18% | 0.246 | 50 / 202 ms | 0.71 |
+| Shape of You | 0.708 | 27% | 0.354 | 37 / 151 ms | – (2 held notes) |
+| Someone Like You | 0.810 | 14% | 0.363 | 45 / 152 ms | 0.78 |
+| Tum Hi Ho | 0.604 | 38% | 0.192 | 75 / 205 ms | 0.59 |
+| Vivir Mi Vida | 0.840 | 16% | 0.307 | 52 / 166 ms | 0.73 |
+| **Average (9 songs)** | **0.755** (0.829 by name) | **22.0%** | **0.338** | **53 / 171 ms** | **0.65** |
+
+F1 is low everywhere because covers ornament and simplify differently from the singer; pitch accuracy and the
+start error, measured on the notes both have, are the fairer numbers.
+
+## The fixes, measured on all three sets
+
+Regression references (11 Creative Commons songs) cut a note at every word, so they penalise joining held notes
+by design; Vocadito (40 excerpts with human-marked notes) is the most trustworthy check.
+
+| Change | Popular pitch | off >1 | F1 | start med / p90 | held | Regression pitch / F1 | Vocadito pitch / F1 | Kept |
+|---|---|---|---|---|---|---|---|---|
+| baseline | 0.755 | 22.0% | 0.338 | 53 / 171 | 0.65 | 0.808 / 0.605 | 0.835 / 0.642 | |
+| hold while the pitch never leaves | 0.760 | 21.5% | 0.339 | 53 / 171 | **0.68** | 0.804 / 0.592 | 0.834 / 0.641 | **yes** |
+| absorb slides | 0.763 | 21.4% | 0.332 | 55 / 174 | 0.64 | 0.794 / 0.581 | **0.806 / 0.584** | no |
+| both | 0.767 | 20.9% | 0.333 | 55 / 176 | 0.67 | 0.790 / 0.568 | 0.806 / 0.583 | no |
+| starts moved to the attack (±80 ms) | 0.779 | 19.5% | 0.340 | 55 / 174 | 0.66 | **0.769** / 0.586 | 0.803 / 0.635 | no |
+| starts moved to the attack (±50 ms) | 0.773 | 20.1% | 0.340 | 54 / 175 | 0.66 | 0.789 / 0.596 | 0.818 / 0.634 | no |
+| join same-pitch notes only within 50 ms (cleanup) | 0.751 | 21.9% | 0.336 | 55 / 173 | 0.65 | 0.809 / 0.606 | 0.835 / 0.644 | no |
+
+### 1. Slides into notes: not kept
+
+`wrong_notes.py` sorts every wrong note by what the singer's pitch curve does there. A **slide** is a note the voice
+only passes through (never steady for 60 ms); a **sung** note is one the singer really holds, where the covers
+play something else. On Despacito 6 of 35 wrong notes are slides; across the popular set 25 of 114. Slides are
+the minority: most "wrong" notes are interpretation differences between singer and covers.
+
+The fix (`RefineParams.slides`): a short note within a word that the voice glides through, within 4 semitones of
+its neighbour, becomes part of the neighbour (a scoop starts the target note where the glide starts; a fall
+lengthens the note before). It raised the popular pitch score a little but cost real notes everywhere: Despacito
+lost 3 to 5 right notes for at most one fewer slide at any setting tried, and Vocadito's human-marked notes fell
+from 0.835 to 0.806 (F1 0.642 to 0.584). Fast passing notes and slides look too much alike in the pitch curve.
+The code stays in, switched off.
+
+### 2. Held notes split at word boundaries: kept (continuous hold)
+
+Round 1 joined a held note across a word boundary only when there was no onset and no dip. The new rule
+(`RefineParams.continuous_hold`) uses the pitch curve: if the voice never stops and never leaves the note's pitch
+(within 0.6 semitone) across the junction, it is one note, unless there is a strong new attack (onset ≥ 0.6). It
+applies across words only while "Hold a note across words" is on, so that switch still cuts notes at words.
+
+Held notes shown whole: 65% → 68% across the set (Despacito 17 → 18 of 25, Tum Hi Ho 0.59 → 0.69, Vivir Mi Vida
+0.73 → 0.77, Someone Like You 0.78 → 0.82, Blinding Lights 0.80 → 0.84), pitch 0.755 → 0.760, Vocadito unchanged,
+regression F1 0.605 → 0.592 (expected: that reference splits every word). Despacito's remaining split held notes
+are mostly real re-attacks: the singer starts a new syllable on the same pitch with an onset of 0.5 to 1.4 and a
+6-10 dB dip, which the covers play as one note.
+
+### 3. Timing: no systematic cause that a fix could remove
+
+On Despacito the start error grows through the pipeline (median / p90 against the strict key): Basic Pitch's raw
+notes 49 / 153 ms, after cleanup 64 / 160, after attaching to words 70 / 171, after refinement 70 / 179. The big
+errors come from joining notes (a joined note keeps the earlier start) and from the covers' own phrasing; the
+starts are not consistently late (bias +4 ms over the set, +15 ms on Despacito). Starting notes at the vowel
+would make them later still, so it was not pursued. Moving starts onto the nearest strong attack fixed the
+average bias and raised the popular pitch score (by changing which notes match), but made the human-marked sets
+worse on both pitch and timing (regression start median 25 → 30 ms, Vocadito pitch 0.835 → 0.803). Not kept.
+Start error stays at **53 ms median, 171 ms at the 90th percentile** across the popular set (Despacito 70 / 181).
+
+A smaller merge gap in cleanup (0.05 s) improved Despacito alone (pitch 0.764 → 0.776) but not the set
+(0.755 → 0.751): kept out, as an example of what tuning to one song would have done.
+
+## Before and after (popular set, 9 songs)
+
+| | Pitch | By note name | Off by >1 | F1 | Start median / p90 | Held as one |
+|---|---|---|---|---|---|---|
+| Before (round 1 as shipped) | 0.755 | 0.829 | 22.0% | 0.338 | 53 / 171 ms | 0.65 |
+| After | **0.760** | 0.834 | **21.5%** | 0.339 | 53 / 171 ms | **0.68** |
+| Despacito before | 0.764 | 0.782 | 17.0% | 0.405 | 70 / 179 ms | 17 of 25 |
+| Despacito after | 0.764 | 0.783 | 16.8% | 0.400 | 70 / 181 ms | 18 of 25 |
+
+All 11 uploads were re-processed with the new pipeline (version 4) by the background upgrader; notes fixed by hand
+were kept (Tonight's 4 edited notes are still there). Despacito went from 585 to 562 notes as held notes joined.
+
+## Listening samples
+
+`docs/listening-samples/accuracy-2/`: Despacito's first chorus (85-115 s) on the alto sax samples, rendered the
+way "Hear it played" plays notes:
+* `despacito-chorus-alto-sax-before.mp3`: the notes as shipped after round 1 (73 notes)
+* `despacito-chorus-alto-sax-after.mp3`: the notes now (71 notes: two held notes no longer split)
+
+## Top remaining problems (after round 2)
+
+1. **Singer versus covers.** 89 of the 114 wrong notes across the set are notes the singer really sings and the
+   covers don't play (runs, blue notes, a different line in rap or ad-libs). Covers are an imperfect key; the
+   owner's own recordings over a few backing tracks would measure what matters directly.
+2. **Octaves in the key.** Covers move phrases up or down an octave (Halo, Shape of You, Someone Like You), which
+   costs 7 points of pitch accuracy that are not the app's fault (0.760 exact against 0.834 by note name).
+3. **Re-attacked held notes.** A new syllable on the same pitch is a new note to the singer and one note to a sax
+   player. Which one the app should show is a design choice; a per-song "sax phrasing" option could join them.
+4. **Timing tail.** 10% of note starts are off by more than 170 ms, mostly joined notes and phrasing; the median
+   (53 ms) is close to the covers' own spread.
+5. **No rock song in the set.** Wonderwall's covers didn't agree; another rock song with sax or instrumental
+   covers would close the gap.

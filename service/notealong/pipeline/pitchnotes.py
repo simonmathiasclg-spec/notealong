@@ -263,7 +263,7 @@ class RefineParams:
     across_words: bool = True        # join the same pitch across a word boundary too, when nothing is re-attacked:
     across_onset: float = 0.3        #   the onset at the junction is below this (a vowel carried into the next word)
     across_dip: float = 3.0          #   and the level dips by less than this
-    continuous_hold: bool = False    # the voice never leaves the pitch across the junction (no unvoiced frame, within
+    continuous_hold: bool = True     # the voice never leaves the pitch across the junction (no unvoiced frame, within
     continuous_onset: float = 0.6    #   hold_tol): one note unless the onset there is at least this strong
     slides: bool = False             # a glide into or out of a note is part of that note, not a note of its own:
     slide_min_stable: float = 0.08   #   the voice never holds the glide's pitch this long
@@ -373,7 +373,8 @@ def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db:
                 and nt["start"] - prev["end"] <= p.merge_gap):
             same_word = prev.get("word", nt.get("word")) == nt.get("word", prev.get("word"))
             i0, i1 = int(prev["end"] / HOP) - 3, int(nt["start"] / HOP) + 3
-            continuous = (p.continuous_hold and 0 <= i0 < i1 <= n and ok[i0:i1].all()
+            # (across a word boundary only while "Hold a note across words" is on)
+            continuous = (p.continuous_hold and (same_word or p.across_words) and 0 <= i0 < i1 <= n and ok[i0:i1].all()
                           and bool(np.all(np.abs(midi[i0:i1] - nt["midi"]) <= p.hold_tol)))
             if continuous and (art is None or art.onset_at(nt["start"]) < p.continuous_onset):
                 joined = True              # the pitch curve shows one sustained sound: word boundaries and small dips do not split it

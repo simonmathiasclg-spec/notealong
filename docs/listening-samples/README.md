@@ -30,3 +30,8 @@ The sampled instrument exactly as the browser plays it, mixed over the backing t
 
 Things I would check first: is the sax tone pleasant or too bright; do held notes sound natural (the loop
 and the vibrato that fades in); is the instrument at a good level against the band.
+
+## accuracy/ and accuracy-2/
+
+Despacito's first chorus on the alto sax samples, before and after each accuracy round (see
+`docs/ACCURACY_REPORT.md`). Only the sax line: the song's recording is not in the repository.

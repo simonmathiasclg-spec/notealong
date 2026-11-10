@@ -64,6 +64,11 @@ def crepe(path: Path, chunk_s: float = 30.0, model: str = "full") -> tuple[np.nd
     step = int(chunk_s * sr)
     mids, pers = [], []
     for i in range(0, len(y), step):
+        if len(y) - i < 1600:            # a last scrap under 0.1 s: too short to track (and to filter); left unvoiced
+            n = int(np.ceil((len(y) - i) / 160))
+            mids.append(np.zeros(n))
+            pers.append(np.zeros(n))
+            break
         seg = torch.from_numpy(y[i:i + step].copy())[None]
         with torch.no_grad():
             f0, per = torchcrepe.predict(seg, sr, hop_length=160, fmin=80, fmax=1400, model=model, decoder=torchcrepe.decode.viterbi,
