@@ -179,13 +179,17 @@ def trim_song(song_id: str, start: float, end: float) -> None:
         for f in list(d.glob("shift_*")) + [d / "pitch.npz", d / "envelope.json"]:
             f.unlink(missing_ok=True)
 
-        def move(items: list[dict]) -> list[dict]:
+        def move(items: list) -> list:
+            """Shifts timed items by -start and drops those outside the kept part. Items are dicts with start/end,
+            or [start, end] pairs (the sentence spans in transcript.json)."""
             out = []
             for it in items:
-                if it["end"] <= start + 0.02 or it["start"] >= end - 0.02:
+                pair = isinstance(it, (list, tuple))
+                s, e = (it[0], it[1]) if pair else (it["start"], it["end"])
+                if e <= start + 0.02 or s >= end - 0.02:
                     continue
-                it = dict(it, start=round(max(0.0, it["start"] - start), 3), end=round(min(length, it["end"] - start), 3))
-                out.append(it)
+                s, e = round(max(0.0, s - start), 3), round(min(length, e - start), 3)
+                out.append([s, e, *it[2:]] if pair else dict(it, start=s, end=e))
             return out
 
         for name in ("notes_raw.json", "transcript.json"):

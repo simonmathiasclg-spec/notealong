@@ -14,5 +14,11 @@ if pgrep -fl "^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|imp
   echo "heavy.sh: another heavy NoteAlong job is already running; wait for it" >&2
   exit 4
 fi
+# the online version's local test worker (notealong.cloud.dispatch) holds this lock while it runs a heavy job
+lock="$(cd "$(dirname "$0")/../.." && pwd)/logs/heavy-job.lock"
+if [ -f "$lock" ] && kill -0 "$(cat "$lock" 2>/dev/null)" 2>/dev/null; then
+  echo "heavy.sh: the local test worker is running a heavy job; wait for it" >&2
+  exit 4
+fi
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-6} MKL_NUM_THREADS=${MKL_NUM_THREADS:-6} OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-6} TOKENIZERS_PARALLELISM=false
 exec "$@"

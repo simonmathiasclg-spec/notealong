@@ -21,6 +21,7 @@ import subprocess
 import sys
 import threading
 import time
+from pathlib import Path
 from typing import Callable
 
 from fastapi import FastAPI, Header, HTTPException
@@ -107,6 +108,7 @@ def _free_mb() -> float:
     return total * page / 1048576
 
 
+LOCK = Path(__file__).resolve().parents[3] / "logs" / "heavy-job.lock"
 HEAVY = r"^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|import_cc)|import_ia_jamendo|bench_separation|check_pitch_shift|render_one|accuracy/(prepare_covers|process_test_song|render_hear|evaluate|answer_key))"
 
 
@@ -117,7 +119,7 @@ def _other_heavy_job() -> bool:
 
 
 def local_app() -> FastAPI:
-    """Runs jobs in this process: processing one at a time (it is heavy), renders and edits on a second queue."""
+    """Runs jobs in this process: processing one at a time (it is heavy); renders and edits up to three at a time."""
     from . import worker
     from .jobkinds import needs_gpu
     heavy: queue.Queue[tuple[dict, threading.Event]] = queue.Queue()
@@ -133,14 +135,23 @@ def local_app() -> FastAPI:
                     print(f"waiting before job {job['id']}: {_free_mb():.0f} MB free, other heavy job: {_other_heavy_job()}", flush=True)
                     time.sleep(20)
                 print(f"job {job['id']} {job['kind']} starting", flush=True)
-                res = worker.run_job(job["id"], gpu=("local" if needs_gpu(job) else None))
+                if is_heavy:      # scripts/heavy.sh waits while this is here
+                    LOCK.parent.mkdir(parents=True, exist_ok=True)
+                    LOCK.write_text(str(os.getpid()))
+                try:
+                    res = worker.run_job(job["id"], gpu=("local" if needs_gpu(job) else None))
+                finally:
+                    if is_heavy:
+                        LOCK.unlink(missing_ok=True)
                 print(f"job {job['id']} {res.get('status')}", flush=True)
             finally:
                 done.set()
                 q.task_done()
 
     threading.Thread(target=loop, args=(heavy, True), daemon=True).start()
-    threading.Thread(target=loop, args=(light, False), daemon=True).start()
+    # light jobs (key renders, trims, pasted lyrics) run side by side, like separate machines on Modal
+    for _ in range(3):
+        threading.Thread(target=loop, args=(light, False), daemon=True).start()
 
     def enqueue(job: dict) -> threading.Event:
         ev = threading.Event()

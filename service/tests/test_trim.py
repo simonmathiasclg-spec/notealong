@@ -43,6 +43,18 @@ def test_trim_moves_everything(tmp_path, monkeypatch):
     assert abs(float(out) - 18.0) < 0.1
 
 
+def test_trim_moves_the_transcript_too(tmp_path, monkeypatch):
+    """transcript.json keeps its sentence spans as [start, end] pairs; they move with the cut like the words."""
+    import json
+    library = make_song(tmp_path, monkeypatch)
+    (tmp_path / "s1" / "transcript.json").write_text(json.dumps(
+        {"words": [{"text": "sung", "start": 12.0, "end": 13.0}], "segments": [[1.0, 3.0], [11.5, 14.0]]}))
+    library.trim_song("s1", 10.0, 28.0)
+    tr = json.loads((tmp_path / "s1" / "transcript.json").read_text())
+    assert tr["segments"] == [[1.5, 4.0]]
+    assert tr["words"] == [{"text": "sung", "start": 2.0, "end": 3.0}]
+
+
 def test_cleanup_keeps_hand_edited_notes(tmp_path, monkeypatch):
     import json
     library = make_song(tmp_path, monkeypatch)

@@ -58,6 +58,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       for (const st of steps) if (STEPS.some((x) => x.id === st)) next.steps[st] = { status: "pending", progress: 0 };
       await db.from("songs").update({ status: "processing", data: next }).eq("id", id).eq("user_id", user.id);
       const jobId = await createJob(user.id, id, "process", { new: !!body.new, steps, step_params: stepParams, retry: body.step === "retry" });
+      if (body.new) await db.rpc("add_usage", { p_jobs: 0, p_failures: 0, p_gpu: 0, p_cpu: 0, p_uploads: 1 });   // monthly totals, no names
       await dispatch(jobId);
       return Response.json({ song: next, snapshot: { ...snapshotFromSong(next, true), status: "processing" } });
     }

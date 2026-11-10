@@ -56,7 +56,9 @@ def _process_age() -> float:
         return 0.0
 
 
-CONTAINER_STARTED = time.time() - _process_age()
+# on Modal (MODAL_TASK_ID is set) the container starts for the job, so its start-up is part of the job's bill;
+# anywhere else only the job itself is counted
+CONTAINER_STARTED = time.time() - _process_age() if os.environ.get("MODAL_TASK_ID") else None
 
 
 class Stopped(Exception):
@@ -114,7 +116,7 @@ class JobRun:
     def finish(self, status: str, *, error: str | None = None, result: dict | None = None) -> None:
         secs = round(time.time() - self.t0, 1)
         # the first job in a fresh container also pays for starting it and loading the models (billed time)
-        billed = round(time.time() - (CONTAINER_STARTED if _CONTAINER["fresh"] else self.t0), 1)
+        billed = round(time.time() - (CONTAINER_STARTED if CONTAINER_STARTED and _CONTAINER["fresh"] else self.t0), 1)
         _CONTAINER["fresh"] = False
         values = {"finished_at": _now(), "processing_seconds": secs, "gpu_seconds": billed if self.gpu else 0,
                   "error": error, "result": result}
@@ -124,7 +126,7 @@ class JobRun:
             self.supa.update("jobs", {"id": f"eq.{self.job_id}", "status": "neq.stopped"}, {"status": status, **values})
         try:
             self.supa.rpc("add_usage", {"p_jobs": 1, "p_failures": int(status == "failed"), "p_gpu": billed if self.gpu else 0,
-                                        "p_cpu": 0 if self.gpu else billed, "p_uploads": int(bool((self.job.get("params") or {}).get("new")))})
+                                        "p_cpu": 0 if self.gpu else billed, "p_uploads": 0})   # uploads are counted when they start
         except Exception:  # noqa: BLE001  (the totals are a convenience; the job row has the numbers)
             traceback.print_exc()
 

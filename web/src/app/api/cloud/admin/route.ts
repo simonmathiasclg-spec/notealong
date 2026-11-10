@@ -41,17 +41,20 @@ export async function GET() {
       if (!j.gpu_seconds) cpu += j.processing_seconds ?? 0;
       if ((j.params as { new?: boolean })?.new) newUploads++;
     }
-    const month0 = (usage.data ?? [])[0];
+    // the monthly totals have no names in them and survive deleted accounts, so they are the true bill
+    const m = (usage.data ?? []).find((u) => u.month === month.toISOString().slice(0, 10));
+    if (m) {
+      gpu = m.gpu_seconds; cpu = m.cpu_seconds; newUploads = m.uploads; failed = m.failures;
+    }
+    const dollars = gpu * GPU_DOLLARS_PER_SECOND + cpu * CPU_DOLLARS_PER_SECOND;
     return Response.json({
       month: month.toISOString().slice(0, 7),
       totals: {
-        users: emails.size, jobs: (jobs.data ?? []).length, failed, uploads: newUploads,
+        users: emails.size, jobs: m ? m.jobs : (jobs.data ?? []).length, failed, uploads: newUploads,
         gpu_seconds: Math.round(gpu), cpu_seconds: Math.round(cpu),
-        dollars: +(gpu * GPU_DOLLARS_PER_SECOND + cpu * CPU_DOLLARS_PER_SECOND).toFixed(2),
-        dollars_per_upload: newUploads ? +((gpu * GPU_DOLLARS_PER_SECOND + cpu * CPU_DOLLARS_PER_SECOND) / newUploads).toFixed(3) : null,
+        dollars: +dollars.toFixed(2), dollars_per_upload: newUploads ? +(dollars / newUploads).toFixed(3) : null,
       },
-      all_time_months: usage.data ?? [],
-      this_month_including_deleted: month0 ?? null,
+      months: usage.data ?? [],
       users: (users.data?.users ?? []).map((u) => ({
         email: u.email, created_at: u.created_at, last_sign_in_at: u.last_sign_in_at, ...(per.get(u.id) ?? { uploads: 0, ready: 0, jobs: 0, failed: 0, gpu: 0 }),
       })),
