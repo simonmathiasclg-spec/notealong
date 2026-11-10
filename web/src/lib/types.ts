@@ -127,6 +127,8 @@ export type ProgressSnapshot = {
   steps: ProgressStep[];
   current: string | null;
   estimated_seconds_left: number;
+  /** Online version: the upload was the same recording as this (earlier) song of the user's, which opens instead. */
+  duplicate_of?: string;
 };
 
 export type Setlist = { id: string; name: string; songs: string[]; gap_seconds: number; created_at: string; updated_at: string };

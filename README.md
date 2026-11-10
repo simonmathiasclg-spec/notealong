@@ -15,6 +15,8 @@ notealong/
 │   ├── songs/   hand-authored melodies in a small text format (*.song)
 │   └── LICENSES.md  every sound source used (instrument recordings, soundfonts) and its licence
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
+├── supabase/    The online version's database: migrations (tables, row-level security, storage), sign-in email, privacy check
+├── deploy.sh    Puts the online version (private beta) up, or updates it: Supabase, Modal, Vercel
 ├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md, NEXT_REPORT.md, ACCURACY_REPORT.md (the rounds of work),
 │                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
@@ -262,13 +264,89 @@ instrument's written range. Playback (`lib/audio.ts`) uses two `<audio>` element
 with `preservesPitch` for speed changes; key changes swap in pitch-shifted renders made by the service
 with Rubber Band (`GET /api/songs/{id}/audio/backing?shift=-2`), cached per song, neighbours pre-rendered.
 
+## The online version (private beta)
+
+The same app can run online for invited testers. Locally nothing changes: without the Supabase settings the web
+app talks to the processing service on this Mac (`./start.sh`), exactly as before.
+
+```
+browser ──► Vercel (web/, Next.js) ──────────► Supabase: sign-in (email link), Postgres, Storage
+   │            │  /api/cloud/* routes                       ▲   every table and bucket has row-level security:
+   │            ▼  (service role, always per user)          │   each user reaches only their own rows and files
+   │        Modal: dispatch ─► gpu_job (T4: voice, notes, words)   cpu_job (key renders, trims, pasted lyrics)
+   │                              └──── reads/writes the user's folder uploads/<user id>/<song id>/ ───┘
+   └──── uploads go straight to Storage with a one-time link; audio plays from short-lived private links
+```
+
+- **Web app** (`web/`, Vercel): `NEXT_PUBLIC_SUPABASE_URL` switches it to the online version
+  (`src/lib/cloud/`). Reads and simple changes (titles, note fixes, player settings, favourites, setlists) go
+  straight to Supabase as the signed-in user; uploads, processing, key changes, deleting and the owner's
+  overview go through the routes in `src/app/api/cloud/`. `src/proxy.ts` sends signed-out visitors to `/sign-in`.
+- **Database** (`supabase/migrations/`): songs (the same song.json in a `data` column), edits to built-in songs,
+  favourites, plays, setlists, jobs (status, progress, errors, processing and GPU seconds), the beta list
+  (`allowlist`), the `waitlist`, and monthly totals without names. Storage: `uploads` (private, per user folder)
+  and `catalog` (public: the built-in songs and their key renders).
+- **Processing** (`service/modal_app.py`, `service/notealong/cloud/`): the web app adds a row to `jobs` and calls
+  the dispatcher, which starts a GPU or CPU function. The worker copies the song into a scratch folder, runs the
+  same pipeline as the local service, writes the files and the song back, and records the time it took. It keeps
+  running when the tab is closed; the song page reads the progress from the job row.
+- **Beta rules**: only emails on the beta list can make an account (a database trigger checks); 10 new songs per
+  user per 24 hours; files up to 50 MB and 12 minutes; the same file or recording again opens the song already
+  there (looked for only among that user's songs). `/admin` is for the owner (`ADMIN_EMAIL`). `/terms` and
+  `/privacy` are drafts for a lawyer to review. "Delete my account" removes every row and file.
+
+### Put it online, or update it
+
+```bash
+supabase login && vercel login && pip install modal && modal setup     # once
+./deploy.sh
+```
+
+`deploy.sh` creates the Supabase project if `.env.cloud` names none, applies the migrations, uploads the built-in
+songs (`service/scripts/cloud/upload_catalog.py`, catalog/ only), deploys the Modal app, sets the Vercel
+environment variables, deploys the web app, and points the sign-in emails at it. Secrets are generated into
+`.env.cloud` (gitignored) and the providers' dashboards, and never printed. `docs/DEPLOY_REPORT.md` has the status
+and the owner's checklist.
+
+| Variable (Vercel) | What it is |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | the Supabase project (public values) |
+| `SUPABASE_SERVICE_ROLE_KEY` | server-only key for the routes (never sent to browsers) |
+| `PROCESSING_URL`, `WORKER_SECRET` | the Modal dispatcher's address and the shared secret it checks |
+| `ADMIN_EMAIL` | who may open `/admin` (comma-separated); unset means nobody |
+
+Modal reads `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `WORKER_SECRET` from its secret `notealong-supabase`.
+
+### Invite a tester
+
+Open `/admin` while signed in as `ADMIN_EMAIL` and add their email (or add a row to `allowlist` in Supabase's
+Table editor; emails in lower case). Tell them the address of the site: they enter their email on the sign-in page
+and get a link. People who aren't invited can join the waitlist there; `/admin` lists them with an Invite button.
+
+### Try the online version on this Mac
+
+```bash
+supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,postgres-meta,supavisor   # Docker
+# write .env.cloud.local (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, WORKER_SECRET, DISPATCH_PORT=8011) and
+# web/.env.cloud-test (NEXT_PUBLIC_SUPABASE_*, SUPABASE_SERVICE_ROLE_KEY, PROCESSING_URL=http://127.0.0.1:8011,
+# WORKER_SECRET, NEXT_DIST_DIR=.next-cloud) from `supabase status -o env`, then:
+cd service && .venv/bin/python scripts/cloud/upload_catalog.py --env ../.env.cloud.local
+.venv/bin/python -m notealong.cloud.dispatch            # stands in for Modal: jobs run here, one heavy job at a time
+cd web && (set -a; source .env.cloud-test; set +a; npx next dev -p 3100)
+node ../supabase/tests/privacy_check.mjs                # with SUPABASE_URL/ANON/SERVICE_ROLE set: 29 privacy checks
+```
+
+Sign-in emails land in the local mail viewer at http://127.0.0.1:54324.
+
 ## Tests
 
 ```bash
 cd service && source .venv/bin/activate && pytest           # cleanup, key detection, alignment, romanization, API,
                                                               # and an end-to-end synthesized melody through Basic Pitch
 cd web && npm test                                            # transposition, range fitting, note naming, lines, MusicXML,
-                                                              # timing guide, scheduler ("no drift"), sampler, Discover
+                                                              # timing guide, scheduler ("no drift"), sampler, Discover,
+                                                              # the online version's song records
+cd web && node ../supabase/tests/privacy_check.mjs            # online version: row-level security on every table and bucket
 ```
 
 Two browser checks need Playwright (not a dependency; point `PLAYWRIGHT_DIR` at a folder that has it):
@@ -279,6 +357,5 @@ from the backing track, and `web/scripts/render-hear-demo.mjs` renders the sampl
 
 - **MP4 karaoke export**: `components/player/LyricStage.tsx` renders purely from `(lines, time, settings)`,
   so it can be driven frame by frame by Remotion or captured headlessly.
-- **Accounts / cloud**: `song.json` maps onto tables one-to-one; `library.py` is the only module that touches
-  the filesystem. The service has no state outside the library folder, so it can run on Modal/Replicate as is.
+- **Accounts / cloud**: built as the private beta (see "The online version" above).
 - **Fingering diagrams** for saxophone can hang off the written MIDI number in `NoteChip`.

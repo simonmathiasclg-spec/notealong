@@ -1,5 +1,7 @@
 import type { Catalog, Entitlements, MyLibrary, ProgressSnapshot, Setlist, Song, SongSummary, UserSession, Word, Note, Line } from "./types";
 import type { SearchRow } from "./search";
+import { CLOUD } from "./cloud/config";
+import { cloudApi } from "./cloud/api";
 
 export const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -15,7 +17,8 @@ async function j<T>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export const api = {
+/** The local processing service (./start.sh). */
+const localApi = {
   health: () => fetch(`${API}/api/health`).then(j<{ ok: boolean }>),
   listSongs: () => fetch(`${API}/api/songs`, { cache: "no-store" }).then(j<SongSummary[]>),
   catalog: () => fetch(`${API}/api/catalog`, { cache: "no-store" }).then(j<Catalog>),
@@ -76,6 +79,9 @@ export const api = {
     return () => es.close();
   },
 };
+
+/** Everything the screens ask of the back end: the local service, or Supabase + the processing service online. */
+export const api: typeof localApi = CLOUD ? cloudApi : localApi;
 
 export function formatTime(s: number): string {
   if (!isFinite(s) || s < 0) s = 0;

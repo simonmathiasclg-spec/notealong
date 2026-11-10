@@ -109,10 +109,12 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
           </div>
         </div>
       )}
-      <div className="relative flex items-center justify-center gap-2 sm:gap-3">
-        {!focus && <span className="tabular absolute left-0 text-[13px] text-muted"><span ref={timeRef}>0:00</span><span className="text-faint"> / {formatTime(duration)}</span></span>}
+      {/* phones: the time and "Hear it played" sit on a row above the play controls */}
+      <div className="relative flex flex-wrap items-center justify-center gap-x-2 gap-y-1 sm:flex-nowrap sm:gap-3">
+        {!focus && <span className="tabular text-[13px] text-muted max-sm:order-[-3] sm:absolute sm:left-0"><span ref={timeRef}>0:00</span><span className="text-faint"> / {formatTime(duration)}</span></span>}
+        {!focus && <span className="h-0 basis-full max-sm:order-[-1] sm:hidden" aria-hidden="true" />}
         {!focus && (
-          <div className="flex w-[8.5rem] items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-1 sm:w-[8.5rem]">
             <button className={`btn btn-ghost btn-icon ${loop ? "text-accent" : ""}`} onClick={loop ? () => onLoop(null) : onLoopLine} aria-pressed={!!loop} aria-label={loop ? "Stop looping" : "Loop this line"} data-tip={loop ? `Looping ${formatTime(loop[0])} to ${formatTime(loop[1])}. Click to stop` : "Loop this line (L)"}>
               <Repeat className="h-[18px] w-[18px]" />
             </button>
@@ -130,7 +132,7 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
           {playing ? <Pause className="h-7 w-7" fill="currentColor" strokeWidth={0} /> : <Play className="ml-1 h-7 w-7" fill="currentColor" strokeWidth={0} />}
         </motion.button>
         {!focus && (
-          <div className="flex w-[8.5rem] items-center justify-start gap-1">
+          <div className="flex items-center justify-start gap-1 sm:w-[8.5rem]">
             <button className="btn btn-ghost btn-icon" onClick={() => onSkip(1)} aria-label="Next line" data-tip="Next line (→)"><ChevronRight className="h-5 w-5" /></button>
             <button className={`btn btn-ghost tabular min-w-[4.6rem] ${speed < 1 ? "text-accent" : ""}`} onClick={nextSpeed} aria-pressed={speed < 1} aria-label={`Speed ${Math.round(speed * 100)} percent, click to change`} data-tip={speed < 1 ? "Click for the next speed" : "Slow the song down without changing the notes"}>
               {speed < 1 ? `${Math.round(speed * 100)}% speed` : "Slower"}
@@ -139,7 +141,7 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
         )}
         {!focus && (
           <button
-            className={`btn absolute right-0 ${hear ? "border-accent bg-[var(--accent-soft)] text-accent" : ""}`}
+            className={`btn max-sm:order-[-2] max-sm:ml-auto max-sm:h-9 sm:absolute sm:right-0 ${hear ? "border-accent bg-[var(--accent-soft)] text-accent" : ""}`}
             onClick={onHear} aria-pressed={hear}
             aria-label={`Hear it played on the ${instrument.name.toLowerCase()}`}
             data-tip={hear ? (hearState === "loading" ? "Loading the sound…" : `Playing the notes on the ${instrument.name.toLowerCase()}. Click to stop (H)`) : `Hear how the notes sound on the ${instrument.name.toLowerCase()}, along with the song (H)`}

@@ -10,7 +10,7 @@ if [ "$free_mb" -lt "$need_mb" ]; then
 fi
 # a running NoteAlong job is a python process (anchored, so this script's own command line does not match)
 # (a build with --check only parses the song files and is not heavy)
-if pgrep -fl "^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|import_cc)|import_ia_jamendo|bench_separation|check_pitch_shift|render_one)" | grep -v -e "--check" -e "--index" >/dev/null; then
+if pgrep -fl "^[^ ]*python[^ ]* .*(notealong.catalog.(build|evaluate|recheck|import_cc)|import_ia_jamendo|bench_separation|check_pitch_shift|render_one|accuracy/(prepare_covers|process_test_song|render_hear))" | grep -v -e "--check" -e "--index" >/dev/null; then
   echo "heavy.sh: another heavy NoteAlong job is already running; wait for it" >&2
   exit 4
 fi

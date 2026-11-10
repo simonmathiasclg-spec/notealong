@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
 from pydantic import BaseModel
 
-from . import entitlements, library
+from . import entitlements, library, searchindex
 from . import me as me_store
 from .catalog import store as catalog_store
 from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, processing_steps
@@ -381,50 +381,15 @@ def delete_setlist(set_id: str):
 
 
 # ---- one search index over the catalog and the user's own songs ------------------
-_INDEX_CACHE: dict[str, tuple[float, dict]] = {}
-
-
-def _index_row(song_json: Path, extra: dict) -> dict:
-    """Fields to search and filter on, cached by the file's modification time."""
-    key = str(song_json)
-    mtime = song_json.stat().st_mtime
-    hit = _INDEX_CACHE.get(key)
-    if hit and hit[0] == mtime:
-        return {**hit[1], **extra}
-    from .catalog.difficulty import rate_difficulty
-    d = json.loads(song_json.read_text(encoding="utf-8"))
-    notes = d.get("notes") or []
-    midis = [n["midi"] for n in notes]
-    words = " ".join(w.get("text", "") for w in d.get("words") or [])
-    row = {"range": [min(midis), max(midis)] if midis else None, "lyrics": words[:4000], "note_count": len(notes)}
-    if notes and "difficulty" not in extra:
-        row["difficulty"] = rate_difficulty(notes)[0]
-    _INDEX_CACHE[key] = (mtime, row)
-    return {**row, **extra}
-
-
 @app.get("/api/search-index")
 def search_index():
     """One list over the built-in songs and this user's uploads, with what search and the filters
     need (lyrics text, note range, tempo, year). The uploads are this user's own and stay on this install."""
-    out = []
-    for s in catalog_store.load_index()["songs"]:
-        p = CATALOG_DIR / s["id"] / "song.json"
-        if not p.exists():
-            continue
-        out.append(_index_row(p, {"id": s["id"], "kind": "catalog", "title": s["title"], "artist": s.get("artist"), "genre": s.get("genre"),
-                                  "culture": s.get("culture") or s.get("origin"), "origin": s.get("origin"), "language": s.get("language"),
-                                  "year": s.get("year"), "tempo_bpm": s.get("tempo_bpm"), "difficulty": s.get("difficulty"),
-                                  "duration": s.get("duration"), "source": (s.get("source") or {}).get("kind"), "tags": s.get("tags", []),
-                                  "added": s.get("added"), "featured": s.get("featured", False), "accent_hue": s.get("accent_hue")}))
+    out = searchindex.catalog_rows()
     for song in library.list_songs():
         if song.status != "ready":
             continue
-        p = library.song_path(song.id)
-        out.append(_index_row(p, {"id": song.id, "kind": "upload", "title": song.title, "artist": song.artist, "genre": None,
-                                  "culture": None, "origin": None, "language": song.language.override or song.language.detected,
-                                  "year": None, "tempo_bpm": song.tempo_bpm, "duration": song.duration, "source": "upload", "tags": [],
-                                  "added": song.created_at[:10], "featured": False, "accent_hue": None}))
+        out.append(searchindex.row(library.song_path(song.id), searchindex.upload_extra(song)))
     return {"songs": out}
 
 

@@ -31,6 +31,7 @@ sys.path.insert(0, str(ROOT))
 from notealong.pipeline.audio import load_mono  # noqa: E402
 
 HOP = 0.01          # f0 frames
+F0_NAME = "f0_fcpe.npz"   # which pitch track of the covers to use (prepare_covers.py --tracker)
 CHROMA_HOP = 0.05   # alignment frames
 SR = 22050
 
@@ -130,7 +131,7 @@ def _agree(a: list[dict], b: list[dict], tol: float = 0.3, shift: int = 0) -> fl
 
 def _cover_notes(cov: Path, song_c: np.ndarray, k: int, register: float):
     d = cov.with_suffix("")
-    z = np.load(d / "f0.npz")
+    z = np.load(d / F0_NAME)
     tc, ts = dtw_map(np.roll(chroma(cov), -k, axis=0), song_c)
     notes = segment(z["midi"], z["periodicity"], z["db"])
     for n in notes:
@@ -236,8 +237,12 @@ def main() -> int:
     ap.add_argument("covers", nargs="+")
     ap.add_argument("--out", required=True)
     ap.add_argument("--quorum", type=float, default=0.5)
+    ap.add_argument("--library", default=None, help="the folder that holds the song (default: the app's library)")
+    ap.add_argument("--tracker", choices=("crepe", "crepetiny", "fcpe"), default="crepe")
     a = ap.parse_args()
-    song_dir = ROOT.parent / "library" / a.song_id
+    global F0_NAME
+    F0_NAME = f"f0_{a.tracker}.npz"
+    song_dir = Path(a.library) / a.song_id if a.library else ROOT.parent / "library" / a.song_id
     key = build(song_dir, [Path(c) for c in a.covers], a.quorum)
     Path(a.out).write_text(json.dumps(key, indent=1))
     ag = [n["agreement"] for n in key["notes"]]

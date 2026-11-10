@@ -34,7 +34,7 @@ from notealong.config import CATALOG_DIR, LIBRARY_DIR, STEM_FORMAT  # noqa: E402
 
 DESPACITO = "despacito-ft-daddy-yankee-luisfonsivevo-dec768"
 ANSWER_KEY = ROOT.parent / "test-recordings" / f"{DESPACITO}-answer-key.json"
-KEYS = ("pitch_acc", "pc_acc", "off_gt1", "precision", "recall", "f1", "f1_pc", "frames_pc", "onset_med", "onset_p90", "onset_bias", "dur_err", "sustain", "frames")
+KEYS = ("pitch_acc", "pc_acc", "off_gt1", "precision", "recall", "f1", "f1_pc", "frames_pc", "held_one", "onset_med", "onset_p90", "onset_bias", "dur_err", "sustain", "frames")
 
 
 def _greedy(ref, est, tol, same_pitch):
@@ -73,6 +73,12 @@ def metrics(ref: list[dict], est: list[dict], span: tuple[float, float] | None =
     r = len(good) / max(1, len(ref))
     errs = np.array([est[j]["start"] - ref[i]["start"] for i, j in wide]) * 1000 if wide else np.zeros(1)
     durs = [abs((est[j]["end"] - est[j]["start"]) / max(0.05, ref[i]["end"] - ref[i]["start"]) - 1) for i, j in good]
+    # held notes shown as one: reference notes of 0.45 s or more with exactly one overlapping note of that name
+    held_ref = [n for n in ref if n["end"] - n["start"] >= 0.45]
+    held_one = 0
+    for n in held_ref:
+        k = sum(1 for e in est if e["start"] < n["end"] and e["end"] > n["start"] and (e["midi"] - n["midi"]) % 12 == 0)
+        held_one += k == 1
     # sustain: long reference notes covered by one same-pitch note
     long_ref = [n for n in ref if n["end"] - n["start"] >= 0.5]
     held = 0
@@ -104,6 +110,7 @@ def metrics(ref: list[dict], est: list[dict], span: tuple[float, float] | None =
         "dur_err": float(np.median(durs)) if durs else 1.0,
         "sustain": held / max(1, len(long_ref)), "n_long": len(long_ref),
         "frames": ok / max(1e-9, tot),
+        "held_one": held_one / max(1, len(held_ref)), "n_held": len(held_ref),
         "frames_pc": ok_pc / max(1e-9, tot),
     }
 
@@ -289,14 +296,65 @@ def _variant(sid: str, default: Path, raw: Path | None, vocals_variant: str | No
     return CACHE / sid / f"sep_{vocals_variant}" / "vocals.wav", None, CACHE / sid / f"sep_{vocals_variant}"
 
 
+POPULAR = ROOT.parent / "test-recordings" / "popular"
+TEST_LIBRARY = ROOT.parent / "test-recordings" / "library"
+
+
+def key_eval(song_dir: Path, key: dict, est: list[dict], song: dict) -> dict:
+    """Scores notes against a covers answer key over the sung part: pitch, timing, duration and held notes on
+    the notes at least three quarters of the covers play; precision and F1 on the full key."""
+    real = [w for w in song["words"] if len(w["text"].strip(".,!?¡¿'")) >= 2]
+    sung = (real[0]["start"] - 0.5, real[-1]["end"] + 0.5) if real else (0, 1e9)
+    ref = [n for n in key["notes"] if sung[0] <= n["start"] <= sung[1]]
+    if not ref:
+        return {}
+    span = (ref[0]["start"], ref[-1]["end"])
+    full = metrics(ref, est, span=span)
+    strict_ref = [n for n in ref if n["agreement"] >= 0.75]
+    m = dict(metrics(strict_ref, est, span=span)) if len(strict_ref) >= 20 else dict(full)
+    for k in ("precision", "f1", "f1_pc", "est", "held_one", "n_held"):
+        m[k] = full[k]
+    m["recall_full"] = full["recall"]
+    m["n_key"] = len(ref)
+    m["n_strict"] = len(strict_ref)
+    return m
+
+
+def popular_songs() -> list[tuple[str, Path, Path]]:
+    """(id, song folder, key file) for Despacito and every test song with an answer key."""
+    out = []
+    if ANSWER_KEY.exists():
+        out.append(("despacito", LIBRARY_DIR / DESPACITO, ANSWER_KEY))
+    for k in sorted(POPULAR.glob("*/answer-key.json")):
+        d = TEST_LIBRARY / k.parent.name
+        if (d / "song.json").exists():
+            out.append((k.parent.name, d, k))
+    return out
+
+
 def run(method: str, overrides: dict | None = None, despacito_only: bool = False, vocals_variant: str | None = None,
-        skip_vocadito: bool = False) -> dict:
+        skip_vocadito: bool = False, popular: bool = True, only: list[str] | None = None) -> dict:
     from notealong.catalog.evaluate import merge_repeats, reference_notes
     fn = METHODS[method]
     out = {"method": method, "overrides": overrides or {}, "rows": []}
     t0 = time.time()
-    # Despacito against the answer key
-    if ANSWER_KEY.exists():
+    # the popular-song set against the covers' answer keys
+    if popular:
+        out["popular_rows"] = []
+        for name, d, kp in popular_songs():
+            if only and name not in only:
+                continue
+            song = json.loads((d / "song.json").read_text())
+            sid = song["id"]
+            est = fn(*_vc(sid, d, vocals_variant), overrides)
+            m = key_eval(d, json.loads(kp.read_text()), est, song)
+            if m:
+                m["id"] = name
+                out["popular_rows"].append(m)
+        if out["popular_rows"]:
+            out["popular"] = {k: float(np.mean([r[k] for r in out["popular_rows"]])) for k in KEYS}
+    # Despacito against the answer key (kept for comparison with round 1)
+    if ANSWER_KEY.exists() and not popular:
         key = json.loads(ANSWER_KEY.read_text())
         d = LIBRARY_DIR / DESPACITO
         song = json.loads((d / "song.json").read_text())
@@ -359,9 +417,17 @@ def main() -> int:
     ap.add_argument("--json", type=Path)
     ap.add_argument("--vocals", default=None, help="use another separation's vocals (see separate_variants.py)")
     ap.add_argument("--no-vocadito", action="store_true")
+    ap.add_argument("--popular-only", action="store_true", help="only the popular-song set")
+    ap.add_argument("--only", action="append", help="popular songs to include (default all)")
     a = ap.parse_args()
     overrides = {k: (v.lower() == "true" if v.lower() in ("true", "false") else float(v)) for k, v in (s.split("=", 1) for s in a.set)} or None
-    res = run(a.method, overrides, a.despacito_only, a.vocals, a.no_vocadito)
+    res = run(a.method, overrides, a.despacito_only or a.popular_only, a.vocals, a.no_vocadito or a.popular_only, popular=True, only=a.only)
+    if a.popular_only:
+        res.pop("regression", None)
+    if "popular" in res:
+        for r in res["popular_rows"]:
+            print(f"  {r['id'][:18]:<18} {fmt(r)}  held {r['held_one']:.2f} of {r['n_held']}")
+        print(f"POPULAR mean ({len(res['popular_rows'])} songs): {fmt(res['popular'])}  held {res['popular']['held_one']:.2f}")
     if "despacito" in res:
         d = res["despacito"]
         print(f"DESPACITO ({d['ref']} strict key notes, {d['est']} shown, {d['n_long']} held): {fmt(d)}")

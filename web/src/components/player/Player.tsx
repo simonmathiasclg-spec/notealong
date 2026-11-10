@@ -426,17 +426,17 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
               </div>
             ) : (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-0.5 sm:gap-1">
                 <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument">
                   <span className="text-accent"><InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" /></span> {instrument.name}
                 </button>
                 <FavouriteButton id={song.id} title={song.title} variant="icon" />
                 <AddToSetlistButton songId={song.id} title={song.title} />
-                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" /></Link>
+                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon max-sm:hidden" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" /></Link>
                 <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" /></button>
-                <ThemeToggle />
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" /></button>
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" /></button>
+                <span className="max-sm:hidden"><ThemeToggle /></span>
                 <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" /></button>
               </div>
             )}

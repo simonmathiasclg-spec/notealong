@@ -263,9 +263,75 @@ class RefineParams:
     across_words: bool = True        # join the same pitch across a word boundary too, when nothing is re-attacked:
     across_onset: float = 0.3        #   the onset at the junction is below this (a vowel carried into the next word)
     across_dip: float = 3.0          #   and the level dips by less than this
+    continuous_hold: bool = False    # the voice never leaves the pitch across the junction (no unvoiced frame, within
+    continuous_onset: float = 0.6    #   hold_tol): one note unless the onset there is at least this strong
+    slides: bool = False             # a glide into or out of a note is part of that note, not a note of its own:
+    slide_min_stable: float = 0.08   #   the voice never holds the glide's pitch this long
+    slide_share: float = 0.5         #   and holds it for less than this share of its length
+    slide_max_len: float = 0.4       #   and the glide is no longer than this
+    slide_range: int = 4             #   and it lies within this many semitones of the note it belongs to
 
     def to_dict(self) -> dict:
         return asdict(self)
+
+
+def _stable_run(midi: np.ndarray, ok: np.ndarray, a: int, b: int, target: int, tol: float = 0.35) -> int:
+    """Longest run of frames in [a, b) where the voice sits on `target` (within tol semitones)."""
+    best = run = 0
+    for i in range(a, b):
+        if ok[i] and abs(midi[i] - target) <= tol:
+            run += 1
+            if run > best:
+                best = run
+        else:
+            run = 0
+    return best
+
+
+def _absorb_slides(notes: list[dict], midi: np.ndarray, ok: np.ndarray, p: "RefineParams", rep: dict) -> list[dict]:
+    """A note the voice only glides through (a scoop up into the next note, or a fall after the previous one)
+    becomes part of that note: a scoop's target starts where the glide starts; a fall extends the note before.
+    A real passing note is kept, because the voice settles on it, however briefly."""
+    rep.setdefault("slides", 0)
+    n = len(midi)
+    notes = sorted(notes, key=lambda x: x["start"])
+    i = 0
+    while i < len(notes):
+        nt = notes[i]
+        a, b = int(nt["start"] / HOP), min(n, int(nt["end"] / HOP))
+        L = b - a
+        if nt.get("edited") or L <= 0 or L * HOP > p.slide_max_len or ok[a:b].mean() < 0.5:
+            i += 1
+            continue
+        st = _stable_run(midi, ok, a, b, nt["midi"])
+        if st * HOP >= p.slide_min_stable or st / L >= p.slide_share:
+            i += 1
+            continue
+        v = np.flatnonzero(ok[a:b])
+        trend = float(np.median(midi[a + v[-3:]]) - np.median(midi[a + v[:3]])) if len(v) >= 6 else 0.0
+        prv = notes[i - 1] if i > 0 and nt["start"] - notes[i - 1]["end"] <= 0.06 else None
+        nxt = notes[i + 1] if i + 1 < len(notes) and notes[i + 1]["start"] - nt["end"] <= 0.06 else None
+
+        def same_word(o):
+            return o.get("word") is None or nt.get("word") is None or o.get("word") == nt.get("word")
+        into_next = (nxt is not None and not nxt.get("edited") and same_word(nxt) and nxt["midi"] != nt["midi"]
+                     and abs(nxt["midi"] - nt["midi"]) <= p.slide_range and (trend == 0 or np.sign(trend) == np.sign(nxt["midi"] - nt["midi"])))
+        out_of_prev = (prv is not None and not prv.get("edited") and same_word(prv) and prv["midi"] != nt["midi"]
+                       and abs(prv["midi"] - nt["midi"]) <= p.slide_range and (trend == 0 or np.sign(trend) == np.sign(nt["midi"] - prv["midi"])))
+        if into_next:
+            nxt["start"] = nt["start"]
+            if nxt.get("word") is None:
+                nxt["word"] = nt.get("word")
+            del notes[i]
+            rep["slides"] += 1
+            continue
+        if out_of_prev:
+            prv["end"] = max(prv["end"], nt["end"])
+            del notes[i]
+            rep["slides"] += 1
+            continue
+        i += 1
+    return notes
 
 
 def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db: np.ndarray, art=None,
@@ -297,6 +363,8 @@ def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db:
                 rep["repitched"] += 1
                 nt = dict(nt, midi=new)
         out.append(nt)
+    if p.slides:
+        out = _absorb_slides(out, midi, ok, p, rep)
     # one held note: same pitch either side of a short gap, with no re-attack in between
     merged: list[dict] = []
     for nt in out:
@@ -304,7 +372,12 @@ def refine_with_pitch(notes: list[dict], midi: np.ndarray, conf: np.ndarray, db:
         if (prev is not None and prev["midi"] == nt["midi"] and not prev.get("edited") and not nt.get("edited")
                 and nt["start"] - prev["end"] <= p.merge_gap):
             same_word = prev.get("word", nt.get("word")) == nt.get("word", prev.get("word"))
-            if same_word:
+            i0, i1 = int(prev["end"] / HOP) - 3, int(nt["start"] / HOP) + 3
+            continuous = (p.continuous_hold and 0 <= i0 < i1 <= n and ok[i0:i1].all()
+                          and bool(np.all(np.abs(midi[i0:i1] - nt["midi"]) <= p.hold_tol)))
+            if continuous and (art is None or art.onset_at(nt["start"]) < p.continuous_onset):
+                joined = True              # the pitch curve shows one sustained sound: word boundaries and small dips do not split it
+            elif same_word:
                 joined = not (art is not None and art.rearticulated(prev["end"], nt["start"], p.onset_min, p.dip_db))
             else:
                 # across words only when the sound is plainly continuous (no attack, no dip at all)

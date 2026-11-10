@@ -52,7 +52,7 @@ def demucs4(src: Path, out: Path) -> dict[str, Path]:
     return paths
 
 
-def crepe(path: Path, chunk_s: float = 30.0) -> tuple[np.ndarray, np.ndarray]:
+def crepe(path: Path, chunk_s: float = 30.0, model: str = "full") -> tuple[np.ndarray, np.ndarray]:
     """(midi, periodicity) per 10 ms with torchcrepe's full model, in 30-second chunks with a small batch
     so memory stays low (a whole song at once was killed for lack of memory)."""
     import gc
@@ -66,7 +66,7 @@ def crepe(path: Path, chunk_s: float = 30.0) -> tuple[np.ndarray, np.ndarray]:
     for i in range(0, len(y), step):
         seg = torch.from_numpy(y[i:i + step].copy())[None]
         with torch.no_grad():
-            f0, per = torchcrepe.predict(seg, sr, hop_length=160, fmin=80, fmax=1400, model="full", decoder=torchcrepe.decode.viterbi,
+            f0, per = torchcrepe.predict(seg, sr, hop_length=160, fmin=80, fmax=1400, model=model, decoder=torchcrepe.decode.viterbi,
                                          return_periodicity=True, batch_size=128, device=dev)
         per = torchcrepe.filter.median(per, 3)
         f0 = f0[0].cpu().numpy()
@@ -80,30 +80,36 @@ def crepe(path: Path, chunk_s: float = 30.0) -> tuple[np.ndarray, np.ndarray]:
     return np.concatenate(mids), np.concatenate(pers)
 
 
-def main(files: list[str]) -> int:
-    for f in files:
+def fcpe(path: Path) -> tuple[np.ndarray, np.ndarray]:
+    from notealong.pipeline.pitchnotes import track_fcpe
+    return track_fcpe(path)
+
+
+def main(argv: list[str]) -> int:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("files", nargs="+")
+    ap.add_argument("--tracker", choices=("crepe", "crepetiny", "fcpe"), default="crepe")
+    a = ap.parse_args(argv)
+    for f in a.files:
         src = Path(f)
         out = src.with_suffix("")
+        target = out / f"f0_{a.tracker}.npz"
+        if target.exists():
+            continue
         t0 = time.time()
         stems = demucs4(src, out / "stems")
-        best, best_score, tracks = None, -1.0, {}
-        # pitch-track only the louder of the two stems a sax can land in (CREPE full is slow)
+        # pitch-track only the louder of the two stems a sax can land in
         lvl = {n: float(np.sqrt(np.mean(load_mono(stems[n], sr=16000)[0] ** 2))) for n in ("vocals", "other")}
-        for name in [max(lvl, key=lvl.get)]:
-            midi, per = crepe(stems[name])
-            # level per frame: a quiet stem with a confident pitch is leakage, not the sax
-            y, sr = load_mono(stems[name], sr=16000)
-            n = len(midi)
-            rms = np.array([np.sqrt(np.mean(y[i * 160:(i + 1) * 160] ** 2) + 1e-12) for i in range(n)])
-            db = 20 * np.log10(rms + 1e-9)
-            voiced = (per > 0.6) & (db > db.max() - 40)
-            score = float(voiced.mean())
-            tracks[name] = (midi, per, db, score)
-            if score > best_score:
-                best, best_score = name, score
-        midi, per, db, _ = tracks[best]
-        np.savez(out / "f0.npz", time=np.arange(len(midi)) * HOP, midi=midi, periodicity=per, db=db, stem=best)
-        print(f"{src.name}: lead stem '{best}' voiced {best_score:.0%} (stem levels {lvl}), {time.time() - t0:.0f}s", flush=True)
+        best = max(lvl, key=lvl.get)
+        midi, per = crepe(stems[best]) if a.tracker == "crepe" else crepe(stems[best], model="tiny") if a.tracker == "crepetiny" else fcpe(stems[best])
+        y, sr = load_mono(stems[best], sr=16000)
+        n = len(midi)
+        y = np.pad(y, (0, max(0, n * 160 - len(y))))[: n * 160]
+        db = 20 * np.log10(np.sqrt(np.mean(y.reshape(n, 160) ** 2, axis=1) + 1e-12) + 1e-9)
+        voiced = (per > 0.6) & (db > db.max() - 40)
+        np.savez(target, time=np.arange(n) * HOP, midi=midi, periodicity=per, db=db, stem=best)
+        print(f"{src.name}: lead stem '{best}' voiced {voiced.mean():.0%}, {time.time() - t0:.0f}s", flush=True)
     return 0
 
 

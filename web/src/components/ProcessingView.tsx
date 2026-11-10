@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { AlertCircle, ArrowLeft, Check, Compass, Loader2, RotateCcw, Square } from "lucide-react";
 import { api, formatDuration } from "@/lib/api";
@@ -16,6 +17,8 @@ const PLAIN: Record<string, { label: string; detail: string }> = {
 
 export function ProcessingView({ song, onReady }: { song: Song; onReady: () => void }) {
   const [snap, setSnap] = useState<ProgressSnapshot | null>(null);
+  const [round, setRound] = useState(0);     // a retry starts following the progress again
+  const router = useRouter();
   const [retrying, setRetrying] = useState(false);
   const [stopping, setStopping] = useState(false);
   const [startedAt] = useState(() => Date.now());
@@ -28,6 +31,8 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
     let cancelled = false;
     const start = () => {
       const onSnap = (p: ProgressSnapshot) => {
+        // online version: the same recording was already in this user's songs, so that one opens instead
+        if (p.duplicate_of) { router.replace(`/songs/${p.duplicate_of}`); return; }
         if (p.estimated_seconds_left > 0) setFirstEta((v) => v ?? p.estimated_seconds_left);
         setSnap(p);
       };
@@ -35,6 +40,7 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
         if (cancelled) return;
         try {
           const s = await api.progressSnapshot(song.id);
+          if (s.duplicate_of) { router.replace(`/songs/${s.duplicate_of}`); return; }
           setSnap(s);
           if (s.status === "ready") onReady();
           else if (s.status === "processing") setTimeout(start, 2000);
@@ -43,7 +49,7 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
     };
     start();
     return () => { cancelled = true; stop(); };
-  }, [song.id, onReady]);
+  }, [song.id, onReady, router, round]);
 
   const status = snap?.status ?? song.status;
   const elapsed = (now - startedAt) / 1000;
@@ -56,7 +62,12 @@ export function ProcessingView({ song, onReady }: { song: Song; onReady: () => v
 
   const retry = async () => {
     setRetrying(true);
-    try { await api.rerun(song.id, "retry"); } finally { setRetrying(false); }
+    try {
+      setSnap(await api.rerun(song.id, "retry"));
+      setRound((r) => r + 1);
+    } catch (e) {
+      setSnap((s) => (s ? { ...s, error: (e as Error).message } : s));
+    } finally { setRetrying(false); }
   };
   const stop = async () => {
     setStopping(true);

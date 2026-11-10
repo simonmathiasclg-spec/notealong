@@ -1,0 +1,8 @@
+# Never uploaded to Vercel: local secrets, local build folders, test material.
+.env*
+.next
+.next-*
+node_modules
+.vercel
+*.log
+../test-recordings

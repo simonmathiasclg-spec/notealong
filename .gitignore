@@ -25,3 +25,12 @@ service/models/sfz/
 
 # internal accuracy testing only: never committed, never shipped
 test-recordings/
+
+# secrets: keys and passwords live only in these local files or the provider dashboards
+.env
+.env.*
+!.env.example
+*.env
+!*.env.example
+supabase/.temp/
+supabase/.branches/

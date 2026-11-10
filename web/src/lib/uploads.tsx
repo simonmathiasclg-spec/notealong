@@ -72,7 +72,8 @@ export function UploadsProvider({ children }: { children: React.ReactNode }) {
           const done = snap.steps.filter((s) => s.status === "done").length;
           const running = snap.steps.find((s) => s.status === "running");
           const progress = snap.steps.length ? (done + (running?.progress ?? 0)) / snap.steps.length : 0;
-          if (snap.status === "ready") patch(id, { status: "ready", progress: 1, step: undefined });
+          if (snap.duplicate_of) patch(id, { status: "duplicate", songId: snap.duplicate_of, progress: 1, step: undefined });
+          else if (snap.status === "ready") patch(id, { status: "ready", progress: 1, step: undefined });
           else if (snap.status === "failed") patch(id, { status: "failed", error: snap.error ?? "Something went wrong. Open the song to try again." });
           else patch(id, { progress, step: running ? STEP_LABEL[running.id] ?? running.label : "Waiting to start", secondsLeft: snap.estimated_seconds_left });
         } catch { /* the service may be restarting; try again on the next tick */ }

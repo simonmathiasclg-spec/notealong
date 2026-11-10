@@ -1,0 +1,23 @@
+# What the online processing worker needs (Modal image, see modal_app.py). Same pipeline as requirements.txt
+# without the catalog tools and the local-only extras, pinned to the versions tested on the Mac.
+fastapi>=0.115
+pydantic>=2.7
+httpx>=0.27
+numpy==2.0.2
+setuptools>=68,<81
+scipy==1.17.1
+soundfile>=0.12
+librosa==0.11.0
+torch==2.15.0
+torchaudio==2.11.1
+demucs==4.1.0
+basic-pitch[onnx]==0.4.0
+onnxruntime==1.31.1
+faster-whisper==1.2.1
+pyrubberband>=0.4
+unidecode>=1.3
+indic-transliteration>=2.3
+korean-romanizer>=0.25
+pykakasi>=2.2
+pypinyin>=0.51
+torchfcpe==0.0.4

@@ -7,13 +7,13 @@ import { AnimatePresence, motion } from "framer-motion";
 export const ACCEPT_EXT = /\.(mp3|wav|m4a|aac|flac|ogg|oga|opus|aiff?|wma|m4b|caf|mp4|m4v|mov|webm|mkv|avi|mpe?g|3gp)$/i;
 export const ACCEPT = ".mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.aiff,.aif,.wma,.mp4,.m4v,.mov,.webm,.mkv,.avi,audio/*,video/*";
 
-export function UploadButton({ onFiles, big = false, label = "Add a song", icon, className = "", variant = "primary" }: { onFiles: (files: File[]) => void; big?: boolean; label?: string; icon?: React.ReactNode; className?: string; variant?: "primary" | "plain" }) {
+export function UploadButton({ onFiles, big = false, label = "Add a song", icon, className = "", labelClassName = "", variant = "primary" }: { onFiles: (files: File[]) => void; big?: boolean; label?: string; icon?: React.ReactNode; className?: string; labelClassName?: string; variant?: "primary" | "plain" }) {
   const ref = useRef<HTMLInputElement>(null);
   return (
     <>
       <input ref={ref} type="file" accept={ACCEPT} multiple className="hidden" onChange={(e) => { onFiles(Array.from(e.target.files ?? [])); e.target.value = ""; }} />
-      <button className={`btn ${variant === "primary" ? "btn-primary" : ""} ${big ? "btn-lg" : ""} ${className}`} onClick={() => ref.current?.click()}>
-        {icon ?? <Upload className="h-4 w-4" />} {label}
+      <button className={`btn ${variant === "primary" ? "btn-primary" : ""} ${big ? "btn-lg" : ""} ${className}`} onClick={() => ref.current?.click()} aria-label={labelClassName ? label : undefined}>
+        {icon ?? <Upload className="h-4 w-4" />} <span className={labelClassName}>{label}</span>
       </button>
     </>
   );

@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <body style="margin:0;padding:32px 20px;background:#0c0e14;font-family:Inter,Helvetica,Arial,sans-serif;color:#f4efe4">
+    <div style="max-width:440px;margin:0 auto">
+      <p style="font-size:20px;font-weight:600;margin:0 0 16px">NoteAlong</p>
+      <p style="font-size:16px;line-height:1.5;margin:0 0 24px">Here is your link to sign in. It works once, within an hour, on any device.</p>
+      <p style="margin:0 0 28px">
+        <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email"
+           style="display:inline-block;background:#ff6b57;color:#13100e;font-weight:600;text-decoration:none;padding:12px 22px;border-radius:999px">Sign in to NoteAlong</a>
+      </p>
+      <p style="font-size:13px;line-height:1.5;color:#9aa0ad;margin:0">If you didn't ask for this, you can ignore this email.</p>
+    </div>
+  </body>
+</html>
