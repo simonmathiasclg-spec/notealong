@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 const require = createRequire((process.env.PLAYWRIGHT_DIR ?? process.cwd()) + "/");
 const { chromium } = require("playwright");
-const base = process.env.APP ?? "http://localhost:3000";
+const base = process.env.APP ?? "http://localhost:3001";
 const api = process.env.API ?? "http://localhost:8000";
 const outDir = process.env.OUT ?? "/tmp";
 const files = process.argv.slice(2);

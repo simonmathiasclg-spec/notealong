@@ -6,7 +6,7 @@
 import { createRequire } from "node:module";
 const require = createRequire((process.env.PLAYWRIGHT_DIR ?? process.cwd()) + "/");
 const { chromium } = require("playwright");
-const base = process.env.APP ?? "http://localhost:3000";
+const base = process.env.APP ?? "http://localhost:3001";
 const id = process.argv[2];
 const steps = (process.argv[3] ?? "+1 +1 -1 -1 -1 +5").split(/\s+/);
 const browser = await chromium.launch({ executablePath: process.env.CHROME || undefined, args: ["--autoplay-policy=no-user-gesture-required"] });

@@ -104,7 +104,7 @@ import sys, re
 path, site = sys.argv[1:]
 t = open(path).read()
 t = re.sub(r'site_url = ".*"', f'site_url = "{site}"', t, count=1)
-t = re.sub(r'additional_redirect_urls = \[.*\]', f'additional_redirect_urls = ["{site}/**", "http://localhost:3000/**"]', t, count=1)
+t = re.sub(r'additional_redirect_urls = \[.*\]', f'additional_redirect_urls = ["{site}/**", "http://localhost:3001/**"]', t, count=1)
 t = t.replace("enable_confirmations = false", "enable_confirmations = true")
 open(path, "w").write(t)
 EOF

@@ -13,7 +13,7 @@ const { chromium } = require("playwright");
 const song = process.argv[2] ?? "frere-jacques";
 const speeds = process.argv.slice(3).map(Number).filter(Boolean);
 if (!speeds.length) speeds.push(1, 0.5);
-const base = process.env.APP ?? "http://localhost:3000";
+const base = process.env.APP ?? "http://localhost:3001";
 const api = process.env.API ?? "http://localhost:8000";
 
 const first = await (await fetch(`${api}/api/songs/${song}`)).json();

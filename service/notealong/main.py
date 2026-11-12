@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -25,7 +26,12 @@ from .pipeline.runner import STEP_ORDER, run_paste_lyrics
 from .schemas import Line, Note, Song, UserSession, Word
 
 app = FastAPI(title="NoteAlong service", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+# The web app runs on http://localhost:3001 (./start.sh). Only pages served from this Mac may call the service,
+# so a website open in another tab can't read or change the library; NOTEALONG_WEB_ORIGINS overrides it.
+_ORIGINS = [o.strip() for o in os.environ.get("NOTEALONG_WEB_ORIGINS", "").split(",") if o.strip()]
+app.add_middleware(CORSMiddleware, allow_origins=_ORIGINS,
+                   allow_origin_regex=None if _ORIGINS else r"https?://(localhost|127\.0\.0\.1|\[::1\])(:\d+)?",
+                   allow_methods=["*"], allow_headers=["*"])
 
 AUDIO_EXT = {".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg", ".oga", ".opus", ".aiff", ".aif", ".wma", ".m4b", ".caf", ".amr"}
 VIDEO_EXT = {".mp4", ".m4v", ".mov", ".webm", ".mkv", ".avi", ".mpg", ".mpeg", ".3gp", ".ts"}

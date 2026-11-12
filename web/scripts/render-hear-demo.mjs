@@ -9,7 +9,7 @@ import fs from "node:fs";
 const require = createRequire((process.env.PLAYWRIGHT_DIR ?? process.cwd()) + "/");
 const { chromium } = require("playwright");
 const [song, instrument, out, secondsArg, shiftArg] = process.argv.slice(2);
-const base = process.env.APP ?? "http://localhost:3000";
+const base = process.env.APP ?? "http://localhost:3001";
 const api = process.env.API ?? "http://localhost:8000";
 const info = await (await fetch(`${api}/api/songs/${song}`)).json();
 const seconds = Math.min(Number(secondsArg) || info.duration, info.duration);

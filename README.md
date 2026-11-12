@@ -27,7 +27,7 @@ notealong/
 Requirements: macOS 13+, Homebrew, Python 3.11, Node 20+.
 
 **Quick way:** `./setup.sh` once (installs everything below and downloads the models), then `./start.sh`
-whenever you want to use the app. It starts both servers and prints the link (http://localhost:3000);
+whenever you want to use the app. It starts both servers and prints the link (http://localhost:3001; port 3000 is left free for other projects);
 Ctrl-C stops them. Logs go to `logs/`.
 
 **By hand:**
@@ -46,7 +46,7 @@ pip install -r requirements.txt          # first time: ~5 minutes, downloads PyT
 # 3. Web app (in a second terminal)
 cd web
 npm install
-npm run dev                              # http://localhost:3000
+npm run dev                              # http://localhost:3001
 ```
 
 The first song you process downloads the ML models (Demucs `htdemucs` ≈ 80 MB from Meta,
@@ -64,6 +64,7 @@ On Apple Silicon the whole pipeline runs on the CPU/MPS; a 4-minute song takes r
 | `NOTEALONG_WHISPER_MODEL` | `small` | `base` is faster, `medium` is more accurate (slower, 1.5 GB) |
 | `NOTEALONG_WHISPER_MODEL_PATH` | – | Local `.pt` checkpoint for the `openai-whisper` backend |
 | `NOTEALONG_DEMUCS_SHIFTS` | `0` | Extra averaging passes for Demucs (1 = better stems, 2× slower) |
+| `NOTEALONG_WEB_ORIGINS` | pages on this Mac | Comma-separated web addresses allowed to call the service (default: any `localhost` port) |
 | `NOTEALONG_MODELS` | `service/models` | Folder with local model weights (optional, for offline use) |
 
 The web app reads `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`).
