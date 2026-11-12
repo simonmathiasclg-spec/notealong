@@ -119,6 +119,8 @@ export class AudioEngine {
   get smoothTime() {
     return this.clock.read(this.backing.currentTime, performance.now(), this.backing.playbackRate, this.state.playing && !this.backing.paused && !this.backing.seeking);
   }
+  /** True for the moment after a start or a jump in which the audio has not yet begun to move again. */
+  get settling() { return this.backing.seeking || this.clock.settling; }
   seek(t: number) {
     t = Math.max(0, Math.min(this.duration || t, t));
     this.backing.currentTime = t;

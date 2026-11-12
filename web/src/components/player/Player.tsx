@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
 import { buildDisplayLines, currentLineIndex, unsureLines, type DisplayLine } from "@/lib/display";
+import { extendLoopToLine, linesInLoop, loopForLines, LOOP_LEAD } from "@/lib/loop";
 import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/lib/notes";
 import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
@@ -57,6 +58,11 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   const [fingeringPref, setFingeringPref] = usePref("na.fingering", "0");
   const showFingering = fingeringPref === "1" && instrumentIsSax(session.instrument);
   const [timingPref, setTimingPref] = usePref("na.timing", "1");
+  // The loop tip is shown once ever: it is marked as seen the moment it appears, and stays up until it is closed or used.
+  const [loopHintPref, setLoopHintPref, loopHintLoaded] = usePref("na.loopHint", "0");
+  const loopHintOn = loopHintLoaded && loopHintPref === "0";
+  useEffect(() => { if (loopHintOn) { try { localStorage.setItem("na.loopHint", "1"); } catch {} } }, [loopHintOn]);
+  const dismissLoopHint = useCallback(() => setLoopHintPref("1"), [setLoopHintPref]);
   const timing = timingPref !== "0";
   const [hearPref, setHearPref] = usePref("na.hear", "0");
   const [hearVolumePref, setHearVolumePref] = usePref("na.hearVolume", "0.8");
@@ -246,10 +252,19 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
 
   // ---- transport actions -------------------------------------------------
   const seekToLine = useCallback((line: DisplayLine) => {
-    engineRef.current?.seek(Math.max(0, line.start - 0.15));
+    engineRef.current?.seek(Math.max(0, line.start - LOOP_LEAD));
     manualLine.current = line.index;
     setCursor((c) => ({ ...c, line: line.index }));
   }, []);
+  // While a part is looping, a click on a line outside it grows the loop to take that line in.
+  const clickLine = useCallback((line: DisplayLine) => {
+    const at = lines.findIndex((l) => l.index === line.index);
+    if (session.loop && at >= 0) {
+      const grown = extendLoopToLine(lines, session.loop, at, song.duration);
+      if (grown[0] !== session.loop[0] || grown[1] !== session.loop[1]) { update({ loop: grown }); return; }
+    }
+    seekToLine(line);
+  }, [lines, session.loop, song.duration, update, seekToLine]);
   const togglePlay = useCallback(() => {
     const engine = engineRef.current;
     if (!engine) return;
@@ -259,16 +274,24 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   const skipLine = useCallback((dir: 1 | -1) => {
     const lyricLines = lines;
     if (!lyricLines.length) return;
-    const idx = Math.max(0, Math.min(lyricLines.length - 1, cursor.line + dir));
-    seekToLine(lyricLines[idx]);
-  }, [lines, cursor.line, seekToLine]);
+    let idx = Math.max(0, Math.min(lyricLines.length - 1, cursor.line + dir));
+    // inside a loop, previous and next go round within it
+    const inLoop = session.loop ? linesInLoop(lyricLines, session.loop) : null;
+    if (inLoop) idx = cursor.line + dir > inLoop.last ? inLoop.first : cursor.line + dir < inLoop.first ? inLoop.last : cursor.line + dir;
+    const target = lyricLines[idx];
+    if (session.loop && !inLoop) { engineRef.current?.seek(session.loop[0]); return; }
+    seekToLine(target);
+  }, [lines, cursor.line, seekToLine, session.loop]);
   const loopCurrentLine = useCallback(() => {
-    const cur = lines[cursor.line];
-    if (!cur) return;
-    if (session.loop && Math.abs(session.loop[0] - (cur.start - 0.15)) < 0.01) { update({ loop: null }); return; }
-    update({ loop: [Math.max(0, cur.start - 0.15), cur.end + 0.2] });
-    engineRef.current?.seek(Math.max(0, cur.start - 0.15));
-  }, [lines, cursor.line, session.loop, update]);
+    // one press loops the line being sung; the next press ends the loop
+    if (session.loop) { update({ loop: null }); return; }
+    const loop = loopForLines(lines, cursor.line, cursor.line, song.duration);
+    if (!loop) return;
+    dismissLoopHint();
+    update({ loop });
+    const t = engineRef.current?.currentTime ?? 0;
+    if (t < loop[0] || t > loop[1]) engineRef.current?.seek(loop[0]);
+  }, [lines, cursor.line, session.loop, song.duration, update, dismissLoopHint]);
 
   // ---- keyboard shortcuts ---------------------------------------------
   useEffect(() => {
@@ -288,12 +311,17 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         case "h": case "H": toggleHear(); break;
         case "e": case "E": setEditing((v) => !v); break;
         case "?": setHelpOpen((v) => !v); break;
-        case "Escape": setHelpOpen(false); setSettingsOpen(false); setFocus(false); break;
+        case "Escape":
+          // one thing at a time: an open panel first, then the loop, then focus mode
+          if (helpOpen || settingsOpen) { setHelpOpen(false); setSettingsOpen(false); }
+          else if (session.loop) update({ loop: null });
+          else setFocus(false);
+          break;
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, toggleHear]);
+  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, session.loop, helpOpen, settingsOpen, toggleHear]);
 
   // ---- editing -------------------------------------------------------
   const [noteAnchor, setNoteAnchor] = useState<(Anchor & { id: string }) | null>(null);
@@ -480,7 +508,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           onNoteClick={(id, el) => { setWordAnchor(null); setNoteAnchor({ id, el }); }}
           onWordClick={(word, el) => { setNoteAnchor(null); setWordAnchor({ word, el }); }}
           onAddNote={addNote}
-          onLineClick={seekToLine}
+          onLineClick={clickLine}
           unsure={unsure}
         />
         {/* overlays */}
@@ -532,7 +560,8 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           onSeek={(t) => { engineRef.current?.seek(t); manualLine.current = null; }}
           onSkip={skipLine}
           onLoop={(loop) => update({ loop })}
-          onLoopLine={loopCurrentLine}
+          onLoopToggle={loopCurrentLine}
+          loopHint={loopHintOn && engineState.ready && !editing} onDismissLoopHint={dismissLoopHint}
           onSpeed={(speed) => update({ speed })}
           focus={focus}
           hear={hear} hearState={hearState} onHear={toggleHear} instrument={instrument}

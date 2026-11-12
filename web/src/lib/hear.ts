@@ -60,6 +60,8 @@ export class HearEngine {
   private notes: HearNote[] = [];
   private next = 0;
   private voices = new Map<string, Voice>();
+  /** Notes booked but not yet sounding, so they can be moved if the clock is corrected. */
+  private booked = new Map<string, HearNote>();
   private timer: ReturnType<typeof setInterval> | null = null;
   private enabled = false;
   private lastT = 0;
@@ -92,7 +94,7 @@ export class HearEngine {
   /** Stops what is sounding (quick fade) and forgets what was booked. */
   private silence() {
     for (const v of this.voices.values()) v.stop();
-    this.voices.clear();
+    this.voices.clear(); this.booked.clear();
     this.running = false;
   }
 
@@ -104,8 +106,10 @@ export class HearEngine {
   resync(all = false) {
     const now = this.sampler.ctx.currentTime;
     for (const [id, v] of this.voices) {
-      if (all || v.when > now + 0.004) { v.stop(); this.voices.delete(id); }
+      if (all || v.when > now + 0.004) { v.stop(); this.voices.delete(id); this.booked.delete(id); }
     }
+    // a note that was dropped before it sounded has nothing to measure
+    if (this.probes.length) this.probes = this.probes.filter((p) => p.heardAt <= now + 0.004 && !all);
     this.running = false;
     if (this.enabled) this.tick();
   }
@@ -124,29 +128,50 @@ export class HearEngine {
     const now = ctx.currentTime;
     const t = this.audio.smoothTime;
     const rate = this.audio.rate || 1;
+    // just after a start or a jump the audio stands still for a moment: book nothing until it moves,
+    // or the first notes would come in early by however long that took
+    if (this.audio.settling) { this.running = false; return; }
 
     if (this.running) {
       const expected = this.lastT + (now - this.lastNow) * this.lastRate;
       if (rate !== this.lastRate || Math.abs(t - expected) > 0.06) {
         // a jump the engine did not announce (stall, tab wake-up) or a new speed
-        for (const [id, v] of this.voices) { if (rate !== this.lastRate || v.when > now + 0.004) { v.stop(); this.voices.delete(id); } }
+        for (const [id, v] of this.voices) { if (rate !== this.lastRate || v.when > now + 0.004) { v.stop(); this.voices.delete(id); this.booked.delete(id); } }
         this.running = false;
       }
     }
     if (!this.running) { this.next = firstAt(this.notes, t); this.running = true; }
     this.lastT = t; this.lastNow = now; this.lastRate = rate;
 
-    for (const [id, v] of this.voices) if (v.end + 1 < now) this.voices.delete(id);
+    for (const [id, v] of this.voices) if (v.end + 1 < now) { this.voices.delete(id); this.booked.delete(id); }
+    const latency = this.latency();
+    // A note is booked up to a fifth of a second ahead. If the song's clock has been put right since (the
+    // audio often hesitates just after a jump), a note still waiting is moved to where it now belongs.
+    for (const [id, n] of this.booked) {
+      const v = this.voices.get(id);
+      if (!v || v.when <= now + 0.012) { this.booked.delete(id); continue; }
+      const when = now + Math.max(0, (n.start - t) / rate - latency);
+      if (Math.abs(when - v.when) < 0.012) continue;
+      v.stop();
+      this.probes = this.probes.filter((p) => p.id !== id);
+      const voice = this.sampler.play(id, n.pitch, when, (n.end - n.start) / rate);
+      if (!voice) { this.voices.delete(id); this.booked.delete(id); continue; }
+      this.voices.set(id, voice);
+      if ((window as DebugWindow).__hearDebug) this.probes.push({ id, start: n.start, heardAt: voice.when + latency, rate, late: false });
+    }
 
     const { bookings, next } = plan(this.notes, this.next, t, rate, LOOKAHEAD, (id) => this.voices.has(id));
     this.next = next;
-    const latency = this.latency();
+    const loopEnd = this.audio.loop ? this.audio.loop[1] : Infinity;
     for (const b of bookings) {
+      // inside a loop the song turns back at the loop's end: a note past it will not be reached
+      if (b.note.start >= loopEnd) continue;
       // the instrument is heard `latency` after its place on the audio clock; the song position is what is heard now
       const when = now + Math.max(0, b.delay - latency);
       const voice = this.sampler.play(b.note.id, b.note.pitch, when, b.duration);
       if (!voice) continue;
       this.voices.set(b.note.id, voice);
+      if (b.delay > 0) this.booked.set(b.note.id, b.note);
       if ((window as DebugWindow).__hearDebug) this.probes.push({ id: b.note.id, start: b.note.start, heardAt: voice.when + latency, rate, late: b.delay === 0 && b.note.start < t - 0.012 });
     }
     if (this.probes.length) this.measure(now, rate);

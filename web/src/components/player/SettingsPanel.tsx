@@ -134,13 +134,13 @@ export function SettingsPanel(p: Props) {
                   <p className="mt-1 text-xs text-faint">Slower without changing the pitch.</p>
                 </Row>
 
-                <Row label="Loop" hint="Drag along the bottom line to set">
+                <Row label="Loop" hint="Saved with this song">
                   {session.loop ? (
                     <div className="flex items-center justify-between text-sm">
                       <span className="tabular">{formatTime(session.loop[0])} to {formatTime(session.loop[1])}</span>
                       <button className="btn btn-ghost btn-sm" onClick={() => update({ loop: null })}>Stop looping</button>
                     </div>
-                  ) : <div className="text-sm text-faint">Not looping. Press L to loop the current line.</div>}
+                  ) : <div className="text-sm text-faint">Not looping. Press the loop button (or L) to repeat the line you&rsquo;re on.</div>}
                 </Row>
 
                 <Row label="Sound">

@@ -262,7 +262,37 @@ input[type="range"] { accent-color: var(--fg); width: 100%; height: 1.25rem; }
 .string .head { position: absolute; top: -9px; width: 1.5px; height: 10px; background: var(--fg); transform: translateX(-50%); transition: height .15s, top .15s; }
 .string:hover .head, .string:focus-within .head { top: -11px; height: 14px; }
 .string .tick { position: absolute; top: 3px; width: 1px; height: 4px; background: var(--fg-faint); opacity: .7; }
-.string .loop { position: absolute; top: -5px; height: 11px; border-radius: 3px; background: var(--accent-soft); border: 1px solid var(--accent); }
+.string .loop { position: absolute; top: -5px; height: 11px; border-radius: 3px; background: var(--accent-soft); border-block: 1px solid var(--accent); border-radius: 0; }
+[data-scrubbing="1"] .string .head { top: -13px; height: 18px; width: 2px; }
+/* The two ends of the loop. The grip you see is small; the area that takes a finger is 44px and
+   reaches outwards, so the two never sit on top of each other even on a one-line loop. */
+.loop-handle { position: absolute; top: 50%; width: 44px; height: 44px; margin-top: -22px; cursor: ew-resize; touch-action: none; outline: none; -webkit-tap-highlight-color: transparent; }
+.loop-handle[data-edge="start"] { transform: translateX(calc(-100% + 2px)); }
+.loop-handle[data-edge="end"] { transform: translateX(-2px); }
+.loop-handle::before { content: ""; position: absolute; top: 9px; width: 3px; height: 26px; border-radius: 2px; background: var(--accent); transition: height .15s, top .15s; }
+.loop-handle::after { content: ""; position: absolute; top: 3px; width: 14px; height: 14px; background: var(--accent); box-shadow: 0 0 0 2px var(--bg); transition: transform .18s var(--ease-out-quint); }
+.loop-handle[data-edge="start"]::before { right: 0; }
+.loop-handle[data-edge="start"]::after { right: 0; border-radius: 7px 7px 0 7px; }
+.loop-handle[data-edge="end"]::before { left: 0; }
+.loop-handle[data-edge="end"]::after { left: 0; border-radius: 7px 7px 7px 0; }
+.loop-handle:hover::after, .loop-handle[data-dragging="1"]::after { transform: scale(1.2); }
+.loop-handle:focus-visible::after { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--fg); }
+@media (pointer: coarse) {
+  .loop-handle::after { width: 20px; height: 20px; top: -3px; }
+  .loop-handle[data-edge="start"]::after { border-radius: 10px 10px 0 10px; }
+  .loop-handle[data-edge="end"]::after { border-radius: 10px 10px 10px 0; }
+  div.loop-chip { margin-bottom: .9rem; } /* room for the bigger grips under it */
+}
+/* "Looping: line 4" beside the bar, in the song's colour, with its own way out */
+.loop-chip { margin-bottom: .375rem; display: inline-flex; align-items: center; gap: .5rem; height: 2rem; padding: 0 .25rem 0 .75rem; border-radius: 1rem; background: var(--accent); color: var(--accent-fg); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
+.loop-chip button { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; position: relative; transition: background .15s; }
+.loop-chip button::before { content: ""; position: absolute; inset: -8px; } /* a finger-sized target */
+.loop-chip button:hover { background: color-mix(in srgb, var(--accent-fg) 18%, transparent); }
+/* the one-time tip over the loop button */
+.loop-hint { position: absolute; left: 0; bottom: calc(100% + 12px); z-index: 20; display: flex; align-items: center; gap: .5rem; width: max-content; max-width: min(19rem, calc(100vw - 2.5rem)); padding: .55rem .5rem .55rem .85rem; border-radius: .9rem; background: var(--pill); color: var(--pill-fg); font-size: .8125rem; font-weight: 500; line-height: 1.35; box-shadow: var(--shadow); }
+.loop-hint::after { content: ""; position: absolute; left: 15px; top: 100%; border: 6px solid transparent; border-top-color: var(--pill); }
+.loop-hint button { display: grid; place-items: center; flex: none; width: 1.75rem; height: 1.75rem; border-radius: 50%; opacity: .7; }
+.loop-hint button:hover { opacity: 1; background: color-mix(in srgb, var(--pill-fg) 12%, transparent); }
 
 /* ---- Artwork ---------------------------------------------------------- */
 .cover { display: block; width: 100%; aspect-ratio: 1; border-radius: 1.375rem; object-fit: cover; background: var(--art-deep); }
