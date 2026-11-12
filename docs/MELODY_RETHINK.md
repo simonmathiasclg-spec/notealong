@@ -270,8 +270,7 @@ Listening sample (Poucet by Gamssy Ghoulz, CC BY 3.0, 2:10 to 2:37, backing trac
 
 ## Remaining problems, all parts
 
-- Let It Be is at 72% of syllables right, not the 85% asked for, and the first "let it be" has one wrong
-  note of three.
+- Let It Be: see Round 2 below (92% of syllables right after the fix round; five notes still wrong).
 - Duets: the tracker still sometimes follows the harmony voice.
 - Onset timing is a little worse on songs sung behind the beat.
 - The unsure dot is only weakly calibrated (43% right when marked, 70% when not).
@@ -285,3 +284,120 @@ Listening sample (Poucet by Gamssy Ghoulz, CC BY 3.0, 2:10 to 2:37, backing trac
   lead is buried), and breathy or noisy parts of the tone stay.
 - **Online mode**: the hooks path is untested (nothing was deployed), and after a key change the
   turned-down backing track is not used.
+
+## Round 2: missing notes and flow
+
+The owner listened to Let It Be on alto sax and heard three things: it holds notes too long and skips
+real ones (the note between the two C sharps of "speaking words of wisdom", alto fingering), and the
+rhythm does not feel like the song. This round measured every line against the human letter-note key,
+classified each miss, and fixed the biggest causes.
+
+### What was wrong
+
+The four suspected causes were checked one by one against the per-line diff.
+
+| Suspected cause | Finding |
+|---|---|
+| Syllable counting from text | Not the problem on Let It Be: every word in the key gets the right number of syllables. It costs 2 to 4 notes on other songs (see the table of causes). |
+| Melisma rule too strict | Partly. The half-second hold was dropping the short higher note a syllable lands on before it falls ("be" sung D then C). Loosening the hold in general added wrong notes on every other song, so only that one shape is now let through. |
+| Beat snapping | Stored note starts were moved up to 60 ms onto the grid. Removed. |
+| Merging | No case found: same-pitch neighbours in different syllables were already two notes. |
+| **Lyric word timing (not on the list)** | The main cause, 12 of the 21 errors. The lyric timing often starts a word where the word before it ends, long before it is sung. The aligner trusted that start, so a word after a held note was put on the tail of that note, and its own short note was swallowed by a neighbour. That is exactly the lost note in "speaking words of wisdom". |
+
+### What changed
+
+1. **A word's lyric timing is a span, not a moment.** A word may start anywhere in its lyric span (up to
+   a quarter of a syllable before its end) at almost no cost; the voice decides where.
+2. **It does not wait past a fresh attack.** Inside that span, each clear attack of the voice let go by
+   after the lyric start costs.
+3. **No syllable is held across a silence into the next entry of the voice.**
+4. **A real two-note syllable costs a flat fee** in the alignment instead of a miss per frame, so a
+   word's last syllable sung on two held notes is no longer pushed onto its neighbours.
+5. **The landing note is kept**: a higher note a syllable lands on before falling to its main note
+   counts when held about a quarter of a beat (at least 0.2 s). A scoop from below is still ignored.
+6. **A short blip on its own**, six semitones or more from the singing around it, is dropped (a breath
+   the tracker gave a pitch).
+7. **Sung timing is kept.** Stored notes are no longer moved onto the beat, so "Hear it played" and the
+   Letters view follow the singer. Only the sheet music view puts notes on the grid, as it always did
+   when writing rhythms.
+8. **Rests come back sooner.** A note used to be held through silences up to half a beat (0.43 s on Let
+   It Be); now a silence of about a third of a beat (0.16 to 0.28 s) is a rest. On Let It Be 13 notes
+   were being held through 0.2 s or more of silence.
+
+Tried and dropped because they made other songs worse: a shorter melisma hold for every second note,
+counting only "settled" frames, and making the whole word span free.
+
+### Let It Be, line by line
+
+Lines are the 16 lines of the human key (first verse, second verse, two choruses). Notes right out of
+the key's notes; the full side-by-side diff with every note is in the gitignored
+`test-recordings/results/melody-fix-2/` (`before-let-it-be.txt`, `after-let-it-be.txt`).
+
+| Line | Before | After | What is still wrong, and why |
+|---|---|---|---|
+| 1 | 5/5 | 5/5 | |
+| 2 | 5/5 | 5/5 | |
+| 3 | 5/7 | 5/7 | first word: both syllables wrong (C, D for E, E). The word starts on a slide up and the aligner cuts it too early (timing, pitch choice) |
+| 4 "speaking words of wisdom" | 5/6 | 6/6 | |
+| 5 | 2/4 | 2/4 | the pickup is a 0.1 s E the app hears as D (pitch); the D before the last C is missing (timing) |
+| 6 | 4/6 | 6/6 | |
+| 7 | 3/4 | 3/4 | one syllable a step low (timing) |
+| 8 | 4/5 | 4/5 | last word gets a low A from the phrase's tail instead of C (timing) |
+| 9 "speaking words of wisdom" | 3/6 | 6/6 | the missing note the owner named is back |
+| 10 | 2/4 | 4/4 | |
+| 11 | 3/3 | 3/3 | |
+| 12 | 2/3 | 3/3 | |
+| 13 | 1/3 | 3/3 | |
+| 14 | 2/3 | 3/3 | |
+| 15 "whisper words of wisdom" | 4/6 | 6/6 | |
+| 16 | 3/4 | 4/4 | |
+| **All** | **53/74** | **68/74** | missed 3 to 1, extra 0, wrong 18 to 5 |
+
+Causes of the errors, before to after: timing 12 to 4, pitch choice 7 to 1, pitch 2 to 1.
+
+### The whole test set
+
+Syllables right / missed notes / extra notes / wrong notes / notes per key note / median onset error.
+"Before" is the end of Part 4.
+
+| Song | Before | After |
+|---|---|---|
+| Let It Be | 72% / 3 / 0 / 18 / 0.96 / n.a. | **92%** / 1 / 0 / 5 / 0.99 / n.a. |
+| Just Give Me a Reason | 68% / 0 / 4 / 15 / 0.95 / n.a. | 68% / 0 / 4 / 16 / 0.96 / n.a. |
+| Despacito | 60% / 3 / 5 / 23 / 1.03 / 60 ms | 60% / 3 / 5 / 23 / 1.03 / 60 ms |
+| Someone Like You | 57% / 8 / 7 / 21 / 0.99 / 55 ms | 66% / 8 / 8 / 13 / 1.00 / 55 ms |
+| Perfect | 64% / 19 / 2 / 33 / 0.88 / 92 ms | 72% / 17 / 4 / 22 / 0.91 / 90 ms |
+| Halo | 57% / 26 / 6 / 52 / 0.89 / 90 ms | 60% / 24 / 8 / 49 / 0.91 / 70 ms |
+| Shape of You | 72% / 8 / 25 / 37 / 1.08 / 50 ms | 74% / 5 / 22 / 36 / 1.08 / 45 ms |
+| Blinding Lights | 74% / 0 / 0 / 3 / 0.95 / 60 ms | 74% / 0 / 0 / 3 / 0.94 / 60 ms |
+| Wonderwall | 74% / 9 / 2 / 28 / 0.95 / n.a. | 78% / 8 / 2 / 23 / 0.96 / n.a. |
+| Dynamite | 72% / 1 / 3 / 8 / 1.04 / 61 ms | 71% / 1 / 4 / 8 / 1.06 / 70 ms |
+| Mean over the 12 songs with a key | 55.9% | 59.6% |
+
+Not everything held or improved:
+
+- **Dynamite is one note worse** (72% to 71%, one extra note): the song's first word now gets its notes
+  in a different order. Both versions disagree with the key there. Its onset error also rose from 61 to
+  70 ms, the price of no longer moving starts onto the beat on a song sung tightly on the grid.
+- **Just Give Me a Reason has one more wrong note** (15 to 16); syllables right is unchanged.
+- **Someone Like You, Perfect and Halo each have one or two more extra notes**, against 8, 11 and 3
+  fewer wrong ones.
+- Missed notes stay high on Perfect (17) and Halo (24), mostly real melismas shorter than the hold.
+
+### Listening samples
+
+`docs/listening-samples/melody-fix-2/`: Let It Be on alto sax, verse (0:12 to 0:37) and chorus (0:37 to
+0:51), before and after. They were checked by measurement only, not by ear.
+
+### What is left
+
+- Let It Be: five wrong notes and one missing one, on lines 3, 5, 7 and 8 above. The 0.1 s pickup note
+  of line 5 is below what the pitch curve resolves.
+- Sung syllables are still counted from the text and placed on the audio. Detecting them from the audio
+  alone was not needed for Let It Be; it would help the 2 to 4 syllable-count errors on Despacito,
+  Dynamite, Wonderwall and Just Give Me a Reason.
+- Short real melismas (Perfect, Halo, Someone Like You) are still dropped unless they are a landing
+  note from above.
+- Shape of You still has 22 extra notes (fast, half-spoken lines).
+- The owner's uploads and the built-in songs were re-processed with these rules (pipeline version 7,
+  hand edits kept). Nothing was deployed.

@@ -57,8 +57,9 @@ PITCH_VERSION = 1
 # The note pipeline's version, stored on each upload (song.quality["pipeline"]). Uploads made with an older
 # version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
 # 3: held notes are held across words by default; 4: and kept whole while the voice stays on the pitch;
-# 5: the sax-friendly melody (one held note per syllable, in the song's key) is the default
-PIPELINE_VERSION = 6
+# 5: the sax-friendly melody (one held note per syllable, in the song's key) is the default;
+# 7: melody fix round 2 (words wait for their own note, short landing notes kept, sung timing kept)
+PIPELINE_VERSION = 7
 
 
 def pitch_curve(d: Path, compute: bool = True):

@@ -56,6 +56,8 @@ for _slug, _s in SONGS.items():
     _s.setdefault("dir", TEST / "library" / _slug)
     _s.setdefault("cover", TEST / "popular" / _slug / "answer-key.json")
 
+PARAMS = None        # SaxParams to try instead of the defaults (set by the experiment scripts)
+
 _NOTE = re.compile(r"([_.^*]*)([A-G])([#b]?)(\d?)([#b]?)(\*?)")
 
 
@@ -223,7 +225,7 @@ def load_song(slug: str, method: str) -> dict | None:
         g = Path(method[5:]) / f"{slug}.json"
         return json.loads(g.read_text()) if g.exists() else None
     from notealong.pipeline.saxmelody import sax_song
-    return sax_song(d, song, detailed=(method == "detailed"))
+    return sax_song(d, song, detailed=(method == "detailed"), p=PARAMS)
 
 
 def evaluate(slug: str, method: str = "current") -> dict | None:

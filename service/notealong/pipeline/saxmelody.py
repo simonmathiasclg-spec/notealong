@@ -6,17 +6,19 @@ decide how many notes there are:
 
   1. every word is split into syllables (syllables.py), and every syllable gets ONE note;
   2. where each syllable is sung is found on the singer's pitch curve: within a phrase the boundaries between
-     syllables are placed so that each stretch holds one pitch as purely as possible, close to where the
-     lyric timing says the word starts, and preferably on a fresh attack of the voice (a small dynamic
-     programme per phrase);
+     syllables are placed so that each stretch holds one pitch as purely as possible (a small dynamic
+     programme per phrase). The lyric timing is only a rough guide: a word may start anywhere in its lyric
+     span, but it does not wait past a fresh attack of the voice, and no syllable is held across a silence
+     into the next entry of the voice;
   3. the note is the pitch the syllable settles on: the scoop into it, the fall off it and the vibrato are
      ignored;
-  4. a second note appears only for a real melisma: the voice moves to another pitch and holds it;
+  4. a second note appears for a real melisma (the voice moves to another pitch and holds it), and for the
+     higher note a syllable lands on before it falls to its main note, even when that one is short;
   5. the note lasts until the next syllable starts, unless the singer really stops (a breath, a rest);
   6. a pitch outside the song's key needs strong evidence (long, steady, well in tune) to survive, otherwise
      it becomes its neighbour in the key that the voice leans towards;
   7. a single note an octave away from everything around it is put back;
-  8. starts close to a beat subdivision are moved onto it;
+  8. the notes keep the singer's own timing (the sheet music view puts them on the beat grid itself);
   9. singing without words ("ooh", humming) gets notes by the same one-held-note logic.
 
 Everything works on the 10 ms pitch curve of the vocals stem (pitch.npz), so no model runs here.
@@ -39,6 +41,8 @@ MINOR_SCALE = (0, 2, 3, 5, 7, 8, 10, 11)      # natural minor plus the raised se
 class SaxParams:
     conf_min: float = 0.5            # pitch tracker confidence for a frame to count as sung
     level_floor_db: float = 38.0     # and no quieter than this below the loud parts
+    stray_len: float = 0.2           # a voiced blip shorter than this, on its own ...
+    stray_far: float = 6.0           # ... and this many semitones from the singing around it, is dropped
     glitch_len: float = 0.35         # octave slips of the tracker shorter than this are folded back
     phrase_gap: float = 0.8          # a pause between words this long starts a new phrase
     reach_before: float = 0.6        # how far before / after the lyric timing a syllable may really start
@@ -67,15 +71,26 @@ class SaxParams:
     melisma_min: float = 0.18        # ... and at least / at most this many seconds
     melisma_max: float = 0.5
     melisma_step: float = 0.8        # and differ this much (semitones) from the main pitch
-    rest_beats: float = 0.5          # silence this long (in beats) after a note is a real rest ...
-    rest_min: float = 0.22
-    rest_max: float = 0.45
+    rest_beats: float = 0.3          # silence this long (in beats) after a note is a real rest ...
+    rest_min: float = 0.16
+    rest_max: float = 0.28
     free_min: float = 0.14           # shortest wordless note
     free_hold: float = 0.18          # a wordless stretch changes note when the new pitch is held this long
     chromatic_min: float = 0.45      # an out-of-key note survives when it is this long ...
     chromatic_lean: float = 0.27     # ... this well in tune (semitones from the note) ...
     chromatic_steady: float = 0.7    # ... and this steady
-    snap_tol: float = 0.06           # note starts within this of a beat subdivision move onto it
+    win_tail: float = 0.25           # a word may start anywhere in its lyric span up to this share of a syllable before its end
+    w_in: float = 1.0                # cost per second of starting late inside that span
+    empty_full: float = 6.0
+    w_gap: float = 10.0              # cost of holding one syllable across a silence and back in (0: off)
+    gap_min: float = 0.3
+    w_att: float = 6.0               # cost of starting a word after a fresh attack that follows its lyric start
+    att_min: float = 0.8
+    att_tol: float = 0.12
+    first_beats: float = 0.28        # a higher note a syllable lands on before its main note is held this long (beats; 0: off)
+    first_min: float = 0.2           # ... and at least this many seconds
+    w_two: float = 10.0              # flat cost of a second held note in a word's last syllable (0: off)
+    two_min: float = 22.0            # ... which must last this many frames
     one_per_syllable: bool = True
 
 
@@ -124,6 +139,17 @@ def clean_curve(midi: np.ndarray, conf: np.ndarray, db: np.ndarray, p: SaxParams
     # what is still far from everything around it for a moment is not a note
     d = x - _nan_filter(x, width, np.nanmedian)
     x[np.abs(d) > 7.5] = np.nan
+    # a short blip on its own, far from what is sung just before and after it, is a breath or a tracker slip
+    if p.stray_len > 0:
+        reach = int(round(0.6 / HOP))
+        for a, b in _runs(~np.isnan(x)):
+            if b - a > p.stray_len / HOP or (a > 2 and not np.isnan(x[a - 3:a]).all()) or not np.isnan(x[b:b + 3]).all():
+                continue
+            here = float(np.median(x[a:b]))
+            near = [w[~np.isnan(w)] for w in (x[max(0, a - reach):a], x[b:b + reach])]
+            near = [float(np.median(w)) for w in near if len(w) >= 5]
+            if near and all(abs(here - m) >= p.stray_far for m in near):
+                x[a:b] = np.nan
     # bridge holes of up to 3 frames inside one pitch
     holes = _runs(np.isnan(x))
     for a, b in holes:
@@ -162,7 +188,7 @@ def syllable_plan(words: list[dict], language: str | None) -> list[dict]:
         for k in range(n):
             c = w.get("confidence")
             out.append({"word": w["id"], "line": w.get("line", 0), "k": k, "n": n,
-                        "t": w["start"] + dur * k / n, "end": w["end"], "inner": k > 0,
+                        "t": w["start"] + dur * k / n, "w0": w["start"], "end": w["end"], "inner": k > 0,
                         "sure": 1.0 if c is None else float(max(0.0, min(1.0, c)))})
     return out
 
@@ -303,7 +329,7 @@ def held_runs(y: np.ndarray, scale: frozenset[int] | None, usual: np.ndarray | N
     return runs
 
 
-def runs_to_notes(runs: list[dict], starts: np.ndarray, a: int, b: int, hold: int) -> list[dict]:
+def runs_to_notes(runs: list[dict], starts: np.ndarray, a: int, b: int, hold: int, first: int = 0) -> list[dict]:
     """The notes sung in frames [a, b): the note most of it is on, and any other that is really held (at
     least `hold` frames). Slides and short turns are left out; their time goes to the notes around them."""
     parts: list[dict] = []
@@ -327,8 +353,17 @@ def runs_to_notes(runs: list[dict], starts: np.ndarray, a: int, b: int, hold: in
         count[q["midi"]] = count.get(q["midi"], 0) + q["frames"]
     main = max(count, key=lambda k: count[k])
     kept: list[dict] = []
+    big = max(q["frames"] for q in parts if q["midi"] == main)
+    seen = False
     for q in parts:
-        if q["midi"] != main and q["frames"] < hold:
+        need = hold
+        if first and q["midi"] != main and not seen:
+            # the note the syllable lands on before falling to its main note: a short one counts too
+            if q["midi"] > main:
+                need = first
+        if q["midi"] == main and q["frames"] == big:
+            seen = True
+        if q["frames"] < need and not (q["midi"] == main and (q["frames"] == big or not first)):
             continue
         if kept and kept[-1]["midi"] == q["midi"]:
             kept[-1]["b"], kept[-1]["frames"] = q["b"], kept[-1]["frames"] + q["frames"]
@@ -401,19 +436,51 @@ def align_frames(y: np.ndarray, onset: np.ndarray | None, lo: int, hi: int, syls
         a, b = -(-a // g) * g, max(-(-a // g) * g, (b // g) * g)
         cands.append(np.arange(a, min(b, N) + 1, g))
     cands.append(np.asarray([N]))
-
+    A = np.zeros(N + 1, np.float32)
+    att_tol = int(round(p.att_tol / HOP))
+    if onset is not None and len(onset) and p.w_att > 0:
+        o = np.zeros(N + 3, np.float32)
+        oo = onset[lo:hi + 1]
+        o[1:len(oo) + 1] = oo
+        peak = (o[1:-1] >= p.att_min) & (o[1:-1] >= o[:-2]) & (o[1:-1] > o[2:])
+        A = np.cumsum(peak[:N + 1]).astype(np.float32)
+    # where the voice comes back in after a silence: a syllable is not held across that, so for every frame the
+    # first such entry that has singing before it is found once, and a stretch that runs past it pays
+    reentry = np.full(N + 1, N + 9, np.int32)
+    if p.w_gap > 0:
+        gap = int(round(p.gap_min / HOP))
+        nxt = N + 9
+        vr = _runs(v)
+        ins = []
+        for (a0, b0), (a1, b1) in zip(vr, vr[1:]):
+            if a1 - b0 >= gap and b1 - a1 >= 5:
+                ins.append((b0, a1))
+        j = len(ins) - 1
+        for f in range(N, -1, -1):
+            while j >= 0 and ins[j][0] > f and V[ins[j][0]] - V[f] >= 5:
+                nxt = ins[j][1]
+                j -= 1
+            reentry[f] = nxt
     cost = np.zeros(1, np.float32)
     back: list[np.ndarray] = []
     for k in range(1, K + 1):
         prev, cur = cands[k - 1], cands[k]
-        dom = (PP[cur][None, :, :] - PP[prev][:, None, :]).max(axis=2)
+        D3 = PP[cur][None, :, :] - PP[prev][:, None, :]
+        dom = D3.max(axis=2)
         mis = (V[cur][None, :] - V[prev][:, None]) - dom
-        c = mis + p.w_empty * np.clip(1.0 - dom / 6.0, 0.0, 1.0)
+        if p.w_two > 0 and (k == K or not syls[k]["inner"]):
+            # a syllable sung on two notes: the second note, if it is really held, costs a flat fee instead of
+            # a miss for every frame, so a true two-note syllable is not pushed onto its neighbours
+            top = D3.argmax(axis=2)
+            far = np.abs(np.arange(D3.shape[2])[None, None, :] - top[:, :, None]) >= 3
+            second = np.where(far, D3, 0.0).max(axis=2)
+            mis = np.where(second >= p.two_min, np.minimum(mis, mis - second + p.w_two), mis)
+        c = mis + p.w_empty * np.clip(1.0 - dom / p.empty_full, 0.0, 1.0)
         length = cur[None, :] - prev[:, None]
+        if p.w_gap > 0:
+            c = c + p.w_gap * (cur[None, :] - 4 > reentry[prev][:, None])
         c[length < min_len] = np.inf
-        if True:
-            sure = syls[k - 1]["sure"]
-            c[length == 0] = p.skip_doubt + (p.skip_sure - p.skip_doubt) * sure
+        c[length == 0] = p.skip_doubt + (p.skip_sure - p.skip_doubt) * syls[k - 1]["sure"]
         total = cost[:, None] + c
         arg = total.argmin(axis=0)
         best = total[arg, np.arange(len(cur))]
@@ -421,6 +488,18 @@ def align_frames(y: np.ndarray, onset: np.ndarray | None, lo: int, hi: int, syls
             dev = (cur - guess[k]) * HOP
             w = p.w_time_inner if syls[k]["inner"] else p.w_time
             off = np.maximum(0.0, np.where(dev < 0, -p.early * dev, dev) - p.time_slack)
+            if not syls[k]["inner"]:
+                # the lyric timing gives a word that follows a held note or a pause the whole wait as well: its
+                # start is put at the end of the word before, and only its end is close to the truth. So up to
+                # a syllable's length before the word's end, a later start costs (almost) nothing and the voice
+                # decides.
+                free = max(0.0, syls[k]["end"] - p.win_tail * syls[k]["n"] - syls[k]["t"])
+                off = np.maximum(0.0, np.where(dev < 0, -p.early * dev, dev - free) - p.time_slack)
+                best = best + p.w_in * np.clip(dev, 0.0, free)
+                if p.w_att > 0:
+                    # ... but it does not wait past a fresh attack: each one let go by after the lyric start costs
+                    g0 = int(max(0, min(N, guess[k] + att_tol)))
+                    best = best + p.w_att * np.clip(A[np.maximum(cur - att_tol, 0)] - A[g0], 0.0, 2.0)
             best = best + w * np.minimum(off, p.time_cap) + p.w_time_far * np.maximum(0.0, off - p.time_cap) \
                 - p.w_onset * np.minimum(1.5, on[cur]) + p.w_split * (1.0 - ev[cur])
         back.append(arg)
@@ -725,6 +804,7 @@ def sax_notes(midi: np.ndarray, conf: np.ndarray, db: np.ndarray, words: list[di
     while beat < 0.33:
         beat *= 2
     hold = int(round(min(p.melisma_max, max(p.melisma_min, p.melisma_beats * beat)) / HOP))
+    hold_first = int(round(max(p.first_min, p.first_beats * beat) / HOP)) if p.first_beats > 0 else 0
     rest = min(p.rest_max, max(p.rest_min, p.rest_beats * beat))
     on = None
     if onset is not None and onset_hop:
@@ -759,7 +839,7 @@ def sax_notes(midi: np.ndarray, conf: np.ndarray, db: np.ndarray, words: list[di
             a, b = cut[k], cut[k + 1]
             if b <= a:
                 continue                                   # a word the singer did not sing
-            got = runs_to_notes(runs, starts, a, b, hold)
+            got = runs_to_notes(runs, starts, a, b, hold, hold_first)
             if not got:                                    # nothing held: whatever pitch there is
                 vals = y[a:b][~np.isnan(y[a:b])]
                 if len(vals) >= 6:
@@ -813,20 +893,7 @@ def sax_notes(midi: np.ndarray, conf: np.ndarray, db: np.ndarray, words: list[di
     if keep:
         notes = [n for n in notes if not any(e["start"] < n["end0"] - 0.02 and e["end"] > n["start"] + 0.02 for e in keep)]
 
-    if beats is not None and len(beats) > 3:
-        from .beats import grid
-        g = grid(list(beats), 4)
-        if len(g) > 4:
-            stepg = float(np.median(np.diff(g)))
-            lim = min(p.snap_tol, 0.34 * stepg)
-            last = -1.0
-            for n in notes:
-                j = int(np.searchsorted(g, n["start"]))
-                c = [g[q] for q in (j - 1, j) if 0 <= q < len(g)]
-                t = min(c, key=lambda q: abs(q - n["start"]))
-                if abs(t - n["start"]) <= lim and t > last + 0.05 and t < n["end0"] - 0.04:
-                    n["start"] = float(t)
-                last = n["start"]
+    # the notes keep the singer's own timing: the sheet music view puts them on the beat grid when it writes them
 
     # legato: a note lasts until the next one starts, unless the singer really stops
     out: list[dict] = []

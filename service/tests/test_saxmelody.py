@@ -98,3 +98,35 @@ def test_key_from_the_whole_song():
               enumerate([(0, ""), (7, ""), (9, "m"), (5, ""), (0, ""), (7, ""), (5, ""), (0, "")] * 3)]
     key = detect_song_key(None, None, vocal, chords)
     assert (key["tonic"], key["mode"]) == (0, "major")
+
+
+def test_a_word_waits_for_its_own_note_when_the_lyric_timing_starts_it_early():
+    # the lyric timing puts the second word at the end of the first, long before it is sung: the quick F
+    # between the two Es is that word's note and must not be lost
+    midi, conf, db = curve([(1.0, 2.5, 64), (2.5, 2.85, 65), (2.85, 3.3, 64), (3.3, 4.0, 62)])
+    w = words(("speak", 1.0, 2.0), ("words", 2.0, 2.85), ("of", 2.85, 3.3), ("it", 3.3, 4.0))
+    notes = sax_notes(midi, conf, db, w, key=C_MAJOR)
+    assert [n["midi"] for n in notes] == [64, 65, 64, 62]
+    assert abs(notes[1]["start"] - 2.5) < 0.08
+
+
+def test_a_syllable_is_not_held_across_a_silence_into_the_next_entry():
+    midi, conf, db = curve([(1.0, 1.6, 64), (2.4, 2.9, 62), (2.9, 3.6, 60)])
+    notes = sax_notes(midi, conf, db, words(("let", 1.0, 1.5), ("it", 1.5, 2.9), ("be", 2.9, 3.6)), key=C_MAJOR)
+    assert [n["midi"] for n in notes] == [64, 62, 60]
+    assert abs(notes[1]["start"] - 2.4) < 0.08
+    assert notes[0]["end"] < 1.8                                   # a real rest, not a note held through it
+
+
+def test_a_short_higher_note_a_syllable_lands_on_is_kept_but_a_scoop_from_below_is_not():
+    midi, conf, db = curve([(1.0, 1.25, 67), (1.25, 2.3, 64), (4.0, 4.25, 62), (4.25, 5.3, 64)])
+    notes = sax_notes(midi, conf, db, words(("be", 1.0, 2.3), ("be", 4.0, 5.3)), key=C_MAJOR)
+    assert [n["midi"] for n in notes] == [67, 64, 64]
+
+
+def test_notes_keep_the_sung_timing_and_are_not_moved_onto_the_beat():
+    midi, conf, db = curve([(1.04, 1.53, 64), (1.53, 2.04, 62), (2.04, 3.0, 60)])
+    beats = [i * 0.5 for i in range(16)]
+    notes = sax_notes(midi, conf, db, words(("let", 1.0, 1.5), ("it", 1.5, 2.0), ("be", 2.0, 3.0)), key=C_MAJOR, beats=beats)
+    assert [n["midi"] for n in notes] == [64, 62, 60]
+    assert abs(notes[0]["start"] - 1.04) < 0.015 and abs(notes[1]["start"] - 1.53) < 0.025
