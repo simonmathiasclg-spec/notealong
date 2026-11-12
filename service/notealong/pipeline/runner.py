@@ -11,7 +11,7 @@ from ..config import STEM_FORMAT, WORD_MIN_LEVEL_DB
 from ..schemas import KeyInfo, LanguageInfo, Line, Note, Song, StepState, Word
 from . import audio as audio_mod
 from .align import timed_words_from_pasted
-from .attach import attach_notes
+from .attach import attach_notes, with_blocks
 from .cleanup import clean_notes, params_for, tempo_scaled
 from .onsets import ENV_VERSION, Articulation, vocal_envelope
 from .keydetect import detect_key
@@ -56,7 +56,9 @@ def articulation(d: Path) -> Articulation | None:
 PITCH_VERSION = 1
 # The note pipeline's version, stored on each upload (song.quality["pipeline"]). Uploads made with an older
 # version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
-PIPELINE_VERSION = 4   # 3: held notes are held across words by default; 4: and kept whole while the voice stays on the pitch
+# 3: held notes are held across words by default; 4: and kept whole while the voice stays on the pitch;
+# 5: the sax-friendly melody (one held note per syllable, in the song's key) is the default
+PIPELINE_VERSION = 5
 
 
 def pitch_curve(d: Path, compute: bool = True):
@@ -77,6 +79,44 @@ def pitch_curve(d: Path, compute: bool = True):
     db = pitchnotes.level_db(src, len(midi))
     np.savez_compressed(cache, midi=midi, conf=conf, db=db, version=PITCH_VERSION)
     return midi, conf, db
+
+
+def harmony(d: Path, song: Song, compute: bool = True) -> dict | None:
+    """Beats, chroma and bass of the backing track (cached as harmony.npz): the key, the chords and the beat
+    grid all come from it."""
+    from . import score
+    backing = d / song.files.get("backing", f"backing.{STEM_FORMAT}")
+    if not backing.exists() or (not compute and not (d / "harmony.npz").exists()):
+        return None
+    try:
+        return score.song_harmony(backing, d / "harmony.npz", float(song.duration or 0))
+    except Exception:
+        return None
+
+
+def sax_melody(d: Path, song: Song, curve, art: Articulation | None) -> tuple[list[dict], dict | None, dict] | None:
+    """The sax-friendly notes of an upload (saxmelody.py), its key and what was measured on the way, or None
+    when it cannot be worked out. Notes the user fixed by hand are kept."""
+    import numpy as np
+    from . import saxmelody
+    try:
+        midi, conf, db = curve
+        h = harmony(d, song)
+        x = saxmelody.clean_curve(midi, conf, db)
+        key = saxmelody.song_key(d, x, saxmelody.tuning_offset(x, saxmelody.smooth_curve(x)), h)
+        if key is None and song.key:
+            key = song.key.model_dump()
+        info: dict = {}
+        notes = saxmelody.sax_notes(
+            midi, conf, db, [w.model_dump() for w in song.words],
+            language=song.language.override or song.language.detected, beats=h["beats"] if h else None,
+            onset=np.asarray(art.onset, np.float32) if art is not None else None, onset_hop=art.hop if art is not None else None,
+            key=key, keep=[n.model_dump() for n in song.notes if n.edited], info=info)
+        return notes, key, info
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        return None
 
 
 def run_stems(song_id: str, progress: Progress = _noop) -> None:
@@ -110,10 +150,12 @@ def run_melody(song_id: str, progress: Progress = _noop) -> None:
     raw = detect_notes(_vocals_source(d))
     progress(0.7)
     try:
-        pitch_curve(d)                  # the singer's pitch curve, used to correct the notes (pitchnotes.py)
+        pitch_curve(d)                  # the singer's pitch curve: the sax-friendly melody is read from it
     except Exception:
         pass
     progress(0.8)
+    harmony(d, library.load_song(song_id))   # beats and chords of the backing, for the key and the beat grid
+    progress(0.88)
     library.write_json(d / "notes_raw.json", raw)
     tempo = estimate_tempo(d / library.load_song(song_id).files["original"])
     progress(0.95)
@@ -125,7 +167,7 @@ def run_melody(song_id: str, progress: Progress = _noop) -> None:
 
 
 def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict | None = None,
-                progress: Progress = _noop) -> None:
+                progress: Progress = _noop, melody: str | None = None) -> None:
     d = library.song_dir(song_id)
     raw = library.read_json(d / "notes_raw.json")
     song = library.load_song(song_id)
@@ -142,6 +184,8 @@ def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict |
         s.notes = [Note(**n) for n in notes]
         s.key = KeyInfo(**key) if key else None
         s.settings.detail_level = level
+        if melody in ("sax", "detailed"):
+            s.settings.melody = melody
         keep = {k: v for k, v in s.settings.cleanup.items() if k == "hold_across_words"}   # the user's own choice survives
         s.settings.cleanup = {**params.to_dict(), **keep}
     library.update_song(song_id, upd)
@@ -236,6 +280,17 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             curve = pitch_curve(d)
         except Exception:
             curve = None
+    song = library.load_song(song_id)
+    sax = sax_melody(d, song, curve, art) if curve is not None and song.settings.melody == "sax" else None
+    key = sax[1] if sax else None
+    if curve is not None and sax is None:
+        # the literal transcription gets the same whole-song key
+        try:
+            from . import saxmelody
+            x = saxmelody.clean_curve(*curve)
+            key = saxmelody.song_key(d, x, saxmelody.tuning_offset(x, saxmelody.smooth_curve(x)), harmony(d, song))
+        except Exception:
+            key = None
 
     def upd(s: Song):
         notes = [n.model_dump() for n in s.notes]
@@ -247,6 +302,31 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             w["line"] = remap.get(w["line"], 0)
         for i, l in enumerate(lyric_lines):
             l["index"] = i
+        if key:
+            s.key = KeyInfo(**key)
+        if sax is not None:
+            fresh, _, info = sax
+            line_of = {w["id"]: w["line"] for w in words}
+            taken = {n["id"] for n in fresh if n.get("id")}
+            k = 0
+            for n in fresh:
+                if n["word"] not in line_of:
+                    n["word"] = None                  # a hand-fixed note whose word is gone
+                n["line"] = line_of.get(n["word"], -1)
+                if not n.get("id"):
+                    while f"n{k}" in taken:
+                        k += 1
+                    n["id"] = f"n{k}"
+                    taken.add(n["id"])
+            all_lines = with_blocks(fresh, words, lyric_lines)
+            s.notes = [Note(**{f: v for f, v in n.items() if f in Note.model_fields}) for n in fresh]
+            s.words = [Word(**w) for w in words]
+            s.lines = [Line(**l) for l in all_lines]
+            s.quality["pipeline"] = PIPELINE_VERSION
+            s.quality["melody"] = {"method": "sax", **{f: info.get(f) for f in ("tuning", "syllables", "snapped", "wordless")}}
+            return
+        if curve is not None:
+            s.quality["melody"] = {"method": "detailed"}
         all_lines = attach_notes(notes, words, lyric_lines, art=art,
                                  params=tempo_scaled(params_for(s.settings.detail_level), s.tempo_bpm),
                                  language=s.language.override or s.language.detected)

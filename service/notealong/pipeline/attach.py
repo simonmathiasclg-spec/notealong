@@ -41,7 +41,12 @@ def attach_notes(notes: list[dict], words: list[dict], lines: list[dict], *,
     if report is not None:
         report.update(held)
 
-    # Group unattached notes into instrumental blocks.
+    return with_blocks(notes, words, lyric_lines)
+
+
+def with_blocks(notes: list[dict], words: list[dict], lyric_lines: list[dict]) -> list[dict]:
+    """The full line list: the lyric lines plus a "no lyric" block for every run of notes without a word.
+    Sets the line of every note and word in place (re-indexed)."""
     blocks: list[dict] = []
     for n in sorted((n for n in notes if n["word"] is None), key=lambda n: n["start"]):
         if blocks and n["start"] - blocks[-1]["end"] <= INSTRUMENTAL_BLOCK_GAP:

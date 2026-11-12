@@ -445,6 +445,7 @@ class StepParams(BaseModel):
     overrides: Optional[dict] = None
     language: Optional[str] = None
     hold_across_words: Optional[bool] = None   # keep one held note when the singer carries a vowel into the next word
+    melody: Optional[str] = None               # "sax" (one held note per syllable) or "detailed" (literal)
 
 
 @app.post("/api/songs/{song_id}/steps/{step}")
@@ -475,7 +476,8 @@ def rerun_step(song_id: str, step: str, params: StepParams | None = None):
         raise HTTPException(400, "Unknown step")
     job_params: dict = {}
     if "cleanup" in steps:
-        job_params["cleanup"] = {"detail_level": params.detail_level, "overrides": params.overrides}
+        job_params["cleanup"] = {"detail_level": params.detail_level, "overrides": params.overrides,
+                                 "melody": params.melody if params.melody in ("sax", "detailed") else None}
     if "lyrics" in steps and params.language is not None:
         job_params["lyrics"] = {"language": params.language or None}
         library.update_song(song_id, lambda s: setattr(s.language, "override", params.language or None))
@@ -554,7 +556,8 @@ def get_score(song_id: str):
         raise HTTPException(404, "No backing track yet")
     key = (song.key.tonic, song.key.mode) if song.key else None
     return song_score(CATALOG_DIR / "songs" / f"{song_id}.song" if catalog else None, backing,
-                      library.render_dir(song_id) / "score.json", song.duration, key)
+                      library.render_dir(song_id) / "score.json", song.duration, key,
+                      harmony=None if catalog else d / "harmony.npz")
 
 
 _render_locks: dict[str, asyncio.Lock] = {}

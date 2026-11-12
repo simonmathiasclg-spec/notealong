@@ -23,6 +23,8 @@ export type Note = {
   word?: string | null;
   line: number;
   edited?: boolean;
+  /** Which syllable of its word the note is sung on (sax-friendly melody). */
+  syl?: number;
 };
 
 export type KeyInfo = { tonic: number; mode: "major" | "minor"; name: string; confidence: number };
@@ -92,6 +94,9 @@ export type Catalog = { version: number; songs: CatalogEntry[] };
 /** The current plan (no accounts yet; mirrors service/notealong/entitlements.py). */
 export type Entitlements = { plan: string; uploads: { used: number; limit: number | null; remaining: number | null }; catalog: "free" };
 
+/** How an upload becomes notes: "sax" is one held note per syllable (the default); "detailed" is the literal transcription. */
+export type MelodyMode = "sax" | "detailed";
+
 export type Song = {
   schema_version: number;
   id: string;
@@ -111,7 +116,7 @@ export type Song = {
   words: Word[];
   lines: Line[];
   notes: Note[];
-  settings: { detail_level: string; cleanup: Record<string, number | boolean>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
+  settings: { detail_level: string; melody?: MelodyMode; cleanup: Record<string, number | boolean>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
   user: UserSession;
   steps: Record<string, StepState>;
   error?: string | null;

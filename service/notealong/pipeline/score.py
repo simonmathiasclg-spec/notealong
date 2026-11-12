@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 
 VERSION = 2
-_LOCK = threading.Lock()          # one detection at a time (it loads a model and a whole track)
+_LOCK = threading.RLock()          # one detection at a time (it loads a model and a whole track)
 
 MAJOR, MINOR = (0, 4, 7), (0, 3, 7)
 
@@ -190,7 +190,8 @@ def _seventh(mean: np.ndarray, root: int, quality: str) -> str:
     return quality
 
 
-def detect_chords(path: Path, beats: list[float], per_bar: int, phase: int, key: tuple[int, str] | None = None) -> list[dict]:
+def beat_chroma(path: Path, beats: list[float]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """What the band plays in every beat: (chroma, bass chroma, loudness), one column per beat."""
     import librosa
     sr, hop = 22050, 2048
     y, _ = librosa.load(str(path), sr=sr, mono=True)
@@ -207,12 +208,60 @@ def detect_chords(path: Path, beats: list[float], per_bar: int, phase: int, key:
     # beats that fell on the same frame were merged by np.unique: map each beat interval to its column
     col = np.searchsorted(edges, frames[:-1], side="left")
     col = np.clip(col, 0, c.shape[1] - 1)
-    c, b, e = c[:, col], b[:, col], e[col]
-    segs = chords_from_chroma(c, b, per_bar, phase, e, key)
+    return c[:, col], b[:, col], e[col]
+
+
+def chords_on_beats(harmony: tuple[np.ndarray, np.ndarray, np.ndarray], beats: list[float], per_bar: int, phase: int,
+                    key: tuple[int, str] | None = None) -> list[dict]:
+    c, b, e = harmony
     out = []
-    for i, j, root, quality in segs:
+    for i, j, root, quality in chords_from_chroma(c, b, per_bar, phase, e, key):
         out.append({"start": beats[i], "end": beats[min(j, len(beats) - 1)], "root": root, "quality": quality, "bass": None})
     return out
+
+
+def detect_chords(path: Path, beats: list[float], per_bar: int, phase: int, key: tuple[int, str] | None = None) -> list[dict]:
+    return chords_on_beats(beat_chroma(path, beats), beats, per_bar, phase, key)
+
+
+HARMONY_VERSION = 1
+
+
+def song_harmony(backing: Path, cache: Path, duration: float) -> dict | None:
+    """The beat grid of a song and what the band plays in each beat, listened to once and kept next to the song
+    (harmony.npz). The key (songkey.py), the chords and the rhythm of the sax-friendly melody all start here."""
+    if cache.exists():
+        try:
+            z = np.load(cache)
+            if int(z["version"]) == HARMONY_VERSION:
+                return {"beats": [float(x) for x in z["beats"]], "per_bar": int(z["per_bar"]), "phase": int(z["phase"]),
+                        "chroma": z["chroma"], "bass": z["bass"], "energy": z["energy"]}
+        except (OSError, ValueError, KeyError):
+            pass
+    if not backing.exists():
+        return None
+    from .beats import detect_beats
+    with _LOCK:
+        found = detect_beats(backing)
+        beats, per_bar, phase = regular_beats(found["beats"], found["downbeats"], duration)
+        if not beats:
+            return {"beats": [], "per_bar": 4, "phase": 0, "chroma": np.zeros((12, 0)), "bass": np.zeros((12, 0)), "energy": np.zeros(0)}
+        c, b, e = beat_chroma(backing, beats)
+        tmp = cache.with_name(cache.stem + ".tmp.npz")
+        np.savez_compressed(tmp, beats=np.asarray(beats), per_bar=per_bar, phase=phase, chroma=c, bass=b, energy=e, version=HARMONY_VERSION)
+        tmp.replace(cache)
+    return {"beats": beats, "per_bar": per_bar, "phase": phase, "chroma": c, "bass": b, "energy": e}
+
+
+def score_from_harmony(h: dict, key: tuple[int, str] | None = None) -> dict:
+    beats = h["beats"]
+    if not beats:
+        return {"version": VERSION, "source": "none", "meter": [4, 4], "tempo": None, "beats": [], "downbeat": 0, "chords": [], "syllables": {}}
+    n, d = meter_for(h["per_bar"])
+    tempo = 60.0 / float(np.median(np.diff(beats)))
+    chords = chords_on_beats((h["chroma"], h["bass"], h["energy"]), beats, h["per_bar"], h["phase"], key)
+    return {"version": VERSION, "source": "detected", "meter": [n, d], "tempo": round(tempo, 1), "beats": beats, "downbeat": h["phase"],
+            "chords": chords, "syllables": {}}
 
 
 # ---------------------------------------------------------------- the two sources
@@ -256,27 +305,36 @@ def detected_score(backing: Path, duration: float, key: tuple[int, str] | None =
             "chords": chords, "syllables": {}}
 
 
-def song_score(song_file: Path | None, backing: Path, cache: Path, duration: float, key: tuple[int, str] | None = None) -> dict:
-    """The score data for one song. Detection runs once and is kept next to the song."""
+def song_score(song_file: Path | None, backing: Path, cache: Path, duration: float, key: tuple[int, str] | None = None,
+               harmony: Path | None = None) -> dict:
+    """The score data for one song. Detection runs once and is kept next to the song; the chords are named
+    again when the song's key has changed since. `harmony` is where the song's harmony.npz is kept."""
     if song_file is not None and song_file.exists():
         return authored_score(song_file, duration)
-    if cache.exists():
-        try:
-            data = json.loads(cache.read_text(encoding="utf-8"))
-            if data.get("version") == VERSION:
-                return data
-        except (OSError, ValueError):
-            pass
-    with _LOCK:
+    want = list(key) if key else None
+
+    def cached() -> dict | None:
         if cache.exists():
             try:
                 data = json.loads(cache.read_text(encoding="utf-8"))
-                if data.get("version") == VERSION:
+                if data.get("version") == VERSION and data.get("key") == want:
                     return data
             except (OSError, ValueError):
                 pass
-        data = detected_score(backing, duration, key)
+        return None
+    data = cached()
+    if data is not None:
+        return data
+    with _LOCK:
+        data = cached()
+        if data is not None:
+            return data
+        if harmony is not None:
+            data = score_from_harmony(song_harmony(backing, harmony, duration), key)
+        else:
+            data = detected_score(backing, duration, key)
+        data["key"] = want
         tmp = cache.with_suffix(".tmp")
         tmp.write_text(json.dumps(data), encoding="utf-8")
         tmp.replace(cache)
-        return data
+    return data

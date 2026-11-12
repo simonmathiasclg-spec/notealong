@@ -20,7 +20,7 @@ import { accentFromArt, accentVars, artVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, sheetToMusicXml, songToMusicXml, writtenSpelling } from "@/lib/musicxml";
 import { buildSheet, chordAt, chordName, fallbackScore, type ScoreData } from "@/lib/score";
-import { LEFTOVER_VOICE_NOTICEABLE_DB, type ArtColors, type Note, type Song, type UserSession, type Word } from "@/lib/types";
+import { LEFTOVER_VOICE_NOTICEABLE_DB, type ArtColors, type MelodyMode, type Note, type Song, type UserSession, type Word } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { ThemeToggle } from "../AppHeader";
 import { LyricStage } from "./LyricStage";
@@ -471,7 +471,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     }
     return false;
   }, [song.id]);
-  const runStep = async (label: string, step: string, params: { detail_level?: string; language?: string; hold_across_words?: boolean }) => {
+  const runStep = async (label: string, step: string, params: { detail_level?: string; melody?: MelodyMode; language?: string; hold_across_words?: boolean }) => {
     setBusy(label);
     try {
       await api.rerun(song.id, step, params);

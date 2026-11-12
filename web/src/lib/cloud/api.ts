@@ -2,7 +2,7 @@
 // one. Reads and simple changes go straight to Supabase as the signed-in user (row-level security keeps every
 // query to their own rows and files); anything that needs the server or the processing service goes through
 // the app's own routes under /api/cloud.
-import type { Catalog, CatalogEntry, Entitlements, MyLibrary, Note, Line, ProgressSnapshot, Setlist, Song, SongSummary, UserSession, Word } from "../types";
+import type { Catalog, CatalogEntry, Entitlements, MelodyMode, MyLibrary, Note, Line, ProgressSnapshot, Setlist, Song, SongSummary, UserSession, Word } from "../types";
 import type { SearchRow } from "../search";
 import { supabase, userId } from "./browser";
 import { AUDIO_EXT, MAX_MINUTES, MAX_UPLOAD_MB, PROTECTED_EXT, SUPABASE_ANON_KEY, UPLOADS_PER_DAY, VIDEO_EXT, catalogFile } from "./config";
@@ -247,7 +247,7 @@ export const cloudApi = {
     return call<{ ok: boolean }>(`/api/cloud/songs/${id}`, { method: "DELETE" });
   },
 
-  rerun: (id: string, step: string, params: { detail_level?: string; language?: string; hold_across_words?: boolean } = {}) =>
+  rerun: (id: string, step: string, params: { detail_level?: string; melody?: MelodyMode; language?: string; hold_across_words?: boolean } = {}) =>
     call<{ snapshot: ProgressSnapshot }>(`/api/cloud/songs/${id}/jobs`, { method: "POST", body: JSON.stringify({ kind: "process", step, ...params }) }).then((r) => r.snapshot),
 
   pasteLyrics: (id: string, text: string) =>

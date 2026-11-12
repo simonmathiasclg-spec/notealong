@@ -5,7 +5,7 @@ import { createJob, dispatch, fileNames, isCatalogId } from "@/lib/cloud/jobs";
 import { adminClient, HttpError, requireUser, route, userClient } from "@/lib/cloud/server";
 import { snapshotFromSong, STEPS, stepsFor } from "@/lib/cloud/songdata";
 
-type Body = { kind?: string; new?: boolean; step?: string; detail_level?: string; language?: string; hold_across_words?: boolean; start?: number; end?: number | null; text?: string };
+type Body = { kind?: string; new?: boolean; step?: string; detail_level?: string; melody?: string; language?: string; hold_across_words?: boolean; start?: number; end?: number | null; text?: string };
 
 // a key change or a trim can wait for the processing service (up to about two and a half minutes)
 export const maxDuration = 180;
@@ -45,7 +45,9 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
         const s = stepsFor(body.step ?? "", song);
         if (!s) throw new HttpError(400, "Unknown step");
         steps = s;
-        if (steps.includes("cleanup")) stepParams.cleanup = { detail_level: body.detail_level ?? null, overrides: null };
+        const melody = body.melody === "sax" || body.melody === "detailed" ? body.melody : null;
+        if (steps.includes("cleanup")) stepParams.cleanup = { detail_level: body.detail_level ?? null, overrides: null, melody };
+        if (steps.includes("cleanup") && melody) next.settings.melody = melody;
         if (steps.includes("lyrics") && body.language !== undefined) {
           stepParams.lyrics = { language: body.language || null };
           next.language.override = body.language || null;

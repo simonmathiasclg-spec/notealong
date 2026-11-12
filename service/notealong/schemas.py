@@ -34,6 +34,7 @@ class Note(BaseModel):
     word: Optional[str] = None      # word id, or None for a "no lyric" note
     line: int = 0
     edited: bool = False
+    syl: int = 0                    # which syllable of the word it is sung on (sax-friendly melody)
 
 
 class KeyInfo(BaseModel):
@@ -58,6 +59,8 @@ class StepState(BaseModel):
 
 class SongSettings(BaseModel):
     detail_level: str = "balanced"
+    # "sax": one held note per syllable, as a player would write the tune; "detailed": the literal transcription
+    melody: Literal["sax", "detailed"] = "sax"
     cleanup: dict = Field(default_factory=dict)
     lyrics_source: Literal["transcribed", "pasted"] = "transcribed"
     whisper_model: Optional[str] = None
