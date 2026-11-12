@@ -58,7 +58,7 @@ PITCH_VERSION = 1
 # version are brought up to date in the background (jobs.Upgrader) without losing the user's edits.
 # 3: held notes are held across words by default; 4: and kept whole while the voice stays on the pitch;
 # 5: the sax-friendly melody (one held note per syllable, in the song's key) is the default
-PIPELINE_VERSION = 5
+PIPELINE_VERSION = 6
 
 
 def pitch_curve(d: Path, compute: bool = True):
@@ -119,6 +119,75 @@ def sax_melody(d: Path, song: Song, curve, art: Articulation | None) -> tuple[li
         return None
 
 
+def hook_melody(d: Path, song: Song, curve, key: dict | None) -> dict | None:
+    """The instrumental hooks of an upload (hooks.py): the lead instrument's notes where nobody sings, and
+    the play-along backing track with that instrument turned down. None when it cannot be worked out."""
+    import numpy as np
+    from . import hooks, saxmelody
+    try:
+        backing = d / f"backing.{STEM_FORMAT}"
+        if not backing.exists():
+            return None
+        x = saxmelody.clean_curve(*curve)
+        sections = hooks.quiet_sections(~np.isnan(x), [w.model_dump() for w in song.words], song.duration)
+        if not sections:
+            return {"notes": [], "sections": [], "file": None}
+        h = harmony(d, song)
+        cache = d / "hooks.npz"
+        midi, strength = hooks.lead_curve(backing, sections, song.duration, cache=cache)
+        info: dict = {}
+        notes = hooks.hook_notes(midi, strength, sections, beats=h["beats"] if h else None, key=key, info=info)
+        used = [sec for sec, rep in zip(sections, info["sections"]) if rep["notes"]] if len(info["sections"]) == len(sections) else \
+               [sec for sec in sections if any(sec["start"] - 0.1 <= n["start"] < sec["end"] for n in notes)]
+        target = d / f"backing_hooks.{STEM_FORMAT}"
+        if not used:
+            target.unlink(missing_ok=True)
+            return {"notes": [], "sections": info["sections"], "file": None}
+        if not target.exists() or target.stat().st_mtime < max(cache.stat().st_mtime, backing.stat().st_mtime):
+            hooks.render_play_along(backing, target, midi, used)
+        return {"notes": notes, "sections": info["sections"], "used": used, "file": target.name}
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def add_hooks(notes: list[dict], hook: dict | None, old: list[dict]) -> list[dict]:
+    """`notes` with the hook notes added. Stray "sung" notes inside a hook give way to it, notes fixed by
+    hand always stay (and keep their place in the hook), and a hook note never overlaps another note."""
+    was_hook = {n["id"]: n["hook"] for n in old if n.get("hook") and n.get("edited")}
+    for n in notes:
+        if n.get("edited") and n.get("id") in was_hook:
+            n["hook"] = was_hook[n["id"]]
+        elif not n.get("edited"):
+            n["hook"] = None
+    if not hook or not hook.get("notes"):
+        return notes
+    spans = [(sec["start"], sec["end"]) for sec in hook["used"]]
+    inside = lambda n: any(a - 0.05 <= n["start"] < b for a, b in spans)        # noqa: E731
+    kept = [n for n in notes if n.get("edited") or n["word"] is not None or not inside(n)]
+    taken = {n.get("id") for n in kept}
+    # a hook is written in the octave the tune is sung in, so one octave setting suits the whole song
+    sung = [n["midi"] for n in kept if n["word"] is not None]
+    fold = {}
+    if sung:
+        lo, hi = min(sung) - 2, max(sung) + 2
+        for a, b in spans:
+            part = [n["midi"] for n in hook["notes"] if a - 0.05 <= n["start"] < b]
+            fold[(a, b)] = min((-12, 0, 12, -24, 24), key=lambda o: (sum(not lo <= m + o <= hi for m in part), abs(o)))
+    k = 0
+    for n in hook["notes"]:
+        n = dict(n, midi=n["midi"] + next((o for (a, b), o in fold.items() if a - 0.05 <= n["start"] < b), 0))
+        if any(o["start"] < n["end"] - 0.02 and o["end"] > n["start"] + 0.02 for o in kept if not o.get("hook") or o.get("edited")):
+            continue
+        while f"h{k}" in taken:
+            k += 1
+        taken.add(f"h{k}")
+        kept.append(dict(n, id=f"h{k}", line=-1))
+    kept.sort(key=lambda n: n["start"])
+    return kept
+
+
 def run_stems(song_id: str, progress: Progress = _noop) -> None:
     d = library.song_dir(song_id)
     song = library.load_song(song_id)
@@ -133,6 +202,8 @@ def run_stems(song_id: str, progress: Progress = _noop) -> None:
     # remove cached key-shifted renders from a previous run
     for f in d.glob("shift_*"):
         f.unlink()
+    (d / "hooks.npz").unlink(missing_ok=True)
+    (d / f"backing_hooks.{STEM_FORMAT}").unlink(missing_ok=True)
     (d / "envelope.json").unlink(missing_ok=True)
     (d / "pitch.npz").unlink(missing_ok=True)
     (d / "backing.wav").unlink(missing_ok=True)   # the mp3 is what the player streams
@@ -167,7 +238,7 @@ def run_melody(song_id: str, progress: Progress = _noop) -> None:
 
 
 def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict | None = None,
-                progress: Progress = _noop, melody: str | None = None) -> None:
+                progress: Progress = _noop, melody: str | None = None, hooks: bool | None = None) -> None:
     d = library.song_dir(song_id)
     raw = library.read_json(d / "notes_raw.json")
     song = library.load_song(song_id)
@@ -186,6 +257,8 @@ def run_cleanup(song_id: str, detail_level: str | None = None, overrides: dict |
         s.settings.detail_level = level
         if melody in ("sax", "detailed"):
             s.settings.melody = melody
+        if hooks is not None:
+            s.settings.hooks = bool(hooks)
         keep = {k: v for k, v in s.settings.cleanup.items() if k == "hold_across_words"}   # the user's own choice survives
         s.settings.cleanup = {**params.to_dict(), **keep}
     library.update_song(song_id, upd)
@@ -291,9 +364,18 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             key = saxmelody.song_key(d, x, saxmelody.tuning_offset(x, saxmelody.smooth_curve(x)), harmony(d, song))
         except Exception:
             key = None
+    hook = hook_melody(d, song, curve, key or (song.key.model_dump() if song.key else None)) \
+        if curve is not None and song.settings.hooks else None
 
     def upd(s: Song):
-        notes = [n.model_dump() for n in s.notes]
+        if hook and hook.get("file"):
+            s.files["backing_hooks"] = hook["file"]
+        else:
+            s.files.pop("backing_hooks", None)
+        if curve is not None:
+            s.quality["hooks"] = hook["sections"] if hook else []
+        # last time's hook notes are made afresh below; the ones fixed by hand stay
+        notes = [n.model_dump() for n in s.notes if not n.hook or n.edited]
         words = [w.model_dump() for w in s.words]
         lyric_lines = [l.model_dump() for l in s.lines if l.kind == "lyric"]
         # words index lyric lines by position; renumber them 0..k before attaching
@@ -318,6 +400,7 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
                         k += 1
                     n["id"] = f"n{k}"
                     taken.add(n["id"])
+            fresh = add_hooks(fresh, hook, notes)
             all_lines = with_blocks(fresh, words, lyric_lines)
             s.notes = [Note(**{f: v for f, v in n.items() if f in Note.model_fields}) for n in fresh]
             s.words = [Word(**w) for w in words]
@@ -337,6 +420,18 @@ def run_attach(song_id: str, progress: Progress = _noop) -> None:
             across = bool(s.settings.cleanup.get("hold_across_words", True))   # on unless the user switched it off
             notes = refine_with_pitch(notes, *curve, art=art, p=RefineParams(across_words=across))
             s.quality["pipeline"] = PIPELINE_VERSION
+            if hook and hook.get("notes"):
+                # the lines again, now with the hooks: lyric lines renumbered 0..k, as with_blocks expects
+                lyric = [l for l in all_lines if l["kind"] == "lyric"]
+                at = {l["index"]: i for i, l in enumerate(lyric)}
+                for w in words:
+                    w["line"] = at.get(w["line"], 0)
+                for n in notes:
+                    if n["word"] is not None:
+                        n["line"] = at.get(n["line"], 0)
+                lyric = [dict(l, index=i) for i, l in enumerate(lyric)]
+                notes = add_hooks(notes, hook, [n.model_dump() for n in s.notes])
+                all_lines = with_blocks(notes, words, lyric)
         s.notes = [Note(**n) for n in notes]
         s.words = [Word(**w) for w in words]
         s.lines = [Line(**l) for l in all_lines]

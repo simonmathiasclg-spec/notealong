@@ -446,6 +446,7 @@ class StepParams(BaseModel):
     language: Optional[str] = None
     hold_across_words: Optional[bool] = None   # keep one held note when the singer carries a vowel into the next word
     melody: Optional[str] = None               # "sax" (one held note per syllable) or "detailed" (literal)
+    hooks: Optional[bool] = None               # also write out the instrumental hooks (intro, solos, outro)
 
 
 @app.post("/api/songs/{song_id}/steps/{step}")
@@ -477,7 +478,8 @@ def rerun_step(song_id: str, step: str, params: StepParams | None = None):
     job_params: dict = {}
     if "cleanup" in steps:
         job_params["cleanup"] = {"detail_level": params.detail_level, "overrides": params.overrides,
-                                 "melody": params.melody if params.melody in ("sax", "detailed") else None}
+                                 "melody": params.melody if params.melody in ("sax", "detailed") else None,
+                                 "hooks": params.hooks}
     if "lyrics" in steps and params.language is not None:
         job_params["lyrics"] = {"language": params.language or None}
         library.update_song(song_id, lambda s: setattr(s.language, "override", params.language or None))
@@ -573,7 +575,7 @@ async def get_audio(song_id: str, stem: str, shift: int = 0):
     request and cached in the song folder. The first render of a key uses the fast engine so the wait
     is short; the key and its neighbours are then re-rendered with the fine engine in the background
     (one at a time), and later requests get the better file."""
-    if stem not in ("backing", "vocals", "original"):
+    if stem not in ("backing", "vocals", "original", "backing_hooks"):
         raise HTTPException(404, "Unknown stem")
     try:
         song = library.load_song(song_id)

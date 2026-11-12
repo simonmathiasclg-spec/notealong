@@ -96,13 +96,23 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   // Leaving while the song plays hands the engine to the mini player (lib/nowPlaying.ts); coming back takes it
   // back, so the music carries on without a gap. Opening a different song stops the one that was carrying on.
   const sessionRef = useRef(session);
+  // "Play the hooks yourself": the backing track with the lead instrument turned down where nobody sings
+  const hooksTrack = session.play_hooks !== false && song.settings.hooks !== false && !!song.files.backing_hooks;
+  const hooksTrackRef = useRef(hooksTrack);
+  useEffect(() => {
+    if (hooksTrackRef.current === hooksTrack) return;
+    hooksTrackRef.current = hooksTrack;
+    engineRef.current?.reloadBacking();
+  }, [hooksTrack]);
   useEffect(() => { sessionRef.current = session; }, [session]);
   const colorsRef = useRef(colors);
   useEffect(() => { colorsRef.current = colors; }, [colors]);
   useEffect(() => {
     const back = nowPlaying.take(song.id);
     if (!back) nowPlaying.stop();
-    const engine = back?.engine ?? new AudioEngine((stem, shift) => api.audioUrl(song.id, stem, shift));
+    const urlFor = (stem: "backing" | "vocals", shift: number) => api.audioUrl(song.id, stem === "backing" && hooksTrackRef.current ? "backing_hooks" : stem, shift);
+    const engine = back?.engine ?? new AudioEngine(urlFor);
+    engine.urlFor = urlFor;
     if (back) { hearRef.current = back.hear; samplerRef.current = back.sampler; }
     engineRef.current = engine;
     const unsub = engine.subscribe(setEngineState);
@@ -472,7 +482,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     }
     return false;
   }, [song.id]);
-  const runStep = async (label: string, step: string, params: { detail_level?: string; melody?: MelodyMode; language?: string; hold_across_words?: boolean }) => {
+  const runStep = async (label: string, step: string, params: { detail_level?: string; melody?: MelodyMode; hooks?: boolean; language?: string; hold_across_words?: boolean }) => {
     setBusy(label);
     try {
       await api.rerun(song.id, step, params);
@@ -663,6 +673,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         hear={hear} hearState={hearState} onHear={toggleHear} hearVolume={hearVolume} setHearVolume={(v) => setHearVolumePref(String(v))}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
         onMelody={(melody) => runStep("Updating the notes…", "cleanup", { melody })}
+        onHooks={catalog ? undefined : (hooks) => runStep("Updating the notes…", "cleanup", { hooks })}
         onHoldAcrossWords={catalog ? undefined : (on) => runStep("Updating the notes…", on ? "attach" : "cleanup", { hold_across_words: on })}
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}

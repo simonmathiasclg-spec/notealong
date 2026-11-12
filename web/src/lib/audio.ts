@@ -25,7 +25,8 @@ export class AudioEngine {
   private ctx: AudioContext | null = null;
   private listeners = new Set<Listener>();
   private state: EngineState = { playing: false, loading: true, countingIn: null, ready: false, error: null, shift: 0 };
-  private urlFor: (stem: "backing" | "vocals", shift: number) => string;
+  /** Where each stem is loaded from. The player replaces it when it takes a carried-on engine back. */
+  urlFor: (stem: "backing" | "vocals", shift: number) => string;
   private shift = 0;
   private speed = 1;
   private countInTimer: ReturnType<typeof setTimeout> | null = null;
@@ -104,6 +105,24 @@ export class AudioEngine {
       this.setState({ loading: false, playing: wasPlaying, error: null, shift });
     } catch {
       this.setState({ loading: false, error: "Could not prepare that key. Try again." });
+    }
+  }
+
+  /** The backing track changed (the play-along version was switched on or off): load it and carry on from the same place. */
+  async reloadBacking() {
+    const url = this.urlFor("backing", this.shift);
+    if (!this.state.ready || this.backing.src === new URL(url, location.href).href) return;
+    const wasPlaying = this.state.playing;
+    const pos = this.currentTime;
+    const shift = this.shift;
+    this.backing.pause(); this.vocals.pause();
+    this.setState({ loading: true, playing: false });
+    try {
+      await this.swapSources(shift, pos, wasPlaying);
+      if (this.shift !== shift) return;
+      this.setState({ loading: false, playing: wasPlaying, error: null });
+    } catch {
+      this.setState({ loading: false, error: "Could not load the backing track." });
     }
   }
 

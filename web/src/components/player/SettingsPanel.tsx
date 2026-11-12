@@ -49,6 +49,8 @@ type Props = {
   onDetailLevel: (level: string) => void;
   /** Sax-friendly or Detailed, for this song. */
   onMelody?: (melody: MelodyMode) => void;
+  /** Write out the instrumental hooks too, or the vocals only (uploads). */
+  onHooks?: (on: boolean) => void;
   /** Keep one held note when the singer carries a vowel into the next word (uploads). */
   onHoldAcrossWords?: (on: boolean) => void;
   onLanguage: (lang: string) => void;
@@ -94,6 +96,8 @@ function Switch({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 export function SettingsPanel(p: Props) {
   const { song, session, update } = p;
   const melody: MelodyMode = song.settings.melody ?? "sax";
+  const hooksOn = song.settings.hooks !== false;
+  const hasHooks = hooksOn && !!song.files.backing_hooks;
   const inst = getInstrument(session.instrument);
   const [pickInstrument, setPickInstrument] = useState(false);
   const [lyricsOpen, setLyricsOpen] = useState(false);
@@ -176,6 +180,12 @@ export function SettingsPanel(p: Props) {
                     {session.guide_vocal && (
                       <input type="range" min={0} max={1} step={0.05} value={session.guide_volume} onChange={(e) => update({ guide_volume: Number(e.target.value) })} aria-label="Guide volume" />
                     )}
+                    {hasHooks && (
+                      <div>
+                        <Switch checked={session.play_hooks !== false} onChange={(v) => update({ play_hooks: v })} label="Play the hooks yourself" />
+                        <p className="mt-1 text-xs leading-relaxed text-faint">Turns down the lead instrument in the intro, solo and outro, so the space is yours.</p>
+                      </div>
+                    )}
                     <Switch checked={p.countIn} onChange={p.setCountIn} label="Count in before playing" />
                   </div>
                 </Row>
@@ -229,6 +239,18 @@ export function SettingsPanel(p: Props) {
                       {melody === "sax" ? "One note per syllable, held until the next, in the song's key. The way you would play it."
                         : "Every pitch the singer touches, slides and runs included."}
                     </p>
+                    {p.onHooks && (
+                      <div className="mt-3">
+                        <div className="seg w-full">
+                          {([[false, "Vocals only"], [true, "Vocals and hooks"]] as [boolean, string][]).map(([on, l]) => (
+                            <button key={l} className="flex-1 justify-center" aria-pressed={hooksOn === on} aria-label={on ? "Vocals and instrumental hooks" : "Vocals only"} disabled={!!p.busy} onClick={() => { if (hooksOn !== on) p.onHooks?.(on); }}>{l}</button>
+                          ))}
+                        </div>
+                        <p className="mt-1.5 text-xs text-faint">
+                          {hooksOn ? "Vocals and instrumental hooks: where nobody sings, the band's lead line is written out too." : "Only what the singer sings."}
+                        </p>
+                      </div>
+                    )}
                     {melody === "detailed" && (
                       <div className="mt-3">
                         <div className="seg w-full">

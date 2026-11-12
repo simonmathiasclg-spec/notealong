@@ -2,7 +2,7 @@
 import type { Line, Note, Song, Word } from "./types";
 
 export type DisplayItem = { word: Word | null; notes: Note[] };
-export type DisplayLine = { index: number; kind: Line["kind"]; start: number; end: number; items: DisplayItem[]; text: string };
+export type DisplayLine = { index: number; kind: Line["kind"]; start: number; end: number; items: DisplayItem[]; text: string; /** "Intro", "Solo" or "Outro" on a line of instrumental hook notes. */ label?: string | null };
 
 export function buildDisplayLines(song: Pick<Song, "lines" | "words" | "notes">): DisplayLine[] {
   const wordsByLine = new Map<number, Word[]>();
@@ -35,7 +35,7 @@ export function buildDisplayLines(song: Pick<Song, "lines" | "words" | "notes">)
     const loose = looseByLine.get(line.index) ?? [];
     if (loose.length) items.push({ word: null, notes: loose });
     const text = items.map((i) => i.word?.text ?? "").filter(Boolean).join(" ");
-    lines.push({ index: line.index, kind: line.kind, start: line.start, end: line.end, items, text });
+    lines.push({ index: line.index, kind: line.kind, start: line.start, end: line.end, items, text, label: line.label ?? null });
   }
   return lines;
 }

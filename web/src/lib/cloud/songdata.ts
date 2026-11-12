@@ -4,7 +4,7 @@ import type { ProgressSnapshot, Song, UserSession } from "../types";
 
 export const DEFAULT_SESSION: UserSession = {
   instrument: "alto_sax", key_shift: 0, octave: "auto", notation: "sharps", speed: 1, loop: null, position: 0,
-  backing_volume: 1, guide_vocal: false, guide_volume: 0.35, script: "original",
+  backing_volume: 1, guide_vocal: false, guide_volume: 0.35, play_hooks: true, script: "original",
 };
 
 export const STEPS = [

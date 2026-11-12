@@ -27,6 +27,10 @@ describe("display lines", () => {
     expect(lines[1].items.map((i) => i.notes.length)).toEqual([2, 1]);
     expect(lines[1].text).toBe("la di");
   });
+  it("carries the label of an instrumental hook line", () => {
+    const lines = buildDisplayLines({ ...song, lines: [{ ...song.lines[0], label: "Intro" }, song.lines[1]] });
+    expect(lines.map((l) => l.label)).toEqual(["Intro", null]);
+  });
   it("tracks the current line with a small lookahead", () => {
     const lines = buildDisplayLines(song);
     expect(currentLineIndex(lines, 0.5)).toBe(0);

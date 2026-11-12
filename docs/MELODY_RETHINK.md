@@ -119,7 +119,7 @@ Code: `service/notealong/pipeline/saxmelody.py`, `songkey.py`, `syllables.py`. T
 - **Chromatic notes need 0.45 s, not 0.7 s.** The longer threshold scored a little higher on the test
   set but would force more genuine chromatic notes into the key, which the brief rules out.
 - **Detailed mode is the old pipeline unchanged.** The setting is stored per song (`settings.melody`).
-- **Pipeline version 5.** Existing uploads are re-processed in the background the first time the service
+- **Pipeline version 5 (now 6, see Part 4).** Existing uploads are re-processed in the background the first time the service
   starts; all 13 songs in the local library have been.
 
 ## Remaining problems
@@ -173,3 +173,115 @@ by ear; the owner should listen to them.
 - **Detail setting, per song.** Settings → Detail is now "Sax-friendly" (default) or "Detailed". Detailed
   is the old literal transcription and brings back its own controls (Fewer / Balanced / Everything, and
   "hold a note across words"). Switching re-makes the notes in a few seconds and keeps hand edits.
+
+## Part 4: instrumental hooks and solos
+
+Where nobody sings (intro, solo, outro), the band's lead line is now written out as notes too. The lines
+are labelled with a note icon and "Intro", "Solo" or "Outro" and have no lyrics; in the sheet music view
+they are ordinary bars with the label under the first note.
+
+Code: `service/notealong/pipeline/hooks.py`, `add_hooks` in `runner.py`. Tests: `service/tests/test_hooks.py`.
+Measurement: `service/scripts/accuracy/hooks_eval.py`.
+
+How it works:
+
+1. **Where nobody sings.** Stretches of at least a few seconds with no sung pitch and no words. Before
+   the first singing (or starting in the first 8 s) is "Intro", after the last singing (or ending in the
+   last 8 s) is "Outro", anything between is "Solo".
+2. **The lead line.** Basic Pitch runs on the backing track (everything but the vocals). In each frame
+   the strongest upper voice is followed with a path search that prefers staying put over jumping, in
+   two passes: the second pass only looks within an octave of the first pass's middle, which stops the
+   line jumping to the bass or to overtones.
+3. **Same simplification.** The line goes through the same sax-friendly step as the voice: held notes,
+   no scoops, in the key, on the beat.
+4. **Only when there is a lead.** A section is kept only if a line sounds for at least 30% of it, is
+   clearly stronger than the accompaniment and gives at least 4 notes. A section of plain chords is left
+   empty rather than filled with guesses.
+5. **In the sung range.** Each hook is moved by whole octaves so it sits in the range of the sung
+   melody, so it does not go off the top of the instrument.
+
+**"Play the hooks yourself"** (Settings → Sound, on by default) plays a second version of the backing
+track in which the lead line is turned down by 16 dB in those sections only, by lowering the line's own
+harmonics in the spectrum. Outside those sections the track is the same. Hand edits are kept.
+
+**Per-song setting** (Settings → Detail): "Vocals only" or "Vocals and hooks" (default; the full name
+"Vocals and instrumental hooks" is in the hint and for screen readers, the short one fits the control).
+
+### Decisions
+
+- **No new model, no new licence.** Basic Pitch (Spotify, Apache-2.0) was already in the pipeline for
+  the harmony. `catalog/LICENSES.md` is unchanged.
+- **Turning the lead down: no separation model.** No model that separates "the lead instrument" from a
+  band with a clearly commercial licence was found. The open separation models split fixed stems
+  (vocals, drums, bass, other, some also guitar and piano), not "whichever instrument has the tune", and
+  a saxophone lands in "other" with everything else. So the brief's fallback is used: the followed line
+  is lowered in the non-vocal stem. It reduces the lead; it does not remove it.
+- **Pipeline version 6.** All 13 songs in the local library were re-processed.
+- **Online (cloud) mode** stores the turned-down backing track with the song's other files and serves it
+  in the song's own key; after a key change it falls back to the normal backing track. This path is
+  written but untested: nothing was deployed.
+
+### Measured
+
+There is no answer key for real solos, so the finder was measured by mixing a known sax-like line into
+real Creative Commons backing tracks at three loudness levels and checking what comes back:
+
+| Backing (30 s) | Lead at band level | Lead 6 dB quieter | Lead 10 dB quieter |
+|---|---|---|---|
+| What Is Love: frames right / notes found | 90% / 91% | 83% / 81% | 49% / 47% |
+| Lovers and Liars | 91% / 97% | 89% / 97% | 78% / 84% |
+| Eternity | 90% / 97% | 90% / 97% | 87% / 91% |
+| Lead turned down by (the three songs) | 10.7 to 11.1 dB | 8.4 to 10.5 dB | 3.5 to 9.8 dB |
+| Rest of the band changed by | 0.1 to 0.7 dB | | |
+
+So a lead that is as loud as the band is found about 9 times in 10 and turned down by about 11 dB; a
+lead buried 10 dB under a busy band is found only about half the time.
+
+### On the songs
+
+| Song | Hooks found |
+|---|---|
+| Let It Be (owner's upload) | Intro 0:00 to 0:12 (12 notes); Solo 1:43 to 2:15 (38); Solo 2:18 to 2:24 (7); outro left empty |
+| Just Give Me a Reason (owner's upload) | Intro 0:00 to 0:10 (12); Outro 3:46 to 4:02 (11) |
+| Despacito (owner's upload) | Intro 0:00 to 0:28 (30) |
+| Poucet (CC BY 3.0, has an instrumental solo) | Solo 2:13 to 2:23 (9); Solo 2:28 to 2:35 (8) |
+| Tonight (CC) | Intro (22); Solo 1:01 to 1:13 (19); Solo 2:07 to 2:19 (18) |
+| Trombadinha (CC) | Intro 0:00 to 0:17 (36) |
+| Eternity (CC) | Intro 0:03 to 0:16 (19) |
+| Feel (CC) | Intro 0:00 to 0:19 (16) |
+| Run Run Superman (CC) | Solo 1:41 to 1:51 (11) |
+| Lovers and Liars (CC) | Solo 2:26 to 2:34 (8); Outro 2:56 to 3:08 (7) |
+| The Fool (CC) | Intro (5); two short solos (5 each); three more sections left empty |
+| What Is Love, Bad Side (CC) | none: no stretch without singing, or no clear lead |
+
+Listening sample (Poucet by Gamssy Ghoulz, CC BY 3.0, 2:10 to 2:37, backing track only):
+`docs/listening-samples/melody-rethink/poucet-solo-backing-before.mp3` and
+`poucet-solo-backing-hooks-turned-down.mp3`.
+
+## Summary for the owner
+
+- **Numbers per song, the "Let it be" line and the detected keys**: see "Before and after" and "The
+  'Let it be' line" above.
+- **Listening samples**: `docs/listening-samples/melody-rethink/` (two alto sax before/after pairs, one
+  backing-track pair for the hooks switch). None of them has been judged by ear; they were checked by
+  measurement only.
+- **Licences for new models**: none. No model was added in any of the four parts. Syllable counting is
+  our own rules; the hooks reuse Basic Pitch (Apache-2.0), already listed.
+
+## Remaining problems, all parts
+
+- Let It Be is at 72% of syllables right, not the 85% asked for, and the first "let it be" has one wrong
+  note of three.
+- Duets: the tracker still sometimes follows the harmony voice.
+- Onset timing is a little worse on songs sung behind the beat.
+- The unsure dot is only weakly calibrated (43% right when marked, 70% when not).
+- Key changes on four Creative Commons library songs are unverified.
+- **Hooks on dense mixes.** When the "lead" is a piano or guitar playing chords, the finder follows the
+  top chord notes. Let It Be's intro and its guitar solo come out as plausible but rough lines; they
+  have not been checked against a transcription. None of the owner's three uploads has a sax hook, so
+  the "Careless Whisper" case itself is untested on a real recording.
+- **Every middle section is called "Solo"**, including short breaks between verses.
+- **The hooks switch turns the lead down, it does not remove it** (about 11 dB at best, 3.5 dB when the
+  lead is buried), and breathy or noisy parts of the tone stay.
+- **Online mode**: the hooks path is untested (nothing was deployed), and after a key change the
+  turned-down backing track is not used.

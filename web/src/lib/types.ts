@@ -12,7 +12,7 @@ export type Word = {
   confidence?: number;
 };
 
-export type Line = { index: number; kind: "lyric" | "instrumental"; start: number; end: number };
+export type Line = { index: number; kind: "lyric" | "instrumental"; start: number; end: number; /** "Intro", "Solo" or "Outro" on a line of instrumental hook notes. */ label?: string | null };
 
 export type Note = {
   id: string;
@@ -25,6 +25,8 @@ export type Note = {
   edited?: boolean;
   /** Which syllable of its word the note is sung on (sax-friendly melody). */
   syl?: number;
+  /** Set on a note played by the band's lead instrument where nobody sings: "Intro", "Solo" or "Outro". */
+  hook?: string | null;
 };
 
 export type KeyInfo = { tonic: number; mode: "major" | "minor"; name: string; confidence: number };
@@ -45,6 +47,8 @@ export type UserSession = {
   backing_volume: number;
   guide_vocal: boolean;
   guide_volume: number;
+  /** Use the backing track with the lead instrument turned down in the hooks, so the player takes them. Default on. */
+  play_hooks?: boolean;
   script: "original" | "roman";
 };
 
@@ -116,7 +120,7 @@ export type Song = {
   words: Word[];
   lines: Line[];
   notes: Note[];
-  settings: { detail_level: string; melody?: MelodyMode; cleanup: Record<string, number | boolean>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
+  settings: { detail_level: string; melody?: MelodyMode; /** Also write out the instrumental hooks (intro, solo, outro). Default on. */ hooks?: boolean; cleanup: Record<string, number | boolean>; lyrics_source: "transcribed" | "pasted"; whisper_model?: string | null };
   user: UserSession;
   steps: Record<string, StepState>;
   error?: string | null;

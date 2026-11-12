@@ -247,7 +247,7 @@ export const cloudApi = {
     return call<{ ok: boolean }>(`/api/cloud/songs/${id}`, { method: "DELETE" });
   },
 
-  rerun: (id: string, step: string, params: { detail_level?: string; melody?: MelodyMode; language?: string; hold_across_words?: boolean } = {}) =>
+  rerun: (id: string, step: string, params: { detail_level?: string; melody?: MelodyMode; hooks?: boolean; language?: string; hold_across_words?: boolean } = {}) =>
     call<{ snapshot: ProgressSnapshot }>(`/api/cloud/songs/${id}/jobs`, { method: "POST", body: JSON.stringify({ kind: "process", step, ...params }) }).then((r) => r.snapshot),
 
   pasteLyrics: (id: string, text: string) =>
@@ -336,7 +336,7 @@ export const cloudApi = {
     return snapshotFromSong(song);
   },
 
-  audioUrl: (id: string, stem: "backing" | "vocals" | "original", shift = 0) => `/api/cloud/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
+  audioUrl: (id: string, stem: "backing" | "backing_hooks" | "vocals" | "original", shift = 0) => `/api/cloud/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
 
   progressStream: (id: string, onSnapshot: (s: ProgressSnapshot) => void, onEnd: () => void) => {
     let stopped = false;

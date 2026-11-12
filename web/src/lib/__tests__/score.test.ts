@@ -87,6 +87,11 @@ describe("buildSheet", () => {
     expect(shape(buildSheet({ notes: notes([[0, 1.5, 60], [1.5, 0.5, 62], [2, 2, 64]]), words: [] }, s))).toEqual(["36 12 48"]);
     expect(shape(buildSheet({ notes: notes([[0, 0.5, 60], [0.5, 1, 62], [1.5, 0.5, 64], [2, 2, 65]]), words: [] }, s))).toEqual(["12 24 12 48"]);
   });
+  it("names an instrumental hook where it starts", () => {
+    const hook = notes([[0, 1, 60], [1, 1, 62], [2, 2, 64]]).map((n) => ({ ...n, hook: "Solo" }));
+    const sheet = buildSheet({ notes: hook, words: [] }, score(120));
+    expect(sheet.measures[0].pieces.map((p) => p.lyric?.text ?? null)).toEqual(["Solo", null, null]);
+  });
   it("starts with a pickup bar and counts the intro", () => {
     const s = score(120);
     const sheet = buildSheet({ notes: notes([[11, 1, 60], [12, 4, 62]]), words: [] }, s);

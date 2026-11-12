@@ -23,6 +23,7 @@ class Line(BaseModel):
     kind: Literal["lyric", "instrumental"] = "lyric"
     start: float
     end: float
+    label: Optional[str] = None     # "Intro", "Solo" or "Outro" for an instrumental hook; None otherwise
 
 
 class Note(BaseModel):
@@ -35,6 +36,7 @@ class Note(BaseModel):
     line: int = 0
     edited: bool = False
     syl: int = 0                    # which syllable of the word it is sung on (sax-friendly melody)
+    hook: Optional[str] = None      # played by the lead instrument where nobody sings: "Intro", "Solo" or "Outro"
 
 
 class KeyInfo(BaseModel):
@@ -61,6 +63,7 @@ class SongSettings(BaseModel):
     detail_level: str = "balanced"
     # "sax": one held note per syllable, as a player would write the tune; "detailed": the literal transcription
     melody: Literal["sax", "detailed"] = "sax"
+    hooks: bool = True              # also write out the lead instrument's tune in the intro, solos and outro
     cleanup: dict = Field(default_factory=dict)
     lyrics_source: Literal["transcribed", "pasted"] = "transcribed"
     whisper_model: Optional[str] = None
@@ -78,6 +81,7 @@ class UserSession(BaseModel):
     backing_volume: float = 1.0
     guide_vocal: bool = False
     guide_volume: float = 0.35
+    play_hooks: bool = True         # "Play the hooks yourself": the lead instrument is turned down in the hooks
     script: Literal["original", "roman"] = "original"
 
 

@@ -169,7 +169,7 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
                   {p.script === "roman" && word.roman ? word.roman : word.text}
                 </span>
               ) : (
-                <span className="word inline-flex items-center gap-[.25em] font-sans text-[.42em] font-medium text-faint" data-state="future"><Music className="h-[1em] w-[1em]" /> no words</span>
+                <span className="word inline-flex items-center gap-[.25em] font-sans text-[.42em] font-medium text-faint" data-state="future"><Music className="h-[1em] w-[1em]" /> {line.label ?? "no words"}</span>
               )}
             </div>
           );

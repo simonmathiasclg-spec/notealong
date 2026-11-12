@@ -282,8 +282,13 @@ export function buildSheet(song: { notes: Note[]; words: Word[] }, score: ScoreD
       if (n.ids.some((id) => byId.get(id)?.edited && !(id in score.syllables)) || (w && words.get(w) && sung.get(w) !== words.get(w)!.text)) changed.add(n.id);
     }
   }
-  let going = false, lastWord: string | null = null;
+  let going = false, lastWord: string | null = null, lastHook: string | null = null;
   for (const n of q) {
+    // an instrumental hook is named where it starts ("Intro", "Solo")
+    const hook = n.ids.map((id) => byId.get(id)?.hook).find((h) => !!h) ?? null;
+    if (hook && hook !== lastHook) lyricOf.set(n.id, { text: hook, syllabic: "single" });
+    lastHook = hook;
+    if (hook) continue;
     const syl = changed.has(n.id) ? undefined : n.ids.map((id) => score.syllables?.[id]).find((s) => typeof s === "string" && s.length > 0);
     if (syl !== undefined) {
       const goesOn = syl.endsWith("-") && syl.length > 1;

@@ -52,7 +52,7 @@ const localApi = {
   patchSong: (id: string, patch: Partial<{ title: string; artist: string; words: Word[]; notes: Note[]; lines: Line[]; user: UserSession; language_override: string }>) =>
     fetch(`${API}/api/songs/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) }).then(j<Song>),
   deleteSong: (id: string) => fetch(`${API}/api/songs/${id}`, { method: "DELETE" }).then(j<{ ok: boolean }>),
-  rerun: (id: string, step: string, params: { detail_level?: string; melody?: MelodyMode; language?: string; hold_across_words?: boolean } = {}) =>
+  rerun: (id: string, step: string, params: { detail_level?: string; melody?: MelodyMode; hooks?: boolean; language?: string; hold_across_words?: boolean } = {}) =>
     fetch(`${API}/api/songs/${id}/steps/${step}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(params) }).then(j<ProgressSnapshot>),
   pasteLyrics: (id: string, text: string) =>
     fetch(`${API}/api/songs/${id}/lyrics`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).then(j<Song>),
@@ -70,7 +70,7 @@ const localApi = {
   /** Ask the service to render the keys one step up and down from `shift` now, so the next key change is instant. */
   prepareKeys: (id: string, shift: number) => fetch(`${API}/api/songs/${id}/prepare?shift=${shift}`, { method: "POST" }).then(j<{ queued: number }>),
   progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
-  audioUrl: (id: string, stem: "backing" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
+  audioUrl: (id: string, stem: "backing" | "backing_hooks" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,
   progressStream: (id: string, onSnapshot: (s: ProgressSnapshot) => void, onEnd: () => void) => {
     const es = new EventSource(`${API}/api/songs/${id}/progress`);
     es.onmessage = (e) => onSnapshot(JSON.parse(e.data));

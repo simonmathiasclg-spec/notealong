@@ -7,7 +7,7 @@ import { catalogFile } from "@/lib/cloud/config";
 import { createJob, dispatch, fileNames, isCatalogId, publicExists, signedUrl, waitForJob } from "@/lib/cloud/jobs";
 import { adminClient, HttpError, requireUser, route, userClient } from "@/lib/cloud/server";
 
-const STEMS = ["backing", "vocals", "original"] as const;
+const STEMS = ["backing", "backing_hooks", "vocals", "original"] as const;
 
 function go(url: string): Response {
   return new Response(null, { status: 302, headers: { Location: url, "Cache-Control": "private, no-store" } });
@@ -33,8 +33,11 @@ export const maxDuration = 180;
 
 export async function GET(req: NextRequest, ctx: { params: Promise<{ id: string; stem: string }> }) {
   return route(async () => {
-    const { id, stem } = await ctx.params;
-    if (!STEMS.includes(stem as (typeof STEMS)[number])) throw new HttpError(404, "Unknown stem");
+    const { id, stem: asked } = await ctx.params;
+    if (!STEMS.includes(asked as (typeof STEMS)[number])) throw new HttpError(404, "Unknown stem");
+    // the backing with the hooks turned down exists only for uploads, in the song's own key; otherwise the plain backing
+    const hooks = asked === "backing_hooks";
+    const stem = hooks ? "backing" : asked;
     const user = await requireUser();
     const shift = Math.max(-6, Math.min(6, Math.round(Number(req.nextUrl.searchParams.get("shift") ?? 0) || 0)));
     const name = (s: number) => `shift_${stem}_${s > 0 ? "+" : ""}${s}.mp3`;
@@ -52,7 +55,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ id: string;
     const song = row.data as Song;
     const folder = `${user.id}/${id}`;
     if (stem === "original") return go(await signedUrl(`${folder}/${song.files.original}`));
-    if (shift === 0) return go(await signedUrl(`${folder}/${stem}.mp3`));
+    if (shift === 0) return go(await signedUrl(`${folder}/${hooks && song.files.backing_hooks ? song.files.backing_hooks : `${stem}.mp3`}`));
     await ensureRender(user.id, id, shift, false, async () => (await fileNames(`${folder}/renders`)).has(name(shift)));
     return go(await signedUrl(`${folder}/renders/${name(shift)}`));
   });
