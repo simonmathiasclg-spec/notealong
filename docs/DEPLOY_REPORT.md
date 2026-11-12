@@ -33,7 +33,7 @@ tested"). I didn't deploy to Vercel alone: without the database and processing t
    and "martins-map", in the organisation "PSC"). I didn't touch either. Do one of these in the Supabase dashboard:
    - pause or delete one of those two projects, or
    - upgrade the organisation to **Pro ($25/month, recommended)**: the free plan's 1 GB of storage is mostly taken by
-     the built-in songs alone (623 MB), and its built-in email sender only sends a few sign-in emails an hour.
+     the built-in songs alone (638 MB), and its built-in email sender only sends a few sign-in emails an hour.
 2. **Install and log in to Modal** (the processing):
    ```bash
    pip install modal
@@ -85,7 +85,7 @@ browser ──► Vercel: the Next.js app (web/) ──────────�
   processing time and the GPU seconds it was billed for.
 - **Key changes** are rendered on Modal on first use and kept; the neighbouring keys are prepared in the background.
   Built-in songs' key renders are shared (they are public domain or Creative Commons); uploads' are private.
-- **Built-in songs** (208, 623 MB) are served from a public storage bucket, uploaded by
+- **Built-in songs** (208, 638 MB) are served from a public storage bucket, uploaded by
   `service/scripts/cloud/upload_catalog.py`, which reads only `catalog/` and refuses any song that isn't public domain
   or Creative Commons.
 - **Privacy:** each user's uploads, results, edits, covers, favourites, setlists and jobs are reachable only by them.

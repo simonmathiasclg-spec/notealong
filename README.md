@@ -17,7 +17,7 @@ notealong/
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
 ├── supabase/    The online version's database: migrations (tables, row-level security, storage), sign-in email, privacy check
 ├── deploy.sh    Puts the online version (private beta) up, or updates it: Supabase, Modal, Vercel
-├── docs/        Design principles, screenshots, OVERNIGHT_REPORT.md, NEXT_REPORT.md, ACCURACY_REPORT.md (the rounds of work),
+├── docs/        Design (design/REDESIGN.md, PRINCIPLES.md), screenshots, OVERNIGHT_REPORT.md, NEXT_REPORT.md, ACCURACY_REPORT.md (the rounds of work),
 │                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
 ```
@@ -124,13 +124,14 @@ one. A dashed red note is outside your instrument's range; use the octave contro
 
 ## Design
 
-The look is the "Stage" direction (`docs/design/`): a dark, cinematic stage by default and a light
-"house lights" theme, Fraunces for lyrics and titles, Inter for controls and for the note letters, and one
-accent colour that means "now". On a built-in song the accent takes the hue of the song's cover art
-(`web/src/lib/color.ts` keeps it readable on both themes); uploads keep the default coral. Cover art is
-generated per song from its id (`service/notealong/catalog/cover.py`). The five principles behind the
-screens are in `docs/design/PRINCIPLES.md`; `docs/screenshots/before` and `docs/screenshots/after` show
-every screen before and after the redesign.
+The look is the "Front Row" direction (`docs/design/REDESIGN.md`): a warm black room, a huge condensed red
+title, a 3D ring of songs and shelves of artwork widgets on Discover, and a player that sits on the song's own
+artwork, blurred. Archivo for titles, lyrics and note letters, Instrument Sans for controls (both SIL Open Font
+License). The colour that means "now" (the note to play, the word being sung) comes from each song's artwork
+(`web/src/lib/color.ts` keeps it readable on both themes). Cover art is generated per song from its id
+(`service/notealong/catalog/artwork.py`): photographic-feeling light, colour and film grain, no photos. The
+redesign's references, mockups, fonts, before and after screenshots and every screen at three sizes are in
+`docs/design/REDESIGN.md`; the five principles behind the screens are in `docs/design/PRINCIPLES.md`.
 
 ## The built-in catalog (Discover)
 
@@ -148,8 +149,8 @@ No copyrighted recordings, backing tracks, lyrics or album art are in the catalo
 available only by uploading your own file.
 
 `catalog/catalog.json` is the index; every song lives in `catalog/<id>/` with `song.json` (the same format
-the pipeline produces), `backing.mp3`, `vocals.mp3` (the guide melody or the separated singer), `cover.svg`
-(generated abstract art) and `catalog.json` (title, artist, origin, genre, difficulty, duration, key, tempo,
+the pipeline produces), `backing.mp3`, `vocals.mp3` (the guide melody or the separated singer), `cover.webp`
+(generated artwork; `python -m notealong.catalog.build --covers` redraws them all) and `catalog.json` (title, artist, origin, genre, difficulty, duration, key, tempo,
 licence, attribution, tags). Only songs that are legal to ship are included: public-domain melodies and
 words, or recordings under CC0, CC BY or CC BY-SA (never NonCommercial or NoDerivatives).
 

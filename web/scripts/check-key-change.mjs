@@ -18,7 +18,7 @@ await page.waitForTimeout(1500);
 await page.click("button[aria-label=Play]");
 await page.waitForTimeout(parseInt(process.env.WAIT ?? "3000", 10));   // WAIT: how long the listener plays before touching the key
 // the header names the key the player is in, e.g. "G minor (+2)"
-const keyNow = () => page.evaluate(() => document.body.innerText.match(/([A-G][#b]? (?:major|minor)(?: \([+-]\d\))?)/)?.[1] ?? null);
+const keyNow = () => page.evaluate(() => document.body.innerText.match(/([A-G][#b]? (?:major|minor)(?: \([+-]\d\))?)/i)?.[1] ?? null);
 const preparing = () => page.evaluate(() => /Preparing the new key/.test(document.body.innerText));
 const playing = () => page.evaluate(() => !!document.querySelector("button[aria-label=Pause]"));
 const audioPos = () => page.evaluate(() => parseInt(document.querySelector("[role=slider][aria-label^='Position']")?.getAttribute("aria-valuenow") ?? "-1", 10));

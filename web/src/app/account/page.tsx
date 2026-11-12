@@ -34,7 +34,7 @@ export default function AccountPage() {
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-3xl flex-1 px-5 pb-10 sm:px-8">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-5 pb-10 pt-4 sm:px-8 sm:pt-8">
         <h1 className="display-hero text-[clamp(3.4rem,9vw,7rem)]">Account</h1>
         {!CLOUD ? (
           <p className="mt-3 text-muted">This copy of NoteAlong runs on your own computer; there is no account to manage.</p>

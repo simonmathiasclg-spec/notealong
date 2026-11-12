@@ -69,18 +69,18 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
                 onDragOver={(e) => { e.preventDefault(); setOver(i); }}
                 onDragEnd={() => { setDrag(null); setOver(null); }}
                 onDrop={(e) => { e.preventDefault(); if (drag !== null) move(drag, i); setDrag(null); setOver(null); }}
-                className={`group flex items-center gap-3 border-b border-border py-2.5 transition ${drag === i ? "opacity-40" : ""} ${over === i && drag !== null && drag !== i ? "bg-hover" : ""}`}>
+                className={`group flex items-center gap-2 border-b border-border py-2.5 transition sm:gap-3 ${drag === i ? "opacity-40" : ""} ${over === i && drag !== null && drag !== i ? "bg-hover" : ""}`}>
                 <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-faint max-sm:hidden" aria-hidden="true" />
                 <span className="tabular w-6 shrink-0 text-right text-[11px] text-faint">{String(i + 1).padStart(2, "0")}</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={r?.kind === "upload" ? api.uploadCoverUrl(sid) : api.coverUrl(sid)} alt="" className="h-12 w-12 shrink-0 rounded-[0.8rem] object-cover" style={{ background: r?.colors?.deep }} />
+                <img src={r?.kind === "upload" ? api.uploadCoverUrl(sid) : api.coverUrl(sid)} alt="" className="h-10 w-10 shrink-0 rounded-[0.7rem] object-cover sm:h-12 sm:w-12 sm:rounded-[0.8rem]" style={{ background: r?.colors?.deep }} />
                 <Link href={setlistSongHref(sl.id, sl.songs, i, false)} className="min-w-0 flex-1">
                   <div className="truncate font-display text-[1.05rem] font-bold tracking-[-0.015em]">{r?.title ?? sid}</div>
                   <div className="truncate text-xs text-muted">{r?.artist ?? ""}{r?.duration ? ` · ${formatTime(r.duration)}` : ""}</div>
                 </Link>
-                <button className="btn btn-ghost btn-icon btn-sm" disabled={i === 0} onClick={() => move(i, i - 1)} aria-label={`Move ${r?.title ?? "song"} up`}><ArrowUp className="h-4 w-4" /></button>
-                <button className="btn btn-ghost btn-icon btn-sm" disabled={i === sl.songs.length - 1} onClick={() => move(i, i + 1)} aria-label={`Move ${r?.title ?? "song"} down`}><ArrowDown className="h-4 w-4" /></button>
-                <button className="btn btn-ghost btn-icon btn-sm text-faint hover:text-danger" onClick={() => updateSetlist(sl.id, { songs: sl.songs.filter((x) => x !== sid) })} aria-label={`Remove ${r?.title ?? "song"} from the setlist`}><X className="h-4 w-4" /></button>
+                <button className="btn btn-ghost btn-icon btn-sm !w-8" disabled={i === 0} onClick={() => move(i, i - 1)} aria-label={`Move ${r?.title ?? "song"} up`}><ArrowUp className="h-4 w-4" strokeWidth={1.7} /></button>
+                <button className="btn btn-ghost btn-icon btn-sm !w-8" disabled={i === sl.songs.length - 1} onClick={() => move(i, i + 1)} aria-label={`Move ${r?.title ?? "song"} down`}><ArrowDown className="h-4 w-4" strokeWidth={1.7} /></button>
+                <button className="btn btn-ghost btn-icon btn-sm !w-8 text-faint hover:text-danger" onClick={() => updateSetlist(sl.id, { songs: sl.songs.filter((x) => x !== sid) })} aria-label={`Remove ${r?.title ?? "song"} from the setlist`}><X className="h-4 w-4" strokeWidth={1.7} /></button>
               </li>
             );
           })}

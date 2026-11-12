@@ -54,4 +54,8 @@ else
   echo "Still starting (see logs/). It will be at:  http://localhost:$WEB_PORT"
 fi
 echo "Press Ctrl-C to stop both servers."
-wait
+# if either server stops, stop the other too and say which one (see logs/)
+while kill -0 "$SERVICE_PID" 2>/dev/null && kill -0 "$WEB_PID" 2>/dev/null; do sleep 2; done
+kill -0 "$SERVICE_PID" 2>/dev/null || echo "The processing service stopped; see logs/service.log"
+kill -0 "$WEB_PID" 2>/dev/null || echo "The web app stopped; see logs/web.log"
+exit 1

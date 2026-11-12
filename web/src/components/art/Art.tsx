@@ -92,7 +92,7 @@ export function ArtTile({ song, shape = "square", priority = false, favourite = 
           <WaveGlyph className={big ? "text-[15px]" : "text-[12px]"} />
           {song.label && !round && <span className="numeral ml-auto pr-8 text-white/80">{song.label}</span>}
         </div>
-        <div className={`min-w-0 ${round ? "mt-auto w-[72%] pb-[18%]" : tall ? "my-auto w-full px-5" : big ? "mt-auto p-6 pt-0" : "mt-auto p-4 pt-0 sm:p-5 sm:pt-0"}`}>
+        <div className={`min-w-0 ${round ? "mt-auto w-[72%] pb-[18%]" : tall ? "my-auto w-full px-5" : big ? "mt-auto p-6 pt-0" : "mt-auto p-4 pt-0 sm:p-5 sm:pt-0"} ${centred ? "before:pointer-events-none before:absolute before:-inset-x-4 before:-inset-y-6 before:-z-10 before:bg-[radial-gradient(closest-side,rgb(0_0_0/.42),transparent)]" : ""}`}>
           <span ref={titleRef} className={`marquee block font-medium leading-tight ${shape === "wide" ? "text-[1.35rem]" : shape === "tall" ? "text-[1.15rem]" : "text-[0.95rem]"}`} data-run={overflow ? undefined : "0"}>
             <span className={overflow ? "group-hover/tile:[animation:marquee_9s_linear_infinite]" : ""}>{song.title}{overflow && <span aria-hidden="true" className="pl-[2.5em]">{song.title}</span>}</span>
           </span>
