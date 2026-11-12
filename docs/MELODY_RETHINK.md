@@ -134,3 +134,27 @@ Code: `service/notealong/pipeline/saxmelody.py`, `songkey.py`, `syllables.py`. T
   Trombadinha B → E major, Poucet G minor → C minor, Eternity A minor → F# minor). These share most of
   their notes with the old answer and look plausible, but there is no answer key for them, so they are
   unverified.
+
+## Part 2: playback that sounds like a singer
+
+"Hear it played" now phrases the sax-friendly melody legato (`web/src/lib/hear.ts`, `phrase(..., { legato })`):
+
+- A note is held right up to the next one. Gaps under 0.14 s are not rests; longer gaps stay silent.
+- Every new syllable gets a soft re-attack (a light tongue). When the pitch repeats, the note before stops
+  0.03 s early, so the same pitch twice is heard as two notes, not one long one.
+- A second pitch on the same syllable is slurred, with no new attack.
+- Long notes sustain for their whole length. Vibrato only appears on notes longer than about 0.8 s and
+  now grows in more slowly on longer notes.
+- Songs set to Detailed keep the old phrasing.
+
+Listening samples, alto sax alone, in `docs/listening-samples/melody-rethink/`:
+
+| Excerpt | Before | After |
+|---|---|---|
+| Let It Be, chorus (0:37 to 0:52) | `let-it-be-chorus-alto-sax-before.mp3` | `let-it-be-chorus-alto-sax-after.mp3` |
+| Just Give Me a Reason, chorus (0:50 to 1:08) | `just-give-me-a-reason-chorus-alto-sax-before.mp3` | `just-give-me-a-reason-chorus-alto-sax-after.mp3` |
+
+"Before" is the old notes with the old phrasing; "after" is the new notes with legato phrasing. Measured on
+the rendered audio: the Let It Be chorus went from 10 silences to 3 (49% → 31% of the excerpt quiet), and
+the Just Give Me a Reason chorus from 14 silences to 3 (41% → 18%). These were checked by measurement, not
+by ear; the owner should listen to them.

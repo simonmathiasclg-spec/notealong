@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { firstAt, plan, type HearNote } from "../hear";
+import { firstAt, phrase, plan, type HearNote } from "../hear";
 import { pickZone, rateFor, resolveInstrument, zonePitch, type Manifest } from "../sampler";
 import { SmoothClock } from "../clock";
 
@@ -104,4 +104,39 @@ describe("sampler maths", () => {
     expect(rateFor(z, 50)).toBeCloseTo(Math.pow(2, (50 - 56.98) / 12), 6);
   });
   it("returns null for an unknown instrument", () => { expect(resolveInstrument(manifest, "kazoo")).toBeNull(); });
+});
+
+describe("legato phrasing (the sax-friendly melody)", () => {
+  const n = (id: string, start: number, end: number, pitch: number, word: string | null, syl = 0) => ({ id, start, end, pitch, word, syl });
+
+  it("holds each note up to the next one across a small gap, and keeps real rests silent", () => {
+    const out = phrase([n("a", 0, 0.4, 64, "w0"), n("b", 0.5, 0.9, 62, "w1"), n("c", 1.6, 2.4, 60, "w2")], null, { legato: true });
+    expect(out[0].end).toBe(0.5);
+    expect(out[1].attack).toBe("soft");
+    expect(out[1].end).toBe(0.9);
+    expect(out[2].phrase).toBe(true);
+    expect(out[2].attack).toBeUndefined();
+  });
+
+  it("tongues the same pitch again softly on a new syllable, with a breath between, so it is heard twice", () => {
+    const out = phrase([n("a", 0, 0.5, 67, "w0"), n("b", 0.5, 1.0, 67, "w1"), n("c", 1.0, 1.5, 67, "w2", 0), n("d", 1.5, 2.0, 67, "w2", 1)], null, { legato: true });
+    expect(out.slice(1).map((o) => o.attack)).toEqual(["soft", "soft", "soft"]);
+    for (let i = 0; i < 3; i++) {
+      expect(out[i].end).toBeLessThan(out[i + 1].start);
+      expect(out[i + 1].start - out[i].end).toBeLessThan(0.05);
+    }
+  });
+
+  it("slurs a second pitch on one syllable, however long it is", () => {
+    const out = phrase([n("a", 0, 0.8, 64, "w0", 0), n("b", 0.8, 1.8, 62, "w0", 0), n("c", 1.8, 2.4, 60, "w0", 1)], null, { legato: true });
+    expect(out[1].attack).toBe("slur");
+    expect(out[1].from).toBe(64);
+    expect(out[2].attack).toBe("soft");
+  });
+
+  it("leaves the old phrasing alone when legato is off", () => {
+    const out = phrase([n("a", 0, 0.4, 64, "w0"), n("b", 0.5, 0.9, 62, "w1")]);
+    expect(out[0].end).toBe(0.4);
+    expect(out[1].attack).toBeUndefined();
+  });
 });

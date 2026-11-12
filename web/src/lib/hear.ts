@@ -19,6 +19,10 @@ export type HearNote = { id: string; start: number; end: number; pitch: number }
 const RUNS_ON = 0.05;
 /** A gap longer than this starts a new phrase. */
 const NEW_PHRASE = 0.3;
+/** Legato: a gap shorter than this is not a rest; the note before is held across it. */
+const BRIDGE = 0.14;
+/** Legato: the same pitch again on a new syllable is parted from the note before by this much, so it is heard twice. */
+const PART = 0.028;
 
 /**
  * Phrases the melody the way a player would: which notes run on from the one before (lightly tongued, or
@@ -26,8 +30,14 @@ const NEW_PHRASE = 0.3;
  * `levels` is how loudly each note was sung (from the service, when the song has a singer); without it the
  * loudness follows the shape of the melody: higher is stronger, phrases swell in the middle.
  * Notes must be sorted by start.
+ *
+ * `legato` plays the tune the way it is sung (the sax-friendly melody): notes are joined across small gaps,
+ * every new syllable is tongued softly so the same pitch twice is heard twice, a second note on one syllable
+ * is slurred, and only real rests are silent.
  */
-export function phrase(notes: (Omit<HearNote, keyof PlayOptions> & { word?: string | null })[], levels?: Record<string, number> | null): HearNote[] {
+export function phrase(notes: (Omit<HearNote, keyof PlayOptions> & { word?: string | null; syl?: number })[], levels?: Record<string, number> | null,
+  opts: { legato?: boolean } = {}): HearNote[] {
+  const legato = !!opts.legato;
   const out: HearNote[] = [];
   let first = 0;
   const close = (to: number) => {
@@ -49,8 +59,18 @@ export function phrase(notes: (Omit<HearNote, keyof PlayOptions> & { word?: stri
   for (let i = 0; i < notes.length; i++) {
     const n = notes[i], prev = i > 0 ? notes[i - 1] : null;
     const o: HearNote = { id: n.id, start: n.start, end: n.end, pitch: n.pitch };
-    const gap = prev ? n.start - prev.end : Infinity;
-    if (gap > NEW_PHRASE) { close(i); first = i; o.phrase = true; }
+    let gap = prev ? n.start - prev.end : Infinity;
+    if (legato && prev && gap < BRIDGE) {
+      const before = out[i - 1];
+      const sameSyllable = !!n.word && n.word === prev.word && (n.syl ?? 0) === (prev.syl ?? 0);
+      if (sameSyllable && n.pitch !== prev.pitch) o.attack = "slur";
+      else o.attack = "soft";
+      o.from = prev.pitch;
+      // held right up to this note; the same pitch again is parted by a breath of silence so it speaks twice
+      const parted = n.pitch === prev.pitch && before.end - before.start > 0.16;
+      before.end = Math.max(before.start + 0.06, n.start - (parted ? PART : 0));
+      gap = 0;
+    } else if (gap > NEW_PHRASE) { close(i); first = i; o.phrase = true; }
     else if (prev && gap < RUNS_ON) {
       const step = Math.abs(n.pitch - prev.pitch);
       const quick = Math.min(n.end - n.start, prev.end - prev.start) < 0.2;

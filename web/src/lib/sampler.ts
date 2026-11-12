@@ -339,14 +339,16 @@ export class Sampler {
       const much = expressive ? (0.75 + Math.random() * 0.35) * (0.8 + lvl * 0.3) : 1;
       depth.gain.setValueAtTime(0, start);
       depth.gain.setValueAtTime(0, start + delay);
-      depth.gain.linearRampToValueAtTime(rate * (Math.pow(2, (cents * much) / 1200) - 1), start + delay + 0.5);
+      // the vibrato grows in slowly, and more slowly on a longer note
+      const grow = Math.min(1.1, Math.max(0.5, (dur - delay) * 0.5));
+      depth.gain.linearRampToValueAtTime(rate * (Math.pow(2, (cents * much) / 1200) - 1), start + delay + grow);
       lfo.connect(depth).connect(pr);
       if (expressive) {
         // the loudness breathes with the pitch, a little
         const swell = ctx.createGain();
         swell.gain.setValueAtTime(0, start);
         swell.gain.setValueAtTime(0, start + delay);
-        swell.gain.linearRampToValueAtTime(level * 0.05 * much, start + delay + 0.5);
+        swell.gain.linearRampToValueAtTime(level * 0.05 * much, start + delay + grow);
         lfo.connect(swell).connect(g);
         nodes.push(swell);
       }

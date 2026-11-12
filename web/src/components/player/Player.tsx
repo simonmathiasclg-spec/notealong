@@ -219,8 +219,9 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     return () => { cancelled = true; };
   }, [hear, song.id]);
   const hearNotes = useMemo<HearNote[]>(() => phrase([...song.notes].sort((a, b) => a.start - b.start)
-    .map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + engineState.shift + 12 * octaveShift, word: n.word })), sung?.song === song.id ? sung.levels : null),
-  [song.notes, song.id, engineState.shift, octaveShift, sung]);
+    .map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + engineState.shift + 12 * octaveShift, word: n.word, syl: n.syl })), sung?.song === song.id ? sung.levels : null,
+    { legato: song.settings.melody !== "detailed" }),
+  [song.notes, song.id, song.settings.melody, engineState.shift, octaveShift, sung]);
   const hearNotesRef = useRef(hearNotes);
   useEffect(() => { hearNotesRef.current = hearNotes; void samplerRef.current?.prepare(hearNotes.map((n) => n.pitch)); hearRef.current?.setNotes(hearNotes); }, [hearNotes]);
   useEffect(() => { samplerRef.current?.setVolume(hearVolume); }, [hearVolume]);
