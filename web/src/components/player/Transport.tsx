@@ -8,7 +8,7 @@ import type { DisplayLine } from "@/lib/display";
 import { clampIntoLoop, loopLabel, moveLoopEdge, stepLoopEdge, type Loop } from "@/lib/loop";
 import type { Instrument } from "@/lib/instruments";
 import type { SamplerState } from "@/lib/sampler";
-import { InstrumentIcon } from "../InstrumentIcon";
+import { InstrumentIcon, SoundWaves } from "../InstrumentIcon";
 
 type Props = {
   playing: boolean;
@@ -35,13 +35,24 @@ type Props = {
   hear: boolean;
   hearState: SamplerState;
   onHear: () => void;
+  /** Registers a function the player calls each time the instrument sounds a note; returns the undo. */
+  onHearNote?: (fn: () => void) => () => void;
   instrument: Instrument;
 };
 
 const SPEEDS = [1, 0.75, 0.5];
 
 /** The bottom of the stage: a thin "string" of progress with line marks, and the controls under it. */
-export function Transport({ playing, countingIn, loading, duration, getTime, lines, loop, speed, onToggle, onSeek, onSkip, onLoop, onLoopToggle, onSpeed, focus, loopHint, onDismissLoopHint, hear, hearState, onHear, instrument }: Props) {
+export function Transport({ playing, countingIn, loading, duration, getTime, lines, loop, speed, onToggle, onSeek, onSkip, onLoop, onLoopToggle, onSpeed, focus, loopHint, onDismissLoopHint, hear, hearState, onHear, onHearNote, instrument }: Props) {
+  const wavesRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    return onHearNote?.(() => {
+      const el = wavesRef.current;
+      if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      // restart the pulse: a new note always shows, however close to the last one
+      el.removeAttribute("data-pulse"); void el.offsetWidth; el.setAttribute("data-pulse", "1");
+    });
+  }, [onHearNote]);
   const fillRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const timeRef = useRef<HTMLSpanElement>(null);
@@ -221,13 +232,16 @@ export function Transport({ playing, countingIn, loading, duration, getTime, lin
         {!focus && <button className="btn btn-ghost btn-icon" onClick={() => onSkip(1)} aria-label="Next line" data-tip="Next line (→)"><SkipForwardGlyph className="h-[18px] w-[18px]" /></button>}
         {!focus && (
           <button
-            className={`btn max-sm:ml-auto sm:absolute sm:right-0 ${hear ? "!bg-[var(--accent)] !text-[var(--accent-fg)]" : "btn-outline"}`}
+            className={`btn hear-btn max-sm:ml-auto sm:absolute sm:right-0 ${hear ? "!bg-[var(--accent)] !text-[var(--accent-fg)]" : "btn-outline"}`}
             onClick={onHear} aria-pressed={hear}
             aria-label={`Hear it played on the ${instrument.name.toLowerCase()}`}
-            data-tip={hear ? (hearState === "loading" ? "Loading the sound…" : `Playing the notes on the ${instrument.name.toLowerCase()}. Click to stop (H)`) : `Hear how the notes sound on the ${instrument.name.toLowerCase()}, along with the song (H)`}
+            data-tip={hear ? (hearState === "loading" ? "Loading the sound…" : hearState === "error" ? "The sound could not be loaded. Click to turn it off (H)" : `The ${instrument.name.toLowerCase()} is playing the notes along with the song. Click to stop (H)`) : `Hear how the notes sound on the ${instrument.name.toLowerCase()}, along with the song (H)`}
           >
-            {hear && hearState === "loading" ? <Loader2 className="h-[17px] w-[17px] animate-spin" /> : <InstrumentIcon icon={instrument.icon} className="h-[17px] w-[17px]" />}
-            <span className="hidden md:inline">Hear it played</span>
+            <span className="inline-flex items-center gap-[1px]">
+              {hear && hearState === "loading" ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <InstrumentIcon icon={instrument.icon} className="h-[19px] w-[19px]" />}
+              {hear && hearState === "ready" && <span ref={wavesRef} className="hear-waves" data-playing={playing ? "1" : "0"}><SoundWaves /></span>}
+            </span>
+            <span className="hidden md:inline">{!hear ? "Hear it played" : hearState === "loading" ? "Loading…" : "Playing along"}</span>
           </button>
         )}
       </div>

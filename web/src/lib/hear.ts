@@ -11,9 +11,58 @@
  * what was booked and books again from where the song now is.
  */
 import type { AudioEngine } from "./audio";
-import type { Sampler, Voice } from "./sampler";
+import type { PlayOptions, Sampler, Voice } from "./sampler";
 
-export type HearNote = { id: string; start: number; end: number; pitch: number };
+export type HearNote = { id: string; start: number; end: number; pitch: number } & PlayOptions;
+
+/** A gap shorter than this (song seconds) and the next note runs on from this one. */
+const RUNS_ON = 0.05;
+/** A gap longer than this starts a new phrase. */
+const NEW_PHRASE = 0.3;
+
+/**
+ * Phrases the melody the way a player would: which notes run on from the one before (lightly tongued, or
+ * slurred when a quick note moves by step inside one word), where phrases start, and how loud each note is.
+ * `levels` is how loudly each note was sung (from the service, when the song has a singer); without it the
+ * loudness follows the shape of the melody: higher is stronger, phrases swell in the middle.
+ * Notes must be sorted by start.
+ */
+export function phrase(notes: (Omit<HearNote, keyof PlayOptions> & { word?: string | null })[], levels?: Record<string, number> | null): HearNote[] {
+  const out: HearNote[] = [];
+  let first = 0;
+  const close = (to: number) => {
+    // one phrase is notes[first..to)
+    const n = to - first;
+    if (n <= 0) return;
+    let mean = 0;
+    for (let i = first; i < to; i++) mean += notes[i].pitch / n;
+    for (let i = first; i < to; i++) {
+      const o = out[i];
+      const sung = levels?.[o.id];
+      if (typeof sung === "number") { o.level = sung; continue; }
+      const height = Math.max(-0.16, Math.min(0.16, (o.pitch - mean) * 0.03));
+      const arc = n > 2 ? Math.sin((Math.PI * (i - first)) / (n - 1)) * 0.07 : 0;
+      const held = o.end - o.start > 0.6 ? 0.03 : 0;
+      o.level = Math.round(Math.max(0.4, Math.min(0.95, 0.63 + height + arc + held)) * 1000) / 1000;
+    }
+  };
+  for (let i = 0; i < notes.length; i++) {
+    const n = notes[i], prev = i > 0 ? notes[i - 1] : null;
+    const o: HearNote = { id: n.id, start: n.start, end: n.end, pitch: n.pitch };
+    const gap = prev ? n.start - prev.end : Infinity;
+    if (gap > NEW_PHRASE) { close(i); first = i; o.phrase = true; }
+    else if (prev && gap < RUNS_ON) {
+      const step = Math.abs(n.pitch - prev.pitch);
+      const quick = Math.min(n.end - n.start, prev.end - prev.start) < 0.2;
+      const sameWord = !!n.word && n.word === prev.word;
+      o.attack = sameWord && quick && step >= 1 && step <= 4 ? "slur" : "soft";
+      o.from = prev.pitch;
+    }
+    out.push(o);
+  }
+  close(notes.length);
+  return out;
+}
 
 /** How far ahead notes are booked, in real seconds. */
 export const LOOKAHEAD = 0.22;
@@ -70,6 +119,8 @@ export class HearEngine {
   private running = false;
   private probes: Probe[] = [];
   private unsub: (() => void) | null = null;
+  /** Called at the moment each note is heard (for the button's sound waves). */
+  onNote: ((seconds: number) => void) | null = null;
 
   constructor(private audio: AudioEngine, private sampler: Sampler) {
     audio.onJump = () => this.resync();
@@ -95,6 +146,8 @@ export class HearEngine {
   private silence() {
     for (const v of this.voices.values()) v.stop();
     this.voices.clear(); this.booked.clear();
+    // a note that was stopped before it sounded has nothing to measure
+    if (this.probes.length) { const now = this.sampler.ctx.currentTime; this.probes = this.probes.filter((p) => p.heardAt <= now); }
     this.running = false;
   }
 
@@ -154,7 +207,7 @@ export class HearEngine {
       if (Math.abs(when - v.when) < 0.012) continue;
       v.stop();
       this.probes = this.probes.filter((p) => p.id !== id);
-      const voice = this.sampler.play(id, n.pitch, when, (n.end - n.start) / rate);
+      const voice = this.sampler.play(id, n.pitch, when, (n.end - n.start) / rate, n);
       if (!voice) { this.voices.delete(id); this.booked.delete(id); continue; }
       this.voices.set(id, voice);
       if ((window as DebugWindow).__hearDebug) this.probes.push({ id, start: n.start, heardAt: voice.when + latency, rate, late: false });
@@ -168,10 +221,11 @@ export class HearEngine {
       if (b.note.start >= loopEnd) continue;
       // the instrument is heard `latency` after its place on the audio clock; the song position is what is heard now
       const when = now + Math.max(0, b.delay - latency);
-      const voice = this.sampler.play(b.note.id, b.note.pitch, when, b.duration);
+      const voice = this.sampler.play(b.note.id, b.note.pitch, when, b.duration, b.delay > 0 ? b.note : { level: b.note.level });
       if (!voice) continue;
       this.voices.set(b.note.id, voice);
       if (b.delay > 0) this.booked.set(b.note.id, b.note);
+      if (this.onNote) setTimeout(() => { if (this.voices.get(b.note.id) === voice) this.onNote?.(b.duration); }, Math.max(0, (voice.when + latency - now) * 1000));
       if ((window as DebugWindow).__hearDebug) this.probes.push({ id: b.note.id, start: b.note.start, heardAt: voice.when + latency, rate, late: b.delay === 0 && b.note.start < t - 0.012 });
     }
     if (this.probes.length) this.measure(now, rate);
@@ -200,4 +254,9 @@ export class HearEngine {
     this.unsub?.();
     if (this.audio.onJump) this.audio.onJump = null;
   }
+}
+
+// Test hook: lets scripts/render-hear-demo.mjs phrase a melody exactly as the player does.
+if (typeof window !== "undefined" && (window as Window & { __hearDebug?: boolean }).__hearDebug) {
+  (window as unknown as { __NoteAlongPhrase: typeof phrase }).__NoteAlongPhrase = phrase;
 }

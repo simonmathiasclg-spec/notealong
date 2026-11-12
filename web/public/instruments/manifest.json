@@ -1,100 +1,1428 @@
 {
- "version": 1,
+ "version": 2,
  "sample_rate": 32000,
  "instruments": {
   "alto_sax": {
    "name": "Alto sax",
-   "source": "iowa",
+   "source": "weresax",
    "sustain": true,
    "release": 0.09,
    "vibrato": [
-    5.2,
-    14,
-    0.45
+    5.1,
+    16,
+    0.42
    ],
-   "tone": 6500,
+   "tone": 9000,
    "level": 1.0,
+   "layers": 2,
    "zones": [
     {
      "midi": 49,
-     "tune": 11,
-     "file": "49.flac",
+     "tune": 0,
+     "file": "49_p1.flac",
      "loop": [
-      0.46031,
-      1.558
-     ]
+      1.60459,
+      2.50647
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 49,
+     "tune": 0,
+     "file": "49_p2.flac",
+     "loop": [
+      1.65075,
+      2.55269
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 49,
+     "tune": 1,
+     "file": "49_f1.flac",
+     "loop": [
+      1.92769,
+      2.82984
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 49,
+     "tune": 0,
+     "file": "49_f2.flac",
+     "loop": [
+      1.76612,
+      2.66809
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 50,
+     "tune": 0,
+     "file": "50_p1.flac",
+     "loop": [
+      1.74306,
+      2.64209
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 50,
+     "tune": 0,
+     "file": "50_p2.flac",
+     "loop": [
+      1.78922,
+      2.68822
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 50,
+     "tune": 0,
+     "file": "50_f1.flac",
+     "loop": [
+      1.69691,
+      2.59594
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 50,
+     "tune": 0,
+     "file": "50_f2.flac",
+     "loop": [
+      1.90459,
+      2.80359
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 51,
+     "tune": 0,
+     "file": "51_p1.flac",
+     "loop": [
+      1.81228,
+      2.71225
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 51,
+     "tune": 0,
+     "file": "51_p2.flac",
+     "loop": [
+      1.51228,
+      2.41216
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 51,
+     "tune": 0,
+     "file": "51_f1.flac",
+     "loop": [
+      1.60459,
+      2.50453
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 51,
+     "tune": 0,
+     "file": "51_f2.flac",
+     "loop": [
+      1.76612,
+      2.66606
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 52,
+     "tune": 0,
+     "file": "52_p1.flac",
+     "loop": [
+      1.55844,
+      2.45644
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 52,
+     "tune": 0,
+     "file": "52_p2.flac",
+     "loop": [
+      1.74306,
+      2.64112
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 52,
+     "tune": 0,
+     "file": "52_f1.flac",
+     "loop": [
+      1.25844,
+      2.15647
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 52,
+     "tune": 0,
+     "file": "52_f2.flac",
+     "loop": [
+      1.25844,
+      2.15644
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 53,
-     "tune": -11,
-     "file": "53.flac",
+     "tune": 0,
+     "file": "53_p1.flac",
      "loop": [
-      0.52322,
-      1.62406
-     ]
+      1.92769,
+      2.82684
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 53,
+     "tune": 0,
+     "file": "53_p2.flac",
+     "loop": [
+      1.90459,
+      2.80378
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 53,
+     "tune": 0,
+     "file": "53_f1.flac",
+     "loop": [
+      1.78922,
+      2.68838
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 53,
+     "tune": 0,
+     "file": "53_f2.flac",
+     "loop": [
+      1.97384,
+      2.87306
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 54,
+     "tune": 0,
+     "file": "54_p1.flac",
+     "loop": [
+      1.21228,
+      2.11494
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 54,
+     "tune": 0,
+     "file": "54_p2.flac",
+     "loop": [
+      1.60459,
+      2.50728
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 54,
+     "tune": 0,
+     "file": "54_f1.flac",
+     "loop": [
+      1.37384,
+      2.27653
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 54,
+     "tune": 0,
+     "file": "54_f2.flac",
+     "loop": [
+      1.18922,
+      2.09194
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 55,
+     "tune": 0,
+     "file": "55_p1.flac",
+     "loop": [
+      1.65075,
+      2.54866
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 55,
+     "tune": 0,
+     "file": "55_p2.flac",
+     "loop": [
+      1.76612,
+      2.66409
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 55,
+     "tune": 0,
+     "file": "55_f1.flac",
+     "loop": [
+      1.90459,
+      2.80262
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 55,
+     "tune": 0,
+     "file": "55_f2.flac",
+     "loop": [
+      1.62769,
+      2.52562
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 56,
+     "tune": 1,
+     "file": "56_p1.flac",
+     "loop": [
+      1.76612,
+      2.66666
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 56,
+     "tune": 0,
+     "file": "56_p2.flac",
+     "loop": [
+      1.69691,
+      2.59744
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 56,
+     "tune": 0,
+     "file": "56_f1.flac",
+     "loop": [
+      1.92769,
+      2.82825
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 56,
+     "tune": 0,
+     "file": "56_f2.flac",
+     "loop": [
+      1.60459,
+      2.50519
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 57,
-     "tune": -2,
-     "file": "57.flac",
+     "tune": 0,
+     "file": "57_p1.flac",
      "loop": [
-      0.71247,
-      1.81353
-     ]
+      1.62769,
+      2.52769
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 57,
+     "tune": 0,
+     "file": "57_p2.flac",
+     "loop": [
+      1.99691,
+      2.89691
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 57,
+     "tune": 0,
+     "file": "57_f1.flac",
+     "loop": [
+      1.97384,
+      2.87391
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 57,
+     "tune": 0,
+     "file": "57_f2.flac",
+     "loop": [
+      1.99691,
+      2.89684
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 58,
+     "tune": 0,
+     "file": "58_p1.flac",
+     "loop": [
+      1.48922,
+      2.39019
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 58,
+     "tune": 0,
+     "file": "58_p2.flac",
+     "loop": [
+      1.95075,
+      2.85172
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 58,
+     "tune": 0,
+     "file": "58_f1.flac",
+     "loop": [
+      1.42,
+      2.32097
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 58,
+     "tune": 0,
+     "file": "58_f2.flac",
+     "loop": [
+      1.88153,
+      2.78247
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 59,
+     "tune": 0,
+     "file": "59_p1.flac",
+     "loop": [
+      1.83538,
+      2.73434
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 59,
+     "tune": 0,
+     "file": "59_p2.flac",
+     "loop": [
+      1.55844,
+      2.45741
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 59,
+     "tune": 0,
+     "file": "59_f1.flac",
+     "loop": [
+      1.32769,
+      2.22675
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 59,
+     "tune": 0,
+     "file": "59_f2.flac",
+     "loop": [
+      1.16613,
+      2.06516
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60_p1.flac",
+     "loop": [
+      1.97384,
+      2.87212
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60_p2.flac",
+     "loop": [
+      1.81228,
+      2.71056
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60_f1.flac",
+     "loop": [
+      1.72,
+      2.62209
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 60,
+     "tune": 0,
+     "file": "60_f2.flac",
+     "loop": [
+      1.12,
+      2.01828
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 61,
-     "tune": -2,
-     "file": "61.flac",
+     "tune": 0,
+     "file": "61_p1.flac",
      "loop": [
-      0.578,
-      1.67662
-     ]
+      1.21228,
+      2.11422
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 61,
+     "tune": 0,
+     "file": "61_p2.flac",
+     "loop": [
+      1.92769,
+      2.82594
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 61,
+     "tune": 0,
+     "file": "61_f1.flac",
+     "loop": [
+      1.25844,
+      2.15681
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 61,
+     "tune": 0,
+     "file": "61_f2.flac",
+     "loop": [
+      1.72,
+      2.61831
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 62,
+     "tune": 0,
+     "file": "62_p1.flac",
+     "loop": [
+      1.14306,
+      2.04209
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 62,
+     "tune": 0,
+     "file": "62_p2.flac",
+     "loop": [
+      1.44306,
+      2.34206
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 62,
+     "tune": 0,
+     "file": "62_f1.flac",
+     "loop": [
+      1.23537,
+      2.13438
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 62,
+     "tune": 0,
+     "file": "62_f2.flac",
+     "loop": [
+      1.81228,
+      2.71134
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 63,
+     "tune": 0,
+     "file": "63_p1.flac",
+     "loop": [
+      1.32769,
+      2.22772
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 63,
+     "tune": 0,
+     "file": "63_p2.flac",
+     "loop": [
+      1.42,
+      2.32003
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 63,
+     "tune": 0,
+     "file": "63_f1.flac",
+     "loop": [
+      1.92769,
+      2.82772
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 63,
+     "tune": 0,
+     "file": "63_f2.flac",
+     "loop": [
+      1.72,
+      2.62006
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 64,
+     "tune": 1,
+     "file": "64_p1.flac",
+     "loop": [
+      1.44306,
+      2.34406
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 64,
+     "tune": 1,
+     "file": "64_p2.flac",
+     "loop": [
+      1.14306,
+      2.04403
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 64,
+     "tune": 0,
+     "file": "64_f1.flac",
+     "loop": [
+      1.65075,
+      2.55178
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 64,
+     "tune": 0,
+     "file": "64_f2.flac",
+     "loop": [
+      1.16613,
+      2.06716
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 65,
-     "tune": 16,
-     "file": "65.flac",
+     "tune": 1,
+     "file": "65_p1.flac",
      "loop": [
-      0.80916,
-      1.90972
-     ]
+      1.53538,
+      2.43444
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 65,
+     "tune": 0,
+     "file": "65_p2.flac",
+     "loop": [
+      1.12,
+      2.01912
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 65,
+     "tune": 1,
+     "file": "65_f1.flac",
+     "loop": [
+      2.02,
+      2.91919
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 65,
+     "tune": 0,
+     "file": "65_f2.flac",
+     "loop": [
+      1.12,
+      2.01919
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 66,
+     "tune": 0,
+     "file": "66_p1.flac",
+     "loop": [
+      1.95075,
+      2.85072
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 66,
+     "tune": 0,
+     "file": "66_p2.flac",
+     "loop": [
+      1.78922,
+      2.68925
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 66,
+     "tune": 0,
+     "file": "66_f1.flac",
+     "loop": [
+      1.97384,
+      2.874
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 66,
+     "tune": 0,
+     "file": "66_f2.flac",
+     "loop": [
+      2.02,
+      2.92009
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 67,
+     "tune": 1,
+     "file": "67_p1.flac",
+     "loop": [
+      2.02,
+      2.92031
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 67,
+     "tune": 1,
+     "file": "67_p2.flac",
+     "loop": [
+      1.90459,
+      2.80512
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 67,
+     "tune": 0,
+     "file": "67_f1.flac",
+     "loop": [
+      1.88153,
+      2.78212
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 67,
+     "tune": 0,
+     "file": "67_f2.flac",
+     "loop": [
+      1.21228,
+      2.11291
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 68,
+     "tune": 0,
+     "file": "68_p1.flac",
+     "loop": [
+      1.85844,
+      2.759
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 68,
+     "tune": 1,
+     "file": "68_p2.flac",
+     "loop": [
+      1.30459,
+      2.20512
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 68,
+     "tune": 0,
+     "file": "68_f1.flac",
+     "loop": [
+      1.95075,
+      2.85128
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 68,
+     "tune": 0,
+     "file": "68_f2.flac",
+     "loop": [
+      1.35075,
+      2.25131
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 69,
-     "tune": 12,
-     "file": "69.flac",
+     "tune": 0,
+     "file": "69_p1.flac",
      "loop": [
-      0.67475,
-      1.77422
-     ]
+      1.58153,
+      2.48166
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 69,
+     "tune": 1,
+     "file": "69_p2.flac",
+     "loop": [
+      1.67384,
+      2.574
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 69,
+     "tune": 0,
+     "file": "69_f1.flac",
+     "loop": [
+      1.44306,
+      2.34316
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 69,
+     "tune": 0,
+     "file": "69_f2.flac",
+     "loop": [
+      1.62769,
+      2.52784
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 70,
+     "tune": 0,
+     "file": "70_p1.flac",
+     "loop": [
+      1.88153,
+      2.78269
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 70,
+     "tune": 0,
+     "file": "70_p2.flac",
+     "loop": [
+      1.90459,
+      2.80562
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 70,
+     "tune": 0,
+     "file": "70_f1.flac",
+     "loop": [
+      1.95075,
+      2.84972
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 70,
+     "tune": 0,
+     "file": "70_f2.flac",
+     "loop": [
+      1.46612,
+      2.36509
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 71,
+     "tune": 0,
+     "file": "71_p1.flac",
+     "loop": [
+      1.16613,
+      2.06734
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 71,
+     "tune": 0,
+     "file": "71_p2.flac",
+     "loop": [
+      1.18922,
+      2.09034
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 71,
+     "tune": 0,
+     "file": "71_f1.flac",
+     "loop": [
+      1.76612,
+      2.66725
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 71,
+     "tune": 0,
+     "file": "71_f2.flac",
+     "loop": [
+      1.74306,
+      2.64412
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 72,
+     "tune": 1,
+     "file": "72_p1.flac",
+     "loop": [
+      1.72,
+      2.62019
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 72,
+     "tune": 1,
+     "file": "72_p2.flac",
+     "loop": [
+      1.35075,
+      2.25088
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 72,
+     "tune": 0,
+     "file": "72_f1.flac",
+     "loop": [
+      1.90459,
+      2.80478
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 72,
+     "tune": 0,
+     "file": "72_f2.flac",
+     "loop": [
+      1.18922,
+      2.08944
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 73,
-     "tune": 7,
-     "file": "73.flac",
+     "tune": 1,
+     "file": "73_p1.flac",
      "loop": [
-      0.5135,
-      1.61344
-     ]
+      1.97384,
+      2.87394
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 73,
+     "tune": 0,
+     "file": "73_p2.flac",
+     "loop": [
+      1.39691,
+      2.297
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 73,
+     "tune": 0,
+     "file": "73_f1.flac",
+     "loop": [
+      1.58153,
+      2.48178
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 73,
+     "tune": 0,
+     "file": "73_f2.flac",
+     "loop": [
+      1.76612,
+      2.66631
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 74,
+     "tune": 1,
+     "file": "74_p1.flac",
+     "loop": [
+      1.53538,
+      2.436
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 74,
+     "tune": 1,
+     "file": "74_p2.flac",
+     "loop": [
+      1.21228,
+      2.11291
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 74,
+     "tune": 1,
+     "file": "74_f1.flac",
+     "loop": [
+      1.48922,
+      2.38988
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 74,
+     "tune": 0,
+     "file": "74_f2.flac",
+     "loop": [
+      1.14306,
+      2.04378
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 75,
+     "tune": 0,
+     "file": "75_p1.flac",
+     "loop": [
+      1.88153,
+      2.78153
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 75,
+     "tune": 0,
+     "file": "75_p2.flac",
+     "loop": [
+      1.21228,
+      2.11244
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 75,
+     "tune": 0,
+     "file": "75_f1.flac",
+     "loop": [
+      1.85844,
+      2.7585
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 75,
+     "tune": 0,
+     "file": "75_f2.flac",
+     "loop": [
+      1.44306,
+      2.34309
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 76,
+     "tune": 1,
+     "file": "76_p1.flac",
+     "loop": [
+      2.02,
+      2.92097
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 76,
+     "tune": 1,
+     "file": "76_p2.flac",
+     "loop": [
+      1.88153,
+      2.78116
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 76,
+     "tune": 0,
+     "file": "76_f1.flac",
+     "loop": [
+      1.81228,
+      2.71175
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 76,
+     "tune": 1,
+     "file": "76_f2.flac",
+     "loop": [
+      1.58153,
+      2.48278
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 77,
-     "tune": 11,
-     "file": "77.flac",
+     "tune": 1,
+     "file": "77_p1.flac",
      "loop": [
-      1.32,
-      2.42006
-     ]
+      1.48922,
+      2.38975
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 77,
+     "tune": 1,
+     "file": "77_p2.flac",
+     "loop": [
+      1.30459,
+      2.20494
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 77,
+     "tune": 0,
+     "file": "77_f1.flac",
+     "loop": [
+      1.97384,
+      2.87444
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 77,
+     "tune": 0,
+     "file": "77_f2.flac",
+     "loop": [
+      1.16613,
+      2.06684
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 78,
+     "tune": 0,
+     "file": "78_p1.flac",
+     "loop": [
+      1.99691,
+      2.89678
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 78,
+     "tune": 1,
+     "file": "78_p2.flac",
+     "loop": [
+      1.92769,
+      2.82778
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 78,
+     "tune": 0,
+     "file": "78_f1.flac",
+     "loop": [
+      1.35075,
+      2.25097
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 78,
+     "tune": 1,
+     "file": "78_f2.flac",
+     "loop": [
+      1.62769,
+      2.52778
+     ],
+     "layer": 1,
+     "rr": 1
+    },
+    {
+     "midi": 79,
+     "tune": 1,
+     "file": "79_p1.flac",
+     "loop": [
+      1.16613,
+      2.06669
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 79,
+     "tune": 1,
+     "file": "79_p2.flac",
+     "loop": [
+      1.35075,
+      2.25125
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 79,
+     "tune": 1,
+     "file": "79_f1.flac",
+     "loop": [
+      2.02,
+      2.92056
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 79,
+     "tune": 1,
+     "file": "79_f2.flac",
+     "loop": [
+      1.69691,
+      2.59741
+     ],
+     "layer": 1,
+     "rr": 1
     },
     {
      "midi": 80,
-     "tune": 4,
-     "file": "80.flac",
+     "tune": 1,
+     "file": "80_p1.flac",
      "loop": [
-      0.66109,
-      1.76072
-     ]
+      1.95075,
+      2.85116
+     ],
+     "layer": 0,
+     "rr": 0
+    },
+    {
+     "midi": 80,
+     "tune": 1,
+     "file": "80_p2.flac",
+     "loop": [
+      1.76612,
+      2.66678
+     ],
+     "layer": 0,
+     "rr": 1
+    },
+    {
+     "midi": 80,
+     "tune": 0,
+     "file": "80_f1.flac",
+     "loop": [
+      1.95075,
+      2.85131
+     ],
+     "layer": 1,
+     "rr": 0
+    },
+    {
+     "midi": 80,
+     "tune": 0,
+     "file": "80_f2.flac",
+     "loop": [
+      1.32769,
+      2.22831
+     ],
+     "layer": 1,
+     "rr": 1
     }
    ]
   },
@@ -1355,6 +2683,102 @@
    "name": "Piano (for singers)",
    "from": "piano",
    "shift": 0
+  },
+  "alto_sax_classic": {
+   "name": "Alto sax (first version)",
+   "source": "iowa",
+   "sustain": true,
+   "release": 0.09,
+   "vibrato": [
+    5.2,
+    14,
+    0.45
+   ],
+   "tone": 6500,
+   "level": 1.0,
+   "zones": [
+    {
+     "midi": 49,
+     "tune": 11,
+     "file": "49.flac",
+     "loop": [
+      0.46031,
+      1.558
+     ]
+    },
+    {
+     "midi": 53,
+     "tune": -11,
+     "file": "53.flac",
+     "loop": [
+      0.52322,
+      1.62406
+     ]
+    },
+    {
+     "midi": 57,
+     "tune": -2,
+     "file": "57.flac",
+     "loop": [
+      0.71247,
+      1.81353
+     ]
+    },
+    {
+     "midi": 61,
+     "tune": -2,
+     "file": "61.flac",
+     "loop": [
+      0.578,
+      1.67662
+     ]
+    },
+    {
+     "midi": 65,
+     "tune": 16,
+     "file": "65.flac",
+     "loop": [
+      0.80916,
+      1.90972
+     ]
+    },
+    {
+     "midi": 69,
+     "tune": 12,
+     "file": "69.flac",
+     "loop": [
+      0.67475,
+      1.77422
+     ]
+    },
+    {
+     "midi": 73,
+     "tune": 7,
+     "file": "73.flac",
+     "loop": [
+      0.5135,
+      1.61344
+     ]
+    },
+    {
+     "midi": 77,
+     "tune": 11,
+     "file": "77.flac",
+     "loop": [
+      1.32,
+      2.42006
+     ]
+    },
+    {
+     "midi": 80,
+     "tune": 4,
+     "file": "80.flac",
+     "loop": [
+      0.66109,
+      1.76072
+     ]
+    }
+   ]
   }
  }
 }

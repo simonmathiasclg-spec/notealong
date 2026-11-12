@@ -115,3 +115,85 @@ clock is corrected after it was booked.
 - Esc closes things in this order: an open panel, then the loop, then focus mode.
 - The tip counts as seen as soon as it has been shown, so it can't come back.
 - A loop starts 0.15 s before the line and ends 0.2 s after it, so the first note isn't clipped.
+
+## Part 3: "Hear it played"
+
+### The button
+
+| Off | On | Other instruments (on) |
+| --- | --- | --- |
+| ![](player-polish/shots/hear-desktop-alto_sax-off.png) | ![](player-polish/shots/hear-desktop-alto_sax-on.png) | ![](player-polish/shots/hear-instruments.png) |
+
+In the player: ![](player-polish/shots/hear-desktop-full-on.png)
+
+| iPad | Phone (icon only, to fit) |
+| --- | --- |
+| ![](player-polish/shots/hear-ipad-full-on.png) | ![](player-polish/shots/hear-phone-full-on.png) |
+
+- A saxophone drawn for the app, with the same line weight as the other icons. Off: outline, "Hear it
+  played". On: filled in the accent colour, "Playing along".
+- Two small sound waves beside the icon pulse each time a note actually sounds (driven by the same
+  clock as the sound, so they are in time). With "reduce motion" on they stay still.
+- The icon follows the instrument: saxophones, clarinet, flute, trumpet and other brass, horn, violin
+  and other strings, piano, voice each have their own drawing (the right column above shows clarinet,
+  flute, horn, piano, trumpet, violin).
+
+### The sound
+
+Four ways of playing the alto sax were built and compared. The files are in
+`docs/listening-samples/sax-sound/` (its README names each one).
+
+| Approach | Source and licence | Distance from a real player, La Cucaracha / Despacito (lower is closer) |
+| --- | --- | --- |
+| Old sound: 9 notes, one loudness | University of Iowa, free for any use | 0.72 / 0.88 |
+| New recordings, plain: every semitone, soft and loud, two takes each | Karoryfer Weresax, CC0 | 0.46 / 0.69 |
+| **New recordings with phrasing (shipped)** | same | **0.33 / 0.66** |
+| Physical model (reed and tube) | written here after STK "Saxofony" (MIT-style) | 1.13 / 1.43 |
+
+- **What phrasing adds.** Notes that run together are lightly tongued, or slurred when a quick note
+  moves by step inside one word. A phrase starts with a clear attack and now and then a small scoop up
+  to the note. Long notes grow a gentle vibrato after the first third of a second. A little breath on
+  attacks, a soft roll-off at the top, a little room. Loudness follows how the singer sang each note
+  when there is a singer (new `/api/songs/{id}/dynamics`), and the shape of the tune when there is not.
+  Soft notes use the soft recordings and loud notes the loud ones, so the tone changes with loudness as
+  on a real sax. Two takes of each note alternate, so repeated notes are not identical.
+- **Neural models (DDSP and similar) were looked at and not used.** The ready-trained sax models are
+  either under non-commercial licences or trained on recordings whose licence does not allow commercial
+  use; training our own needs hours of clean solo alto under a usable licence, which does not exist
+  openly. The list of what was rejected and why is in `catalog/LICENSES.md`.
+- **Rejected sample sets**: TinySOL, OrchideaSOL, Good-sounds, FiloSax, NSynth (non-commercial or
+  unclear terms). MTG Solo Saxophones (CC BY 4.0) is used only as the "real notes" reference when
+  measuring, not in the app.
+- **How it was measured.** `service/scripts/compare_sax_sound.py` compares pitch steadiness, loudness
+  range between and inside notes, how fast notes speak and the balance of harmonics with a real alto
+  player and real single notes. The old sound's biggest faults were a pitch wobble inside each note
+  (4 to 5 cents; real 1.3; new 1.3) and no dynamics (1.5 dB; real 8; shipped 6.9 on La Cucaracha). The
+  numbers are a guide: the real player comes from a separated recording, so vibrato was left out of the
+  score. Please judge by ear with the files.
+- **Other instruments.** The phrasing applies to every sustained instrument (saxes, clarinet, flute,
+  brass, strings, voice); piano keeps plain attacks. Only the alto has the richer recordings so far;
+  the others still use their Iowa notes. Tenor, soprano and baritone could get the same treatment from
+  MTG Solo Saxophones (CC BY 4.0, needs a credit line), which is a possible next step.
+- **Switching.** The shipped sound is the default. In the browser console on a song page:
+  `localStorage.setItem("na.saxSound","classic")` gives the old sound,
+  `localStorage.setItem("na.hearExpression","0")` the new recordings without phrasing; reload after.
+
+### Timing
+
+Still exact with the new sound, checked in a real browser:
+
+- Whole song (`check-hear-sync.mjs`): worst note 9.5 ms at full speed, 12.4 ms at half speed, no drift.
+- Looping two lines with a key change part way (`check-loop.mjs`, run twice): worst 12 to 23 ms at
+  full speed, 14 to 17 ms at half speed, never more than 2 ms outside the loop.
+- Every instrument plays (alto, tenor, baritone, trumpet, flute, violin, piano, voice): worst 13 ms.
+
+All under the 30 ms limit.
+
+**Decisions.**
+
+- The alto has 128 recordings now. The player first loads only the ones the song needs (36 for La
+  Cucaracha) so "Hear it played" is ready quickly; the rest are fetched if a key change needs them.
+- When a singer's loudness is nearly flat (most pop vocals are compressed), it is stretched so the sax
+  still has light and shade (Despacito: 2.7 dB became 4.5 dB).
+- The scoop, vibrato depth and breath are kept small on purpose: wrong expression is worse than none.
+- The phone button shows the icon and waves only; the label would not fit beside the other controls.

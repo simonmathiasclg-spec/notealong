@@ -317,6 +317,15 @@ input[type="range"] { accent-color: var(--fg); width: 100%; height: 1.25rem; }
 @keyframes wave { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
 }
 
+/* "Hear it played": the sound waves beside the instrument pulse once per note */
+.hear-waves { display: inline-flex; }
+.hear-waves .sound-wave { opacity: .45; transform-origin: 0 50%; transform-box: view-box; }
+.hear-waves[data-playing="0"] .sound-wave { opacity: .3; }
+.hear-waves[data-pulse="1"] .sound-wave { animation: hear-pulse .42s cubic-bezier(.2, .7, .2, 1); }
+.hear-waves[data-pulse="1"] .sound-wave:nth-child(2) { animation-delay: .06s; }
+@keyframes hear-pulse { 0% { opacity: 1; transform: scale(.8); } 35% { opacity: 1; transform: scale(1.06); } 100% { opacity: .45; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .hear-waves .sound-wave { animation: none !important; opacity: .8; } }
+
 /* ---- The player's room ------------------------------------------------- */
 .stage-art { filter: blur(56px) saturate(1.3) brightness(.9); opacity: .75; transform: translateZ(0); }
 .stage-shade { background: radial-gradient(130% 95% at 50% 42%, rgb(11 10 9 / .5), rgb(11 10 9 / .86) 72%, rgb(11 10 9 / .95)); }

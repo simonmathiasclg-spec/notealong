@@ -3,6 +3,9 @@
 //
 //   PLAYWRIGHT_DIR=... node scripts/render-hear-demo.mjs <song-id> <instrument-id> <out.wav> [seconds] [key-shift]
 //
+// FROM=84.5 starts the render that far into the song ([seconds] is then where it ends).
+// PLAIN=1 turns the phrasing off (the bare recordings: every note tongued at one level).
+//
 // Used to make docs/listening-samples and to check tuning and levels by analysis.
 import { createRequire } from "node:module";
 import fs from "node:fs";
@@ -14,18 +17,26 @@ const api = process.env.API ?? "http://localhost:8000";
 const info = await (await fetch(`${api}/api/songs/${song}`)).json();
 const seconds = Math.min(Number(secondsArg) || info.duration, info.duration);
 const shift = Number(shiftArg) || 0;
+const from = Number(process.env.FROM) || 0;
+const plain = process.env.PLAIN === "1";
+const dyn = await fetch(`${api}/api/songs/${song}/dynamics`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+const levels = dyn?.levels && Object.keys(dyn.levels).length ? dyn.levels : null;
 const browser = await chromium.launch({ executablePath: process.env.CHROME || undefined });
 const page = await browser.newPage();
 await page.addInitScript(() => { window.__hearDebug = true; localStorage.setItem("na.instrument", "alto_sax"); });
 await page.goto(`${base}/songs/${song}`, { waitUntil: "load" });
 await page.waitForFunction(() => !!window.__NoteAlongSampler, null, { timeout: 30000 });
-const b64 = await page.evaluate(async ({ notes, instrument, seconds, shift }) => {
+const b64 = await page.evaluate(async ({ notes, instrument, seconds, shift, from, plain, levels }) => {
   const sr = 44100;
-  const ctx = new OfflineAudioContext(2, Math.ceil((seconds + 2) * sr), sr);
+  const ctx = new OfflineAudioContext(2, Math.ceil((seconds - from + 2) * sr), sr);
   const sampler = new window.__NoteAlongSampler(ctx);
   sampler.setVolume(0.8);
-  await sampler.use(instrument);
-  for (const n of notes) if (n.start < seconds) sampler.play(n.id, n.midi + shift, n.start, n.end - n.start);
+  sampler.expression = !plain;
+  const phrased = window.__NoteAlongPhrase(notes.map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + shift, word: n.word })), levels)
+    .filter((n) => n.start >= from && n.start < seconds);
+  await sampler.use(instrument, phrased.map((n) => n.pitch));
+  await new Promise((r) => setTimeout(r, 1500));   // the second takes load in the background
+  for (const n of phrased) sampler.play(n.id, n.pitch, n.start - from, n.end - n.start, n);
   const buf = await ctx.startRendering();
   // 16-bit stereo WAV
   const len = buf.length, bytes = new Uint8Array(44 + len * 4), v = new DataView(bytes.buffer);
@@ -36,7 +47,7 @@ const b64 = await page.evaluate(async ({ notes, instrument, seconds, shift }) =>
   for (let i = 0; i < len; i++) { v.setInt16(44 + i * 4, Math.max(-1, Math.min(1, L[i])) * 32767, true); v.setInt16(46 + i * 4, Math.max(-1, Math.min(1, R[i])) * 32767, true); }
   let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
   return btoa(s);
-}, { notes: info.notes.map((n) => ({ id: n.id, start: n.start, end: n.end, midi: n.midi })), instrument, seconds, shift });
+}, { notes: [...info.notes].sort((a, b) => a.start - b.start).map((n) => ({ id: n.id, start: n.start, end: n.end, midi: n.midi, word: n.word })), instrument, seconds, shift, from, plain, levels });
 fs.writeFileSync(out, Buffer.from(b64, "base64"));
 await browser.close();
-console.log("wrote", out, `${seconds.toFixed(1)} s, ${info.notes.filter((n) => n.start < seconds).length} notes`);
+console.log("wrote", out, `${from.toFixed(1)}–${seconds.toFixed(1)} s, ${info.notes.filter((n) => n.start >= from && n.start < seconds).length} notes, ${plain ? "plain" : "phrased"}, loudness from ${levels ? "the singer" : "the melody"}`);

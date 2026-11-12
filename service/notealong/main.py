@@ -518,6 +518,24 @@ def get_pasted_lyrics(song_id: str):
     return {"text": p.read_text(encoding="utf-8") if p.exists() else ""}
 
 
+@app.get("/api/songs/{song_id}/dynamics")
+def get_dynamics(song_id: str):
+    """How loudly each note was sung (0..1), so "Hear it played" can follow the singer. Built-in songs have
+    no singer (their guide is an instrument): the player shapes those from the melody itself."""
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    if library.is_catalog(song_id):
+        return {"source": "none", "levels": {}}
+    from .pipeline.dynamics import note_levels
+    from .pipeline.runner import articulation
+    art = articulation(library.song_dir(song_id))
+    if art is None:
+        return {"source": "none", "levels": {}}
+    return {"source": "vocals", "levels": note_levels(song.notes, art)}
+
+
 _render_locks: dict[str, asyncio.Lock] = {}
 _warm_queue: asyncio.PriorityQueue[tuple[int, int, tuple[str, str, int, bool]]] | None = None
 _warm_pending: set[tuple[str, str, int, bool]] = set()

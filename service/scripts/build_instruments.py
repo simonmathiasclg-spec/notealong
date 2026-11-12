@@ -11,12 +11,18 @@ Each source recording is one held note. For every note this script:
   4. evens out the loudness and writes a small mono FLAC.
 The piano is not looped: it keeps its natural decay.
 
+The alto sax is built differently (LAYERED below): every semitone of its range, recorded soft and loud,
+twice each ("round robin"), from the Weresax library (CC0). Each note keeps more than a second of the player's
+own sustain before the loop begins, so most notes in a song never reach the loop at all. The older, smaller
+alto (three notes to the octave, one loudness) is kept as "alto_sax_classic".
+
 Sources and licences are listed in catalog/LICENSES.md.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -44,6 +50,16 @@ INSTRUMENTS: dict[str, dict] = {
     "violin":      {"name": "Violin", "source": "vsco", "sustain": True, "release": 0.14, "vibrato": None, "tone": 10000, "level": 1.0},   # recorded with its own vibrato
     "piano":       {"name": "Piano", "source": "vcsl", "sustain": False, "release": 0.30, "vibrato": None, "tone": 12000, "level": 0.65, "length": 4.5, "step": 4},
 }
+# Instruments built from a multi-layer library: folder under models/instrument_sources_raw, a pattern for the
+# file names -> (layer, round robin), layer 0 = soft, 1 = loud. `earliest`: the loop never starts before this (s).
+RAW = ROOT / "models" / "instrument_sources_raw"
+LAYERED: dict[str, dict] = {
+    "alto_sax": {"name": "Alto sax", "source": "weresax", "sustain": True, "release": 0.09, "vibrato": [5.1, 16, 0.42], "tone": 9000, "level": 1.0,
+                 "dir": "weresax/Samples/alto", "pattern": r"^[a-g]b?\d_(?P<layer>[pf])_rr(?P<rr>\d)_cnd\.wav$", "layers": {"p": 0, "f": 1},
+                 "earliest": 1.0, "loop": 0.9},
+}
+# The alto of the first version stays available under another id (see docs/listening-samples/sax-sound).
+RENAMED = {"alto_sax": "alto_sax_classic"}
 # Instruments without recordings of their own borrow another one.
 ALIASES = {
     # A baritone is close to a tenor scaled up by a fifth: the tenor recordings are played a fifth lower.
@@ -80,18 +96,32 @@ def find_onset(x: np.ndarray, env: np.ndarray, hop: int = 256) -> int:
     return max(0, first * hop - int(0.004 * SR))
 
 
-def make_loop(x: np.ndarray, f0: float, target: float = 1.1, fade: float = 0.12) -> tuple[np.ndarray, int, int, dict]:
+def find_onset_fine(x: np.ndarray) -> int:
+    """The attack to within a few milliseconds: where the sound first comes within 24 dB of the held note."""
+    w, hop = 256, 32
+    n = max(1, 1 + (len(x) - w) // hop)
+    idx = np.arange(w)[None, :] + hop * np.arange(n)[:, None]
+    env = 20 * np.log10(np.sqrt((x[np.minimum(idx, len(x) - 1)] ** 2).mean(axis=1)) + 1e-9)
+    body = float(np.percentile(env, 90))
+    first = int(np.argmax(env > body - 24))
+    return max(0, first * hop + w // 2 - int(0.012 * SR))
+
+
+def make_loop(x: np.ndarray, f0: float, target: float = 1.1, fade: float = 0.12, earliest: float = 0.30) -> tuple[np.ndarray, int, int, dict]:
     """x starts at the attack. Returns (samples up to the loop end, loop start, loop end, quality)."""
     hop = 256
     env = rms_db(x, hop=hop)
     mid = float(np.median(env[int(len(env) * 0.25):int(len(env) * 0.7)]))
     steady = np.where(env > mid - 3.0)[0]
-    a = max(int(0.30 * SR), int(steady[0]) * hop + int(0.08 * SR))
+    a = max(int(earliest * SR), int(steady[0]) * hop + int(0.08 * SR))
     # the steady part ends where the level last sits within 3 dB of the middle of the note
     b = int(steady[-1]) * hop
     period = SR / f0
     X = int(fade * SR)
     room = b - a - X
+    if room < int(0.35 * SR) and earliest > 0.30:      # not enough held note after a late start: start earlier
+        a = max(int(0.30 * SR), int(steady[0]) * hop + int(0.08 * SR))
+        room = b - a - X
     if room < int(0.35 * SR):          # a short note: use what there is
         a = max(int(0.18 * SR), a - int(0.1 * SR))
         X = int(0.06 * SR)
@@ -175,13 +205,63 @@ def click_score(sig: np.ndarray, s: int, e: int) -> float:
     return worst / typical
 
 
+def build_layered(inst: str, cfg: dict, report: list) -> dict:
+    """One instrument from a library with soft and loud recordings of every note, several takes of each."""
+    src_dir = RAW / cfg["dir"]
+    pat = re.compile(cfg["pattern"])
+    out_dir = OUT / inst
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for old in out_dir.glob("*.flac"):
+        old.unlink()
+    zones = []
+    for f in sorted(src_dir.iterdir()):
+        m = pat.match(f.name)
+        if not m:
+            continue
+        layer, rr = cfg["layers"][m["layer"]], int(m["rr"]) - 1
+        x = load_mono(f)
+        x = x[find_onset_fine(x):]
+        pitch = measure_pitch(x[int(0.25 * SR):int(min(len(x), 2.0 * SR))])
+        midi = int(round(pitch))
+        tune = round((pitch - midi) * 100)
+        f0 = 440 * 2 ** ((pitch - 69) / 12)
+        y, s, e, q = make_loop(x, f0, target=cfg["loop"], earliest=cfg["earliest"])
+        level = np.sqrt((y[s:e] ** 2).mean())
+        q["source_db"] = round(20 * np.log10(level + 1e-9), 1)       # how loud the player really played
+        y *= 10 ** (-20 / 20) / (level + 1e-9)
+        peak = np.abs(y).max()
+        if peak > 0.97:
+            y *= 0.97 / peak
+        y[:int(0.002 * SR)] *= np.linspace(0, 1, int(0.002 * SR))
+        held = simulate(y, s, e)
+        q["click"] = round(click_score(held, s, e), 2)
+        q["pumping_db"] = round(pumping_db(held, e), 1)
+        name = f"{midi}_{m['layer']}{rr + 1}.flac"
+        zone = {"midi": midi, "tune": tune, "file": name, "loop": [round(s / SR, 5), round(e / SR, 5)], "layer": layer, "rr": rr}
+        sf.write(out_dir / name, y.astype(np.float32), SR, subtype="PCM_16", format="FLAC")
+        zones.append(zone)
+        report.append({"instrument": inst, "source": f.name, **zone, **q, "kb": round((out_dir / name).stat().st_size / 1024)})
+        print(f"{inst:<12} {f.name:<22} -> midi {midi} ({tune:+d} cents) layer {layer} rr {rr} loop {zone['loop']} click {q['click']} splice {q['splice_error']} pumping {q['pumping_db']} dB, {report[-1]['kb']} KB", flush=True)
+    zones.sort(key=lambda z: (z["midi"], z["layer"], z["rr"]))
+    return {"name": cfg["name"], "source": cfg["source"], "sustain": cfg["sustain"], "release": cfg["release"], "vibrato": cfg["vibrato"],
+            "tone": cfg["tone"], "level": cfg["level"], "layers": len(set(cfg["layers"].values())), "zones": zones}
+
+
 def build(only: list[str] | None = None) -> dict:
-    manifest: dict = {"version": 1, "sample_rate": SR, "instruments": {}}
+    manifest: dict = {"version": 2, "sample_rate": SR, "instruments": {}}
     report = []
-    for inst, cfg in INSTRUMENTS.items():
+    if only:      # rebuild some instruments, keep the rest of the manifest as it is
+        manifest = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
+        manifest["version"] = 2
+    for inst, cfg in LAYERED.items():
         if only and inst not in only:
             continue
-        src_dir = SOURCES / inst
+        manifest["instruments"][inst] = build_layered(inst, cfg, report)
+    for src_inst, cfg in INSTRUMENTS.items():
+        inst = RENAMED.get(src_inst, src_inst)
+        if only and inst not in only:
+            continue
+        src_dir = SOURCES / src_inst
         files = sorted(src_dir.glob("*.*"), key=lambda p: int(p.stem))
         if not files:
             print(f"!! no source recordings for {inst} in {src_dir}", file=sys.stderr)
@@ -226,11 +306,11 @@ def build(only: list[str] | None = None) -> dict:
             prev_midi = midi
             report.append({"instrument": inst, "source": f.name, **zone, **q, "kb": round((out_dir / zone['file']).stat().st_size / 1024)})
             print(f"{inst:<12} {f.name:<10} -> midi {midi} ({tune:+d} cents, {pitch:.2f}) loop {q['loop_s']}s click {q.get('click')} splice {q['splice_error']} pumping {q['pumping_db']} dB, {report[-1]['kb']} KB", flush=True)
-        manifest["instruments"][inst] = {"name": cfg["name"], "source": cfg["source"], "sustain": cfg["sustain"], "release": cfg["release"],
+        manifest["instruments"][inst] = {"name": cfg["name"] + (" (first version)" if inst != src_inst else ""), "source": cfg["source"], "sustain": cfg["sustain"], "release": cfg["release"],
                                          "vibrato": cfg["vibrato"], "tone": cfg["tone"], "level": cfg["level"], "zones": zones}
-    if not only:
-        for alias, a in ALIASES.items():
-            manifest["instruments"][alias] = a
+    for alias, a in ALIASES.items():
+        manifest["instruments"][alias] = a
+    if True:
         (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1), encoding="utf-8")
     return {"manifest": manifest, "report": report}
 

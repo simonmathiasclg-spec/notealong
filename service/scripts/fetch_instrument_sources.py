@@ -5,6 +5,7 @@ Sources (see catalog/LICENSES.md for the licence of each):
   - University of Iowa Musical Instrument Samples: alto and soprano sax, clarinet, flute, oboe, trumpet, horn
   - Versilian Community Sample Library (VCSL, CC0): tenor sax, soprano recorder, Steinway B piano
   - VSCO 2 Community Edition (CC0): solo violin
+  - Karoryfer Weresax (CC0): the layered alto sax, cloned whole into models/instrument_sources_raw/weresax (about 200 MB)
 
     cd service && .venv/bin/python scripts/fetch_instrument_sources.py
 """
@@ -98,4 +99,8 @@ if __name__ == "__main__":
     github("sgossner/VCSL", vcsl, "piano", "Chordophones/Zithers/Grand Piano, Steinway B/NoSus/", r"JHPiano_NoSus_Close_([A-G]#?\d)_vl3_rr1", keep=lambda n: 33 <= n <= 100)
     vsco = github_tree("sgossner/VSCO-2-CE")
     github("sgossner/VSCO-2-CE", vsco, "violin", "Strings/Solo Violin/Arco Vib/", r"LLVln_ArcoVib_([A-G]#?\d)_f\.wav")
+    weresax = OUT.parent / "instrument_sources_raw" / "weresax"
+    if not (weresax / "Samples" / "alto").is_dir():
+        weresax.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["git", "clone", "--depth", "1", "https://github.com/sfzinstruments/karoryfer.weresax", str(weresax)], check=True)
     print("done:", OUT)

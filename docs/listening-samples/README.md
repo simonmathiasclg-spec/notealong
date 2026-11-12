@@ -35,3 +35,8 @@ and the vibrato that fades in); is the instrument at a good level against the ba
 
 Despacito's first chorus on the alto sax samples, before and after each accuracy round (see
 `docs/ACCURACY_REPORT.md`). Only the sax line: the song's recording is not in the repository.
+
+## Alto sax sound, four versions side by side (player polish, Part 3)
+
+See [`sax-sound/README.md`](sax-sound/README.md): the old sound, the new recordings, the new recordings
+with phrasing (what the app plays now) and a physical model, on La Cucaracha and Despacito.

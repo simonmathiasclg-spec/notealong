@@ -12,7 +12,8 @@ The files in `web/public/instruments/` are cut from single-note recordings by
 
 | Instrument in the app | Source | Licence / terms | Checked |
 |---|---|---|---|
-| Alto sax, soprano sax, clarinet, flute, oboe, trumpet, French horn | University of Iowa Electronic Music Studios, Musical Instrument Samples, recorded by Lawrence Fritts. <https://theremin.music.uiowa.edu/MIS.html> | No formal licence. The page states the recordings "may be downloaded and used for any projects, without restrictions". | 4 Nov 2026, read on the source page |
+| Alto sax (every semitone, soft and loud, two takes of each) | Weresax, Karoryfer Samples (condenser microphone takes of the alto). <https://github.com/sfzinstruments/karoryfer.weresax> | CC0 1.0 Universal, `LICENSE` in the repository; the readme adds "you can do whatever you want with it" | 12 Nov 2026 |
+| Alto sax "classic" (the earlier, smaller sound, kept as a switch), soprano sax, clarinet, flute, oboe, trumpet, French horn | University of Iowa Electronic Music Studios, Musical Instrument Samples, recorded by Lawrence Fritts. <https://theremin.music.uiowa.edu/MIS.html> | No formal licence. The page states the recordings "may be downloaded and used for any projects, without restrictions". | 4 Nov 2026, read on the source page |
 | Tenor sax, recorder (baroque soprano), piano (Steinway B) | Versilian Community Sample Library (VCSL), Versilian Studios. <https://github.com/sgossner/VCSL> | CC0 1.0 Universal (public domain dedication), `LICENSE` in the repository | 4 Nov 2026 |
 | Violin (solo, with vibrato) | VSCO 2 Community Edition, Versilian Studios. <https://github.com/sgossner/VSCO-2-CE> | CC0 1.0 Universal, `LICENSE` in the repository | 4 Nov 2026 |
 | Baritone sax | The tenor sax recordings above, played a fifth lower | as tenor sax | |
@@ -20,10 +21,25 @@ The files in `web/public/instruments/` are cut from single-note recordings by
 
 Attribution is not required by any of these, but credit is given here and in the README.
 
+### Used for measuring only, not shipped
+
+| Source | Used for | Licence / terms | Checked |
+|---|---|---|---|
+| MTG Solo Saxophones (Music Technology Group, Universitat Pompeu Fabra). <https://github.com/sfzinstruments/MTG.SoloSax> | Real alto notes as the yardstick for tone and attack in `service/scripts/compare_sax_sound.py`. A good source for a layered tenor, soprano and baritone later (credit would then be required). | CC BY 4.0 | 12 Nov 2026 |
+| STK "Saxofony" reed model (Perry Cook, Gary Scavone), re-written in `service/scripts/render_physical_sax.py` | The physical-model entry in the sax sound comparison | MIT-style: "use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies" | 12 Nov 2026 |
+
 ### Considered and rejected
 
 | Source | Why not |
 |---|---|
+| TinySOL alto sax (Ircam, Zenodo 3685367) | Licence is fine (CC BY 4.0) and it has three loudness levels, but one take per note, 16-bit, and a 1 GB download for 99 notes. Weresax gives two takes with no credit needed. |
+| Good-sounds full set (Zenodo 4588740) | The record says CC BY 4.0 in one place and CC BY-NC 4.0 in another. Not safe for a paid app. |
+| OrchideaSOL (Ircam) | Non-commercial use only. |
+| FiloSax | Restricted access, no open licence. |
+| NSynth | Licence is fine (CC BY 4.0) but 16 kHz, four-second notes: worse than what was there. |
+| Magenta DDSP saxophone models (timbre-transfer checkpoint, DDSP-VST `Saxophone.tflite`), MIDI-DDSP | Code is Apache 2.0, but no licence is stated for the trained weights or the recordings they were trained on. They are tenor sax at 16 kHz (nothing above 8 kHz), and MIDI-DDSP does not install on Apple silicon. Not shippable, and not better. |
+| acids-ircam `ddsp_pytorch` saxophone model | Same problem: licence of the weights and training recordings not stated. |
+| RAVE (Ircam) | CC BY-NC 4.0: non-commercial. |
 | Philharmonia Orchestra sound samples | Free for commercial music, but the terms say the samples must not be made available "as samples or as a sampler instrument". A play-along instrument is exactly that. |
 | tonejs-instruments (nbrosowsky) | Samples offered as CC BY 3.0 but gathered from "a variety of public domain sources"; the origin of each instrument could not be confirmed, and some appear to come from the Philharmonia set. |
 | Sonatina Symphonic Orchestra | Creative Commons Sampling Plus 1.0, which restricts advertising use. Not clearly compatible with a paid app. |

@@ -13,7 +13,9 @@ import { describeNote, keyName, resolveOctaveShift, type DisplayNote } from "@/l
 import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
 import { beatSeconds, cueAt, type Cue } from "@/lib/timing";
 import { Sampler, type SamplerState } from "@/lib/sampler";
-import { HearEngine, type HearNote } from "@/lib/hear";
+import { HearEngine, phrase, type HearNote } from "@/lib/hear";
+import { API } from "@/lib/api";
+import { CLOUD } from "@/lib/cloud/config";
 import { accentFromArt, accentVars, artVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
@@ -37,6 +39,8 @@ import { nowPlaying } from "@/lib/nowPlaying";
 type Snapshot = { notes: Note[]; words: Word[] };
 
 function instrumentIsSax(id: string) { return id.endsWith("_sax"); }
+
+function readPref(key: string): string | null { try { return localStorage.getItem(key); } catch { return null; } }
 
 export function Player({ initial, reload, colors = null }: { initial: Song; reload: () => Promise<void>; colors?: ArtColors | null }) {
   const [song, setSong] = useState<Song>(initial);
@@ -72,6 +76,9 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   const [hearLoaded, setHearLoaded] = useState<{ instrument: string; ok: boolean } | null>(null);
   const samplerRef = useRef<Sampler | null>(null);
   const hearRef = useRef<HearEngine | null>(null);
+  /** Set by the transport: makes the button's sound waves pulse once. */
+  const hearListeners = useRef(new Set<() => void>());
+  const onHearNote = useCallback((fn: () => void) => { hearListeners.current.add(fn); return () => { hearListeners.current.delete(fn); }; }, []);
   const engineRef = useRef<AudioEngine | null>(null);
 
   // ---- audio engine -------------------------------------------------------
@@ -165,11 +172,21 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   // ---- hear it played: the melody on a sampled instrument, at sounding pitch ----
   // What the player's instrument will actually sound: concert pitch, moved with the key
   // (the key of the audio that is loaded) and the octave. The written transposition is for reading only.
-  const hearNotes = useMemo<HearNote[]>(() => [...song.notes].sort((a, b) => a.start - b.start)
-    .map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + engineState.shift + 12 * octaveShift })),
-  [song.notes, engineState.shift, octaveShift]);
+  // how loudly each note was sung (uploaded songs with a singer); without it the phrasing follows the melody
+  const [sung, setSung] = useState<{ song: string; levels: Record<string, number> } | null>(null);
+  useEffect(() => {
+    if (!hear || CLOUD) return;
+    let cancelled = false;
+    fetch(`${API}/api/songs/${song.id}/dynamics`).then((r) => (r.ok ? r.json() : null))
+      .then((d: { levels?: Record<string, number> } | null) => { if (!cancelled && d?.levels && Object.keys(d.levels).length) setSung({ song: song.id, levels: d.levels }); })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, [hear, song.id]);
+  const hearNotes = useMemo<HearNote[]>(() => phrase([...song.notes].sort((a, b) => a.start - b.start)
+    .map((n) => ({ id: n.id, start: n.start, end: n.end, pitch: n.midi + engineState.shift + 12 * octaveShift, word: n.word })), sung?.song === song.id ? sung.levels : null),
+  [song.notes, song.id, engineState.shift, octaveShift, sung]);
   const hearNotesRef = useRef(hearNotes);
-  useEffect(() => { hearNotesRef.current = hearNotes; hearRef.current?.setNotes(hearNotes); }, [hearNotes]);
+  useEffect(() => { hearNotesRef.current = hearNotes; void samplerRef.current?.prepare(hearNotes.map((n) => n.pitch)); hearRef.current?.setNotes(hearNotes); }, [hearNotes]);
   useEffect(() => { samplerRef.current?.setVolume(hearVolume); }, [hearVolume]);
   useEffect(() => {
     const engine = engineRef.current;
@@ -180,9 +197,13 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
       try {
         samplerRef.current ??= new Sampler(engine.audioContext());
         hearRef.current ??= new HearEngine(engine, samplerRef.current);
+        hearRef.current.onNote = () => hearListeners.current.forEach((fn) => fn());
         const sampler = samplerRef.current, player = hearRef.current;
         sampler.setVolume(hearVolume);
-        await sampler.use(instrumentId);
+        // two switches for comparing sounds (see docs/listening-samples/sax-sound/README.md)
+        sampler.expression = readPref("na.hearExpression") !== "0";
+        const sound = instrumentId === "alto_sax" && readPref("na.saxSound") === "classic" ? "alto_sax_classic" : instrumentId;
+        await sampler.use(sound, hearNotesRef.current.map((n) => n.pitch));
         if (cancelled) return;
         player.setNotes(hearNotesRef.current);
         player.setEnabled(true);
@@ -564,7 +585,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           loopHint={loopHintOn && engineState.ready && !editing} onDismissLoopHint={dismissLoopHint}
           onSpeed={(speed) => update({ speed })}
           focus={focus}
-          hear={hear} hearState={hearState} onHear={toggleHear} instrument={instrument}
+          hear={hear} hearState={hearState} onHear={toggleHear} instrument={instrument} onHearNote={onHearNote}
         />
       </div>
 

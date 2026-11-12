@@ -3,10 +3,12 @@ export function InstrumentIcon({ icon, className = "w-6 h-6" }: { icon: string; 
   const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (icon) {
     case "sax":
+      // drawn for NoteAlong: neck and mouthpiece, tapered body, upturned bell, three key pearls
       return (
         <svg viewBox="0 0 24 24" className={className} {...common}>
-          <path d="M16 3l2 2-7.5 7.5V17a3 3 0 0 1-3 3H6a2 2 0 0 1-2-2v-1.5c0-1.5 1-2.5 2.5-2.5H9" />
-          <circle cx="5.5" cy="17.5" r="1" /><path d="M11 9.5l1 1M12.5 8l1 1M14 6.5l1 1" />
+          <path d="M14.2 6.8h1.9l.4 8.400c.1 3.300-2.400 5.600-5.4 5.600-3.200 0-5.600-2.200-6.3-5.2L3.200 9.400l6.400 1.200-.2 4c0 1.300.7 2.100 1.700 2.100 1.100 0 1.700-.8 1.800-1.900z" />
+          <path d="M15.15 6.800V5.500c0-1.100.7-1.800 1.800-1.900l3.500-.4" />
+          <path d="M18.3 9.500h.01M18.500 12.300h.01M18.600 15.100h.01" />
         </svg>
       );
     case "clarinet":
@@ -65,4 +67,17 @@ export function InstrumentIcon({ icon, className = "w-6 h-6" }: { icon: string; 
         </svg>
       );
   }
+}
+
+/**
+ * Sound waves for the "Hear it played" button: two arcs leaving the instrument.
+ * `Transport` makes them pulse once on every note the instrument plays.
+ */
+export function SoundWaves({ className = "h-[17px] w-[10px]" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" aria-hidden>
+      <path className="sound-wave" d="M2.5 8.2a5.4 5.4 0 0 1 0 7.6" />
+      <path className="sound-wave" d="M6.3 5.2a9.6 9.6 0 0 1 0 13.6" />
+    </svg>
+  );
 }
