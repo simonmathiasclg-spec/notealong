@@ -7,6 +7,7 @@ const KEYS: [string, string][] = [
   ["L", "Loop the line you're on (L or Esc to stop)"],
   ["↑ / ↓", "Move the key up or down"],
   ["H", "Hear it played on your instrument"],
+  ["V", "Switch between letters and sheet music"],
   ["F", "Focus mode: hide everything but the words"],
   ["E", "Fix notes and words"],
   ["↑ / ↓", "With a note selected while fixing: a semitone higher or lower"],
@@ -27,6 +28,7 @@ export function HelpOverlay({ open, onClose }: { open: boolean; onClose: () => v
         <p><span className="note-chip inline-flex h-6 min-w-6 px-1 align-middle text-xs" data-range="out">C</span> A dashed red note is outside what your instrument can play. Try the octave setting or move the key.</p>
         <p><span className="font-semibold text-fg">Hear it played</span> plays the notes on your instrument along with the song, so you can hear how it should sound before you try it.</p>
         <p>Click or drag along the thin line at the bottom to move through the song. To practise one part, press the loop button: it repeats the line you&rsquo;re on. Drag the two handles on the line to loop more or less (they jump to the starts and ends of lines; hold Alt to move them freely), or click another line to take it in.</p>
+        <p><span className="font-semibold text-fg">Sheet music</span> shows the same notes on a staff for your instrument, with the words underneath and the chords above. A line moves through the music and the note to play lights up. Click anywhere in the music to play from there; the buttons in the corner make the notes bigger or smaller.</p>
         <p>A small mark beside a line means the notes there were hard to hear in the recording: worth a listen, and a fix if they are off (✎).</p>
       </div>
       <h3 className="label mt-6 mb-3">Keyboard</h3>

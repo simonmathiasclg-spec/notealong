@@ -332,6 +332,30 @@ input[type="range"] { accent-color: var(--fg); width: 100%; height: 1.25rem; }
 :root[data-theme="light"] .stage-art { filter: blur(70px) saturate(1.15); opacity: .38; }
 :root[data-theme="light"] .stage-shade { background: radial-gradient(130% 95% at 50% 42%, rgb(243 238 231 / .55), rgb(243 238 231 / .82) 75%); }
 
+/* ---- Sheet music (SheetStage) ------------------------------------------ */
+/* The library draws in black; here every stroke and fill takes the page's ink colour instead. */
+.sheet { --sheet-ink: var(--fg); --sheet-bg: var(--bg); --sheet-now: var(--accent); color: var(--sheet-ink); cursor: pointer; min-height: 8rem; }
+.sheet.is-paper { --sheet-ink: #14110e; --sheet-bg: #f4eee3; --sheet-now: color-mix(in srgb, var(--accent) 62%, #1a0f00); background: var(--sheet-bg); border-radius: 1.25rem; box-shadow: 0 30px 80px -40px rgb(0 0 0 / .7); }
+:root[data-theme="light"] .sheet.is-paper { --sheet-bg: #fbf8f2; box-shadow: 0 20px 60px -40px rgb(60 40 10 / .45); }
+.sheet-host svg { display: block; fill: currentColor; }
+.sheet-host svg [fill]:not([fill="none"]) { fill: currentColor; }
+.sheet-host svg [stroke]:not([stroke="none"]) { stroke: currentColor; }
+.sheet-host svg text { fill: currentColor; font-family: var(--font-display); }
+.sheet-host svg .is-now { color: var(--sheet-now); }
+.sheet.is-editing .sheet-host svg .vf-stavenote { cursor: pointer; }
+.sheet-line { position: absolute; left: -1.5px; top: 0; width: 3px; border-radius: 3px; background: var(--sheet-now); opacity: 0; pointer-events: none; box-shadow: 0 0 14px 1px color-mix(in srgb, var(--sheet-now) 55%, transparent); will-change: transform; }
+.sheet-glow { position: absolute; left: 0; top: 0; margin: 0; border-radius: 50%; translate: -50% -50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--sheet-now) 42%, transparent), transparent); opacity: 0; pointer-events: none; transition: opacity .12s; }
+.sheet-names { position: absolute; inset: 0; pointer-events: none; }
+.sheet-names > span { position: absolute; translate: -50% -52%; font-family: var(--font-display); font-stretch: 75%; font-weight: 900; line-height: 1; letter-spacing: -0.02em; color: var(--sheet-bg); white-space: nowrap; }
+.sheet-names > span[data-open="1"] { color: var(--sheet-ink); text-shadow: 0 0 2px var(--sheet-bg), 0 0 2px var(--sheet-bg), 0 0 3px var(--sheet-bg); }
+.sheet-scroll { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; mask-image: linear-gradient(to bottom, transparent 0, #000 1.75rem); }
+/* chords over the lines of the Letters view */
+.chord-row { position: relative; display: block; height: .36em; align-self: stretch; }
+.chord-tag { position: absolute; bottom: 0; left: 0; font-family: var(--font-display); font-stretch: 88%; font-weight: 700; font-size: .36em; line-height: 1; letter-spacing: 0; color: var(--fg-muted); white-space: nowrap; }
+/* printed sheet music: one drawing per page */
+.print-sheet svg { display: block; width: 100% !important; height: auto !important; }
+@media print { .print-sheet svg { width: 90% !important; margin: 0 auto; } .print-sheet svg + svg { break-before: page; } }
+
 /* ---- Page transitions (React <ViewTransition>, see Art.tsx) --------------- */
 ::view-transition-group(.art-morph) { animation-duration: 520ms; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
 ::view-transition-image-pair(.art-morph) { animation-name: via-blur; }

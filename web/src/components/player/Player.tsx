@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Check, HelpCircle, Info, Loader2, Maximize2, Minimize2, Pencil, Redo2, SlidersHorizontal, Undo2 } from "lucide-react";
+import { ArrowLeft, Check, HelpCircle, Info, Loader2, Maximize2, Minimize2, Music2, Pencil, Redo2, SlidersHorizontal, Type, Undo2 } from "lucide-react";
 import { Suspense } from "react";
 import { api, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
@@ -18,11 +18,13 @@ import { API } from "@/lib/api";
 import { CLOUD } from "@/lib/cloud/config";
 import { accentFromArt, accentVars, artVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
-import { downloadText, songToMusicXml } from "@/lib/musicxml";
+import { downloadText, sheetToMusicXml, songToMusicXml, writtenSpelling } from "@/lib/musicxml";
+import { buildSheet, chordAt, chordName, fallbackScore, type ScoreData } from "@/lib/score";
 import { LEFTOVER_VOICE_NOTICEABLE_DB, type ArtColors, type Note, type Song, type UserSession, type Word } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { ThemeToggle } from "../AppHeader";
 import { LyricStage } from "./LyricStage";
+import { clampZoom, SheetStage } from "./SheetStage";
 import { Transport } from "./Transport";
 import { SettingsPanel } from "./SettingsPanel";
 import { HelpOverlay } from "./HelpOverlay";
@@ -68,6 +70,15 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   useEffect(() => { if (loopHintOn) { try { localStorage.setItem("na.loopHint", "1"); } catch {} } }, [loopHintOn]);
   const dismissLoopHint = useCallback(() => setLoopHintPref("1"), [setLoopHintPref]);
   const timing = timingPref !== "0";
+  // Letters (the words with note names) or Sheet music (the same notes on a staff)
+  const [viewPref, setViewPref] = usePref("na.view", "letters");
+  const view: "letters" | "sheet" = viewPref === "sheet" ? "sheet" : "letters";
+  const [sheetZoomPref, setSheetZoomPref] = usePref("na.sheetZoom", "1");
+  const sheetZoom = clampZoom(Number(sheetZoomPref));
+  const [sheetPaperPref, setSheetPaperPref] = usePref("na.sheetPaper", "0");
+  const [sheetLettersPref, setSheetLettersPref] = usePref("na.sheetLetters", "0");
+  const [chordsPref, setChordsPref] = usePref("na.chords", "0");
+  const chords = chordsPref === "1";
   const [hearPref, setHearPref] = usePref("na.hear", "0");
   const [hearVolumePref, setHearVolumePref] = usePref("na.hearVolume", "0.8");
   const hear = hearPref === "1";
@@ -169,6 +180,31 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     for (const n of song.notes) m.set(n.id, describeNote(n, settings, song.key, octaveShift));
     return m;
   }, [song.notes, song.key, session.instrument, session.key_shift, session.octave, session.notation, octaveShift]);
+  // ---- sheet music: beats, bars and chords come from the service the first time they are needed ----
+  const [scoreState, setScoreState] = useState<{ song: string; data: ScoreData | null } | null>(null);
+  const needScore = view === "sheet" || chords;
+  useEffect(() => {
+    if (!needScore || CLOUD) return;
+    let cancelled = false;
+    fetch(`${API}/api/songs/${song.id}/score`).then((r) => (r.ok ? r.json() : null))
+      .then((d: ScoreData | null) => { if (!cancelled) setScoreState({ song: song.id, data: d && Array.isArray(d.beats) && d.beats.length > 1 ? d : null }); })
+      .catch(() => { if (!cancelled) setScoreState({ song: song.id, data: null }); });
+    return () => { cancelled = true; };
+  }, [needScore, song.id]);
+  const scoreLoaded = CLOUD || scoreState?.song === song.id;
+  const score = useMemo(() => (scoreState?.song === song.id && scoreState.data) || fallbackScore(song.tempo_bpm, song.duration), [scoreState, song.id, song.tempo_bpm, song.duration]);
+  const script = session.script;
+  const wordText = useCallback((w: Word) => (script === "roman" && w.roman ? w.roman : w.text), [script]);
+  const sheet = useMemo(() => (view === "sheet" ? buildSheet(song, score, wordText) : null), [view, song, score, wordText]);
+  const sheetXml = useMemo(() => (sheet ? sheetToMusicXml(sheet, { title: song.title, instrumentId: session.instrument, keyShift: session.key_shift, octaveShift, key: song.key, bare: true }) : ""),
+    [sheet, song.title, song.key, session.instrument, session.key_shift, octaveShift]);
+  // chords above the lines of the Letters view, written for the instrument like the notes are
+  const chordFor = useMemo(() => {
+    if (!chords || !score.chords.length) return undefined;
+    const sp = writtenSpelling(song.key, session.instrument, session.key_shift), shift = session.key_shift + instrument.transpose;
+    return (t: number) => { const c = chordAt(score, t); return c ? chordName(c, sp, shift, true) : null; };
+  }, [chords, score, song.key, session.instrument, session.key_shift, instrument.transpose]);
+
   // ---- hear it played: the melody on a sampled instrument, at sounding pitch ----
   // What the player's instrument will actually sound: concert pitch, moved with the key
   // (the key of the audio that is loaded) and the octave. The written transposition is for reading only.
@@ -331,6 +367,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         case "f": case "F": setFocus((f) => !f); break;
         case "h": case "H": toggleHear(); break;
         case "e": case "E": setEditing((v) => !v); break;
+        case "v": case "V": if (!e.metaKey && !e.ctrlKey && !e.altKey) setViewPref(view === "sheet" ? "letters" : "sheet"); break;
         case "?": setHelpOpen((v) => !v); break;
         case "Escape":
           // one thing at a time: an open panel first, then the loop, then focus mode
@@ -342,7 +379,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, session.loop, helpOpen, settingsOpen, toggleHear]);
+  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, session.loop, helpOpen, settingsOpen, toggleHear, view, setViewPref]);
 
   // ---- editing -------------------------------------------------------
   const [noteAnchor, setNoteAnchor] = useState<(Anchor & { id: string }) | null>(null);
@@ -459,9 +496,20 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
 
   const exportPdf = () => {
     const q = new URLSearchParams({ instrument: session.instrument, key: String(session.key_shift), octave: session.octave, notation: session.notation, script: session.script });
+    if (view === "sheet") q.set("view", "sheet");
     window.open(`/songs/${song.id}/print?${q}`, "_blank");
   };
-  const exportMusicXml = () => downloadText(`${song.title}.musicxml`, songToMusicXml(song, session.instrument, session.key_shift, octaveShift), "application/vnd.recordare.musicxml+xml");
+  const exportMusicXml = async () => {
+    // the file has the same bars and chords as the Sheet music view, so it needs the beats from the service
+    let data = scoreState?.song === song.id ? scoreState.data : null;
+    if (!data && !CLOUD && scoreState?.song !== song.id) {
+      setBusy("Writing out the music…");
+      try { const r = await fetch(`${API}/api/songs/${song.id}/score`); data = r.ok ? await r.json() : null; if (data) setScoreState({ song: song.id, data }); } catch { data = null; }
+      finally { setBusy(null); }
+    }
+    downloadText(`${song.title}.musicxml`, songToMusicXml(song, session.instrument, session.key_shift, octaveShift, data, wordText), "application/vnd.recordare.musicxml+xml");
+  };
+  const seekTo = useCallback((t: number) => { engineRef.current?.seek(t); manualLine.current = null; }, []);
 
   const editingNote = noteAnchor ? noteInfo.get(noteAnchor.id) : null;
   const unsure = useMemo(() => (isCatalogSong(song) ? undefined : unsureLines(lines)), [song, lines]);
@@ -495,13 +543,21 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
             </div>
             {editing ? (
               <div className="flex items-center gap-1">
-                <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : "Click a note to move it, or a word to fix it"}</span>
+                <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : view === "sheet" ? "Click a note to change it. Words are fixed in the Letters view" : "Click a note to move it, or a word to fix it"}</span>
                 <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo" data-tip-pos="below"><Undo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo" data-tip-pos="below"><Redo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
               </div>
             ) : (
               <div className="flex items-center gap-0.5 sm:gap-1">
+                <div className="seg mr-1 hidden lg:inline-flex" role="group" aria-label="How the song is shown">
+                  <button aria-pressed={view === "letters"} onClick={() => setViewPref("letters")} data-tip="Words with note names (V)" data-tip-pos="below">Letters</button>
+                  <button aria-pressed={view === "sheet"} onClick={() => setViewPref("sheet")} data-tip="Notes on a staff (V)" data-tip-pos="below">Sheet music</button>
+                </div>
+                <button className="btn btn-ghost btn-icon lg:hidden" onClick={() => setViewPref(view === "sheet" ? "letters" : "sheet")}
+                  data-tip={view === "sheet" ? "Show letters" : "Show sheet music"} data-tip-pos="below" aria-label={view === "sheet" ? "Show letters" : "Show sheet music"}>
+                  {view === "sheet" ? <Type className="h-[18px] w-[18px]" strokeWidth={1.6} /> : <Music2 className="h-[18px] w-[18px]" strokeWidth={1.6} />}
+                </button>
                 <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument" data-tip-pos="below">
                   <span className="text-accent"><InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" /></span> {instrument.name}
                 </button>
@@ -522,6 +578,11 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
       {!focus && <Suspense><SetlistBar songId={song.id} ended={ended} ready={engineState.ready} onAutoplay={togglePlay} /></Suspense>}
       {/* Stage */}
       <main className={`relative min-h-0 flex-1 transition-[margin] duration-300 ${settingsOpen && !focus ? "lg:mr-[22.5rem]" : ""}`}>
+        {view === "sheet" && sheet ? (
+          <SheetStage sheet={sheet} xml={sheetXml} pending={!scoreLoaded} noteInfo={noteInfo} getTime={getSmoothTime} editing={editing}
+            zoom={sheetZoom} setZoom={(z) => setSheetZoomPref(String(z))} paper={sheetPaperPref === "1"} letters={sheetLettersPref === "1"}
+            onSeek={seekTo} onNoteClick={(id, el) => { setWordAnchor(null); setNoteAnchor({ id, el }); }} />
+        ) : (
         <LyricStage
           lines={lines} currentLine={cursor.line} currentWordId={cursor.word} currentNoteId={cursor.note} time={time}
           noteInfo={noteInfo} script={session.script} editing={editing}
@@ -530,8 +591,9 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           onWordClick={(word, el) => { setNoteAnchor(null); setWordAnchor({ word, el }); }}
           onAddNote={addNote}
           onLineClick={clickLine}
-          unsure={unsure}
+          unsure={unsure} chordFor={chordFor}
         />
+        )}
         {/* overlays */}
         <AnimatePresence>
           {engineState.countingIn !== null && (
@@ -555,11 +617,11 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           <button className="btn btn-ghost btn-icon absolute right-4 top-4 opacity-40 hover:opacity-100 focus-visible:opacity-100" onClick={() => setFocus(false)} data-tip="Leave focus mode (F)" data-tip-pos="below" aria-label="Leave focus mode"><Minimize2 className="h-5 w-5" /></button>
         )}
         {showFingering && !editing && (
-          <div className="absolute bottom-3 left-3 hidden sm:block">
+          <div className={`absolute bottom-3 left-3 hidden sm:block ${view === "sheet" ? "floating p-2" : ""}`}>
             <FingeringHint note={(cursor.note ? noteInfo.get(cursor.note) : nextNoteInfo) ?? null} />
           </div>
         )}
-        {!focus && outOfRangeCount > 0 && !editing && (
+        {!focus && outOfRangeCount > 0 && !editing && view !== "sheet" && (
           <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-muted">
             <span className="text-danger">{outOfRangeCount}</span> {outOfRangeCount === 1 ? "note is" : "notes are"} too high or low for the {instrument.name.toLowerCase()}. Try the octave or key settings.
           </div>
@@ -578,7 +640,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           loop={session.loop}
           speed={session.speed}
           onToggle={togglePlay}
-          onSeek={(t) => { engineRef.current?.seek(t); manualLine.current = null; }}
+          onSeek={seekTo}
           onSkip={skipLine}
           onLoop={(loop) => update({ loop })}
           onLoopToggle={loopCurrentLine}
@@ -594,6 +656,9 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         countIn={countIn} setCountIn={setCountIn} busy={busy} keyLoading={keyLoading}
         fingering={fingeringPref === "1"} setFingering={(v) => setFingeringPref(v ? "1" : "0")}
         timing={timing} setTiming={(v) => setTimingPref(v ? "1" : "0")}
+        view={view} setView={setViewPref} sheetPaper={sheetPaperPref === "1"} setSheetPaper={(v) => setSheetPaperPref(v ? "1" : "0")}
+        sheetLetters={sheetLettersPref === "1"} setSheetLetters={(v) => setSheetLettersPref(v ? "1" : "0")}
+        chords={chords} setChords={(v) => setChordsPref(v ? "1" : "0")} chordsFound={!chords || !scoreLoaded || score.chords.length > 0}
         hear={hear} hearState={hearState} onHear={toggleHear} hearVolume={hearVolume} setHearVolume={(v) => setHearVolumePref(String(v))}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
         onHoldAcrossWords={catalog ? undefined : (on) => runStep("Updating the notes…", on ? "attach" : "cleanup", { hold_across_words: on })}

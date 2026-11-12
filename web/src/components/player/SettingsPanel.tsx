@@ -30,6 +30,16 @@ type Props = {
   setFingering: (v: boolean) => void;
   timing: boolean;
   setTiming: (v: boolean) => void;
+  view: "letters" | "sheet";
+  setView: (v: "letters" | "sheet") => void;
+  sheetPaper: boolean;
+  setSheetPaper: (v: boolean) => void;
+  sheetLetters: boolean;
+  setSheetLetters: (v: boolean) => void;
+  chords: boolean;
+  setChords: (v: boolean) => void;
+  /** False when chords were asked for and this song has none. */
+  chordsFound: boolean;
   hear: boolean;
   hearState: "idle" | "loading" | "ready" | "error";
   onHear: () => void;
@@ -164,6 +174,26 @@ export function SettingsPanel(p: Props) {
                       <input type="range" min={0} max={1} step={0.05} value={session.guide_volume} onChange={(e) => update({ guide_volume: Number(e.target.value) })} aria-label="Guide volume" />
                     )}
                     <Switch checked={p.countIn} onChange={p.setCountIn} label="Count in before playing" />
+                  </div>
+                </Row>
+
+                <Row label="View" tip="Letters shows the words with the note names above them. Sheet music shows the same notes on a staff, with the words below and the chords above. Press V to switch.">
+                  <div className="seg w-full">
+                    <button className="flex-1 justify-center" aria-pressed={p.view === "letters"} onClick={() => p.setView("letters")}>Letters</button>
+                    <button className="flex-1 justify-center" aria-pressed={p.view === "sheet"} onClick={() => p.setView("sheet")}>Sheet music</button>
+                  </div>
+                  <div className="mt-3.5 space-y-3">
+                    {p.view === "sheet" ? (
+                      <>
+                        <Switch checked={p.sheetLetters} onChange={p.setSheetLetters} label="Letter names inside the notes" />
+                        <Switch checked={p.sheetPaper} onChange={p.setSheetPaper} label="Warm paper page" />
+                      </>
+                    ) : (
+                      <>
+                        <Switch checked={p.chords} onChange={p.setChords} label="Chords above the words" />
+                        {!p.chordsFound && <p className="text-[13px] text-muted">No chords were found for this song.</p>}
+                      </>
+                    )}
                   </div>
                 </Row>
 

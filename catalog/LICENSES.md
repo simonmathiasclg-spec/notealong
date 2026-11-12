@@ -194,3 +194,23 @@ but not on that shelf).
 Also left out on purpose, without being written: "Mack the Knife" (the English words are by Marc Blitzstein, 1954)
 and "Lady Be Good", "Ain't Misbehavin'" and other songs whose authors died after 1971 (for example Irving Berlin, Hoagy
 Carmichael, Fats Waller's lyricist Andy Razaf died 1973), which are public domain in the US but not yet in Canada.
+
+## Sheet music view: drawing, beats and chords
+
+| What | Used for | Licence / terms | Checked |
+|---|---|---|---|
+| OpenSheetMusicDisplay 2.3 (PhonicScore). <https://github.com/opensheetmusicdisplay/opensheetmusicdisplay> | Draws the staff in the Sheet music view and on the printed sheet, in the browser | BSD 3-Clause, `LICENSE` in the package. Commercial use allowed; the copyright notice ships inside the bundled file. | 12 Nov 2026 |
+| VexFlow (bundled inside OpenSheetMusicDisplay) | The note shapes OpenSheetMusicDisplay draws with | MIT licence | 12 Nov 2026 |
+| Beat This! (CP JKU Linz). <https://github.com/CPJKU/beat_this> | Finds beats and bar lines in the backing track of uploaded songs | MIT licence for code and trained weights | 12 Nov 2026 |
+| librosa | The chroma (which notes sound on each beat) behind our own chord recogniser in `service/notealong/pipeline/score.py` | ISC licence | 12 Nov 2026 |
+
+The chord recogniser itself is our own code: beat-by-beat chroma matched against major and minor chords,
+smoothed so chords change on beats, with a seventh added where the backing clearly plays one. Catalog
+songs do not use it; their chords, bars and time signature come from the hand-authored `.song` files.
+
+### Considered and rejected for chords
+
+| Source | Why not |
+|---|---|
+| Chordino / NNLS Chroma (Queen Mary, University of London) | GPL. Linking it into a paid product would put the service under the GPL. |
+| madmom chord recognition | The code is BSD, but the trained models are under a non-commercial Creative Commons licence. |

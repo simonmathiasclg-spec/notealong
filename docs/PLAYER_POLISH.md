@@ -197,3 +197,122 @@ All under the 30 ms limit.
   still has light and shade (Despacito: 2.7 dB became 4.5 dB).
 - The scoop, vibrato depth and breath are kept small on purpose: wrong expression is worse than none.
 - The phone button shows the icon and waves only; the label would not fit beside the other controls.
+
+## Part 4: sheet music view
+
+The player now has two views of the same song: **Letters** (the default, unchanged) and **Sheet music**.
+The switch is in the top bar, in Settings and on the **V** key, and the choice is remembered.
+
+| | Desktop | iPad | Phone |
+|---|---|---|---|
+| Catalog song (La Cucaracha) | ![](player-polish/shots/sheet-catalog-desktop.png) | ![](player-polish/shots/sheet-catalog-ipad.png) | ![](player-polish/shots/sheet-catalog-phone.png) |
+| Uploaded pop song (Despacito) | ![](player-polish/shots/sheet-pop-desktop.png) | ![](player-polish/shots/sheet-pop-ipad.png) | ![](player-polish/shots/sheet-pop-phone.png) |
+
+Warm paper page with letter names inside the notes, and the light theme:
+
+![](player-polish/shots/sheet-paper-letters-ipad.png)
+![](player-polish/shots/sheet-light-letters-desktop.png)
+
+Chords in the Letters view (Settings, "Chords above the words"), and the printed sheet:
+
+![](player-polish/shots/letters-chords-desktop.png)
+![](player-polish/shots/sheet-print-catalog-1.png)
+
+### What it does
+
+- A lead sheet for the chosen instrument: melody on a staff, already transposed, in the right clef (bass
+  clef when the notes sit low), with the key signature of the current key change, words under the notes
+  and chord symbols above.
+- It follows the music: a line moves through the bar, the note to play lights up in the accent colour,
+  and the page scrolls so the line being played is at the top with what comes next below it.
+- Click anywhere in the music to play from there.
+- Zoom from 70% to 220% with the buttons in the corner (remembered). The staff also grows with the window,
+  so a wide screen on a music stand gets a large staff without touching anything.
+- Options in Settings: letter names inside the note heads, and a warm paper page (dark ink on cream,
+  whatever the theme). Without the paper option the staff sits straight on the Front Row backdrop in the
+  theme's ink colour.
+- Key change, instrument, octave, speed, loop, "Hear it played" and focus mode all work as in the Letters
+  view. In edit mode, click a note on the staff to change it; the edit shows in both views and Undo
+  works in both.
+- "Print sheet" prints the staff when the Sheet music view is open (title, composer, tempo, bars of
+  intro, A4 pages) and the letters sheet otherwise. "MusicXML" now exports the same notation that is on
+  screen, including chords, ties and triplets.
+
+### How it is built
+
+- **Drawing:** OpenSheetMusicDisplay (BSD 3-Clause; it bundles VexFlow, MIT). It is loaded only when the
+  sheet is first opened, so the Letters view is no heavier than before.
+- **One source:** `web/src/lib/score.ts` turns the song into bars and written notes, `musicxml.ts` writes
+  that as MusicXML, and the screen, the print page and the export all draw that same MusicXML.
+- **Rhythm:** the timing used for playback and the Letters view is untouched. For the sheet only, each
+  note is moved onto the beat grid (sixteenths or triplets, whichever fits better) and cut into values a
+  reader expects: nothing is written across the middle of a 4/4 bar, rests sit on beats, and a note
+  held over a bar line is tied.
+- **Beats, bars, time signature:** for uploaded songs, Beat This! (MIT) on the backing track, made
+  regular in `service/notealong/pipeline/score.py`. Catalog songs take all of it from their `.song` file.
+- **Chords:** catalog songs use the chords written in the `.song` file. For uploads, our own recogniser
+  (chroma from librosa, ISC) picks a major or minor chord per beat, smooths it so chords change on beats
+  and mostly on bar lines, and adds a seventh only where it is clearly played. Chordino (GPL) and
+  madmom's chord models (non-commercial) were ruled out. Licences are in `catalog/LICENSES.md`.
+- The service answers `/api/songs/{id}/score` and keeps the result next to the song, so detection runs
+  once per song.
+
+### How readable is the notation?
+
+**Catalog songs: essentially perfect.** Every note is written, nothing is merged, and written starts are
+within 1 ms of the played ones, because bars, meter and chords come straight from the `.song` files.
+They read like a printed lead sheet.
+
+**Uploaded pop songs: correct and playable, but busy.** Measured on the test set:
+
+| Song | Bars and tempo | Notes written | Ties | Short rests | Chords |
+|---|---|---|---|---|---|
+| Despacito | 4/4 at 88, 93 bars, pickup, 9 bars intro | 558 of 562 | 110 | 22 shorter than an eighth | 77 |
+| The Fool | 4/4 at 130 | 171 | 79 | 12 | |
+| Tonight | 4/4 | 171 | 88 | 2 | |
+| Eternity | 4/4 | 130 | 45 | | |
+| Lovers and Liars | 4/4 | 333 | 101 | | |
+
+- Tempo, time signature and bar lines were right on all five; the line moves with the beat throughout.
+- Note starts move 40 ms on average (185 ms at most, in Despacito) to reach the grid. That is only on
+  paper: playback still uses the original timing.
+- What makes it busy is honest: a sung melody is syncopated, so there are many ties, sixteenths and
+  short rests (Despacito has 54 triplet notes). A human arranger would simplify some of these by ear.
+- For alto sax Despacito lands in five sharps with a few double sharps. Changing key by one step
+  (arrow keys) gives a friendlier key signature straight away.
+- Chords are plain majors, minors and sevenths. They follow the harmony well enough to strum along;
+  they are not a transcription of every passing chord.
+- Words for uploaded songs are whole words under their first note (there is no syllable split for
+  them), so fast passages get crowded on a phone. Long words now get extra room, which removed most
+  collisions; at phone width a few words still touch. Catalog songs have proper syllables.
+
+In short: catalog songs can be handed to a player as they are; pop uploads are a good working lead
+sheet, readable at desktop and iPad size, tight on a phone.
+
+### Decisions
+
+- OpenSheetMusicDisplay over plain VexFlow: it lays out lines, lyrics and chord symbols from MusicXML,
+  which the app already exported, so screen, print and file cannot drift apart.
+- **V** switches the view. **H** still toggles "Hear it played".
+- Notes can be edited on the staff; the words are still edited in the Letters view only.
+- The score (beats and chords) is fetched the first time it is needed and the sheet shows "Finding the
+  beat and the chords…" meanwhile. Until it arrives, and in cloud mode where the service does not offer
+  it yet, the sheet falls back to 4/4 from the song's tempo with no chords. That is the main open
+  limitation.
+- The library paints notes black with an inline style; that is removed after each draw so the ink
+  follows the theme.
+- The page scrolls by line, not continuously: the eye stays on a still staff.
+- The zoom buttons float over the bottom right corner at 60% strength. On a phone they can sit over a
+  word of the last visible line; scrolling or the next line turn clears it.
+- Chord detection is our own small recogniser rather than a third-party model, to stay clear of GPL and
+  non-commercial terms.
+
+## What shipped
+
+1. Tooltips that are never cut off (d280b54).
+2. The bar only scrubs; looping is a button with handles and a clear chip (6d7f462).
+3. "Hear it played" has its own button and a real alto sax (d96c774).
+4. Sheet music view with chords, following playback, print and MusicXML (this commit).
+
+Checks at each part: Python tests, web tests, lint (unchanged baseline), type check and the production
+build. Nothing was deployed.

@@ -30,6 +30,8 @@ export type StageProps = {
   onLineClick?: (line: DisplayLine) => void;
   /** Lines whose notes were hard to hear (uploads only): shown with a quiet mark. */
   unsure?: Set<number>;
+  /** Chords above the words: the name of the chord sounding at a time, if any. */
+  chordFor?: (seconds: number) => string | null;
 };
 
 /**
@@ -84,7 +86,20 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
     ? "text-[calc(var(--fit,1)*clamp(2.1rem,5.2vw,4.6rem))]"
     : "text-[calc(var(--fit,1)*clamp(1.2rem,2.6vw,2rem))]";
   const chipSize = role === "current" ? "lg" : "md";
-  const fit = useFitText<HTMLDivElement>([line, role, p.editing, p.script, p.timing]);
+  const fit = useFitText<HTMLDivElement>([line, role, p.editing, p.script, p.timing, !!p.chordFor]);
+  const chordFor = p.chordFor;
+  // a chord is named where it starts: on the first word of the line and wherever it changes
+  const chordTags = useMemo(() => {
+    if (!chordFor) return null;
+    let last: string | null = null;
+    return line.items.map((it) => {
+      const t = it.notes[0]?.start ?? it.word?.start;
+      const name = t === undefined ? null : chordFor(t + 0.04);
+      if (!name || name === last) return null;
+      last = name;
+      return name;
+    });
+  }, [chordFor, line]);
   const reduced = useReducedMotion();
   const cells = useMemo(() => {
     const m = new Map<string, Cell>();
@@ -109,6 +124,7 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
           const wordState: ChipState = !word ? "future" : word.id === p.currentWordId ? "current" : p.time >= word.end ? "past" : "future";
           return (
             <div key={word?.id ?? `loose-${line.index}-${idx}`} className={`flex flex-col gap-[.32em] ${p.timing ? "items-start" : "items-center"}`}>
+              {chordTags && <span className="chord-row" aria-hidden={!chordTags[idx]}>{chordTags[idx] && <span className="chord-tag">{chordTags[idx]}</span>}</span>}
               <div className="flex min-h-[1.1em] items-end gap-[.16em]">
                 {item.notes.map((n) => {
                   const info = p.noteInfo.get(n.id);

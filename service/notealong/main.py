@@ -536,6 +536,27 @@ def get_dynamics(song_id: str):
     return {"source": "vocals", "levels": note_levels(song.notes, art)}
 
 
+@app.get("/api/songs/{song_id}/score")
+def get_score(song_id: str):
+    """The beat grid, time signature and chords for the sheet music view. Hand-authored songs answer at once
+    from their .song file; for other songs the first request listens to the backing track (a few seconds) and
+    the answer is kept."""
+    try:
+        song = library.load_song(song_id)
+    except (FileNotFoundError, ValueError):
+        raise HTTPException(404, "Song not found")
+    from .config import CATALOG_DIR
+    from .pipeline.score import song_score
+    catalog = library.is_catalog(song_id)
+    d = library.song_dir(song_id)
+    backing = d / song.files.get("backing", "backing.mp3")
+    if not backing.exists():
+        raise HTTPException(404, "No backing track yet")
+    key = (song.key.tonic, song.key.mode) if song.key else None
+    return song_score(CATALOG_DIR / "songs" / f"{song_id}.song" if catalog else None, backing,
+                      library.render_dir(song_id) / "score.json", song.duration, key)
+
+
 _render_locks: dict[str, asyncio.Lock] = {}
 _warm_queue: asyncio.PriorityQueue[tuple[int, int, tuple[str, str, int, bool]]] | None = None
 _warm_pending: set[tuple[str, str, int, bool]] = set()

@@ -1,16 +1,66 @@
 "use client";
-import { Suspense, use, useEffect, useMemo, useState } from "react";
+import { Suspense, use, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Printer } from "lucide-react";
-import { api } from "@/lib/api";
+import { API, api } from "@/lib/api";
 import { buildDisplayLines } from "@/lib/display";
 import { getInstrument } from "@/lib/instruments";
 import { describeNote, keyName, resolveOctaveShift } from "@/lib/notes";
-import type { Notation, OctaveMode, Song } from "@/lib/types";
+import { CLOUD } from "@/lib/cloud/config";
+import { songToMusicXml } from "@/lib/musicxml";
+import { createSheetEngine } from "@/lib/osmd";
+import type { ScoreData } from "@/lib/score";
+import type { Notation, OctaveMode, Song, Word } from "@/lib/types";
 
 /** Printable lyric sheet. Use the browser's print dialog to save as PDF. */
 export default function PrintPage({ params }: { params: Promise<{ id: string }> }) {
   return <Suspense fallback={<div className="p-8 text-muted">Loading…</div>}><PrintSheet params={params} /></Suspense>;
+}
+
+const PrintBar = () => (
+  <div className="no-print mb-8 flex items-center justify-between rounded-full bg-neutral-100 py-2 pl-5 pr-2 text-sm text-neutral-700">
+    <span>Use <b>Print, then Save as PDF</b> in your browser to keep a PDF.</span>
+    <button className="btn !border-black !bg-black !text-white" onClick={() => window.print()}><Printer className="h-4 w-4" strokeWidth={1.7} /> Print or save as PDF</button>
+  </div>
+);
+
+/** The sheet music on A4 pages: the same notation as the Sheet music view and the MusicXML file. */
+function PrintMusic({ song, instrumentId, keyShift, octave, script }: { song: Song; instrumentId: string; keyShift: number; octave: OctaveMode; script: "original" | "roman" }) {
+  const host = useRef<HTMLDivElement>(null);
+  const [state, setState] = useState<"drawing" | "done" | "failed">("drawing");
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        let score: ScoreData | null = null;
+        if (!CLOUD) try { const r = await fetch(`${API}/api/songs/${song.id}/score`); score = r.ok ? await r.json() : null; } catch { score = null; }
+        const instrument = getInstrument(instrumentId);
+        const octaveShift = resolveOctaveShift(octave, song.notes.map((n) => n.midi), instrument, keyShift);
+        const xml = songToMusicXml(song, instrumentId, keyShift, octaveShift, score, (w: Word) => (script === "roman" && w.roman ? w.roman : w.text));
+        await document.fonts?.ready;
+        if (cancelled || !host.current) return;
+        host.current.replaceChildren();
+        const osmd = await createSheetEngine(host.current, { print: true });
+        await osmd.load(xml);
+        if (cancelled) return;
+        osmd.render();
+        setState("done");
+      } catch (e) { console.error("sheet music", e); if (!cancelled) setState("failed"); }
+    })();
+    return () => { cancelled = true; };
+  }, [song, instrumentId, keyShift, octave, script]);
+  return (
+    <div className="mx-auto max-w-4xl bg-white px-8 py-10 text-black print:max-w-none print:px-0 print:py-0">
+      <PrintBar />
+      {state === "drawing" && <div className="py-10 text-center text-neutral-600">Writing out the music…</div>}
+      {state === "failed" && <div className="py-10 text-center text-red-700">The sheet music could not be drawn. Close this tab and try again.</div>}
+      <div ref={host} className="print-sheet" data-state={state} />
+      <footer className="mt-6 flex items-center justify-between border-t border-neutral-300 pt-3 text-xs text-neutral-500">
+        <span>Written for {getInstrument(instrumentId).name}. Made with NoteAlong</span>
+        {song.catalog && <span className="max-w-xl text-right">{song.catalog.attribution}</span>}
+      </footer>
+    </div>
+  );
 }
 
 function PrintSheet({ params }: { params: Promise<{ id: string }> }) {
@@ -36,12 +86,10 @@ function PrintSheet({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => { document.documentElement.dataset.theme = "light"; }, []);
 
   if (!song || !view) return <div className="p-8 text-muted">Loading…</div>;
+  if (q.get("view") === "sheet") return <PrintMusic song={song} instrumentId={instrumentId} keyShift={keyShift} octave={octave} script={script} />;
   return (
     <div className="mx-auto max-w-4xl bg-white px-8 py-10 text-black print:px-0 print:py-0">
-      <div className="no-print mb-8 flex items-center justify-between rounded-full bg-neutral-100 py-2 pl-5 pr-2 text-sm text-neutral-700">
-        <span>Use <b>Print, then Save as PDF</b> in your browser to keep a PDF.</span>
-        <button className="btn !border-black !bg-black !text-white" onClick={() => window.print()}><Printer className="h-4 w-4" strokeWidth={1.7} /> Print or save as PDF</button>
-      </div>
+      <PrintBar />
       <header className="mb-10 border-b border-black pb-5">
         <h1 className="display-xl text-[3rem]">{song.title}</h1>
         <div className="mt-1 text-lg text-neutral-600">{song.artist ?? ""}</div>
