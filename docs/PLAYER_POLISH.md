@@ -312,7 +312,7 @@ sheet, readable at desktop and iPad size, tight on a phone.
 1. Tooltips that are never cut off (d280b54).
 2. The bar only scrubs; looping is a button with handles and a clear chip (6d7f462).
 3. "Hear it played" has its own button and a real alto sax (d96c774).
-4. Sheet music view with chords, following playback, print and MusicXML (this commit).
+4. Sheet music view with chords, following playback, print and MusicXML (20c8cb9).
 
 Checks at each part: Python tests, web tests, lint (unchanged baseline), type check and the production
 build. Nothing was deployed.
