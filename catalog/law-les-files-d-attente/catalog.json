@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://www.jamendo.com/track/964535/les-files-d-attente/lyrics"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "tags": [
   "jamendo"
  ],
@@ -55,5 +55,10 @@
  "accent_hue": 323,
  "added": "2026-11-02",
  "popularity": 0,
- "lyrics": "annotated"
+ "lyrics": "annotated",
+ "colors": {
+  "deep": "#422220",
+  "mid": "#72403a",
+  "glow": "#dcaa98"
+ }
 }

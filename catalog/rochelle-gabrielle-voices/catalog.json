@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-143320"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 197,
  "tags": [
   "jamendo",
@@ -63,5 +63,10 @@
  "gain_db": 0.96,
  "language_probability": 0.8972064852714539,
  "added": "2026-11-07",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#0d1a09",
+  "mid": "#354b1b",
+  "glow": "#fcfdaa"
+ }
 }

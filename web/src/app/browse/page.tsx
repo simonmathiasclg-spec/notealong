@@ -5,7 +5,8 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, X } from "lucide-react";
 import { AppHeader, MobileSearch } from "@/components/AppHeader";
-import { ResultTile } from "@/components/ResultTile";
+import { ResultGrid } from "@/components/ResultTile";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ServiceDown } from "@/components/ServiceDown";
 import { TileSkeleton } from "@/components/discover/Discover";
 import { api } from "@/lib/api";
@@ -57,16 +58,16 @@ function Browse() {
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <MobileSearch />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-5 pb-20 sm:px-8">
+      <main className="mx-auto w-full max-w-[90rem] flex-1 px-5 pb-10 sm:px-8 lg:px-12">
+        <MobileSearch />
         {down && <div className="mb-8"><ServiceDown what="the songs" /></div>}
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-          <h1 className="display-lg text-[2.1rem]">
-            {title}
-            {rows && <span className="ml-3 align-middle text-base font-normal text-muted">{results.length === 1 ? "1 song" : `${results.length} songs`}</span>}
-          </h1>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pt-2">
+          <div className="min-w-0">
+            <h1 className="display-hero break-words text-[clamp(3.2rem,9vw,8rem)]">{title}</h1>
+            {rows && <p className="mt-3 text-[14px] text-muted">{results.length === 1 ? "1 song" : `${results.length} songs`}{q.trim() ? " match, in titles, artists and words" : ""}</p>}
+          </div>
           <div className="flex items-center gap-2">
-            <button className={`btn btn-sm ${openFilters ? "btn-primary" : ""}`} onClick={() => setOpenFilters((o) => !o)} aria-expanded={openFilters}><SlidersHorizontal className="h-3.5 w-3.5" /> Filters</button>
+            <button className={`btn btn-sm ${openFilters ? "btn-primary" : "btn-outline"}`} onClick={() => setOpenFilters((o) => !o)} aria-expanded={openFilters}><SlidersHorizontal className="h-3.5 w-3.5" strokeWidth={1.7} /> Filters</button>
             <label className="inline-flex items-center gap-2 text-sm text-muted">
               <span className="hidden sm:inline">Sort</span>
               <select className="field h-9 py-0 pr-8 text-sm" value={sort} onChange={(e) => go(q, filters, e.target.value as SearchSort)} aria-label="Sort songs">
@@ -84,7 +85,7 @@ function Browse() {
         </div>
 
         {openFilters && (
-          <div className="panel mb-6 grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mb-6 grid gap-4 border-y border-border py-5 sm:grid-cols-2 lg:grid-cols-5">
             <Select label="Style" value={filters.genre} onChange={(v) => setFilter("genre", v)} options={opts.genres.map((g) => [g.value, `${g.value} (${g.n})`])} />
             <Select label="Decade" value={filters.decade} onChange={(v) => setFilter("decade", v)} options={opts.decades.map((g) => [g.value, `${g.value} (${g.n})`])} />
             <Select label="Language" value={filters.language} onChange={(v) => setFilter("language", v)} options={opts.languages.map((g) => [g.value, `${languageName(g.value)} (${g.n})`])} />
@@ -97,7 +98,7 @@ function Browse() {
           <div className="mb-6 flex flex-wrap items-center gap-2" aria-label="Filters in use">
             {active.map((a) => (
               <button key={a.key} className="chip" aria-pressed="true" onClick={() => setFilter(a.key, undefined)} aria-label={`Remove the filter ${a.label}`}>
-                {a.label} <X className="h-3.5 w-3.5" />
+                {a.label} <X className="h-3.5 w-3.5" strokeWidth={1.8} />
               </button>
             ))}
             <button className="text-sm text-muted underline-offset-4 hover:text-fg hover:underline" onClick={() => go(q, {}, sort)}>Clear all</button>
@@ -105,18 +106,17 @@ function Browse() {
         )}
 
         {rows === null ? (
-          <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{Array.from({ length: 12 }).map((_, i) => <TileSkeleton key={i} />)}</div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{Array.from({ length: 12 }).map((_, i) => <TileSkeleton key={i} />)}</div>
         ) : results.length === 0 ? (
-          <div className="panel mx-auto max-w-lg p-8 text-center">
-            <div className="font-medium">Nothing matches that.</div>
-            <p className="mt-1 text-sm text-muted">Try fewer words or remove a filter. A song that isn&apos;t here can be added from your own file with “Add a song”.</p>
+          <div className="border-y border-border py-14 text-center">
+            <div className="display-lg text-[clamp(1.8rem,4vw,2.8rem)]">Nothing matches that</div>
+            <p className="mx-auto mt-3 max-w-md text-[14px] text-muted">Try fewer words or remove a filter. A song that isn&apos;t here can be added from your own file with “Add a song”.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" aria-live="polite">
-            {results.slice(0, 240).map((r, i) => <ResultTile key={r.id} row={r} priority={i < 12} />)}
-          </div>
+          <ResultGrid rows={results} />
         )}
       </main>
+      <SiteFooter />
     </div>
   );
 }

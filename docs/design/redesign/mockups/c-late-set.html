@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction C: Late Set</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:opsz,wght@6..72,400..700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#050505;--fg:#f2ede4;--fg2:rgba(242,237,228,.6);--fg3:rgba(242,237,228,.32);--amber:#ff9a3c;--line:rgba(242,237,228,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--fg);font-family:Archivo,system-ui,sans-serif;font-stretch:100%;-webkit-font-smoothing:antialiased;width:1440px}
+section{position:relative;width:1440px;height:900px;overflow:hidden}
+.hero-bg{position:absolute;left:0;top:0;width:1440px;height:620px;background-size:cover;background-position:center 40%;filter:saturate(1.15)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,5,.5) 0%,rgba(5,5,5,0) 30%,rgba(5,5,5,.2) 60%,#050505 100%)}
+.nav{position:absolute;top:26px;left:48px;right:48px;display:flex;align-items:center;gap:28px;font-size:13px;font-weight:500;z-index:3}
+.nav .b{font-stretch:125%;font-weight:900;font-size:15px;letter-spacing:.01em;margin-right:auto}
+.nav .k{opacity:.7}
+.nav .p{background:var(--fg);color:var(--ink);padding:9px 16px;border-radius:99px;font-weight:600;opacity:1}
+.feat{position:absolute;left:48px;top:300px;z-index:2}
+.feat small{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg2)}
+.feat h1{margin-top:10px;font-stretch:125%;font-weight:900;font-size:120px;line-height:.86;letter-spacing:-.035em;text-transform:uppercase}
+.feat p{margin-top:18px;font-family:Newsreader;font-size:22px;font-style:italic;color:var(--fg2)}
+.feat .go{display:inline-flex;margin-top:22px;gap:10px;align-items:center;background:var(--amber);color:#160a02;font-weight:700;font-size:14px;padding:12px 20px;border-radius:99px}
+.strip{position:absolute;left:48px;right:0;top:640px;display:flex;gap:16px;z-index:2}
+.strip .c{position:relative;width:170px;height:230px;border-radius:14px;overflow:hidden;flex:none}
+.strip .c img{width:100%;height:100%;object-fit:cover}
+.strip .c span{position:absolute;left:12px;bottom:12px;right:12px;font-weight:700;font-size:15px;letter-spacing:-.01em;line-height:1.05}
+.strip .c i{position:absolute;left:12px;top:10px;font-style:normal;font-size:11px;font-weight:600;letter-spacing:.18em;opacity:.8}
+.shelf{position:absolute;left:48px;top:608px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);z-index:2}
+/* player */
+.pl{background:radial-gradient(70% 90% at 100% 0%,rgba(255,140,40,.28),transparent 60%),#050505}
+.pl .hd{position:absolute;top:26px;left:48px;right:48px;display:flex;justify-content:space-between;font-size:13px;color:var(--fg2)}
+.pl .hd b{color:var(--fg);font-stretch:125%;font-weight:900;text-transform:uppercase;letter-spacing:.01em}
+.col{position:absolute;right:48px;top:90px;width:300px}
+.col .art{width:300px;height:400px;border-radius:18px;overflow:hidden}
+.col .art img{width:100%;height:100%;object-fit:cover}
+.col h3{margin-top:18px;font-stretch:125%;font-weight:900;font-size:30px;line-height:.95;text-transform:uppercase;letter-spacing:-.02em}
+.col p{margin-top:8px;font-size:13px;color:var(--fg2)}
+.col .up{margin-top:28px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3)}
+.col .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.col .row em{font-style:normal;color:var(--fg3);font-size:12px}
+.lyr{position:absolute;left:48px;right:420px;top:150px}
+.ln{display:flex;flex-wrap:wrap;gap:0 .26em;margin-bottom:30px;font-family:Newsreader;font-weight:500;letter-spacing:-.01em}
+.wd{display:inline-flex;flex-direction:column;gap:6px}
+.nt{display:flex;gap:.5em;font-family:Archivo;font-stretch:125%;font-weight:800;letter-spacing:.04em}
+.cur{font-size:68px;line-height:1}.cur .nt{font-size:.36em}
+.cur .past{color:rgba(242,237,228,.4)}
+.cur .now .nt{color:var(--amber);text-shadow:0 0 14px rgba(255,154,60,.9),0 0 40px rgba(255,120,30,.6)}
+.cur .now{color:#fff}
+.nx{font-size:36px;color:rgba(242,237,228,.4)}.nx .nt{font-size:.38em}
+.pv{font-size:30px;color:rgba(242,237,228,.2);font-style:italic}
+.bar{position:absolute;left:48px;right:420px;bottom:52px;display:flex;align-items:center;gap:20px;font-size:13px;color:var(--fg2)}
+.bar .play{width:56px;height:56px;border-radius:50%;background:var(--amber);display:grid;place-items:center;color:#160a02;font-size:18px}
+.bar .tr{flex:1;height:3px;border-radius:3px;background:rgba(242,237,228,.14);position:relative}
+.bar .tr b{position:absolute;left:0;top:0;bottom:0;width:39%;background:var(--amber);border-radius:3px}
+</style></head><body>
+
+<section id="discover">
+  <div class="hero-bg" style="background-image:url(../../../../catalog/las-mananitas/cover.webp)"></div>
+  <nav class="nav"><span class="b">NoteAlong</span><span>Discover</span><span class="k">My songs</span><span class="k">Setlists</span><span class="k">Search</span><span class="p">Add a song</span></nav>
+  <div class="feat"><small>Featured tonight · Celebration · Easy</small><h1>Las<br>Mañanitas</h1><p>A birthday song from Mexico, sung at dawn.</p><span class="go">▶ Play along</span></div>
+  <span class="shelf">Late set · 12 songs</span>
+  <div class="strip" id="strip"></div>
+</section>
+
+<section id="player" class="pl">
+  <div class="hd"><span>← <b>The Water Is Wide</b> &nbsp; Traditional · G major · Alto sax</span><span>Settings</span></div>
+  <div class="lyr">
+    <div class="ln pv">and neither have I wings to fly;</div>
+    <div class="ln cur" id="cur"></div>
+    <div class="ln nx" id="nxt"></div>
+  </div>
+  <div class="bar"><span class="play">❚❚</span><span>0:41</span><span class="tr"><b></b></span><span>1:45</span><span>Hear it played</span><span>Slower</span></div>
+  <div class="col"><div class="art"><img src="../../../../catalog/the-water-is-wide/cover.webp"></div><h3>The Water<br>Is Wide</h3><p>Traditional · Folk · Easy</p>
+    <p class="up">Up next</p><div class="row"><span>Danny Boy</span><em>1:09</em></div><div class="row"><span>Shenandoah</span><em>1:06</em></div></div>
+</section>
+<script>
+const s = [["danny-boy","Danny Boy"],["arirang","Arirang"],["silent-night","Silent Night"],["drunken-sailor","Drunken Sailor"],["scarborough-fair","Scarborough Fair"],["house-of-the-rising-sun","House of the Rising Sun"],["swing-low-sweet-chariot","Swing Low"],["happy-birthday","Happy Birthday"]];
+document.getElementById("strip").innerHTML = s.map(([id, t], i) => `<div class="c"><img src="../../../../catalog/${id}/cover.webp"><i>${String(i + 1).padStart(2, "0")}</i><span>${t}</span></div>`).join("");
+const cur = [["give",["F#"]],["me",["G#"]],["a",["A"]],["boat",["B","B"]],["that",["A"]],["will",["G#"]],["carry",["F#","E"]],["two,",["G#","G#"]]];
+const nxt = [["and",["F#"]],["both",["E"]],["shall",["C#"]],["row,",["B","B"]],["my",["B"]],["love",["B"]],["and",["C#","D#"]],["I.",["E","E"]]];
+const fmt = (n) => n.length > 1 ? `${n[0]}♯` : n;
+const render = (id, line, nowIdx) => { document.getElementById(id).innerHTML = line.map(([w, ns], i) => `<span class="wd ${nowIdx == null ? "" : i < nowIdx ? "past" : i === nowIdx ? "now" : ""}"><span class="nt">${ns.map(fmt).join(" ")}</span><span>${w}</span></span>`).join(""); };
+render("cur", cur, 3); render("nxt", nxt, null);
+</script>
+</body></html>

@@ -57,7 +57,7 @@ export function SetlistBar({ songId, ended, ready, onAutoplay }: { songId: strin
   if (!valid) return null;
   return (
     <>
-      <div className="no-print flex items-center gap-2 border-b border-border bg-elev px-3 py-1.5 text-[13px] sm:px-5">
+      <div className="no-print mx-3 flex items-center gap-2 border-y border-border px-1 py-1.5 text-[13px] sm:mx-6">
         <ListMusic className="h-4 w-4 text-accent" />
         <Link href={`/setlists/${sl!.id}`} className="truncate font-medium hover:underline">{sl!.name}</Link>
         <span className="text-muted">{pos + 1} of {sl!.songs.length}</span>

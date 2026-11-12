@@ -28,7 +28,7 @@
   "kind": "traditional",
   "url": "http://a-pesni.org/popular20/ojpolna.htm"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 152,
  "tags": [
   "russia",
@@ -43,5 +43,10 @@
  "note_count": 50,
  "word_count": 19,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#2c1605",
+  "mid": "#764912",
+  "glow": "#fdf7b6"
+ }
 }

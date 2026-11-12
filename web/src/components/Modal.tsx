@@ -14,21 +14,21 @@ export function Modal({ open, onClose, title, children, wide = false, size }: { 
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-[2px] sm:items-center sm:p-6"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-6"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <motion.div
             role="dialog" aria-modal="true" aria-label={title}
-            className={`floating w-full ${size === "xl" ? "max-w-3xl" : size === "lg" || wide ? "max-w-2xl" : "max-w-lg"} max-h-[90vh] overflow-y-auto rounded-b-none p-6 sm:rounded-b-2xl sm:p-7`}
+            className={`w-full bg-elev shadow-[0_40px_100px_-30px_rgba(0,0,0,.9)] ${size === "xl" ? "max-w-3xl" : size === "lg" || wide ? "max-w-2xl" : "max-w-lg"} max-h-[90vh] overflow-y-auto rounded-t-[1.75rem] p-6 sm:rounded-[1.75rem] sm:p-8`}
             initial={{ y: 28, opacity: 0, scale: 0.98 }} animate={{ y: 0, opacity: 1, scale: 1 }} exit={{ y: 20, opacity: 0, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 420, damping: 34 }}
             onClick={(e) => e.stopPropagation()}
           >
             {(title || onClose) && (
               <div className="mb-5 flex items-center justify-between">
-                <h2 className="display-md text-xl">{title}</h2>
-                {onClose && <button className="btn btn-ghost btn-icon -mr-2" onClick={onClose} aria-label="Close"><X className="h-5 w-5" /></button>}
+                <h2 className="display-md text-[1.5rem]">{title}</h2>
+                {onClose && <button className="btn btn-round -mr-1" onClick={onClose} aria-label="Close"><X className="h-4 w-4" strokeWidth={1.8} /></button>}
               </div>
             )}
             {children}

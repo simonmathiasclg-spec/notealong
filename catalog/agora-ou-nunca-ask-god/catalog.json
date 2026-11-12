@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-276468"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 25,
  "tags": [
   "jamendo",
@@ -60,5 +60,10 @@
  "gain_db": 6.06,
  "language_probability": 0.8382667899131775,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#1d0e04",
+  "mid": "#693d0d",
+  "glow": "#fdf6b1"
+ }
 }

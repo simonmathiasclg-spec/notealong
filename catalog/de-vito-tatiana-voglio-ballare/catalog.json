@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-230819"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 341,
  "tags": [
   "jamendo",
@@ -60,5 +60,10 @@
  "gain_db": -7.6,
  "language_probability": 0.7081190347671509,
  "added": "2026-11-07",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#100413",
+  "mid": "#2f0d2e",
+  "glow": "#c36a96"
+ }
 }

@@ -24,7 +24,12 @@ export function useFitText<T extends HTMLElement>(deps: unknown[], minScale = 0.
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(parent);
-    return () => ro.disconnect();
+    // the display face may arrive after the first measure: measure again once it has
+    const fonts = typeof document !== "undefined" ? document.fonts : undefined;
+    let live = true;
+    fonts?.ready.then(() => { if (live) measure(); });
+    fonts?.addEventListener?.("loadingdone", measure);
+    return () => { live = false; ro.disconnect(); fonts?.removeEventListener?.("loadingdone", measure); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
   return { ref, scale };

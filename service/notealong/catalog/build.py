@@ -1,5 +1,5 @@
 """Build the catalog: catalog/songs/*.song -> catalog/<id>/{song.json, backing.mp3,
-vocals.mp3, cover.svg} and catalog/catalog.json (index of every song folder,
+vocals.mp3, cover.webp} and catalog/catalog.json (index of every song folder,
 hand-authored or imported).
 
     python -m notealong.catalog.build            # build everything that is out of date
@@ -20,7 +20,8 @@ from pathlib import Path
 from ..config import CATALOG_DIR
 from ..schemas import KeyInfo, Line, Note, SCHEMA_VERSION, Song, StepState, Word
 from .arrange import Arranger, VOICE_OOHS, FLUTE, CLARINET
-from .cover import cover_hues, cover_svg
+from .artwork import save_cover
+from .cover import cover_hues
 from .difficulty import rate_difficulty
 from .dsl import SongFormatError, SongSpec, load_song_file
 
@@ -89,7 +90,7 @@ def catalog_meta(spec: SongSpec, song: Song) -> dict:
         "difficulty": rating, "difficulty_details": details, "duration": song.duration, "key": spec.key_name,
         "tempo_bpm": song.tempo_bpm, "year": m.get("year"), "licence": {"name": "Public domain", "url": None},
         "attribution": m.get("attribution", "Traditional; public domain."), "source": {"kind": "traditional", "url": m.get("source_url")},
-        "cover": "cover.svg", "accent_hue": cover_hues(spec.id, m.get("genre", "Folk"))[0],
+        "cover": "cover.webp", "accent_hue": cover_hues(spec.id, m.get("genre", "Folk"))[0],
         "tags": tags, "featured": m.get("featured", "").lower() in ("yes", "true", "1"),
         "beginner": m.get("beginner", "").lower() in ("yes", "true", "1") or rating == "easy", "access": "free",
         "note_count": len(song.notes), "word_count": len(song.words),
@@ -118,8 +119,8 @@ def build_song(path: Path, force: bool = False, audio: bool = True) -> dict:
     song = spec_to_song(spec, arr, duration)
     if stale or not meta_path.exists():
         (out / "song.json").write_text(song.model_dump_json(indent=1), encoding="utf-8")
-        (out / "cover.svg").write_text(cover_svg(spec.id, spec.meta.get("genre", "Folk"), spec.meta["title"]), encoding="utf-8")
         meta = catalog_meta(spec, song)
+        write_cover(out, meta)
         # the day a song joined the catalog survives rebuilds ("New this week" on Discover)
         previous = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
         meta["added"] = previous.get("added") or datetime.now(timezone.utc).date().isoformat()
@@ -136,6 +137,12 @@ def _build_job(args) -> tuple[str, dict | None, str | None]:
         return path.stem, build_song(path, force=force, audio=audio), None
     except Exception as e:   # one bad song must not stop the others
         return path.stem, None, f"{type(e).__name__}: {e}"
+
+
+def write_cover(d: Path, meta: dict) -> None:
+    """The song's cover (cover.webp, see artwork.py) and the colours the app takes from it."""
+    meta["colors"] = save_cover(d.name, meta.get("genre", "Folk"), d / "cover.webp")
+    meta["cover"] = "cover.webp"
 
 
 def write_index() -> list[dict]:
@@ -156,8 +163,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--index", action="store_true", help="only rewrite catalog.json")
     ap.add_argument("--check", action="store_true", help="parse every .song file and report problems, no audio")
     ap.add_argument("--no-audio", action="store_true")
+    ap.add_argument("--covers", action="store_true", help="redraw every song's cover.webp (and its colours in catalog.json), then rewrite catalog.json")
     ap.add_argument("--rerate", action="store_true", help="recompute the difficulty of every catalog song from its song.json, then rewrite catalog.json")
     a = ap.parse_args(argv)
+    if a.covers:
+        for d in sorted(CATALOG_DIR.iterdir()):
+            mp = d / "catalog.json"
+            if d.is_dir() and mp.exists():
+                meta = json.loads(mp.read_text(encoding="utf-8"))
+                write_cover(d, meta)
+                mp.write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
+        print(f"catalog.json: {len(write_index())} songs with new covers")
+        return 0
     if a.rerate:
         for d in sorted(CATALOG_DIR.iterdir()):
             mp, sp = d / "catalog.json", d / "song.json"

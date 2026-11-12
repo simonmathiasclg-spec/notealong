@@ -28,7 +28,7 @@
   "kind": "traditional",
   "url": "https://archive.org/details/americansongbag029895mbp"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 197,
  "tags": [
   "standard",
@@ -43,5 +43,10 @@
  "note_count": 60,
  "word_count": 51,
  "added": "2026-11-08",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#0f183b",
+  "mid": "#253768",
+  "glow": "#769be3"
+ }
 }

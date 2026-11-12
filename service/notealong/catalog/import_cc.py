@@ -38,7 +38,8 @@ from ..pipeline.romanize import is_latin_script, romanize_words
 from ..pipeline.stems import separate
 from ..schemas import KeyInfo, Line, Note, SCHEMA_VERSION, Song, StepState, Word
 from .build import write_index
-from .cover import cover_hues, cover_svg
+from .artwork import save_cover
+from .cover import cover_hues
 from .difficulty import rate_difficulty
 from .verify import drop_outliers, review_notes
 
@@ -208,7 +209,7 @@ def run(a) -> dict:
     song.settings.lyrics_source = lyrics_source
     song.steps = {k: StepState(status="done", progress=1.0) for k in ("stems", "melody", "lyrics", "attach")}
     (out / "song.json").write_text(song.model_dump_json(indent=1), encoding="utf-8")
-    (out / "cover.svg").write_text(cover_svg(a.id, a.genre, a.title), encoding="utf-8")
+    colors = save_cover(a.id, a.genre, out / "cover.webp")
 
     rating, details = rate_difficulty(notes)
     attribution = a.attribution or (f'"{a.title}" by {a.artist}' + (f', from the album "{a.album}"' if getattr(a, "album", None) else "")
@@ -218,7 +219,7 @@ def run(a) -> dict:
         "language": a.language, "difficulty": rating, "difficulty_details": details, "duration": duration,
         "key": key["name"] if key else None, "tempo_bpm": tempo, "year": a.year,
         "licence": {"name": a.licence, "url": a.licence_url}, "attribution": attribution,
-        "source": {"kind": "cc", "url": a.source_url}, "cover": "cover.svg", "accent_hue": cover_hues(a.id, a.genre)[0],
+        "source": {"kind": "cc", "url": a.source_url}, "cover": "cover.webp", "colors": colors, "accent_hue": cover_hues(a.id, a.genre)[0],
         "tags": [t.strip() for t in a.tags.split(",") if t.strip()], "featured": a.featured, "beginner": rating == "easy",
         "access": "free", "note_count": len(notes), "word_count": len(words), "review": report,
         # "annotated": word timings made by people; "transcribed": heard by Whisper, not checked by a person

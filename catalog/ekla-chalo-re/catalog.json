@@ -28,7 +28,7 @@
   "kind": "traditional",
   "url": "https://bn.wikisource.org/wiki/%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE:%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%B0%E0%A6%B2%E0%A6%BF%E0%A6%AA%E0%A6%BF_-_Anthology_of_One_Hundred_Songs_of_Rabindranath_Tagore_in_Staff_Notation_(Volume_I).pdf/%E0%A7%A7%E0%A7%A6%E0%A7%AB"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 208,
  "tags": [
   "bengali",
@@ -44,5 +44,10 @@
  "note_count": 109,
  "word_count": 53,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#072f36",
+  "mid": "#165e64",
+  "glow": "#75c8bd"
+ }
 }

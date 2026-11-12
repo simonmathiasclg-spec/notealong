@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://www.jamendo.com/track/1556580/bad-side"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "tags": [
   "jamendo"
  ],
@@ -55,5 +55,10 @@
  "accent_hue": 202,
  "added": "2026-11-02",
  "popularity": 0,
- "lyrics": "annotated"
+ "lyrics": "annotated",
+ "colors": {
+  "deep": "#190502",
+  "mid": "#571f0a",
+  "glow": "#fdcc7a"
+ }
 }

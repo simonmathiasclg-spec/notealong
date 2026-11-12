@@ -81,8 +81,8 @@ const CHIP_EM = { lg: 2.15 * 0.52, md: 2.1 * 0.58 };
 
 function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "prev" | "current" | "next" | "after" }) {
   const sizeClass = role === "current"
-    ? "text-[calc(var(--fit,1)*clamp(2rem,4.8vw,4rem))]"
-    : "text-[calc(var(--fit,1)*clamp(1.2rem,2.5vw,1.9rem))]";
+    ? "text-[calc(var(--fit,1)*clamp(2.1rem,5.2vw,4.6rem))]"
+    : "text-[calc(var(--fit,1)*clamp(1.2rem,2.6vw,2rem))]";
   const chipSize = role === "current" ? "lg" : "md";
   const fit = useFitText<HTMLDivElement>([line, role, p.editing, p.script, p.timing]);
   const reduced = useReducedMotion();

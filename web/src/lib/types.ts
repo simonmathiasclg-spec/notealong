@@ -1,4 +1,7 @@
 // Mirrors service/notealong/schemas.py (song.json)
+/** The three colours of a cover: shadows (backdrops), body, and light (the song's "now" colour comes from it). */
+export type ArtColors = { deep: string; mid: string; glow: string };
+
 export type Word = {
   id: string;
   text: string;
@@ -66,6 +69,8 @@ export type CatalogEntry = {
   cover_url: string;
   /** Hue (0-359) of the cover art; the player tints its accent with it. */
   accent_hue?: number;
+  /** The cover's colours: its shadows, its body and its light (see lib/color.ts artVars). */
+  colors?: ArtColors;
   tags: string[];
   featured?: boolean;
   beginner?: boolean;

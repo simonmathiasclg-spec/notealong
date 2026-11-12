@@ -1,6 +1,6 @@
 """Uploads the built-in catalog (public domain and Creative Commons songs) to the online version's public
 `catalog` bucket: index.json, search-index.json, and each song's song.json, backing.mp3, vocals.mp3 and
-cover.svg. Only files that changed since the last upload are sent (a manifest of hashes is kept there too).
+cover.webp. Only files that changed since the last upload are sent (a manifest of hashes is kept there too).
 
     cd service && .venv/bin/python scripts/cloud/upload_catalog.py [--env ../.env.cloud] [--dry-run]
 
@@ -25,7 +25,7 @@ from notealong.catalog import store as catalog_store  # noqa: E402
 from notealong.cloud.supa import Supa  # noqa: E402
 from notealong.config import CATALOG_DIR  # noqa: E402
 
-FILES = {"song.json": "application/json", "backing.mp3": "audio/mpeg", "vocals.mp3": "audio/mpeg", "cover.svg": "image/svg+xml"}
+FILES = {"song.json": "application/json", "backing.mp3": "audio/mpeg", "vocals.mp3": "audio/mpeg", "cover.webp": "image/webp"}
 FORBIDDEN = (ROOT / "test-recordings").resolve()
 
 

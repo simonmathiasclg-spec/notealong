@@ -21,7 +21,7 @@ from .config import CATALOG_DIR, DETAIL_LEVELS, LIBRARY_DIR, STEM_FORMAT, proces
 from .jobs import manager, recover_interrupted, upgrader
 from .pipeline import audio as audio_mod
 from .pipeline import fingerprint as fp_mod
-from .catalog.cover import cover_svg
+from .catalog.artwork import render_cover
 from .pipeline.runner import STEP_ORDER, run_paste_lyrics
 from .schemas import Line, Note, Song, UserSession, Word
 
@@ -78,12 +78,15 @@ def get_catalog():
 @app.get("/api/catalog/{song_id}/cover")
 def get_cover(song_id: str):
     try:
-        p = library.song_dir(song_id) / "cover.svg"
+        d = library.song_dir(song_id)
     except ValueError:
         raise HTTPException(404, "Song not found")
-    if not library.is_catalog(song_id) or not p.exists():
+    if not library.is_catalog(song_id):
         raise HTTPException(404, "No cover")
-    return FileResponse(p, media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=86400"})
+    for name, media in (("cover.webp", "image/webp"), ("cover.svg", "image/svg+xml")):
+        if (d / name).exists():
+            return FileResponse(d / name, media_type=media, headers={"Cache-Control": "public, max-age=86400"})
+    raise HTTPException(404, "No cover")
 
 
 @app.get("/api/songs/{song_id}/cover")
@@ -99,8 +102,11 @@ def get_upload_cover(song_id: str):
         if name and (d / name).exists():
             media = "image/png" if name.endswith(".png") else "image/jpeg"
             return FileResponse(d / name, media_type=media, headers={"Cache-Control": "private, max-age=60"})
-    svg = cover_svg(song_id, "Pop", song.title)
-    return Response(svg, media_type="image/svg+xml", headers={"Cache-Control": "private, max-age=3600"})
+    # no picture of its own: a generated one, drawn once and kept with the song
+    gen = d / "cover_gen.webp"
+    if not gen.exists():
+        render_cover(song_id, "Pop").save(gen, "WEBP", quality=80, method=6)
+    return FileResponse(gen, media_type="image/webp", headers={"Cache-Control": "private, max-age=3600"})
 
 
 @app.put("/api/songs/{song_id}/cover")

@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-200942"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 149,
  "tags": [
   "jamendo",
@@ -63,5 +63,10 @@
  "gain_db": -0.0,
  "language_probability": 0.8240759968757629,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#281405",
+  "mid": "#5a360f",
+  "glow": "#fdefa2"
+ }
 }

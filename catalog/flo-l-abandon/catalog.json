@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://www.jamendo.com/track/48843/l-abandon/lyrics"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "tags": [
   "jamendo"
  ],
@@ -55,5 +55,10 @@
  "accent_hue": 86,
  "added": "2026-11-02",
  "popularity": 0,
- "lyrics": "annotated"
+ "lyrics": "annotated",
+ "colors": {
+  "deep": "#2c1605",
+  "mid": "#633a0d",
+  "glow": "#fceea8"
+ }
 }

@@ -13,10 +13,10 @@ import { useCountInPref, useInstrumentPref, useTheme } from "@/lib/prefs";
 import { beatSeconds, cueAt, type Cue } from "@/lib/timing";
 import { Sampler, type SamplerState } from "@/lib/sampler";
 import { HearEngine, type HearNote } from "@/lib/hear";
-import { accentFor, accentVars } from "@/lib/color";
+import { accentFromArt, accentVars, artVars } from "@/lib/color";
 import { cultureOf } from "@/lib/catalog";
 import { downloadText, songToMusicXml } from "@/lib/musicxml";
-import { LEFTOVER_VOICE_NOTICEABLE_DB, type Note, type Song, type UserSession, type Word } from "@/lib/types";
+import { LEFTOVER_VOICE_NOTICEABLE_DB, type ArtColors, type Note, type Song, type UserSession, type Word } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { ThemeToggle } from "../AppHeader";
 import { LyricStage } from "./LyricStage";
@@ -31,12 +31,13 @@ import { SetlistBar } from "./SetlistBar";
 import { FavouriteButton } from "../Favourite";
 import { AddToSetlistButton } from "../AddToSetlist";
 import { useMe } from "@/lib/me";
+import { nowPlaying } from "@/lib/nowPlaying";
 
 type Snapshot = { notes: Note[]; words: Word[] };
 
 function instrumentIsSax(id: string) { return id.endsWith("_sax"); }
 
-export function Player({ initial, reload }: { initial: Song; reload: () => Promise<void> }) {
+export function Player({ initial, reload, colors = null }: { initial: Song; reload: () => Promise<void>; colors?: ArtColors | null }) {
   const [song, setSong] = useState<Song>(initial);
   const [session, setSession] = useState<UserSession>(initial.user);
   const [, setInstrumentPref] = useInstrumentPref();
@@ -68,8 +69,17 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   const engineRef = useRef<AudioEngine | null>(null);
 
   // ---- audio engine -------------------------------------------------------
+  // Leaving while the song plays hands the engine to the mini player (lib/nowPlaying.ts); coming back takes it
+  // back, so the music carries on without a gap. Opening a different song stops the one that was carrying on.
+  const sessionRef = useRef(session);
+  useEffect(() => { sessionRef.current = session; }, [session]);
+  const colorsRef = useRef(colors);
+  useEffect(() => { colorsRef.current = colors; }, [colors]);
   useEffect(() => {
-    const engine = new AudioEngine((stem, shift) => api.audioUrl(song.id, stem, shift));
+    const back = nowPlaying.take(song.id);
+    if (!back) nowPlaying.stop();
+    const engine = back?.engine ?? new AudioEngine((stem, shift) => api.audioUrl(song.id, stem, shift));
+    if (back) { hearRef.current = back.hear; samplerRef.current = back.sampler; }
     engineRef.current = engine;
     const unsub = engine.subscribe(setEngineState);
     engine.onEnded = () => setEnded((n) => n + 1);
@@ -77,8 +87,24 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
     engine.setGuideVolume(session.guide_vocal ? session.guide_volume : 0);
     engine.setSpeed(session.speed);
     engine.loop = session.loop;
-    engine.load(session.key_shift).then(() => { if (session.position > 0 && session.position < song.duration - 5) engine.seek(session.position); });
-    return () => { hearRef.current?.destroy(); hearRef.current = null; samplerRef.current = null; unsub(); engine.destroy(); engineRef.current = null; };
+    if (!back) engine.load(session.key_shift).then(() => { if (session.position > 0 && session.position < song.duration - 5) engine.seek(session.position); });
+    return () => {
+      unsub();
+      const st = engine.getState();
+      if (st.playing || st.countingIn !== null) {
+        engine.onEnded = null;
+        nowPlaying.park({
+          id: song.id, title: song.title, artist: song.artist ?? "", duration: song.duration, colors: colorsRef.current,
+          cover: song.catalog ? api.coverUrl(song.id) : api.uploadCoverUrl(song.id),
+          engine, hear: hearRef.current, sampler: samplerRef.current,
+          session: { ...sessionRef.current, position: Math.floor(engine.currentTime) },
+        });
+      } else {
+        hearRef.current?.destroy();
+        engine.destroy();
+      }
+      hearRef.current = null; samplerRef.current = null; engineRef.current = null;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [song.id]);
 
@@ -399,30 +425,30 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
   }, [noteAnchor, song.notes]);
   const catalog = isCatalogSong(song);
   const backHref = catalog ? "/" : "/my-songs";
-  // The accent takes the song's own hue (from its cover art); uploads keep the default.
+  // "Now" takes its colour from the song's artwork (built-in songs and uploads alike)
   const [theme] = useTheme();
-  const accent = useMemo(() => accentFor(song.catalog?.accent_hue ?? null, theme === "light" ? "light" : "dark"), [song.catalog?.accent_hue, theme]);
+  const accent = useMemo(() => accentFromArt(colors, theme === "light" ? "light" : "dark"), [colors, theme]);
   const subtitle = [
     song.catalog ? (song.artist === "Traditional" ? `Traditional${cultureOf(song.catalog) ? `, ${cultureOf(song.catalog)}` : ""}` : song.artist) : song.artist,
     song.key ? `${keyName(song.key, session.key_shift)}${session.key_shift !== 0 ? ` (${session.key_shift > 0 ? "+" : ""}${session.key_shift})` : ""}` : null,
   ].filter(Boolean).join(" · ");
 
   return (
-    <div className="spotlight flex h-dvh flex-col overflow-hidden bg-bg" style={{ ...accentVars(accent), "--beat": `${(beat / session.speed).toFixed(3)}s` } as React.CSSProperties}>
+    <div className="flex h-dvh flex-col overflow-hidden" style={{ ...accentVars(accent), ...artVars(colors), "--beat": `${(beat / session.speed).toFixed(3)}s` } as React.CSSProperties}>
       {/* Top bar */}
       <AnimatePresence initial={false}>
         {!focus && (
-          <motion.header initial={{ y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} className="no-print flex items-center gap-3 px-3 py-3 sm:px-5">
-            <Link href={backHref} className="btn btn-ghost btn-icon" aria-label={catalog ? "Back to Discover" : "Back to my songs"} data-tip={catalog ? "Discover" : "My songs"}><ArrowLeft className="h-5 w-5" /></Link>
+          <motion.header initial={{ y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -16, opacity: 0 }} transition={{ type: "spring", stiffness: 300, damping: 30 }} className="no-print flex items-center gap-3 px-3 py-3 sm:px-6 sm:py-4">
+            <Link href={backHref} className="btn btn-round shrink-0" aria-label={catalog ? "Back to Discover" : "Back to my songs"} data-tip={catalog ? "Discover" : "My songs"} data-tip-pos="below"><ArrowLeft className="h-[18px] w-[18px]" strokeWidth={1.6} /></Link>
             <div className="min-w-0 flex-1">
-              <h1 className="display-md truncate text-[1.1rem] sm:text-[1.25rem]">{song.title}</h1>
-              <div className="truncate text-[13px] text-muted">{subtitle}</div>
+              <h1 className="display-md truncate text-[1.05rem] sm:text-[1.3rem]">{song.title}</h1>
+              <div className="truncate text-[12px] uppercase tracking-[0.08em] text-muted">{subtitle}</div>
             </div>
             {editing ? (
               <div className="flex items-center gap-1">
                 <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : "Click a note to move it, or a word to fix it"}</span>
-                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo"><Undo2 className="h-5 w-5" /></button>
-                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo"><Redo2 className="h-5 w-5" /></button>
+                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo"><Undo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo"><Redo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
               </div>
             ) : (
@@ -432,12 +458,12 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
                 </button>
                 <FavouriteButton id={song.id} title={song.title} variant="icon" />
                 <AddToSetlistButton songId={song.id} title={song.title} />
-                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon max-sm:hidden" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" /></Link>
-                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" /></button>
-                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" /></button>
-                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" /></button>
+                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon max-sm:hidden" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" strokeWidth={1.6} /></Link>
+                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <span className="max-sm:hidden"><ThemeToggle /></span>
-                <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" /></button>
+                <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
               </div>
             )}
           </motion.header>
@@ -461,7 +487,7 @@ export function Player({ initial, reload }: { initial: Song; reload: () => Promi
         <AnimatePresence>
           {engineState.countingIn !== null && (
             <motion.div key={engineState.countingIn} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.25, opacity: 0 }} transition={{ type: "spring", stiffness: 500, damping: 30 }} className="pointer-events-none absolute inset-x-0 top-[6%] flex justify-center" aria-live="assertive">
-              <div className="display-xl grid h-28 w-28 place-items-center rounded-full bg-accent text-[4rem] text-accent-fg shadow-[0_0_0_10px_var(--ring),0_20px_60px_rgba(0,0,0,.45)]">{engineState.countingIn}</div>
+              <div className="display-hero grid h-36 w-36 place-items-center rounded-full border-2 border-accent pt-2 text-[6.5rem] text-accent shadow-[0_0_60px_var(--accent-soft)]">{engineState.countingIn}</div>
             </motion.div>
           )}
         </AnimatePresence>

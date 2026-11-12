@@ -4,7 +4,7 @@ import type { Song } from "@/lib/types";
 import { fileNames, signedUrl } from "@/lib/cloud/jobs";
 import { HttpError, requireUser, route, userClient } from "@/lib/cloud/server";
 
-const PLACEHOLDER = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><rect width="600" height="600" fill="#2b2a33"/><circle cx="300" cy="300" r="150" fill="none" stroke="#5c5a6b" stroke-width="18"/><circle cx="300" cy="300" r="34" fill="#5c5a6b"/></svg>`;
+const PLACEHOLDER = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><radialGradient id="g" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#4a3a2e"/><stop offset="1" stop-color="#14110e"/></radialGradient></defs><rect width="600" height="600" fill="url(#g)"/></svg>`;
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   return route(async () => {
@@ -14,7 +14,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
     if (!row) throw new HttpError(404, "Song not found");
     const song = row.data as Song;
     const files = await fileNames(`${user.id}/${id}`);
-    for (const name of ["cover_user.jpg", "cover_user.png", song.files.cover ?? "", "cover.svg"]) {
+    for (const name of ["cover_user.jpg", "cover_user.png", song.files.cover ?? "", "cover_gen.webp", "cover.svg"]) {
       if (name && files.has(name)) {
         return new Response(null, { status: 302, headers: { Location: await signedUrl(`${user.id}/${id}/${name}`, 3600), "Cache-Control": "private, max-age=60" } });
       }

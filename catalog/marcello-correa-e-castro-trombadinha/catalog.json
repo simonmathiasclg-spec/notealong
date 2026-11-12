@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-162656"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 12,
  "tags": [
   "jamendo",
@@ -63,5 +63,10 @@
  "gain_db": -6.46,
  "language_probability": 0.9683297872543335,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#210702",
+  "mid": "#5a230c",
+  "glow": "#fde290"
+ }
 }

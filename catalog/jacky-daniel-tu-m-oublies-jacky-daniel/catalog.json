@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-144713"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 206,
  "tags": [
   "jamendo",
@@ -63,5 +63,10 @@
  "gain_db": -6.21,
  "language_probability": 0.9258226752281189,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#0d040f",
+  "mid": "#300d30",
+  "glow": "#dc81a8"
+ }
 }

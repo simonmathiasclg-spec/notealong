@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-338461"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 190,
  "tags": [
   "jamendo",
@@ -60,5 +60,10 @@
  "gain_db": -2.22,
  "language_probability": 0.8237486481666565,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#041216",
+  "mid": "#124146",
+  "glow": "#a6e5d9"
+ }
 }

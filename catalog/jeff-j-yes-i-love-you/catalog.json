@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-236511"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 110,
  "tags": [
   "jamendo",
@@ -61,5 +61,10 @@
  "gain_db": -1.31,
  "language_probability": 0.6376153826713562,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#0a1407",
+  "mid": "#445922",
+  "glow": "#f4f89d"
+ }
 }

@@ -6,6 +6,7 @@ pydantic>=2.7
 numpy<2.1
 setuptools>=68,<81   # resampy still needs pkg_resources
 scipy>=1.11
+Pillow>=10          # generated covers (catalog/artwork.py)
 soundfile>=0.12
 librosa>=0.10
 torch>=2.2

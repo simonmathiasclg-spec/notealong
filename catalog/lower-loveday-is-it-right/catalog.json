@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://www.jamendo.com/track/1559614/is-it-right"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "tags": [
   "jamendo"
  ],
@@ -55,5 +55,10 @@
  "accent_hue": 205,
  "added": "2026-11-02",
  "popularity": 0,
- "lyrics": "annotated"
+ "lyrics": "annotated",
+ "colors": {
+  "deep": "#422320",
+  "mid": "#74433c",
+  "glow": "#dbab98"
+ }
 }

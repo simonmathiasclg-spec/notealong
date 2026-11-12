@@ -10,10 +10,10 @@ import { useUploads, type Upload } from "@/lib/uploads";
 function Row({ u, onDismiss }: { u: Upload; onDismiss: () => void }) {
   const name = u.title ?? u.name.replace(/\.[^.]+$/, "");
   const open = u.songId ? `/songs/${u.songId}` : null;
-  const icon = u.status === "ready" ? <Check className="h-4 w-4 text-accent" />
+  const icon = u.status === "ready" ? <Check className="h-4 w-4 text-ok" strokeWidth={2} />
     : u.status === "failed" ? <AlertCircle className="h-4 w-4 text-danger" />
     : u.status === "duplicate" ? <Copy className="h-4 w-4 text-muted" />
-    : <Loader2 className="h-4 w-4 animate-spin text-accent" />;
+    : <Loader2 className="h-4 w-4 animate-spin text-fg" strokeWidth={1.8} />;
   const line = u.status === "uploading" ? `Uploading, ${Math.round(u.progress * 100)}%`
     : u.status === "processing" ? `${u.step ?? "Working"}…${u.secondsLeft && u.secondsLeft > 5 ? ` about ${u.secondsLeft < 60 ? `${Math.round(u.secondsLeft / 5) * 5} s` : `${Math.ceil(u.secondsLeft / 60)} min`} left` : ""}`
     : u.status === "ready" ? "Ready to play"
@@ -26,7 +26,7 @@ function Row({ u, onDismiss }: { u: Upload; onDismiss: () => void }) {
         <div className="truncate text-sm font-medium">{name}</div>
         <div className={`truncate text-xs ${u.status === "failed" ? "text-danger" : "text-muted"}`}>{line}</div>
         {(u.status === "uploading" || u.status === "processing") && (
-          <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-sunken"><div className="h-full rounded-full bg-accent transition-[width] duration-500" style={{ width: `${Math.max(3, u.progress * 100)}%` }} /></div>
+          <div className="mt-2 h-px overflow-hidden bg-border-strong"><div className="h-full bg-fg transition-[width] duration-500" style={{ width: `${Math.max(3, u.progress * 100)}%` }} /></div>
         )}
       </div>
     </>
@@ -53,12 +53,12 @@ export function UploadQueue() {
     <AnimatePresence>
       {visible.length > 0 && (
         <motion.aside
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }}
-          className="floating no-print fixed bottom-4 right-4 z-40 w-[min(22rem,calc(100vw-2rem))] overflow-hidden p-0"
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} transition={{ type: "spring", stiffness: 380, damping: 32 }}
+          className="no-print fixed left-3 right-3 top-3 z-40 overflow-hidden rounded-[1.5rem] bg-elev shadow-[0_30px_60px_-20px_rgba(0,0,0,.8)] sm:bottom-6 sm:left-6 sm:right-auto sm:top-auto sm:w-[22rem]"
           aria-label="Songs being added" aria-live="polite"
         >
           <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
-            <div className="text-sm font-semibold">
+            <div className="font-display text-[15px] font-bold tracking-[-0.01em]">
               {working > 0 ? `Adding ${working === 1 ? "a song" : `${working} songs`}` : failed === done ? (failed === 1 ? "A song could not be added" : "These could not be added") : done === 1 ? "Song added" : `${done} songs added`}
             </div>
             {done > 0 && <button className="text-xs text-muted hover:text-fg" onClick={clearDone}>Clear finished</button>}

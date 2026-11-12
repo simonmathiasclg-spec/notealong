@@ -7,7 +7,9 @@ import { AlertCircle, ArrowLeft, Play } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { AddToSetlistButton } from "@/components/AddToSetlist";
 import { FavouriteButton } from "@/components/Favourite";
-import { ResultTile } from "@/components/ResultTile";
+import { ResultGrid } from "@/components/ResultTile";
+import { ArtTile } from "@/components/art/Art";
+import { SiteFooter } from "@/components/SiteFooter";
 import { api, formatTime } from "@/lib/api";
 import { DIFFICULTY_HINT, DIFFICULTY_LABEL, cultureOf, languageName } from "@/lib/catalog";
 import { getInstrument } from "@/lib/instruments";
@@ -39,14 +41,14 @@ export default function SongInfoPage({ params }: { params: Promise<{ id: string 
   if (error) return (
     <div className="flex min-h-full flex-col"><AppHeader />
       <div className="mx-auto max-w-md px-6 py-16 text-center">
-        <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-danger-soft text-danger"><AlertCircle className="h-6 w-6" /></div>
-        <h1 className="display-md text-2xl">That song isn&apos;t here</h1>
+        <AlertCircle className="mx-auto mb-5 h-8 w-8 text-danger" strokeWidth={1.6} />
+        <h1 className="display-xl text-[2.6rem]">That song isn&apos;t here</h1>
         <p className="mt-2 text-sm text-muted">It may have been deleted, or the link is wrong.</p>
         <Link href="/" className="btn btn-primary mt-7"><ArrowLeft className="h-4 w-4" /> Discover</Link>
       </div>
     </div>
   );
-  if (!song) return <div className="flex min-h-full flex-col"><AppHeader /><div className="mx-auto w-full max-w-5xl px-5 sm:px-8"><div className="skel h-64 w-full" /></div></div>;
+  if (!song) return <div className="flex min-h-full flex-col"><AppHeader /><div className="mx-auto grid w-full max-w-[80rem] gap-10 px-5 pt-10 sm:px-8 md:grid-cols-[24rem_1fr] lg:px-12"><div className="skel squircle aspect-square w-full" /><div className="space-y-4 self-center"><div className="skel h-16 w-3/4 rounded-xl" /><div className="skel h-5 w-1/3 rounded-lg" /></div></div></div>;
 
   const cat = song.catalog;
   const upload = !cat;
@@ -67,63 +69,73 @@ export default function SongInfoPage({ params }: { params: Promise<{ id: string 
   if (difficulty) facts.push(["Difficulty", `${DIFFICULTY_LABEL[difficulty]}: ${DIFFICULTY_HINT[difficulty].toLowerCase()}`]);
   if (range) facts.push(["Melody range", `${noteName(range[0])} to ${noteName(range[1])} (concert pitch)`]);
 
+  const cover = upload ? api.uploadCoverUrl(id) : api.coverUrl(id);
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="relative flex min-h-full flex-col">
+      {/* the song's artwork washes the top of the page */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[36rem] overflow-hidden" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={cover} alt="" className="stage-art absolute inset-[-20%] h-[140%] w-[140%] max-w-none object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-bg/70 to-bg" />
+      </div>
+      <div className="relative z-10 flex flex-1 flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-5 pb-20 sm:px-8">
-        <Link href={upload ? "/my-songs" : "/"} className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg"><ArrowLeft className="h-4 w-4" /> {upload ? "My songs" : "Discover"}</Link>
-        <div className="mt-5 flex flex-col gap-8 sm:flex-row">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={upload ? api.uploadCoverUrl(id) : api.coverUrl(id)} alt="" className="cover w-48 shrink-0 shadow-card sm:w-60" />
-          <div className="min-w-0 flex-1">
-            <h1 className="display-lg text-[2.4rem] leading-[1.05] sm:text-[3rem]">{song.title}</h1>
-            <p className="mt-2 text-lg text-muted">{song.artist || (upload ? "Unknown artist" : "")}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              <Link href={`/songs/${id}`} className="btn btn-primary btn-lg"><Play className="h-4 w-4 fill-current" /> Play</Link>
-              <FavouriteButton id={id} title={song.title} />
+      <main className="mx-auto w-full max-w-[80rem] flex-1 px-5 pb-10 sm:px-8 lg:px-12">
+        <Link href={upload ? "/my-songs" : "/"} className="inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-fg"><ArrowLeft className="h-4 w-4" strokeWidth={1.6} /> {upload ? "My songs" : "Discover"}</Link>
+        <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,24rem)_1fr] md:gap-14">
+          <div className="aspect-square w-full max-w-[24rem]"><ArtTile song={{ id, title: song.title, artist: song.artist ?? "", cover, colors: cat?.colors ?? null }} shape="square" priority favourite={false} /></div>
+          <div className="min-w-0 self-center">
+            <p className="text-[12px] font-medium text-muted">{upload ? "My song" : cat?.source.kind === "cc" ? "Recording · Creative Commons" : "Built-in · public domain"}</p>
+            <h1 className="display-xl mt-3 text-[clamp(2.4rem,5.5vw,4.6rem)]">{song.title}</h1>
+            <p className="mt-3 text-[15px] text-muted">{song.artist || (upload ? "Unknown artist" : "")}{song.key ? ` · ${keyName(song.key, 0)}` : ""} · {formatTime(song.duration)}</p>
+            <div className="mt-7 flex flex-wrap items-center gap-2">
+              <Link href={`/songs/${id}`} className="btn btn-red btn-lg"><Play className="h-4 w-4 fill-current" strokeWidth={0} /> Play along</Link>
+              <FavouriteButton id={id} title={song.title} className="btn-outline btn-lg" />
               <AddToSetlistButton songId={id} title={song.title} variant="button" />
             </div>
-            <p className={`mt-5 text-sm ${fits ? "text-muted" : "text-fg"}`}>
+            <p className={`mt-6 max-w-xl text-[14px] leading-relaxed ${fits ? "text-muted" : "text-fg"}`}>
               {range ? (fits ? `The whole melody fits the ${instrument.name.toLowerCase()} without a big key change.` : `Parts of the melody go outside the usual range of the ${instrument.name.toLowerCase()}; the player can move it an octave or change the key.`) : null}
             </p>
           </div>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.1fr]">
+        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1.1fr]">
           <section aria-label="About this song">
-            <h2 className="display-md text-[1.3rem]">About</h2>
-            <dl className="mt-3 divide-y divide-border border-y border-border text-sm">
-              {facts.map(([k, v]) => <div key={k} className="flex gap-4 py-2.5"><dt className="w-32 shrink-0 text-muted">{k}</dt><dd className="min-w-0">{v}</dd></div>)}
+            <h2 className="display-md text-[1.6rem]">About</h2>
+            <dl className="mt-4 border-t border-border text-[14px]">
+              {facts.map(([k, v]) => <div key={k} className="flex gap-4 border-b border-border py-3"><dt className="w-32 shrink-0 text-muted">{k}</dt><dd className="min-w-0">{v}</dd></div>)}
             </dl>
             {cat ? (
-              <div className="mt-5 text-sm leading-relaxed text-muted">
+              <div className="mt-5 text-[13px] leading-relaxed text-muted">
                 <p>{cat.attribution}</p>
-                <p className="mt-2 text-xs text-faint">
+                <p className="mt-2 text-[12px] text-faint">
                   {cat.licence.url ? <a href={cat.licence.url} target="_blank" rel="noreferrer" className="underline underline-offset-4">{cat.licence.name}</a> : cat.licence.name}
                   {cat.source.url && <> · <a href={cat.source.url} target="_blank" rel="noreferrer" className="underline underline-offset-4">Source</a></>}
                 </p>
               </div>
             ) : (
-              <p className="mt-5 text-sm text-muted">Your own song, from {song.source.filename ?? "an upload"}. It and everything made from it stay private to you.</p>
+              <p className="mt-5 text-[13px] text-muted">Your own song, from {song.source.filename ?? "an upload"}. It and everything made from it stay private to you.</p>
             )}
           </section>
           <section aria-label="Words">
-            <h2 className="display-md text-[1.3rem]">Words</h2>
+            <h2 className="display-md text-[1.6rem]">Words</h2>
             {lines.length ? (
-              <div className="mt-3 max-h-[28rem] overflow-y-auto rounded-xl border border-border p-4 text-[0.95rem] leading-relaxed">
-                {lines.map((l, i) => <p key={i}>{l}</p>)}
+              <div className="mt-4 max-h-[30rem] overflow-y-auto border-t border-border pt-4 font-display text-[1.15rem] font-semibold leading-[1.55] tracking-[-0.01em] [mask-image:linear-gradient(to_bottom,#000_85%,transparent)]">
+                {lines.map((l, i) => <p key={i} className={i % 4 === 3 ? "mb-4" : ""}>{l}</p>)}
               </div>
-            ) : <p className="mt-3 text-sm text-muted">This one has no words: it is played as a melody.</p>}
+            ) : <p className="mt-4 text-[14px] text-muted">This one has no words: it is played as a melody.</p>}
           </section>
         </div>
 
         {similar.length > 0 && (
-          <section className="mt-12" aria-label="Songs like this">
-            <h2 className="display-md mb-4 text-[1.3rem]">Songs like this</h2>
-            <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 lg:grid-cols-6">{similar.map((r) => <ResultTile key={r.id} row={r} />)}</div>
+          <section className="mt-16" aria-label="Songs like this">
+            <h2 className="display-md mb-5 text-[1.6rem]">Songs like this</h2>
+            <ResultGrid rows={similar} />
           </section>
         )}
       </main>
+      <SiteFooter />
+      </div>
     </div>
   );
 }

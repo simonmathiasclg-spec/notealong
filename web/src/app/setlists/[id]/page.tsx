@@ -9,6 +9,7 @@ import { api, formatTime } from "@/lib/api";
 import { useMe } from "@/lib/me";
 import { scoreRow, type SearchRow } from "@/lib/search";
 import { setlistSongHref } from "@/components/player/SetlistBar";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function SetlistPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -28,7 +29,7 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
   if (!loaded) return <div className="flex min-h-full flex-col"><AppHeader /><div className="mx-auto w-full max-w-3xl px-5"><div className="skel h-40 w-full" /></div></div>;
   if (!sl) return (
     <div className="flex min-h-full flex-col"><AppHeader />
-      <div className="mx-auto max-w-md px-6 py-16 text-center"><h1 className="display-md text-2xl">That setlist isn&apos;t here</h1><Link href="/setlists" className="btn mt-6">All setlists</Link></div>
+      <div className="mx-auto max-w-md px-6 py-16 text-center"><h1 className="display-xl text-[2.6rem]">That setlist isn&apos;t here</h1><Link href="/setlists" className="btn btn-primary mt-6">All setlists</Link></div>
     </div>
   );
   const move = (from: number, to: number) => {
@@ -43,13 +44,13 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-3xl flex-1 px-5 pb-20 sm:px-8">
-        <Link href="/setlists" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg"><ArrowLeft className="h-4 w-4" /> Setlists</Link>
-        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-          <input className="display-lg -ml-1 min-w-0 flex-1 rounded-lg bg-transparent px-1 text-[2.1rem] outline-offset-2 hover:bg-hover focus:bg-hover" value={sl.name} onChange={(e) => updateSetlist(sl.id, { name: e.target.value })} aria-label="Setlist name" />
-          {sl.songs.length > 0 && <Link href={setlistSongHref(sl.id, sl.songs, 0)} className="btn btn-primary btn-lg"><Play className="h-4 w-4 fill-current" /> Play the set</Link>}
+      <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-10 sm:px-8">
+        <Link href="/setlists" className="inline-flex items-center gap-1.5 text-[13px] text-muted hover:text-fg"><ArrowLeft className="h-4 w-4" strokeWidth={1.6} /> Setlists</Link>
+        <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <input className="display-hero -ml-1 w-full min-w-0 flex-1 rounded-xl bg-transparent px-1 text-[clamp(2.8rem,8vw,6rem)] outline-offset-2 hover:bg-hover focus:bg-hover" value={sl.name} onChange={(e) => updateSetlist(sl.id, { name: e.target.value })} aria-label="Setlist name" />
+          {sl.songs.length > 0 && <Link href={setlistSongHref(sl.id, sl.songs, 0)} className="btn btn-red btn-lg"><Play className="h-4 w-4 fill-current" strokeWidth={0} /> Play the set</Link>}
         </div>
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted">
           <span>{sl.songs.length === 1 ? "1 song" : `${sl.songs.length} songs`}{sl.songs.length ? `, about ${formatTime(total)}` : ""}</span>
           <label className="inline-flex items-center gap-2">Gap between songs
             <select className="field h-8 py-0 pr-7 text-sm" value={sl.gap_seconds} onChange={(e) => updateSetlist(sl.id, { gap_seconds: Number(e.target.value) })}>
@@ -58,7 +59,7 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
           </label>
         </div>
 
-        <ol className="panel mt-6 divide-y divide-border" aria-label="Songs in this setlist">
+        <ol className="mt-8 border-t border-border" aria-label="Songs in this setlist">
           {sl.songs.length === 0 && <li className="p-6 text-center text-sm text-muted">No songs yet. Find some below.</li>}
           {sl.songs.map((sid, i) => {
             const r = byId.get(sid);
@@ -68,13 +69,13 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
                 onDragOver={(e) => { e.preventDefault(); setOver(i); }}
                 onDragEnd={() => { setDrag(null); setOver(null); }}
                 onDrop={(e) => { e.preventDefault(); if (drag !== null) move(drag, i); setDrag(null); setOver(null); }}
-                className={`group flex items-center gap-3 px-3 py-2.5 sm:px-4 ${drag === i ? "opacity-40" : ""} ${over === i && drag !== null && drag !== i ? "bg-hover" : ""}`}>
-                <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-faint" aria-hidden="true" />
-                <span className="tabular w-6 shrink-0 text-right text-sm text-faint">{i + 1}</span>
+                className={`group flex items-center gap-3 border-b border-border py-2.5 transition ${drag === i ? "opacity-40" : ""} ${over === i && drag !== null && drag !== i ? "bg-hover" : ""}`}>
+                <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-faint max-sm:hidden" aria-hidden="true" />
+                <span className="tabular w-6 shrink-0 text-right text-[11px] text-faint">{String(i + 1).padStart(2, "0")}</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={r?.kind === "upload" ? api.uploadCoverUrl(sid) : api.coverUrl(sid)} alt="" className="h-10 w-10 shrink-0 rounded-lg object-cover" />
+                <img src={r?.kind === "upload" ? api.uploadCoverUrl(sid) : api.coverUrl(sid)} alt="" className="h-12 w-12 shrink-0 rounded-[0.8rem] object-cover" style={{ background: r?.colors?.deep }} />
                 <Link href={setlistSongHref(sl.id, sl.songs, i, false)} className="min-w-0 flex-1">
-                  <div className="truncate font-medium">{r?.title ?? sid}</div>
+                  <div className="truncate font-display text-[1.05rem] font-bold tracking-[-0.015em]">{r?.title ?? sid}</div>
                   <div className="truncate text-xs text-muted">{r?.artist ?? ""}{r?.duration ? ` · ${formatTime(r.duration)}` : ""}</div>
                 </Link>
                 <button className="btn btn-ghost btn-icon btn-sm" disabled={i === 0} onClick={() => move(i, i - 1)} aria-label={`Move ${r?.title ?? "song"} up`}><ArrowUp className="h-4 w-4" /></button>
@@ -86,15 +87,15 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
         </ol>
 
         <section className="mt-8" aria-label="Add songs">
-          <h2 className="display-md text-[1.3rem]">Add songs</h2>
+          <h2 className="display-md text-[1.6rem]">Add songs</h2>
           <label className="relative mt-3 block">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
             <input className="field w-full pl-10" placeholder="Search built-in songs and your own" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search songs to add" />
           </label>
           {matches.length > 0 && (
-            <ul className="panel mt-3 divide-y divide-border">
+            <ul className="mt-3 border-t border-border">
               {matches.map((r) => (
-                <li key={r.id} className="flex items-center gap-3 px-4 py-2.5">
+                <li key={r.id} className="flex items-center gap-3 border-b border-border py-2.5">
                   <div className="min-w-0 flex-1"><div className="truncate font-medium">{r.title}</div><div className="truncate text-xs text-muted">{r.artist}{r.kind === "upload" ? " · Mine" : ""}</div></div>
                   <button className="btn btn-sm" onClick={() => updateSetlist(sl.id, { songs: [...sl.songs, r.id] })}><Plus className="h-3.5 w-3.5" /> Add</button>
                 </li>
@@ -103,6 +104,7 @@ export default function SetlistPage({ params }: { params: Promise<{ id: string }
           )}
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

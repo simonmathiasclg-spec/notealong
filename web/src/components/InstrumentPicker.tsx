@@ -8,7 +8,7 @@ export function InstrumentPicker({ value, onChange, columns = 3 }: { value: stri
     <div className="space-y-4">
       {FAMILIES.map((family) => (
         <div key={family}>
-          <div className="label mb-2">{family}</div>
+          <div className="mb-2 text-[12px] font-medium text-faint">{family}</div>
           <div className={`grid gap-2 ${grid}`}>
             {INSTRUMENTS.filter((i) => i.family === family).map((i) => {
               const selected = i.id === value;
@@ -19,11 +19,11 @@ export function InstrumentPicker({ value, onChange, columns = 3 }: { value: stri
                   onClick={() => onChange(i.id)}
                   aria-pressed={selected}
                   title={i.description}
-                  className={`flex items-center gap-3 rounded-2xl border px-3.5 py-3 text-left text-sm font-medium transition ${
-                    selected ? "border-accent bg-accent-soft text-fg" : "border-border bg-elev text-muted hover:border-border-strong hover:text-fg"
+                  className={`flex items-center gap-3 rounded-full px-4 py-3 text-left text-sm font-medium transition ${
+                    selected ? "bg-[var(--pill)] text-[var(--pill-fg)]" : "bg-hover text-muted hover:text-fg"
                   }`}
                 >
-                  <span className={`shrink-0 ${selected ? "text-accent" : ""}`}><InstrumentIcon icon={i.icon} /></span>
+                  <span className="shrink-0"><InstrumentIcon icon={i.icon} /></span>
                   <span className="leading-tight">{i.name}</span>
                 </button>
               );

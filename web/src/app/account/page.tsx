@@ -34,34 +34,34 @@ export default function AccountPage() {
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <main className="mx-auto w-full max-w-2xl flex-1 px-5 pb-20 sm:px-8">
-        <h1 className="display-lg text-[2.2rem]">Your account</h1>
+      <main className="mx-auto w-full max-w-3xl flex-1 px-5 pb-10 sm:px-8">
+        <h1 className="display-hero text-[clamp(3.4rem,9vw,7rem)]">Account</h1>
         {!CLOUD ? (
           <p className="mt-3 text-muted">This copy of NoteAlong runs on your own computer; there is no account to manage.</p>
         ) : (
-          <div className="mt-6 space-y-5">
-            <div className="panel divide-y divide-border">
-              <div className="flex items-center justify-between gap-4 p-5">
+          <div className="mt-10 space-y-10">
+            <div className="border-t border-border">
+              <div className="flex items-center justify-between gap-4 border-b border-border py-5">
                 <div className="min-w-0">
                   <div className="text-sm text-muted">Signed in as</div>
                   <div className="truncate font-medium">{me?.email ?? "…"}</div>
                 </div>
-                <form action="/auth/sign-out" method="post"><button className="btn" type="submit"><LogOut className="h-4 w-4" /> Sign out</button></form>
+                <form action="/auth/sign-out" method="post"><button className="btn btn-outline" type="submit"><LogOut className="h-4 w-4" strokeWidth={1.7} /> Sign out</button></form>
               </div>
-              <div className="p-5">
+              <div className="border-b border-border py-5">
                 <div className="text-sm text-muted">Songs added in the last 24 hours</div>
-                <div className="font-medium">{plan ? `${plan.uploads.used} of ${plan.uploads.limit}` : "…"}</div>
+                <div className="font-display text-[1.6rem] font-extrabold tracking-[-0.02em]">{plan ? `${plan.uploads.used} of ${plan.uploads.limit}` : "…"}</div>
                 <p className="mt-1 text-sm text-muted">The beta allows {plan?.uploads.limit ?? 10} new songs a day. Built-in songs are unlimited.</p>
               </div>
               {me?.admin && (
-                <div className="p-5"><Link className="btn" href="/admin"><ShieldCheck className="h-4 w-4" /> Owner&apos;s overview</Link></div>
+                <div className="border-b border-border py-5"><Link className="btn btn-outline" href="/admin"><ShieldCheck className="h-4 w-4" strokeWidth={1.7} /> Owner&apos;s overview</Link></div>
               )}
             </div>
 
-            <div className="panel p-5">
-              <h2 className="font-semibold">Delete my account</h2>
+            <div>
+              <h2 className="display-md text-[1.5rem]">Delete my account</h2>
               <p className="mt-1 text-sm leading-relaxed text-muted">Removes your account and everything in it for good: your uploaded songs and their files, your note fixes, favourites, setlists and settings. This can&apos;t be undone.</p>
-              <button className="btn mt-4 text-danger" onClick={() => setAsking(true)}><Trash2 className="h-4 w-4" /> Delete my account</button>
+              <button className="btn btn-outline mt-4 !text-danger" onClick={() => setAsking(true)}><Trash2 className="h-4 w-4" strokeWidth={1.7} /> Delete my account</button>
             </div>
             <p className="flex gap-5 text-sm text-faint"><Link href="/terms" className="hover:text-fg">Terms</Link><Link href="/privacy" className="hover:text-fg">Privacy</Link></p>
           </div>
@@ -73,7 +73,7 @@ export default function AccountPage() {
         {error && <p className="mt-3 text-sm text-danger">{error}</p>}
         <div className="mt-5 flex justify-end gap-2">
           <button className="btn" onClick={() => setAsking(false)} disabled={deleting}>Keep my account</button>
-          <button className="btn btn-primary" disabled={typed.trim().toLowerCase() !== "delete" || deleting} onClick={remove}>{deleting ? "Deleting…" : "Delete everything"}</button>
+          <button className="btn btn-red" disabled={typed.trim().toLowerCase() !== "delete" || deleting} onClick={remove}>{deleting ? "Deleting…" : "Delete everything"}</button>
         </div>
       </Modal>
     </div>

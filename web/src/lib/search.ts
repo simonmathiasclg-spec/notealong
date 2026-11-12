@@ -2,7 +2,7 @@
 // artist, style, country and lyrics; removable filters; sorting. Pure functions, unit-tested.
 import { cultureOf, languageName, regionOf } from "./catalog";
 import type { Instrument } from "./instruments";
-import type { CatalogEntry, Difficulty } from "./types";
+import type { ArtColors, CatalogEntry, Difficulty } from "./types";
 
 /** One row of /api/search-index. */
 export type SearchRow = {
@@ -23,6 +23,7 @@ export type SearchRow = {
   added?: string | null;
   featured?: boolean;
   accent_hue?: number | null;
+  colors?: ArtColors | null;
   /** Lowest and highest melody note (concert MIDI). */
   range?: [number, number] | null;
   lyrics?: string;

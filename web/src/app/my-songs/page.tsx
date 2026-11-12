@@ -9,6 +9,8 @@ import { PageDropZone } from "@/components/UploadZone";
 import { DropHero } from "@/components/DropHero";
 import { ServiceDown } from "@/components/ServiceDown";
 import { InstrumentIcon } from "@/components/InstrumentIcon";
+import { ArtTile } from "@/components/art/Art";
+import { SiteFooter } from "@/components/SiteFooter";
 import { api, formatTime } from "@/lib/api";
 import { getInstrument } from "@/lib/instruments";
 import { useInstrumentPref } from "@/lib/prefs";
@@ -48,44 +50,52 @@ export default function LibraryPage() {
   }, [songs, sort]);
   const many = (songs?.length ?? 0) > 4;
 
+  const latest = (songs ?? []).find((s) => s.status === "ready") ?? null;
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <MobileSearch />
       <PageDropZone onFiles={onFiles} />
-      <main className="mx-auto w-full max-w-4xl flex-1 px-5 pb-20 sm:px-8">
+      <main className="mx-auto w-full max-w-[90rem] flex-1 px-5 pb-10 sm:px-8 lg:px-12">
+        <MobileSearch />
         {serviceDown && <div className="mb-8"><ServiceDown what="your songs" /></div>}
 
         {songs === null ? (
-          <div className="space-y-3" aria-busy="true">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="skel h-20 w-full" />)}</div>
+          <div className="space-y-3 pt-6" aria-busy="true">{Array.from({ length: 5 }).map((_, i) => <div key={i} className="skel h-16 w-full rounded-2xl" />)}</div>
         ) : songs.length === 0 ? (
           !serviceDown && <EmptyState />
         ) : (
           <>
-            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 pt-2 sm:mb-14">
               <div>
-                <h1 className="display-lg text-[2.2rem]">My songs</h1>
-                <p className="mt-1.5 text-sm text-muted">
-                  Playing as <span className="font-medium text-fg">{getInstrument(instrument).name}</span>. Drop a file anywhere on this page to add one.{uploadsLeft ? ` ${uploadsLeft}.` : ""}
+                <h1 className="display-hero text-[clamp(3.6rem,10vw,8.5rem)]">My songs</h1>
+                <p className="mt-4 max-w-xl text-[14px] text-muted">
+                  {songs.length} {songs.length === 1 ? "song" : "songs"} you added, private to you. Playing as <span className="font-medium text-fg">{getInstrument(instrument).name}</span>. Drop a file anywhere on this page to add one.{uploadsLeft ? ` ${uploadsLeft}.` : ""}
                 </p>
               </div>
               {many && (
-                <div className="flex items-center gap-2">
-                  <div className="seg">
-                    <button aria-pressed={sort === "recent"} onClick={() => setSort("recent")}>Recent</button>
-                    <button aria-pressed={sort === "title"} onClick={() => setSort("title")}>A to Z</button>
-                  </div>
+                <div className="seg">
+                  <button aria-pressed={sort === "recent"} onClick={() => setSort("recent")}>Recent</button>
+                  <button aria-pressed={sort === "title"} onClick={() => setSort("title")}>A to Z</button>
                 </div>
               )}
             </div>
-            <div className="panel divide-y divide-border">
-              {visible.map((s) => <SongRow key={s.id} song={s} onDeleted={refresh} />)}
-              {visible.length === 0 && <div className="p-8 text-center text-sm text-muted">No song matches that.</div>}
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
+              {latest && (
+                <div className="lg:sticky lg:top-24 lg:self-start">
+                  <p className="mb-3 text-[12px] font-medium text-faint">Last added</p>
+                  <div className="h-[22rem] sm:h-[26rem]"><ArtTile song={{ id: latest.id, title: latest.title, artist: latest.artist ?? "My song", cover: api.uploadCoverUrl(latest.id), meta: [formatTime(latest.duration), latest.key?.name].filter(Boolean).join(" · ") }} shape="tall" priority /></div>
+                </div>
+              )}
+              <ol className="border-t border-border">
+                {visible.map((s, i) => <SongRow key={s.id} n={i + 1} song={s} onDeleted={refresh} />)}
+                {visible.length === 0 && <li className="p-8 text-center text-sm text-muted">No song matches that.</li>}
+              </ol>
             </div>
-            <p className="mt-6 text-xs text-faint">Search all your songs and the built-in ones with the search box at the top. Looking for something to play right now? <Link href="/" className="underline underline-offset-4">Discover</Link> has {"built-in"} songs that start instantly.</p>
+            <p className="mt-10 text-[12px] text-faint">Search your songs and the built-in ones together with the search box at the top. Something to play right now? <Link href="/" className="text-muted underline decoration-border-strong underline-offset-4 hover:text-fg">Discover</Link> has built-in songs that start instantly.</p>
           </>
         )}
       </main>
+      <SiteFooter />
     </div>
   );
 }
@@ -95,7 +105,7 @@ function EmptyState() {
 }
 
 
-function SongRow({ song, onDeleted }: { song: SongSummary; onDeleted: () => void }) {
+function SongRow({ song, n, onDeleted }: { song: SongSummary; n: number; onDeleted: () => void }) {
   const inst = getInstrument(song.user?.instrument ?? "alto_sax");
   const status = song.status;
   const runningStep = Object.entries(song.steps ?? {}).find(([, s]) => s.status === "running")?.[0];
@@ -106,23 +116,28 @@ function SongRow({ song, onDeleted }: { song: SongSummary; onDeleted: () => void
     onDeleted();
   };
   return (
-    <Link href={`/songs/${song.id}`} className="group relative flex items-center gap-4 px-4 py-3.5 transition hover:bg-hover first:rounded-t-[1.25rem] last:rounded-b-[1.25rem] sm:px-5">
-      <div className={`relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl ${status === "failed" ? "bg-danger-soft text-danger" : "bg-sunken text-muted"}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={api.uploadCoverUrl(song.id)} alt="" className={`absolute inset-0 h-full w-full object-cover ${status === "ready" ? "" : "opacity-40"}`} loading="lazy" draggable={false} />
-        {status === "processing" ? <Loader2 className="relative h-5 w-5 animate-spin text-accent" /> : status === "failed" ? <AlertCircle className="relative h-5 w-5" /> : null}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="truncate font-semibold leading-tight">{song.title}</div>
-        <div className="mt-0.5 truncate text-sm text-muted">
-          {status === "ready" && <>{song.artist ?? "Unknown artist"} <span aria-hidden="true">·</span> {formatTime(song.duration)}{song.key ? <> <span aria-hidden="true">·</span> {song.key.name}</> : null}</>}
-          {status === "processing" && <span className="text-fg">{runningStep ? STEP_LABEL[runningStep] : "Waiting to start"}…</span>}
-          {status === "failed" && <span className="text-danger">Needs attention. Open it to try again.</span>}
-        </div>
-      </div>
-      {status === "ready" && <span className="hidden items-center gap-1.5 text-xs text-muted sm:inline-flex"><InstrumentIcon icon={inst.icon} className="h-4 w-4" /> {inst.name}</span>}
-      {status === "ready" && <FavouriteButton id={song.id} title={song.title} variant="icon" className="h-8 w-8" />}
-      <button onClick={remove} className="rounded-full p-2 text-faint opacity-0 transition hover:bg-sunken hover:text-danger focus-visible:opacity-100 group-hover:opacity-100" aria-label={`Delete ${song.title}`}><Trash2 className="h-4 w-4" /></button>
-    </Link>
+    <li>
+      <Link href={`/songs/${song.id}`} className="group relative grid grid-cols-[1.75rem_3.25rem_minmax(0,1fr)_auto] items-center gap-3 border-b border-border py-3 transition sm:grid-cols-[2.25rem_3.5rem_minmax(0,1fr)_auto] sm:gap-4">
+        <span className="tabular text-[11px] text-faint">{String(n).padStart(2, "0")}</span>
+        <span className="relative grid aspect-square w-full place-items-center overflow-hidden rounded-[0.8rem] bg-elev">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={api.uploadCoverUrl(song.id)} alt="" className={`absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 ${status === "ready" ? "" : "opacity-35"}`} loading="lazy" draggable={false} />
+          {status === "processing" ? <Loader2 className="relative h-5 w-5 animate-spin text-fg" strokeWidth={1.6} /> : status === "failed" ? <AlertCircle className="relative h-5 w-5 text-danger" strokeWidth={1.8} /> : null}
+        </span>
+        <span className="min-w-0 transition duration-300 group-hover:translate-x-1">
+          <span className="block truncate font-display text-[1.05rem] font-bold tracking-[-0.015em]">{song.title}</span>
+          <span className="mt-0.5 block truncate text-[13px] text-muted">
+            {status === "ready" && <>{song.artist ?? "Unknown artist"} <span aria-hidden="true">·</span> {formatTime(song.duration)}{song.key ? <> <span aria-hidden="true">·</span> {song.key.name}</> : null}</>}
+            {status === "processing" && <span className="text-fg">{runningStep ? STEP_LABEL[runningStep] : "Waiting to start"}…</span>}
+            {status === "failed" && <span className="text-danger">Needs attention. Open it to try again.</span>}
+          </span>
+        </span>
+        <span className="flex items-center gap-1">
+          {status === "ready" && <span className="mr-2 hidden items-center gap-1.5 text-[12px] text-muted md:inline-flex"><InstrumentIcon icon={inst.icon} className="h-4 w-4" /> {inst.name}</span>}
+          {status === "ready" && <FavouriteButton id={song.id} title={song.title} variant="icon" className="h-9 w-9" />}
+          <button onClick={remove} className="grid h-9 w-9 place-items-center rounded-full text-faint opacity-0 transition hover:bg-hover hover:text-danger focus-visible:opacity-100 group-hover:opacity-100 max-md:opacity-100" aria-label={`Delete ${song.title}`}><Trash2 className="h-4 w-4" strokeWidth={1.6} /></button>
+        </span>
+      </Link>
+    </li>
   );
 }

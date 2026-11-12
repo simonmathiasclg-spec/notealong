@@ -43,7 +43,7 @@ export default function AdminPage() {
     <div className="flex min-h-full flex-col">
       <AppHeader />
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 pb-20 sm:px-8">
-        <h1 className="display-lg text-[2.2rem]">Owner&apos;s overview</h1>
+        <h1 className="display-hero text-[clamp(3rem,8vw,6.5rem)]">Owner&apos;s overview</h1>
         {error && <p className="mt-4 text-danger">{error}</p>}
         {!stats ? (!error && <div className="skel mt-6 h-40 w-full" />) : (
           <div className="mt-6 space-y-8">
@@ -51,7 +51,7 @@ export default function AdminPage() {
               <h2 className="font-semibold">This month ({stats.month})</h2>
               <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {tiles.map(([k, v]) => (
-                  <div key={k} className="panel p-4"><dt className="text-sm text-muted">{k}</dt><dd className="mt-1 text-xl font-semibold tabular-nums">{v}</dd></div>
+                  <div key={k} className="border-t border-border pt-4"><dt className="text-[12px] text-muted">{k}</dt><dd className="mt-2 font-display text-[2.1rem] font-extrabold leading-none tracking-[-0.03em] tabular-nums">{v}</dd></div>
                 ))}
               </dl>
               <p className="mt-2 text-xs text-faint">Cost is estimated from Modal&apos;s prices (T4 GPU, 2-core CPU); Modal&apos;s own bill is the final word.</p>
@@ -59,7 +59,7 @@ export default function AdminPage() {
 
             <section>
               <h2 className="font-semibold">Users</h2>
-              <div className="mt-3 overflow-x-auto rounded-2xl border border-border">
+              <div className="mt-3 overflow-x-auto border-t border-border">
                 <table className="w-full text-left text-sm">
                   <thead className="bg-elev text-muted"><tr>{["Email", "Joined", "Last sign-in", "Songs", "Jobs this month", "Failed", "GPU"].map((h) => <th key={h} className="whitespace-nowrap px-3 py-2 font-medium">{h}</th>)}</tr></thead>
                   <tbody className="divide-y divide-border">
@@ -78,7 +78,7 @@ export default function AdminPage() {
               <h2 className="font-semibold">Recent failures</h2>
               {stats.failures.length === 0 ? <p className="mt-2 text-sm text-muted">None.</p> : (
                 <ul className="mt-3 space-y-2">
-                  {stats.failures.map((f, i) => <li key={i} className="panel p-3 text-sm"><span className="text-muted">{day(f.at)}, {f.kind}, {f.email}:</span> {f.error}</li>)}
+                  {stats.failures.map((f, i) => <li key={i} className="border-b border-border py-3 text-sm"><span className="text-muted">{day(f.at)}, {f.kind}, {f.email}:</span> {f.error}</li>)}
                 </ul>
               )}
             </section>
@@ -91,7 +91,7 @@ export default function AdminPage() {
                   <button className="btn btn-primary" type="submit">Invite</button>
                 </form>
                 <p className="mt-2 text-xs text-faint">Invited people sign in on the sign-in page with this email. Nothing is sent until they do.</p>
-                <ul className="mt-3 divide-y divide-border rounded-2xl border border-border">
+                <ul className="mt-3 divide-y divide-border border-y border-border">
                   {stats.allowlist.map((a) => (
                     <li key={a.email} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
                       <span className="truncate">{a.email}</span>
@@ -102,7 +102,7 @@ export default function AdminPage() {
               </div>
               <div>
                 <h2 className="font-semibold">Waitlist ({stats.waitlist.length})</h2>
-                <ul className="mt-3 divide-y divide-border rounded-2xl border border-border">
+                <ul className="mt-3 divide-y divide-border border-y border-border">
                   {stats.waitlist.length === 0 && <li className="px-3 py-2 text-sm text-muted">Nobody yet.</li>}
                   {stats.waitlist.map((w) => (
                     <li key={w.email} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">

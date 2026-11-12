@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://www.jamendo.com/track/1551324/fantasma/lyrics"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "tags": [
   "jamendo"
  ],
@@ -55,5 +55,10 @@
  "accent_hue": 154,
  "added": "2026-11-02",
  "popularity": 0,
- "lyrics": "annotated"
+ "lyrics": "annotated",
+ "colors": {
+  "deep": "#0f1d0a",
+  "mid": "#3d551e",
+  "glow": "#f4f89c"
+ }
 }

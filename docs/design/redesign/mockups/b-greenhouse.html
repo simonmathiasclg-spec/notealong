@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction B: Greenhouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500..900&family=Hanken+Grotesk:wght@400..800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#090b09;--fg:#f4f1ea;--fg2:rgba(244,241,234,.62);--fg3:rgba(244,241,234,.36);--line:rgba(244,241,234,.14)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--fg);font-family:"Hanken Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased;width:1440px}
+section{position:relative;width:1440px;height:900px;overflow:hidden}
+.top{position:absolute;top:28px;left:56px;right:56px;display:flex;align-items:center;gap:30px;font-size:14px;color:var(--fg2);z-index:5}
+.top .brand{font-family:"Big Shoulders Display";font-weight:800;font-size:24px;color:var(--fg);letter-spacing:.01em;margin-right:18px}
+.top .on{color:var(--fg)}
+.top .sp{flex:1}
+.top .add{color:var(--fg);border:1px solid var(--line);padding:9px 16px;border-radius:99px}
+h1{position:absolute;left:56px;top:92px;font-family:"Big Shoulders Display";font-weight:900;font-size:150px;line-height:.85;letter-spacing:-.01em;text-transform:uppercase}
+.sub{position:absolute;left:60px;top:236px;font-size:15px;color:var(--fg2);max-width:360px;line-height:1.5}
+.w{position:absolute;overflow:hidden;color:#fff}
+.w img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(1.5px) saturate(1.1)}
+.w::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,0) 40%,rgba(0,0,0,.25))}
+.w > *:not(img){position:relative;z-index:2}
+.sq{border-radius:44px}.ci{border-radius:50%}
+.wave{position:absolute!important;top:30px;left:30px;display:flex;gap:4px;align-items:center}
+.wave i{display:block;width:2.5px;border-radius:2px;background:#fff}
+.tt{position:absolute!important;left:30px;right:96px;font-size:19px;font-weight:500;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)}
+.ar{position:absolute!important;left:30px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.pp{position:absolute!important;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.82);display:grid;place-items:center}
+.pp i{display:block;width:12px;height:14px;border-left:3.5px solid currentColor;border-right:3.5px solid currentColor}
+.hl{position:absolute!important;height:1px;background:rgba(255,255,255,.35)}
+.hl b{position:absolute;left:0;top:0;height:1px;background:#fff}
+.hl u{position:absolute;top:-8px;width:1px;height:9px;background:#fff}
+.sk{position:absolute!important;font-size:13px;opacity:.9}
+.lab{position:absolute;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3)}
+/* player */
+.pl .bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(14px) saturate(1.15) brightness(.62)}
+.pl .vig{position:absolute;inset:0;background:radial-gradient(90% 80% at 50% 45%,rgba(9,11,9,.2),rgba(9,11,9,.85))}
+.pl .hd{position:absolute;top:28px;left:56px;right:56px;display:flex;justify-content:space-between;font-size:14px;color:var(--fg2);z-index:3}
+.pl .hd b{color:var(--fg);font-weight:600}
+.stage{position:absolute;left:0;right:0;top:170px;text-align:center;z-index:2}
+.ln{display:flex;justify-content:center;flex-wrap:wrap;gap:0 .3em;font-weight:700;letter-spacing:-.025em;margin-bottom:34px}
+.wd{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.nt{display:flex;gap:.35em;font-family:"Big Shoulders Display";font-weight:800;letter-spacing:.02em}
+.cur{font-size:66px}.cur .nt{font-size:.62em;color:rgba(244,241,234,.85)}
+.cur .past{color:rgba(244,241,234,.5)} .cur .past .nt{color:rgba(244,241,234,.4)}
+.cur .now .nt{color:#f2f6a0;text-shadow:0 0 18px rgba(242,246,160,.9),0 0 48px rgba(200,230,90,.6)}
+.nx{font-size:34px;color:rgba(244,241,234,.45)}.nx .nt{font-size:.6em}
+.pv{font-size:30px;color:rgba(244,241,234,.25)}
+.disc{position:absolute;left:50%;bottom:44px;width:180px;height:180px;margin-left:-90px;z-index:3}
+.disc .art{position:absolute;inset:0;border-radius:50%;overflow:hidden;transform:rotate(-24deg)}
+.disc .art img{width:100%;height:100%;object-fit:cover}
+.disc svg{position:absolute;inset:0;z-index:2}
+.disc .pp{left:67px;top:22px;z-index:3;color:#2d4a14}
+.dt{position:absolute;bottom:92px;font-size:13px;color:var(--fg2);z-index:3}
+</style></head><body>
+
+<section id="discover">
+  <div class="top"><span class="brand">NOTEALONG</span><span class="on">Discover</span><span>My songs</span><span>Setlists</span><span class="sp"></span><span>Search</span><span class="add">+ Add a song</span></div>
+  <h1>Tonight's<br>stand</h1>
+  <p class="sub">208 songs with the note for every word. Pick one, pick it up, play.</p>
+  <span class="lab" style="left:60px;top:338px">Start here</span>
+  <!-- wide widget -->
+  <div class="w sq" style="left:56px;top:364px;width:620px;height:300px">
+    <img src="../../../../catalog/danny-boy/cover.webp">
+    <span class="wave"><i style="height:14px"></i><i style="height:26px"></i><i style="height:16px"></i><i style="height:8px"></i></span>
+    <span class="tt" style="top:150px;font-size:22px">Danny Boy · Frederic Weatherly · Danny Boy</span>
+    <span class="ar" style="top:184px">Standard · Easy</span>
+    <span class="pp" style="right:30px;top:140px;width:62px;height:62px;color:#2d4a14"><i></i></span>
+    <span class="sk" style="left:30px;bottom:30px">⏮</span><span class="hl" style="left:70px;right:150px;bottom:38px"><b style="width:30%"></b><u style="left:30%"></u></span><span class="sk" style="right:110px;bottom:30px">⏭</span><span class="sk" style="right:70px;bottom:30px">＋</span><span class="sk" style="right:30px;bottom:30px">♡</span>
+  </div>
+  <!-- tall widget -->
+  <div class="w sq" style="left:708px;top:92px;width:300px;height:572px">
+    <img src="../../../../catalog/house-of-the-rising-sun/cover.webp">
+    <span class="wave" style="left:136px"><i style="height:14px"></i><i style="height:26px"></i><i style="height:16px"></i><i style="height:8px"></i></span>
+    <span class="tt" style="top:250px;left:0;right:0;text-align:center;-webkit-mask-image:none">House of the Rising Sun</span>
+    <span class="ar" style="top:280px;left:0;right:0;text-align:center">Traditional</span>
+    <span class="pp" style="left:127px;bottom:110px;color:#2d4a14"><i></i></span>
+    <svg style="position:absolute;left:30px;bottom:44px;z-index:2" width="240" height="50"><path d="M4 6 Q120 70 236 6" fill="none" stroke="rgba(255,255,255,.4)"/><path d="M4 6 Q60 38 120 38" fill="none" stroke="#fff"/></svg>
+  </div>
+  <!-- squircle -->
+  <div class="w sq" style="left:1040px;top:92px;width:300px;height:300px">
+    <img src="../../../../catalog/las-mananitas/cover.webp">
+    <span class="wave"><i style="height:14px"></i><i style="height:26px"></i><i style="height:16px"></i><i style="height:8px"></i></span>
+    <span class="tt" style="top:128px">Las Mañanitas</span><span class="ar" style="top:156px">Traditional</span>
+    <span class="pp" style="right:26px;top:126px;color:#5a1b06"><i></i></span>
+    <span class="sk" style="left:30px;bottom:28px">⏮</span><span class="hl" style="left:66px;right:66px;bottom:36px"><b style="width:46%"></b><u style="left:46%"></u></span><span class="sk" style="right:30px;bottom:28px">⏭</span>
+  </div>
+  <!-- circle -->
+  <div class="w ci" style="left:1068px;top:420px;width:244px;height:244px">
+    <img src="../../../../catalog/silent-night/cover.webp">
+    <span class="tt" style="top:104px;left:0;right:0;text-align:center;-webkit-mask-image:none">Silent Night</span><span class="ar" style="top:130px;left:0;right:0;text-align:center">Carol</span>
+    <span class="pp" style="left:99px;top:30px;width:46px;height:46px;color:#5a1b06"><i></i></span>
+  </div>
+  <span class="lab" style="left:60px;top:700px">More like this</span>
+  <div class="w sq" style="left:56px;top:728px;width:200px;height:200px;border-radius:34px"><img src="../../../../catalog/arirang/cover.webp"></div>
+  <div class="w sq" style="left:276px;top:728px;width:200px;height:200px;border-radius:34px"><img src="../../../../catalog/drunken-sailor/cover.webp"></div>
+  <div class="w ci" style="left:496px;top:728px;width:200px;height:200px"><img src="../../../../catalog/scarborough-fair/cover.webp"></div>
+  <div class="w sq" style="left:716px;top:728px;width:420px;height:200px;border-radius:34px"><img src="../../../../catalog/swing-low-sweet-chariot/cover.webp"></div>
+</section>
+
+<section id="player" class="pl">
+  <div class="bg" style="background-image:url(../../../../catalog/the-water-is-wide/cover.webp)"></div><div class="vig"></div>
+  <div class="hd"><span>← <b>The Water Is Wide</b> &nbsp;Traditional · G major</span><span>Alto sax &nbsp;·&nbsp; Settings</span></div>
+  <div class="stage">
+    <div class="ln pv">and neither have I wings to fly;</div>
+    <div class="ln cur" id="cur"></div>
+    <div class="ln nx" id="nxt"></div>
+  </div>
+  <span class="dt" style="left:400px">Hear it played</span><span class="dt" style="right:400px">Slower</span>
+  <div class="disc">
+    <div class="art"><img src="../../../../catalog/the-water-is-wide/cover.webp"></div>
+    <svg viewBox="0 0 180 180"><path d="M30 120 A66 66 0 0 0 150 120" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><path d="M30 120 A66 66 0 0 0 86 156" fill="none" stroke="#fff" stroke-width="1.6"/><line x1="86" y1="150" x2="86" y2="162" stroke="#fff"/></svg>
+    <span class="pp"><i></i></span>
+  </div>
+</section>
+<script>
+const cur = [["give",["F#"]],["me",["G#"]],["a",["A"]],["boat",["B","B"]],["that",["A"]],["will",["G#"]],["carry",["F#","E"]],["two,",["G#","G#"]]];
+const nxt = [["and",["F#"]],["both",["E"]],["shall",["C#"]],["row,",["B","B"]],["my",["B"]],["love",["B"]],["and",["C#","D#"]],["I.",["E","E"]]];
+const fmt = (n) => n.length > 1 ? `${n[0]}♯` : n;
+const render = (id, line, nowIdx) => { document.getElementById(id).innerHTML = line.map(([w, ns], i) => `<span class="wd ${nowIdx == null ? "" : i < nowIdx ? "past" : i === nowIdx ? "now" : ""}"><span class="nt">${ns.map(fmt).join(" ")}</span><span>${w}</span></span>`).join(""); };
+render("cur", cur, 3); render("nxt", nxt, null);
+</script>
+</body></html>

@@ -1,0 +1,125 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Direction A: Front Row</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Archivo+Black&family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b0a09;--card:#1d1915;--bone:#f3eee7;--bone-2:rgba(243,238,231,.66);--bone-3:rgba(243,238,231,.38);--red:#e1251b;--line:rgba(243,238,231,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--bone);font-family:"Instrument Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;width:1440px}
+section{position:relative;width:1440px;height:900px;overflow:hidden}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+/* nav */
+.nav{position:absolute;top:22px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:34px;font-size:14px;font-weight:500;z-index:5}
+.nav .brand{position:absolute;left:48px;font-family:"Archivo Black";font-size:17px;letter-spacing:-.01em;color:var(--bone)}
+.nav a{color:var(--bone);opacity:.9}
+.nav .pill{background:var(--bone);color:var(--ink);font-weight:600;font-size:13px;padding:10px 18px;border-radius:99px}
+.nav .search{position:absolute;right:48px;color:var(--bone-2);font-size:13px;display:flex;gap:10px;align-items:center}
+.nav .search kbd{font:inherit;font-size:11px;border:1px solid var(--line);padding:2px 6px;border-radius:6px}
+/* hero */
+.hero{position:absolute;top:84px;left:0;right:0;text-align:center}
+.hero h1{font-family:Archivo;font-stretch:62%;font-weight:900;font-size:176px;line-height:.82;letter-spacing:-.01em;color:var(--red);text-transform:uppercase}
+.hero h2{margin-top:14px;font-family:"Archivo Black";font-size:20px;letter-spacing:.02em;text-transform:uppercase}
+.hero p{margin-top:14px;font-size:13px;color:var(--bone-2);letter-spacing:.02em}
+.hero p b{color:var(--bone);font-weight:600}
+.hero p i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:8px;box-shadow:0 0 0 5px rgba(225,37,27,.18);vertical-align:1px}
+/* coverflow */
+.cf{position:absolute;top:388px;left:0;right:0;height:440px;perspective:1500px}
+.card{position:absolute;left:50%;top:0;width:262px;height:400px;margin-left:-131px;border-radius:22px;overflow:hidden;background:var(--card);box-shadow:0 30px 60px -20px rgba(0,0,0,.7);transform-style:preserve-3d}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.25),transparent 30%,transparent 50%,rgba(0,0,0,.65));z-index:1}
+.card .n{position:absolute;top:16px;left:0;right:0;text-align:center;font-size:11px;font-weight:600;letter-spacing:.22em;color:rgba(255,255,255,.85);z-index:2}
+.card .t{position:absolute;bottom:64px;left:14px;right:14px;text-align:center;font-family:Archivo;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.05;z-index:2}
+.card .a{position:absolute;bottom:44px;left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,.7);z-index:2}
+.card .go{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);z-index:2;background:rgba(255,255,255,.94);color:#111;font-size:12px;font-weight:600;padding:9px 16px;border-radius:99px;white-space:nowrap;opacity:0}
+.card.c .go{opacity:1;bottom:16px}.card.c .t{bottom:84px}.card.c .a{bottom:64px}
+.cf-ui{position:absolute;bottom:26px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:24px;font-size:13px;color:var(--bone-2);letter-spacing:.08em}
+.cf-ui b{color:var(--bone);font-weight:600}
+.round{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--bone)}
+.hint{position:absolute;left:48px;bottom:30px;font-size:12px;color:var(--bone-3);width:220px;line-height:1.45}
+/* player */
+.pl{position:absolute;inset:0}
+.pl .bg{position:absolute;inset:-80px;background-size:cover;background-position:center;filter:blur(60px) saturate(1.3);opacity:.55}
+.pl .shade{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 40%,rgba(11,10,9,.35),rgba(11,10,9,.92))}
+.pl .top{position:absolute;top:24px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--bone-2);z-index:3}
+.pl .top b{color:var(--bone)}
+.pl .x{background:rgba(255,255,255,.1);border-radius:99px;padding:10px 16px;font-weight:500}
+.art{position:absolute;left:96px;top:96px;width:400px;height:640px;border-radius:26px;overflow:hidden;z-index:2;box-shadow:0 40px 80px -30px rgba(0,0,0,.8)}
+.art img{width:100%;height:100%;object-fit:cover}
+.side{position:absolute;left:560px;right:72px;top:104px;z-index:2}
+.side .num{font-size:12px;font-weight:600;letter-spacing:.22em;color:var(--bone-3);text-transform:uppercase}
+.side h3{margin-top:12px;font-family:Archivo;font-weight:800;font-size:58px;letter-spacing:-.035em;line-height:1}
+.side .meta{margin-top:10px;font-size:13px;color:var(--bone-2)}
+.lyr{position:absolute;left:560px;right:60px;top:300px;z-index:2}
+.line{display:flex;flex-wrap:wrap;gap:0 .32em;align-items:flex-end;font-family:Archivo;font-weight:600;letter-spacing:-.02em;margin-bottom:26px}
+.w{display:inline-flex;flex-direction:column;align-items:flex-start;gap:6px}
+.notes{display:flex;gap:4px;font-family:Archivo;font-stretch:75%;font-weight:800;letter-spacing:0}
+.chip{min-width:1.9em;height:1.9em;padding:0 .3em;border-radius:.45em;display:grid;place-items:center;background:rgba(243,238,231,.1);color:var(--bone)}
+.cur{font-size:56px;color:var(--bone)} .cur .chip{font-size:.5em}
+.cur .w.past{color:rgba(243,238,231,.45)} .cur .w.past .chip{opacity:.45}
+.cur .w.now{color:var(--bone)} .cur .w.now .chip{background:var(--red);color:#fff;box-shadow:0 0 30px rgba(225,37,27,.55)}
+.nxt{font-size:30px;color:var(--bone-3)} .nxt .chip{font-size:.55em;background:rgba(243,238,231,.06);color:var(--bone-2)}
+.prv{font-size:28px;color:rgba(243,238,231,.22)} .prv .chip{display:none}
+.dock{position:absolute;left:560px;right:72px;bottom:56px;z-index:3;display:flex;align-items:center;gap:22px}
+.ring{position:relative;width:68px;height:68px;flex:none}
+.ring svg{position:absolute;inset:0}
+.ring .btn{position:absolute;inset:8px;border-radius:50%;background:var(--bone);display:grid;place-items:center}
+.hair{position:relative;flex:1;height:1px;background:rgba(243,238,231,.22)}
+.hair i{position:absolute;left:0;top:0;height:1px;width:38%;background:var(--bone)}
+.hair b{position:absolute;left:38%;top:-9px;width:1px;height:10px;background:var(--bone)}
+.t2{font-size:12px;color:var(--bone-2);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.tool{font-size:13px;color:var(--bone-2)}
+.tool.on{color:var(--bone);background:rgba(255,255,255,.1);padding:9px 14px;border-radius:99px}
+</style></head><body>
+
+<section id="discover" class="grain">
+  <nav class="nav"><span class="brand">NoteAlong</span><a>Discover</a><a>My songs</a><a>Setlists</a><span class="pill">Add a song</span><span class="search">Search 208 songs <kbd>/</kbd></span></nav>
+  <div class="hero">
+    <h1>Play along</h1>
+    <h2>The note for every word</h2>
+    <p><i></i><b>New this week</b> · Danny Boy, Shenandoah and 4 more</p>
+  </div>
+  <div class="cf" id="cf"></div>
+  <p class="hint">Drag to browse. Tap the song in the middle to play along on your alto sax.</p>
+  <div class="cf-ui"><span class="round">‹</span><span><b>03</b> / 12</span><span class="round">›</span></div>
+</section>
+
+<section id="player">
+  <div class="pl">
+    <div class="bg" style="background-image:url(../../../../catalog/the-water-is-wide/cover.webp)"></div>
+    <div class="shade"></div>
+    <div class="top"><span><b>NoteAlong</b> — Discover</span><span class="x">Close ✕</span></div>
+    <div class="art"><img src="../../../../catalog/the-water-is-wide/cover.webp"></div>
+    <div class="side"><p class="num">Standard · Folk · G major</p><h3>The Water Is Wide</h3><p class="meta">Traditional · Alto sax · Easy</p></div>
+    <div class="lyr">
+      <div class="line prv"><span>and neither have I wings to fly;</span></div>
+      <div class="line cur" id="cur"></div>
+      <div class="line nxt" id="nxt"></div>
+    </div>
+    <div class="dock">
+      <div class="ring"><svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="32" fill="none" stroke="rgba(243,238,231,.18)" stroke-width="2"/><circle cx="34" cy="34" r="32" fill="none" stroke="#f3eee7" stroke-width="2" stroke-dasharray="201" stroke-dashoffset="125" transform="rotate(-90 34 34)" stroke-linecap="round"/></svg><span class="btn"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="4" y="3" width="3.2" height="12" rx="1" fill="#0b0a09"/><rect x="10.8" y="3" width="3.2" height="12" rx="1" fill="#0b0a09"/></svg></span></div>
+      <span class="t2">0:41</span><div class="hair"><i></i><b></b></div><span class="t2">1:45</span>
+      <span class="tool on">Hear it played</span><span class="tool">Slower</span><span class="tool">Key</span>
+    </div>
+  </div>
+</section>
+
+<script>
+const songs = [["the-water-is-wide","The Water Is Wide","Traditional","STANDARD"],["danny-boy","Danny Boy","Frederic Weatherly","STANDARD"],["swing-low-sweet-chariot","Swing Low","Wallace Willis","SPIRITUAL"],
+ ["house-of-the-rising-sun","House of the Rising Sun","Traditional","STANDARD"],["happy-birthday","Happy Birthday","Traditional","PARTY"],["scarborough-fair","Scarborough Fair","Traditional","STANDARD"],
+ ["arirang","Arirang","Traditional","FOLK"],["drunken-sailor","Drunken Sailor","Traditional","SHANTY"],["silent-night","Silent Night","Franz Xaver Gruber","CAROL"]];
+const cf = document.getElementById("cf");
+const order = [-3,-2,-1,0,1,2,3];
+order.forEach((k) => {
+  const s = songs[(k + 9) % songs.length]; const deg = k * 24, rad = deg * Math.PI / 180;
+  const x = 760 * Math.sin(rad), z = -900 * (1 - Math.cos(rad));
+  const el = document.createElement("div"); el.className = "card" + (k === 0 ? " c" : "");
+  el.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${deg}deg)`; el.style.zIndex = 10 - Math.abs(k);
+  el.innerHTML = `<img src="../../../../catalog/${s[0]}/cover.webp"><span class="n">${String(k + 3 + 1).padStart(2, "0")}${k === 0 ? " · " + s[3] : ""}</span><span class="t">${s[1]}</span><span class="a">${s[2]}</span><span class="go">▶ Play along</span>`;
+  cf.appendChild(el);
+});
+const cur = [["give",["F#"]],["me",["G#"]],["a",["A"]],["boat",["B","B"]],["that",["A"]],["will",["G#"]],["carry",["F#","E"]],["two,",["G#","G#"]]];
+const nxt = [["and",["F#"]],["both",["E"]],["shall",["C#"]],["row,",["B","B"]],["my",["B"]],["love",["B"]],["and",["C#","D#"]],["I.",["E","E"]]];
+const fmt = (n) => n.length > 1 ? `${n[0]}<sup style="font-size:.7em">${n[1] === "#" ? "♯" : "♭"}</sup>` : n;
+const render = (id, line, nowIdx) => { document.getElementById(id).innerHTML = line.map(([w, ns], i) => `<span class="w ${nowIdx == null ? "" : i < nowIdx ? "past" : i === nowIdx ? "now" : ""}"><span class="notes">${ns.map((n) => `<span class="chip">${fmt(n)}</span>`).join("")}</span><span>${w}</span></span>`).join(""); };
+render("cur", cur, 3); render("nxt", nxt, null);
+</script>
+</body></html>

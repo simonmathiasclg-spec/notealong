@@ -7,6 +7,7 @@ import { Check, Loader2, Mail } from "lucide-react";
 import { Logo, ThemeToggle } from "@/components/AppHeader";
 import { supabase } from "@/lib/cloud/browser";
 import { CLOUD } from "@/lib/cloud/config";
+import { api } from "@/lib/api";
 
 function SignIn() {
   const params = useSearchParams();
@@ -55,19 +56,27 @@ function SignIn() {
   return (
     <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
       <section>
-        <h1 className="display-xl text-[2.6rem] leading-[1.02] sm:text-[3.4rem]">See the note for every word, while the band plays.</h1>
-        <p className="mt-5 max-w-md text-[1.05rem] leading-relaxed text-muted">
-          NoteAlong turns a song into a part you can play on sax, flute, trumpet or violin. The beta is open to invited players only.
+        <h1 className="display-hero text-red text-[clamp(4rem,11vw,8.5rem)]">Play along</h1>
+        <p className="display-wide mt-4 text-[clamp(0.85rem,1.5vw,1.1rem)]">The note for every word</p>
+        <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
+          NoteAlong turns a song into a part you can play on sax, flute, trumpet or violin, with the note above every word while the band plays. The beta is open to invited players.
         </p>
+        <div className="relative mt-12 hidden h-64 w-full max-w-md sm:block" aria-hidden="true">
+          {["the-water-is-wide", "las-mananitas", "silent-night"].map((id, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={id} src={api.coverUrl(id)} alt="" className="absolute top-0 h-64 w-44 rounded-[20px] object-cover shadow-[0_30px_60px_-20px_rgba(0,0,0,.8)]"
+              style={{ left: `${i * 26}%`, transform: `perspective(900px) rotateY(${(i - 1) * -22}deg) scale(${i === 1 ? 1 : 0.88})`, zIndex: i === 1 ? 2 : 1, background: "var(--art-deep)" }} />
+          ))}
+        </div>
       </section>
 
       <section className="space-y-6">
-        <div className="panel p-6 sm:p-7">
-          <h2 className="display-md text-[1.45rem]">Sign in</h2>
-          {expired && <p className="mt-3 rounded-xl bg-danger-soft px-3.5 py-2.5 text-sm text-danger">That sign-in link has expired or was already used. Ask for a new one below.</p>}
+        <div className="border-t border-border pt-6">
+          <h2 className="display-lg text-[2rem]">Sign in</h2>
+          {expired && <p className="mt-3 text-sm text-danger">That sign-in link has expired or was already used. Ask for a new one below.</p>}
           {state === "sent" ? (
             <div className="mt-4 flex gap-3">
-              <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-soft text-accent"><Mail className="h-4 w-4" /></span>
+              <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--pill)] text-[var(--pill-fg)]"><Mail className="h-4 w-4" strokeWidth={1.8} /></span>
               <div>
                 <p className="font-medium">Check your email</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted">If {email} is on the beta list, a sign-in link is on its way. It works once, within an hour, on any device.</p>
@@ -79,7 +88,7 @@ function SignIn() {
               <label className="block text-sm text-muted" htmlFor="email">The email you were invited with</label>
               <input id="email" type="email" required autoComplete="email" inputMode="email" className="field w-full" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
               {error && <p className="text-sm text-danger">{error}</p>}
-              <button className="btn btn-primary w-full" type="submit" disabled={state === "sending"}>
+              <button className="btn btn-red btn-lg w-full" type="submit" disabled={state === "sending"}>
                 {state === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : null} Email me a sign-in link
               </button>
               {process.env.NEXT_PUBLIC_GOOGLE_AUTH === "1" && (
@@ -89,8 +98,8 @@ function SignIn() {
           )}
         </div>
 
-        <div className="rounded-[1.25rem] border border-dashed border-border-strong p-6 sm:p-7">
-          <h2 className="display-md text-[1.2rem]">Not invited yet?</h2>
+        <div className="border-t border-border pt-6">
+          <h2 className="display-md text-[1.4rem]">Not invited yet?</h2>
           {wState === "saved" ? (
             <p className="mt-3 flex items-center gap-2 text-sm text-muted"><Check className="h-4 w-4 text-ok" /> You&apos;re on the waitlist. We&apos;ll email you when there&apos;s room.</p>
           ) : (
@@ -99,7 +108,7 @@ function SignIn() {
               <input type="email" required autoComplete="email" className="field w-full" placeholder="you@example.com" aria-label="Email for the waitlist" value={wEmail} onChange={(e) => setWEmail(e.target.value)} />
               <input className="field w-full" maxLength={300} placeholder="What do you play? (optional)" aria-label="What you play" value={wNote} onChange={(e) => setWNote(e.target.value)} />
               {wError && <p className="text-sm text-danger">{wError}</p>}
-              <button className="btn" type="submit" disabled={wState === "saving"}>Join the waitlist</button>
+              <button className="btn btn-outline" type="submit" disabled={wState === "saving"}>Join the waitlist</button>
             </form>
           )}
         </div>
@@ -111,11 +120,11 @@ function SignIn() {
 export default function SignInPage() {
   return (
     <div className="flex min-h-full flex-col">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5 sm:px-8"><Logo /><ThemeToggle /></header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-5 pb-16 pt-6 sm:px-8 sm:pt-14">
+      <header className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-5 py-4 sm:px-8 lg:px-12"><Logo /><ThemeToggle /></header>
+      <main className="mx-auto w-full max-w-[90rem] flex-1 px-5 pb-16 pt-6 sm:px-8 sm:pt-12 lg:px-12">
         <Suspense><SignIn /></Suspense>
       </main>
-      <footer className="mx-auto flex w-full max-w-6xl gap-5 px-5 pb-8 text-sm text-faint sm:px-8">
+      <footer className="mx-auto flex w-full max-w-[90rem] gap-5 px-5 pb-8 text-sm text-faint sm:px-8 lg:px-12">
         <Link href="/terms" className="hover:text-fg">Terms</Link>
         <Link href="/privacy" className="hover:text-fg">Privacy</Link>
       </footer>

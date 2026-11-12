@@ -28,7 +28,7 @@
   "kind": "traditional",
   "url": "https://abcnotation.com/tunePage?a=trillian.mit.edu/~jc/music/abc/session/SAFD/___/Hymns/0001"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 202,
  "tags": [
   "hymn",
@@ -43,5 +43,10 @@
  "note_count": 40,
  "word_count": 29,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#060d27",
+  "mid": "#233a78",
+  "glow": "#6484c3"
+ }
 }

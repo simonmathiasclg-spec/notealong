@@ -28,7 +28,7 @@
   "kind": "cc",
   "url": "https://archive.org/details/jamendo-165225"
  },
- "cover": "cover.svg",
+ "cover": "cover.webp",
  "accent_hue": 207,
  "tags": [
   "jamendo",
@@ -63,5 +63,10 @@
  "gain_db": -5.02,
  "language_probability": 0.709052324295044,
  "added": "2026-11-05",
- "popularity": 0
+ "popularity": 0,
+ "colors": {
+  "deep": "#221d08",
+  "mid": "#493e14",
+  "glow": "#fdfdbf"
+ }
 }

@@ -36,7 +36,8 @@ def catalog_extra(s: dict) -> dict:
             "culture": s.get("culture") or s.get("origin"), "origin": s.get("origin"), "language": s.get("language"),
             "year": s.get("year"), "tempo_bpm": s.get("tempo_bpm"), "difficulty": s.get("difficulty"),
             "duration": s.get("duration"), "source": (s.get("source") or {}).get("kind"), "tags": s.get("tags", []),
-            "added": s.get("added"), "featured": s.get("featured", False), "accent_hue": s.get("accent_hue")}
+            "added": s.get("added"), "featured": s.get("featured", False), "accent_hue": s.get("accent_hue"),
+            "colors": s.get("colors")}
 
 
 def upload_extra(song: Song) -> dict:

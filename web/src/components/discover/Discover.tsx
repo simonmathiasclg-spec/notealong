@@ -1,24 +1,17 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Play } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { api, formatTime } from "@/lib/api";
-import { DIFFICULTY_LABEL, SORT_LABEL, cultureOf, languageName, type Category, type Facet, type SortMode } from "@/lib/catalog";
-import { accentFor } from "@/lib/color";
-import { useTheme } from "@/lib/prefs";
-import { FavouriteButton } from "@/components/Favourite";
+import { DIFFICULTY_LABEL, cultureOf, isStandard } from "@/lib/catalog";
+import { ArtTile, type TileShape, type TileSong } from "@/components/art/Art";
 import type { CatalogEntry, Difficulty } from "@/lib/types";
 
 export function Cover({ song, className = "", priority = false }: { song: CatalogEntry; className?: string; priority?: boolean }) {
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={api.coverUrl(song.id)} alt="" className={`cover ${className}`} loading={priority ? "eager" : "lazy"} draggable={false} />;
+  return <img src={api.coverUrl(song.id)} alt="" className={`cover ${className}`} loading={priority ? "eager" : "lazy"} draggable={false} style={{ background: song.colors?.deep }} />;
 }
 
-const GENRE_NOUN: Record<string, string> = {
-  Folk: "folk song", Hymn: "hymn", "Children's": "children's song", Christmas: "Christmas carol", Celebration: "song for celebrations",
-  Spiritual: "spiritual", Classical: "classical melody", Lullaby: "lullaby", Latin: "song", Country: "country song", Jazz: "jazz standard", Pop: "pop song",
-};
-
-const DOT: Record<Difficulty, string> = { easy: "bg-ok", medium: "bg-[#e0a63a]", hard: "bg-accent" };
+const DOT: Record<Difficulty, string> = { easy: "bg-ok", medium: "bg-[#e0a63a]", hard: "bg-red" };
 
 export function Meta({ song, className = "" }: { song: CatalogEntry; className?: string }) {
   return (
@@ -29,174 +22,78 @@ export function Meta({ song, className = "" }: { song: CatalogEntry; className?:
   );
 }
 
-export function SongTile({ song, priority = false }: { song: CatalogEntry; priority?: boolean }) {
-  return (
-    <div className="group/tile relative">
-      <Link href={`/songs/${song.id}`} className="tile group" aria-label={`${song.title}, ${song.artist}, ${DIFFICULTY_LABEL[song.difficulty]}`}>
-        <Cover song={song} priority={priority} />
-        <div className="mt-2.5 truncate text-[0.9rem] font-semibold leading-tight">{song.title}</div>
-        <div className="mt-1 truncate text-[0.8rem]"><span className="text-muted">{song.artist === "Traditional" ? cultureOf(song) || song.artist : song.artist}</span></div>
-        <Meta song={song} className="mt-0.5 text-[0.78rem]" />
-      </Link>
-      <FavouriteButton id={song.id} title={song.title} variant="overlay" />
-    </div>
-  );
+/** "Traditional" says little on a tile: the tradition it comes from says more. */
+export function whoOf(song: CatalogEntry): string {
+  return song.artist === "Traditional" ? cultureOf(song) || song.artist : song.artist;
 }
 
-export function Shelf({ title, subtitle, songs, total, grid = false, action, onSeeAll }: { title: string; subtitle?: string; songs: CatalogEntry[]; total?: number; grid?: boolean; action?: React.ReactNode; onSeeAll?: () => void }) {
-  const more = onSeeAll && total !== undefined && total > songs.length;
+const KIND: Record<string, string> = {
+  "Children's": "Kids", Celebration: "Party", Christmas: "Carol", "Sea shanty": "Shanty", Spiritual: "Spiritual", Hymn: "Hymn",
+  Lullaby: "Lullaby", Classical: "Classical", Folk: "Folk", Patriotic: "Anthem", Parlour: "Parlour", Lied: "Art song",
+};
+
+/** The word on a card's numbered label: what kind of song it is. */
+export function kindOf(song: CatalogEntry): string {
+  if (song.source.kind === "cc") return "Recording";
+  if (isStandard(song)) return "Standard";
+  return KIND[song.genre] ?? song.genre;
+}
+
+export function toTile(song: CatalogEntry): TileSong {
+  return { id: song.id, title: song.title, artist: whoOf(song), cover: api.coverUrl(song.id), colors: song.colors ?? null,
+    meta: `${DIFFICULTY_LABEL[song.difficulty]} · ${formatTime(song.duration)}${song.key ? ` · ${song.key}` : ""}` };
+}
+
+/** The rhythm of shapes along a shelf: a tall one, two small, a wide one, a round one… never a uniform row. */
+const RHYTHM: TileShape[] = ["tall", "square", "square", "wide", "circle", "square", "square", "tall", "circle", "square", "wide", "square", "square"];
+
+/**
+ * A shelf of songs as a strip of widgets in mixed shapes, two rows high, scrolling sideways. The first
+ * tile is the biggest so each shelf has a place for the eye to land.
+ */
+export function Shelf({ title, subtitle, songs, action, start = 0 }: { title: string; subtitle?: string; songs: CatalogEntry[]; total?: number; action?: React.ReactNode; start?: number }) {
   return (
     <section aria-label={title}>
-      <div className="mb-4 flex items-baseline justify-between gap-4">
-        <div className="flex min-w-0 items-baseline gap-3">
-          <h2 className="display-md truncate text-[1.45rem]">{title}</h2>
-          {subtitle && <span className="hidden truncate text-sm text-muted sm:inline">{subtitle}</span>}
-        </div>
-        {action ?? (onSeeAll && total !== undefined && total > 6 && (
-          <button className="btn btn-ghost btn-sm shrink-0" onClick={onSeeAll}>See all {total} <ArrowRight className="h-3.5 w-3.5" /></button>
-        ))}
-      </div>
-      {grid ? (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{songs.map((s) => <SongTile key={s.id} song={s} />)}</div>
-      ) : (
-        <div className="-mx-5 flex gap-5 overflow-x-auto px-5 pb-3 pt-1 sm:-mx-8 sm:px-8 [scrollbar-width:none]">
-          {songs.map((s) => <div key={s.id} className="w-[9.5rem] shrink-0 sm:w-[10.5rem]"><SongTile song={s} /></div>)}
-          {more && (
-            <button onClick={onSeeAll} className="grid aspect-square w-[9.5rem] shrink-0 place-items-center rounded-2xl border border-border text-sm font-medium text-muted transition hover:border-border-strong hover:bg-hover hover:text-fg sm:w-[10.5rem]">
-              <span className="inline-flex items-center gap-1.5">See all {total} <ArrowRight className="h-4 w-4" /></span>
-            </button>
-          )}
-        </div>
-      )}
-    </section>
-  );
-}
-
-/** Browse cards: styles, parts of the world and languages, each opening its list. */
-export function Browse({ categories, onPick }: { categories: Category[]; onPick: (f: Facet) => void }) {
-  const groups = ["Styles", "Around the world", "Languages"] as const;
-  return (
-    <section aria-label="Browse">
-      <h2 className="display-md mb-5 text-[1.45rem]">Browse</h2>
-      <div className="grid gap-x-10 gap-y-8 lg:grid-cols-3">
-        {groups.map((g) => {
-          const items = categories.filter((c) => c.group === g);
-          if (!items.length) return null;
-          return (
-            <div key={g}>
-              <h3 className="label mb-3">{g}</h3>
-              <ul className="divide-y divide-border border-y border-border">
-                {items.map((c) => (
-                  <li key={c.id}>
-                    <button onClick={() => onPick(c.facet)} className="group flex w-full items-center justify-between gap-3 py-2.5 text-left text-[0.95rem] transition hover:text-accent">
-                      <span className="truncate font-medium">{c.title}</span>
-                      <span className="flex shrink-0 items-center gap-2 text-[0.8rem] text-faint"><span className="tabular">{c.n} {c.n === 1 ? "song" : "songs"}</span><ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" /></span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-/** "Sort by" for the grids. */
-export function SortMenu({ value, onChange }: { value: SortMode; onChange: (m: SortMode) => void }) {
-  return (
-    <label className="inline-flex items-center gap-2 text-sm text-muted">
-      <span className="hidden sm:inline">Sort</span>
-      <select className="field h-9 py-0 pr-8 text-sm" value={value} onChange={(e) => onChange(e.target.value as SortMode)} aria-label="Sort songs">
-        {(Object.keys(SORT_LABEL) as (keyof typeof SORT_LABEL)[]).map((k) => <option key={k} value={k}>{SORT_LABEL[k]}</option>)}
-      </select>
-    </label>
-  );
-}
-
-/** The big one at the top: tinted with the song's own hue. */
-export function Hero({ song, count }: { song: CatalogEntry; count: number }) {
-  const [theme] = useTheme();
-  const a = accentFor(song.accent_hue, theme === "dark" ? "dark" : "light");
-  const what = GENRE_NOUN[song.genre] ?? `${song.genre.toLowerCase()} song`;
-  const place = cultureOf(song) ? `${cultureOf(song)} ${what}` : what;
-  const article = /^[aeiou]/i.test(place) ? "An" : "A";
-  return (
-    <section
-      className="panel relative isolate overflow-hidden"
-      style={{ background: `linear-gradient(100deg, ${a.accentSoft}, transparent 60%), var(--bg-elev)` }}
-      aria-label="Tonight's pick"
-    >
-      <div className="flex flex-col gap-7 p-6 sm:flex-row sm:items-center sm:p-8">
-        <Link href={`/songs/${song.id}`} className="tile w-40 shrink-0 sm:w-52" aria-label={`Play ${song.title}`}>
-          <Cover song={song} priority className="rounded-[1.1rem] shadow-card" />
-        </Link>
+      <div className="mb-5 flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <div className="text-sm font-medium" style={{ color: a.accent }}>Tonight&apos;s pick</div>
-          <h2 className="display-lg mt-2 text-[2.4rem] sm:text-[3.1rem]">{song.title}</h2>
-          <p className="mt-3 max-w-xl text-[0.95rem] leading-relaxed text-muted">
-            {/traditional/i.test(song.artist) ? `${article} ${place}${song.artist !== "Traditional" ? `, words by ${song.artist.replace(/\s*\/\s*Traditional/i, "")}` : ""}.` : `By ${song.artist}.`} {DIFFICULTY_LABEL[song.difficulty]} to play, {formatTime(song.duration)} long{song.key ? `, in ${song.key}` : ""}.
-            {" "}One of {count} songs you can start right now.
-          </p>
-          <div className="mt-6 flex items-center gap-3">
-            <Link href={`/songs/${song.id}`} className="btn btn-primary btn-lg" style={{ background: a.accent, borderColor: a.accent, color: a.accentFg }}><Play className="h-4 w-4 fill-current" /> Play now</Link>
-            <Meta song={song} className="text-sm" />
-          </div>
+          <h2 className="display-md truncate text-[1.6rem] sm:text-[1.9rem]">{title}</h2>
+          {subtitle && <p className="mt-1 truncate text-[13px] text-muted">{subtitle}</p>}
+        </div>
+        {action}
+      </div>
+      <div className="-mx-5 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
+        <div className="grid w-max grid-flow-col-dense grid-rows-[repeat(2,var(--cell))] gap-3 [--cell:8.75rem] sm:gap-4 sm:[--cell:10.5rem]" style={{ gridAutoColumns: "var(--cell)" }}>
+          {songs.map((s, i) => {
+            const shape = RHYTHM[(i + start) % RHYTHM.length];
+            const span = shape === "tall" ? "row-span-2" : shape === "wide" ? "col-span-2" : "";
+            return <div key={s.id} className={span}><ArtTile song={toTile(s)} shape={shape} priority={i < 4} /></div>;
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-export function Chip({ active, children, onClick, count }: { active: boolean; children: React.ReactNode; onClick: () => void; count?: number }) {
-  return <button className="chip" aria-pressed={active} onClick={onClick}>{children}{count !== undefined && <span className="tabular text-[0.72rem] text-faint">{count}</span>}</button>;
-}
-
-type Counted = { value: string; n: number };
-
-export function Filters({ facet, setFacet, genres, cultures, regions, languages, hasNew, hasStandards = false }: { facet: Facet; setFacet: (f: Facet) => void; genres: Counted[]; cultures: Counted[]; regions: Counted[]; languages: Counted[]; hasNew: boolean; hasStandards?: boolean }) {
-  const deep = facet.kind === "genre" || facet.kind === "culture" || facet.kind === "region" || facet.kind === "language";
+/** A "see all" link in the house style: words and a small arrow, no box. */
+export function SeeAll({ href, n }: { href: string; n: number }) {
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center gap-2">
-        <Chip active={facet.kind === "all"} onClick={() => setFacet({ kind: "all" })}>All songs</Chip>
-        {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
-          <Chip key={d} active={facet.kind === "difficulty" && facet.value === d} onClick={() => setFacet({ kind: "difficulty", value: d })}>{DIFFICULTY_LABEL[d]}</Chip>
-        ))}
-        <Chip active={facet.kind === "recordings"} onClick={() => setFacet({ kind: "recordings" })}>Real recordings</Chip>
-        {hasStandards && <Chip active={facet.kind === "standards"} onClick={() => setFacet({ kind: "standards" })}>Standards</Chip>}
-        {hasNew && <Chip active={facet.kind === "new"} onClick={() => setFacet({ kind: "new" })}>New</Chip>}
-      </div>
-      <details className="group" open={deep}>
-        <summary className="chip cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">Browse by style, place or language <ChevronDown className="h-3.5 w-3.5 text-faint transition group-open:rotate-180" /></summary>
-        <div className="mt-3 space-y-2.5 pl-1">
-          <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Style</span>{genres.filter((g) => g.n >= 2 || (facet.kind === "genre" && facet.value === g.value)).map((g) => <Chip key={g.value} count={g.n} active={facet.kind === "genre" && facet.value === g.value} onClick={() => setFacet({ kind: "genre", value: g.value })}>{g.value}</Chip>)}</div>
-          {regions.length > 0 && <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Region</span>{regions.map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "region" && facet.value === c.value} onClick={() => setFacet({ kind: "region", value: c.value })}>{c.value}</Chip>)}</div>}
-          <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Tradition</span>{cultures.filter((c) => c.n >= 3 || (facet.kind === "culture" && facet.value === c.value)).map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "culture" && facet.value === c.value} onClick={() => setFacet({ kind: "culture", value: c.value })}>{c.value}</Chip>)}</div>
-          {languages.length > 1 && <div className="flex flex-wrap items-center gap-2"><span className="label w-20">Sung in</span>{languages.filter((c) => c.n >= 2 || (facet.kind === "language" && facet.value === c.value)).map((c) => <Chip key={c.value} count={c.n} active={facet.kind === "language" && facet.value === c.value} onClick={() => setFacet({ kind: "language", value: c.value })}>{languageName(c.value)}</Chip>)}</div>}
-        </div>
-      </details>
-    </div>
+    <Link href={href} className="group inline-flex shrink-0 items-center gap-1 text-[13px] font-medium text-muted transition hover:text-fg">
+      See all {n} <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.8} />
+    </Link>
   );
 }
 
 export function TileSkeleton() {
-  return (
-    <div className="min-w-0">
-      <div className="skel aspect-square w-full" />
-      <div className="skel mt-3 h-3.5 w-4/5 rounded-md" />
-      <div className="skel mt-2 h-3 w-1/2 rounded-md" />
-    </div>
-  );
+  return <div className="skel squircle aspect-square w-full" />;
 }
 
 export function DiscoverSkeleton() {
   return (
-    <div className="space-y-10" aria-busy="true" aria-label="Loading songs">
-      <div className="skel h-64 w-full rounded-[1.25rem]" />
-      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{Array.from({ length: 6 }).map((_, i) => <TileSkeleton key={i} />)}</div>
-      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{Array.from({ length: 6 }).map((_, i) => <TileSkeleton key={i} />)}</div>
+    <div className="space-y-12" aria-busy="true" aria-label="Loading songs">
+      <div className="mx-auto flex max-w-5xl items-center justify-center gap-6 pt-6">
+        {[0.7, 0.85, 1, 0.85, 0.7].map((s, i) => <div key={i} className="skel shrink-0 rounded-[22px]" style={{ width: 230 * s, height: 360 * s, opacity: s }} />)}
+      </div>
+      <div className="flex gap-4 overflow-hidden">{Array.from({ length: 7 }).map((_, i) => <div key={i} className="skel squircle h-[10.5rem] w-[10.5rem] shrink-0" />)}</div>
     </div>
   );
 }

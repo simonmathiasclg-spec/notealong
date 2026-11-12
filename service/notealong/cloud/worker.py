@@ -43,7 +43,7 @@ CLOUD_COST = {"stems": 0.12, "melody": 0.03, "lyrics": 0.08, "attach": 0.005, "c
 KEEP_LOCAL = {"song.json", "vocals.wav"}          # never uploaded: the row holds the song; the wav is temporary
 CONTENT_TYPES = {".mp3": "audio/mpeg", ".m4a": "audio/mp4", ".wav": "audio/wav", ".flac": "audio/flac", ".ogg": "audio/ogg",
                  ".json": "application/json", ".npz": "application/octet-stream", ".jpg": "image/jpeg", ".png": "image/png",
-                 ".svg": "image/svg+xml", ".txt": "text/plain; charset=utf-8"}
+                 ".svg": "image/svg+xml", ".webp": "image/webp", ".txt": "text/plain; charset=utf-8"}
 
 
 def _process_age() -> float:
@@ -289,9 +289,8 @@ def _check_new_upload(run: JobRun, song: Song) -> str | None:
 
 
 def _write_cover(run: JobRun) -> None:
-    from ..catalog.cover import cover_svg
-    song = library.load_song(run.song_id)
-    (run.dir / "cover.svg").write_text(cover_svg(run.song_id, "Pop", song.title), encoding="utf-8")
+    from ..catalog.artwork import render_cover
+    render_cover(run.song_id, "Pop").save(run.dir / "cover_gen.webp", "WEBP", quality=80, method=6)
 
 
 def run_process(run: JobRun) -> None:

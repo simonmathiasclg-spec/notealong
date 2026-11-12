@@ -1,15 +1,16 @@
 "use client";
-// Discover: drop in a song you love, or start one of the built-in songs. A short page of rows;
-// "See all" and the Browse lists open the full search (/browse) with that filter on.
+// Discover: the house title, a ring of songs to start with, room for your own songs, then shelves of
+// widgets and the ways to browse. "See all" and the browse lists open the full search (/browse).
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { AppHeader, MobileSearch } from "@/components/AppHeader";
 import { Welcome } from "@/components/Welcome";
 import { PageDropZone } from "@/components/UploadZone";
 import { ServiceDown } from "@/components/ServiceDown";
-import { DiscoverSkeleton, Shelf } from "@/components/discover/Discover";
+import { DiscoverSkeleton, SeeAll, Shelf, kindOf, toTile } from "@/components/discover/Discover";
+import { Coverflow, type FlowSong } from "@/components/discover/Coverflow";
 import { DropHero } from "@/components/DropHero";
+import { SiteFooter } from "@/components/SiteFooter";
 import { api } from "@/lib/api";
 import { DIFFICULTY_HINT, buildCategories, isStandard, newSongs, pickTonight, sortSongs, type Category, type Facet } from "@/lib/catalog";
 import { getInstrument } from "@/lib/instruments";
@@ -36,6 +37,13 @@ function browseHref(f: Facet): string {
   return `/browse${p.toString() ? `?${p}` : ""}`;
 }
 
+function listNames(songs: CatalogEntry[]): string {
+  if (songs.length === 0) return "";
+  if (songs.length === 1) return songs[0].title;
+  if (songs.length === 2) return `${songs[0].title} and ${songs[1].title}`;
+  return `${songs[0].title}, ${songs[1].title} and ${songs.length - 2} more`;
+}
+
 export default function DiscoverPage() {
   const [songs, setSongs] = useState<CatalogEntry[] | null>(null);
   const [ranges, setRanges] = useState<Record<string, [number, number] | null>>({});
@@ -59,8 +67,21 @@ export default function DiscoverPage() {
     return { ...s, popularity: p?.count ?? s.popularity ?? 0, last_played: last };
   }), [songs, plays]);
   const byId = useMemo(() => new Map<string, CatalogEntry>(all.map((s) => [s.id, s])), [all]);
-  const tonight = useMemo(() => pickTonight(all), [all]);
+  const fresh = useMemo(() => sortSongs(newSongs(sortSongs(all, "popular")), "new"), [all]);
   const categories = useMemo(() => buildCategories(all), [all]);
+
+  // the ring: tonight's pick in the middle of a dozen featured, new and well-liked songs
+  const ring = useMemo((): FlowSong[] => {
+    const tonight = pickTonight(all);
+    const seen = new Set<string>();
+    const out: CatalogEntry[] = [];
+    const add = (s: CatalogEntry | null | undefined) => { if (s && !seen.has(s.id) && out.length < 12) { seen.add(s.id); out.push(s); } };
+    add(tonight);
+    all.filter((s) => s.featured).forEach(add);
+    fresh.forEach(add);
+    sortSongs(all, "popular").forEach(add);
+    return out.map((s) => ({ ...toTile(s), kind: kindOf(s) }));
+  }, [all, fresh]);
 
   const shelves = useMemo(() => {
     const ranked = sortSongs(all, "popular");
@@ -68,78 +89,86 @@ export default function DiscoverPage() {
     const push = (id: string, title: string, list: CatalogEntry[], href?: string, subtitle?: string, min = 1) => { if (list.length >= min) rows.push({ id, title, subtitle, songs: list, href }); };
     push("favourites", "Your favourites", favourites.map((id) => byId.get(id)).filter((s): s is CatalogEntry => !!s), "/browse?favourites=1");
     push("recent", "Jump back in", sortSongs(all.filter((s) => s.last_played), "recent").slice(0, 12), undefined, "Songs you played lately");
-    push("new", "New this week", sortSongs(newSongs(ranked), "new"), "/browse?sort=new");
+    push("new", "New this week", fresh, "/browse?sort=new");
     push("standards", "Jazz and classic standards", ranked.filter(isStandard), "/browse?tag=standard", "Famous songs of the jazz age and before, all public domain", 4);
     const fits = ranked.filter((s) => s.difficulty !== "hard" && fitsInstrument(ranges[s.id], instrument));
     push("fits", `Good on the ${instrument.name.toLowerCase()}`, fits, "/browse?fits=1", "Whole melody in your range, without changing key", 6);
     push("beginners", "Great for beginners", sortSongs(all.filter((s) => s.beginner || s.difficulty === "easy"), "easy"), browseHref({ kind: "difficulty", value: "easy" }), DIFFICULTY_HINT.easy);
     push("recordings", "Real recordings", ranked.filter((s) => s.source.kind === "cc"), browseHref({ kind: "recordings" }), "Independent artists, shared under Creative Commons");
     return rows;
-  }, [all, byId, favourites, ranges, instrument]);
+  }, [all, byId, favourites, ranges, instrument, fresh]);
 
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
-      <MobileSearch />
       <PageDropZone onFiles={addFiles} />
       <Welcome open={welcome} onDone={(id) => { setInstrument(id); setWelcome(false); }} />
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-5 pb-20 sm:px-8">
+      <main className="mx-auto w-full max-w-[90rem] flex-1 px-5 pb-10 sm:px-8 lg:px-12">
+        {/* the house title */}
+        <div className="pb-8 pt-4 text-center sm:pb-12 sm:pt-6">
+          <h1 className="display-hero text-red text-[clamp(4.6rem,15.5vw,12.5rem)] max-sm:leading-[0.86]">Play<span className="max-sm:hidden"> </span><br className="sm:hidden" />along</h1>
+          <p className="display-wide mt-4 text-[clamp(0.85rem,1.6vw,1.25rem)]">The note for every word</p>
+          <p className="mt-4 text-[13px] tracking-[0.02em] text-muted">
+            <span className="mr-2 inline-block h-[7px] w-[7px] translate-y-[-1px] rounded-full bg-red shadow-[0_0_0_5px_color-mix(in_srgb,var(--red)_20%,transparent)]" aria-hidden="true" />
+            {fresh.length > 0
+              ? <Link href="/browse?sort=new" className="hover:text-fg"><b className="font-semibold text-fg">New this week</b> · {listNames(fresh)}</Link>
+              : <><b className="font-semibold text-fg">{all.length || 208} songs</b> · free to play right now</>}
+          </p>
+        </div>
+        <MobileSearch />
+
         {serviceDown && <div className="mb-8"><ServiceDown what="the song library" /></div>}
         {songs === null ? (
           <DiscoverSkeleton />
         ) : (
-          <div className="space-y-12">
-            <DropHero pick={tonight} />
+          <div className="space-y-16 sm:space-y-20">
+            {ring.length > 0 && <Coverflow songs={ring} hint={`Drag to browse. Click the song in the middle to play along on your ${instrument.name.toLowerCase()}.`} />}
+            <DropHero />
             {all.length > 0 && (
-              <div className="space-y-10">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-2">
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h2 className="display-md text-[1.45rem]">Or start with one of these</h2>
-                    <span className="text-sm text-muted">{all.length} songs, free to play right now</span>
-                  </div>
-                  <Link href="/browse" className="btn btn-ghost btn-sm">Browse all songs <ArrowRight className="h-3.5 w-3.5" /></Link>
-                </div>
-                {shelves.map((sh) => (
-                  <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs.slice(0, 18)} total={sh.songs.length}
-                    action={sh.href && sh.songs.length > 6 ? <Link href={sh.href} className="btn btn-ghost btn-sm shrink-0">See all {sh.songs.length} <ArrowRight className="h-3.5 w-3.5" /></Link> : undefined} />
+              <div className="space-y-14 sm:space-y-16">
+                {shelves.map((sh, i) => (
+                  <Shelf key={sh.id} title={sh.title} subtitle={sh.subtitle} songs={sh.songs.slice(0, 18)} start={i * 3}
+                    action={sh.href && sh.songs.length > 6 ? <SeeAll href={sh.href} n={sh.songs.length} /> : undefined} />
                 ))}
-                <BrowseLinks categories={categories} />
+                <BrowseLinks categories={categories} total={all.length} />
               </div>
             )}
-            <p className="hairline pt-6 text-xs leading-relaxed text-faint">
-              Built-in songs are public domain or Creative Commons; each song&apos;s page shows where it comes from. Your own uploads stay private in <Link href="/my-songs" className="underline underline-offset-4">My songs</Link>.
-            </p>
           </div>
         )}
       </main>
+      <SiteFooter />
     </div>
   );
 }
 
-/** Styles, parts of the world and languages, each opening the search with that filter. */
-function BrowseLinks({ categories }: { categories: Category[] }) {
+/** Styles, parts of the world and languages as numbered track lists, each opening the search with that filter. */
+function BrowseLinks({ categories, total }: { categories: Category[]; total: number }) {
   const groups = ["Styles", "Around the world", "Languages"] as const;
   return (
     <section aria-label="Browse">
-      <h2 className="display-md mb-5 text-[1.45rem]">Browse</h2>
-      <div className="grid gap-x-10 gap-y-8 lg:grid-cols-3">
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <h2 className="display-xl text-[clamp(2.2rem,4.6vw,3.6rem)]">Browse all {total}</h2>
+        <SeeAll href="/browse" n={total} />
+      </div>
+      <div className="grid gap-x-12 gap-y-10 lg:grid-cols-3">
         {groups.map((g) => {
           const items = categories.filter((c) => c.group === g).slice(0, 10);
           if (!items.length) return null;
           return (
             <div key={g}>
-              <h3 className="label mb-3">{g}</h3>
-              <ul className="divide-y divide-border border-y border-border">
-                {items.map((c) => (
+              <h3 className="mb-2 text-[13px] font-medium text-muted">{g}</h3>
+              <ol className="border-t border-border">
+                {items.map((c, i) => (
                   <li key={c.id}>
-                    <Link href={browseHref(c.facet)} className="group flex w-full items-center justify-between gap-3 py-2.5 text-[0.95rem] transition hover:text-accent">
-                      <span className="truncate font-medium">{c.title}</span>
-                      <span className="flex shrink-0 items-center gap-2 text-[0.8rem] text-faint"><span className="tabular">{c.n} {c.n === 1 ? "song" : "songs"}</span><ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100" /></span>
+                    <Link href={browseHref(c.facet)} className="group grid grid-cols-[2rem_1fr_auto] items-center gap-2 border-b border-border py-3 text-[0.95rem] transition">
+                      <span className="tabular text-[11px] text-faint">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="truncate font-medium transition group-hover:translate-x-1">{c.title}</span>
+                      <span className="tabular text-[12px] text-faint transition group-hover:text-fg">{c.n} {c.n === 1 ? "song" : "songs"} ▸</span>
                     </Link>
                   </li>
                 ))}
-              </ul>
+              </ol>
             </div>
           );
         })}

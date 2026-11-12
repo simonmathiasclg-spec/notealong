@@ -7,18 +7,18 @@ export function FavouriteButton({ id, title, variant = "button", className = "" 
   const { isFavourite, toggleFavourite } = useMe();
   const on = isFavourite(id);
   const label = on ? `Remove ${title} from favourites` : `Add ${title} to favourites`;
-  const icon = <Heart className={`h-4 w-4 ${on ? "fill-current" : ""}`} />;
+  const icon = <Heart className={`h-4 w-4 ${on ? "fill-current" : ""}`} strokeWidth={1.6} />;
   const click = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); toggleFavourite(id); };
   if (variant === "overlay") {
     return (
       <button onClick={click} aria-pressed={on} aria-label={label}
-        className={`absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-black/45 text-white backdrop-blur-sm transition hover:bg-black/65 focus-visible:opacity-100 ${on ? "opacity-100 text-[#ff6b7d]" : "opacity-0 group-hover/tile:opacity-100"} ${className}`}>
+        className={`absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full text-white transition hover:bg-white/15 focus-visible:opacity-100 ${on ? "opacity-100 !text-[#ff4a3d]" : "opacity-0 group-hover/tile:opacity-100"} ${className}`}>
         {icon}
       </button>
     );
   }
   if (variant === "icon") {
-    return <button onClick={click} aria-pressed={on} aria-label={label} data-tip={on ? "In your favourites" : "Add to favourites"} className={`btn btn-ghost btn-icon ${on ? "text-[#e5485d]" : ""} ${className}`}>{icon}</button>;
+    return <button onClick={click} aria-pressed={on} aria-label={label} data-tip={on ? "In your favourites" : "Add to favourites"} className={`btn btn-ghost btn-icon ${on ? "!text-[var(--red-text)]" : ""} ${className}`}>{icon}</button>;
   }
-  return <button onClick={click} aria-pressed={on} className={`btn ${on ? "text-[#e5485d]" : ""} ${className}`}>{icon} {on ? "Favourite" : "Add to favourites"}</button>;
+  return <button onClick={click} aria-pressed={on} className={`btn ${on ? "!text-[var(--red-text)]" : ""} ${className}`}>{icon} {on ? "Favourite" : "Add to favourites"}</button>;
 }

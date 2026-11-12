@@ -33,7 +33,7 @@ function catalogIndex(): Promise<Catalog> {
     catalogPromise = fetch(catalogFile("index.json")).then((r) => {
       if (!r.ok) throw new Error("The built-in songs could not be loaded.");
       return r.json() as Promise<Catalog>;
-    }).then((c) => ({ ...c, songs: c.songs.map((s) => ({ ...s, cover_url: catalogFile(`${s.id}/cover.svg`) })) }));
+    }).then((c) => ({ ...c, songs: c.songs.map((s) => ({ ...s, cover_url: catalogFile(`${s.id}/cover.webp`) })) }));
     catalogPromise.catch(() => { catalogPromise = null; });
   }
   return catalogPromise;
@@ -164,7 +164,7 @@ export const cloudApi = {
     return { plan: "beta", uploads: { used, limit: UPLOADS_PER_DAY, remaining: Math.max(0, UPLOADS_PER_DAY - used) }, catalog: "free" };
   },
 
-  coverUrl: (id: string) => catalogFile(`${id}/cover.svg`),
+  coverUrl: (id: string) => catalogFile(`${id}/cover.webp`),
   uploadCoverUrl: (id: string, v?: number) => `/api/cloud/songs/${id}/cover${v ? `?v=${v}` : ""}`,
 
   putCover: async (id: string, file: File) => {

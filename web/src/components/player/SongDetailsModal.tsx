@@ -49,7 +49,7 @@ function DetailsForm({ song, onClose, onSaved }: { song: Song; onClose: () => vo
   return (
       <div className="flex flex-col gap-6 sm:flex-row">
         <div className="shrink-0">
-          <button type="button" className="tile relative block h-40 w-40 overflow-hidden rounded-[1rem] shadow-card" onClick={() => file.current?.click()} aria-label="Replace the cover picture" disabled={!!busy}>
+          <button type="button" className="tile squircle relative block h-40 w-40 overflow-hidden" onClick={() => file.current?.click()} aria-label="Replace the cover picture" disabled={!!busy}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={api.uploadCoverUrl(song.id, coverVersion + 1)} alt="" className="h-full w-full object-cover" />
             <span className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 bg-black/55 py-2 text-xs font-medium text-white"><ImagePlus className="h-3.5 w-3.5" /> Replace</span>
