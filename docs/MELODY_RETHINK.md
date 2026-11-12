@@ -158,3 +158,18 @@ Listening samples, alto sax alone, in `docs/listening-samples/melody-rethink/`:
 the rendered audio: the Let It Be chorus went from 10 silences to 3 (49% → 31% of the excerpt quiet), and
 the Just Give Me a Reason chorus from 14 silences to 3 (41% → 18%). These were checked by measurement, not
 by ear; the owner should listen to them.
+
+## Part 3: display
+
+- **Lyric spacing.** A word is now as wide as the word itself (or as its note letters side by side, if
+  they are wider, as on "I" or "it"). With the timing guide on, a word's notes share the word's width in
+  proportion to how long each lasts, with the duration bar under each; they no longer push the words apart.
+  Before, each note's cell was as wide as its length in time, so a long or busy word stretched the line.
+- **Unsure dots.** The amber dot beside a line still means "worth a check": at least two notes, and 30%
+  of the line, are unsure. It now uses the new method's confidence (steadiness, how well centred the
+  pitch was, whether it was moved into the key, Whisper's confidence in the word). Measured against the
+  human transcriptions, notes marked unsure are right 43% of the time and the others 70%, so the dot
+  does point at the weaker lines, but less sharply than it should.
+- **Detail setting, per song.** Settings → Detail is now "Sax-friendly" (default) or "Detailed". Detailed
+  is the old literal transcription and brings back its own controls (Fewer / Balanced / Everything, and
+  "hold a note across words"). Switching re-makes the notes in a few seconds and keeps hand edits.

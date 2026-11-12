@@ -125,7 +125,8 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
           return (
             <div key={word?.id ?? `loose-${line.index}-${idx}`} className={`flex flex-col gap-[.32em] ${p.timing ? "items-start" : "items-center"}`}>
               {chordTags && <span className="chord-row" aria-hidden={!chordTags[idx]}>{chordTags[idx] && <span className="chord-tag">{chordTags[idx]}</span>}</span>}
-              <div className="flex min-h-[1.1em] items-end gap-[.16em]">
+              {/* the word sets the width; its notes share that width by how long each lasts, and never push the words apart */}
+              <div className={`flex min-h-[1.1em] items-end gap-[.16em] ${p.timing ? "self-stretch" : ""}`}>
                 {item.notes.map((n) => {
                   const info = p.noteInfo.get(n.id);
                   if (!info) return null;
@@ -141,7 +142,7 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
                   if (!cell) return chip;
                   const count = p.cue.countNote === n.id ? p.cue.count : null;
                   return (
-                    <span key={n.id} className="note-cell" data-state={st} style={{ minWidth: `${cell.width.toFixed(3)}em` }}>
+                    <span key={n.id} className="note-cell" data-state={st} style={{ minWidth: `${CHIP_EM[chipSize].toFixed(3)}em`, flex: `${Math.min(3.2, cell.span).toFixed(2)} 1 0%` }}>
                       <AnimatePresence>
                         {count !== null && (
                           <motion.span key={count} className="count-badge" aria-hidden="true"

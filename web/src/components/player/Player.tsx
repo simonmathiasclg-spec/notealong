@@ -662,6 +662,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         chords={chords} setChords={(v) => setChordsPref(v ? "1" : "0")} chordsFound={!chords || !scoreLoaded || score.chords.length > 0}
         hear={hear} hearState={hearState} onHear={toggleHear} hearVolume={hearVolume} setHearVolume={(v) => setHearVolumePref(String(v))}
         onDetailLevel={(level) => runStep("Updating the notes…", "cleanup", { detail_level: level })}
+        onMelody={(melody) => runStep("Updating the notes…", "cleanup", { melody })}
         onHoldAcrossWords={catalog ? undefined : (on) => runStep("Updating the notes…", on ? "attach" : "cleanup", { hold_across_words: on })}
         onLanguage={(lang) => runStep("Reading the words again…", "lyrics", { language: lang })}
         onPasteLyrics={async (text) => { setBusy("Lining up your words…"); try { setSong(await api.pasteLyrics(song.id, text)); } finally { setBusy(null); } }}

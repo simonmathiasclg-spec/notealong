@@ -5,7 +5,7 @@ import { ChevronRight, Download, FileText, Info, Loader2, Minus, Pencil, Plus, R
 import { getInstrument } from "@/lib/instruments";
 import { keyName, keyShiftLabel } from "@/lib/notes";
 import { formatTime } from "@/lib/api";
-import { LEFTOVER_VOICE_NOTICEABLE_DB, type CatalogEntry, type Notation, type OctaveMode, type Song, type UserSession } from "@/lib/types";
+import { LEFTOVER_VOICE_NOTICEABLE_DB, type CatalogEntry, type MelodyMode, type Notation, type OctaveMode, type Song, type UserSession } from "@/lib/types";
 import { InstrumentIcon } from "../InstrumentIcon";
 import { Modal } from "../Modal";
 import { InstrumentPicker } from "../InstrumentPicker";
@@ -47,6 +47,8 @@ type Props = {
   setHearVolume: (v: number) => void;
   busy: string | null;
   onDetailLevel: (level: string) => void;
+  /** Sax-friendly or Detailed, for this song. */
+  onMelody?: (melody: MelodyMode) => void;
   /** Keep one held note when the singer carries a vowel into the next word (uploads). */
   onHoldAcrossWords?: (on: boolean) => void;
   onLanguage: (lang: string) => void;
@@ -91,6 +93,7 @@ function Switch({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 
 export function SettingsPanel(p: Props) {
   const { song, session, update } = p;
+  const melody: MelodyMode = song.settings.melody ?? "sax";
   const inst = getInstrument(session.instrument);
   const [pickInstrument, setPickInstrument] = useState(false);
   const [lyricsOpen, setLyricsOpen] = useState(false);
@@ -216,18 +219,33 @@ export function SettingsPanel(p: Props) {
                 </Row>
 
                 {!p.catalog && (
-                  <Row label="Detail" hint={p.busy === "cleanup" ? "updating…" : "How many notes to show"}>
+                  <Row label="Detail" hint={p.busy === "cleanup" ? "updating…" : "How the tune is written out"}>
                     <div className="seg w-full">
-                      {["simple", "balanced", "detailed"].map((d) => (
-                        <button key={d} className="flex-1 justify-center capitalize" aria-pressed={song.settings.detail_level === d} disabled={!!p.busy} onClick={() => p.onDetailLevel(d)}>{d}</button>
+                      {([["sax", "Sax-friendly"], ["detailed", "Detailed"]] as [MelodyMode, string][]).map(([m, l]) => (
+                        <button key={m} className="flex-1 justify-center" aria-pressed={melody === m} disabled={!!p.busy} onClick={() => { if (melody !== m) p.onMelody?.(m); }}>{l}</button>
                       ))}
                     </div>
-                    <p className="mt-1.5 text-xs text-faint">Simple leaves out quick slides and runs. Detailed keeps them.</p>
-                    {p.onHoldAcrossWords && (
+                    <p className="mt-1.5 text-xs text-faint">
+                      {melody === "sax" ? "One note per syllable, held until the next, in the song's key. The way you would play it."
+                        : "Every pitch the singer touches, slides and runs included."}
+                    </p>
+                    {melody === "detailed" && (
                       <div className="mt-3">
-                        <Switch checked={song.settings.cleanup?.hold_across_words !== false} onChange={(v) => p.onHoldAcrossWords?.(v)}
-                          label="Hold a note across words when the singer does" />
-                        <p className="mt-1 text-xs text-faint">For players who sustain: one long note where the voice carries straight into the next word on the same pitch.</p>
+                        <div className="seg w-full">
+                          {["simple", "balanced", "detailed"].map((d) => (
+                            <button key={d} className="flex-1 justify-center" aria-pressed={song.settings.detail_level === d} disabled={!!p.busy} onClick={() => p.onDetailLevel(d)}>
+                              {d === "simple" ? "Fewer" : d === "balanced" ? "Balanced" : "Everything"}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="mt-1.5 text-xs text-faint">Fewer leaves out quick slides and runs. Everything keeps them.</p>
+                        {p.onHoldAcrossWords && (
+                          <div className="mt-3">
+                            <Switch checked={song.settings.cleanup?.hold_across_words !== false} onChange={(v) => p.onHoldAcrossWords?.(v)}
+                              label="Hold a note across words when the singer does" />
+                            <p className="mt-1 text-xs text-faint">For players who sustain: one long note where the voice carries straight into the next word on the same pitch.</p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </Row>
