@@ -61,7 +61,7 @@ function Row({ label, hint, tip, children }: { label: string; hint?: string; tip
       <div className="mb-2.5 flex items-baseline justify-between gap-3">
         <div className="flex items-center gap-1.5 text-[0.9rem] font-medium">
           {label}
-          {tip && <span tabIndex={0} data-tip={tip} className="inline-grid h-4 w-4 cursor-help place-items-center rounded-full text-faint hover:text-fg" aria-label={tip}><Info className="h-3.5 w-3.5" strokeWidth={1.7} /></span>}
+          {tip && <span tabIndex={0} data-tip={tip} data-tip-tap="" className="inline-grid h-4 w-4 cursor-help place-items-center rounded-full text-faint hover:text-fg" aria-label={tip}><Info className="h-3.5 w-3.5" strokeWidth={1.7} /></span>}
         </div>
         {hint && <div className="text-right text-xs text-faint">{hint}</div>}
       </div>

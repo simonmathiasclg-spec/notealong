@@ -28,7 +28,7 @@ export function AddToSetlistButton({ songId, title, variant = "icon" }: { songId
   return (
     <div ref={box} className="relative">
       {variant === "icon"
-        ? <button className="btn btn-ghost btn-icon" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={`Add ${title} to a setlist`} data-tip="Add to a setlist"><ListMusic className="h-[18px] w-[18px]" /></button>
+        ? <button className="btn btn-ghost btn-icon" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={`Add ${title} to a setlist`} data-tip="Add to a setlist" data-tip-pos="below"><ListMusic className="h-[18px] w-[18px]" /></button>
         : <button className="btn" onClick={() => setOpen((o) => !o)} aria-expanded={open}><ListMusic className="h-4 w-4" /> Add to setlist</button>}
       {open && (
         <div className="floating absolute right-0 top-full z-50 mt-2 w-64 p-1.5 text-sm" role="menu">

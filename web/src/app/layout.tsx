@@ -6,6 +6,7 @@ import { Motion } from "@/components/Motion";
 import { UploadQueue } from "@/components/UploadQueue";
 import { MeProvider } from "@/lib/me";
 import { MiniPlayer } from "@/components/MiniPlayer";
+import { TooltipLayer } from "@/components/TooltipLayer";
 
 export const metadata: Metadata = {
   title: "NoteAlong",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col">
         <Motion><MeProvider><UploadsProvider>{children}<UploadQueue /><MiniPlayer /></UploadsProvider></MeProvider></Motion>
+        <TooltipLayer />
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export function FavouriteButton({ id, title, variant = "button", className = "" 
     );
   }
   if (variant === "icon") {
-    return <button onClick={click} aria-pressed={on} aria-label={label} data-tip={on ? "In your favourites" : "Add to favourites"} className={`btn btn-ghost btn-icon ${on ? "!text-[var(--red-text)]" : ""} ${className}`}>{icon}</button>;
+    return <button onClick={click} aria-pressed={on} aria-label={label} data-tip={on ? "In your favourites" : "Add to favourites"} data-tip-pos="below" className={`btn btn-ghost btn-icon ${on ? "!text-[var(--red-text)]" : ""} ${className}`}>{icon}</button>;
   }
   return <button onClick={click} aria-pressed={on} className={`btn ${on ? "!text-[var(--red-text)]" : ""} ${className}`}>{icon} {on ? "Favourite" : "Add to favourites"}</button>;
 }

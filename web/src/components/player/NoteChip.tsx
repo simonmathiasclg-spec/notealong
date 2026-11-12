@@ -16,7 +16,7 @@ export function NoteChip({ note, state, size, cue, onClick, title }: { note: Dis
       data-state={state}
       data-cue={cue ? "1" : undefined}
       data-range={note.outOfRange ? "out" : "in"}
-      title={title ?? note.outOfRangeReason ?? undefined}
+      data-tip={title ?? note.outOfRangeReason ?? undefined}
       onClick={onClick}
       tabIndex={onClick ? 0 : -1}
       aria-label={`${label}${note.octaveMark === "up" ? " upper" : note.octaveMark === "down" ? " lower" : ""}${note.outOfRange ? ", outside your instrument's range" : ""}`}

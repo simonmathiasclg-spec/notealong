@@ -102,7 +102,7 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
         {sweeping && <div id={`sweep-${line.index}`} className="sweep" aria-hidden="true" />}
         {p.unsure?.has(line.index) && (
           <span className="absolute -left-[.9em] top-1/2 h-[.32em] w-[.32em] -translate-y-1/2 rounded-full bg-[#e0a63a]"
-            role="img" aria-label="The notes in this line were hard to hear: worth a check" title="The notes in this line were hard to hear: worth a check" />
+            role="img" aria-label="The notes in this line were hard to hear: worth a check" data-tip="The notes in this line were hard to hear: worth a check" data-tip-tap="" />
         )}
         {line.items.map((item, idx) => {
           const word = item.word;
@@ -139,7 +139,7 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
                   );
                 })}
                 {p.editing && (!word || item.notes.length === 0) && (
-                  <button type="button" onClick={() => p.onAddNote?.(word?.id ?? null, line.index)} title="Add a note here"
+                  <button type="button" onClick={() => p.onAddNote?.(word?.id ?? null, line.index)} data-tip="Add a note here" aria-label="Add a note here"
                     className={`note-chip h-[2.2em] min-w-[2.2em] border-dashed text-[0.5em] text-faint hover:text-accent ${p.timing ? "mb-[.5em]" : ""}`}>+</button>
                 )}
               </div>

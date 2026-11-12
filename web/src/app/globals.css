@@ -197,14 +197,17 @@ input[type="range"] { accent-color: var(--fg); width: 100%; height: 1.25rem; }
 
 .kbd { font-family: var(--font-sans); font-size: .72rem; font-weight: 500; padding: .12rem .42rem; border: 1px solid var(--border-strong); border-radius: .4rem; color: var(--fg-muted); }
 
-/* Tooltip: <span data-tip="…"> shows on hover and keyboard focus */
+/* Tooltip: anything with data-tip="…". Drawn by <TooltipLayer> in its own layer on <body> and placed with
+   Floating UI, so it flips and slides to stay inside the window and nothing can clip it. */
 [data-tip] { position: relative; }
-[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(4px); width: max-content; max-width: 16rem; padding: .45rem .7rem; border-radius: .7rem; background: var(--pill); color: var(--pill-fg); font-family: var(--font-sans); font-size: .75rem; font-weight: 500; line-height: 1.35; white-space: normal; text-align: left; opacity: 0; pointer-events: none; transition: opacity .12s, transform .12s; z-index: 60; }
-[data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-[data-tip][data-tip-pos="below-end"]::after { left: auto; right: 0; bottom: auto; top: calc(100% + 8px); transform: translateY(-4px); }
-[data-tip][data-tip-pos="below-end"]:hover::after, [data-tip][data-tip-pos="below-end"]:focus-visible::after { transform: translateY(0); }
-[data-tip][data-tip-pos="below"]::after { bottom: auto; top: calc(100% + 8px); transform: translateX(-50%) translateY(-4px); }
-[data-tip][data-tip-pos="below"]:hover::after, [data-tip][data-tip-pos="below"]:focus-visible::after { transform: translateX(-50%) translateY(0); }
+.tip { position: fixed; left: 0; top: 0; z-index: 1000; width: max-content; max-width: min(16rem, calc(100vw - 16px)); padding: .45rem .7rem; border-radius: .7rem; background: var(--pill); color: var(--pill-fg); font-family: var(--font-sans); font-size: .75rem; font-weight: 500; line-height: 1.35; white-space: normal; text-align: left; box-shadow: 0 6px 22px rgb(0 0 0 / .28); pointer-events: none; opacity: 0; visibility: hidden; translate: 0 0; transition: opacity .12s, translate .14s var(--ease-out-quint), visibility 0s .12s; }
+.tip[data-side="bottom"] { translate: 0 -4px; }
+.tip[data-side="top"] { translate: 0 4px; }
+.tip[data-open="1"] { opacity: 1; visibility: visible; translate: 0 0; transition: opacity .12s, translate .14s var(--ease-out-quint), visibility 0s; }
+/* moving along a row of buttons: the tooltip is already up, it just changes place */
+.tip[data-open="1"][data-moving="1"] { transition: none; }
+@media (prefers-reduced-motion: reduce) { .tip, .tip[data-open="1"] { translate: 0 0 !important; transition: opacity .01s, visibility 0s; } }
+@media print { .tip { display: none; } }
 
 /* Skeletons: a slow wash of light, like the covers loading from their colour */
 .skel { position: relative; overflow: hidden; background: var(--bg-elev); border-radius: 1.375rem; }

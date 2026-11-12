@@ -18,7 +18,7 @@ export function InstrumentPicker({ value, onChange, columns = 3 }: { value: stri
                   type="button"
                   onClick={() => onChange(i.id)}
                   aria-pressed={selected}
-                  title={i.description}
+                  data-tip={i.description}
                   className={`flex items-center gap-3 rounded-full px-4 py-3 text-left text-sm font-medium transition ${
                     selected ? "bg-[var(--pill)] text-[var(--pill-fg)]" : "bg-hover text-muted hover:text-fg"
                   }`}

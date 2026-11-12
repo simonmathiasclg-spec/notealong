@@ -447,23 +447,23 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
             {editing ? (
               <div className="flex items-center gap-1">
                 <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : "Click a note to move it, or a word to fix it"}</span>
-                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo"><Undo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
-                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo"><Redo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo" data-tip-pos="below"><Undo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo" data-tip-pos="below"><Redo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
               </div>
             ) : (
               <div className="flex items-center gap-0.5 sm:gap-1">
-                <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument">
+                <button className="btn hidden sm:inline-flex" onClick={() => setSettingsOpen(true)} data-tip="Change instrument" data-tip-pos="below">
                   <span className="text-accent"><InstrumentIcon icon={instrument.icon} className="h-[18px] w-[18px]" /></span> {instrument.name}
                 </button>
                 <FavouriteButton id={song.id} title={song.title} variant="icon" />
                 <AddToSetlistButton songId={song.id} title={song.title} />
-                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon max-sm:hidden" data-tip="About this song" aria-label="About this song"><Info className="h-[18px] w-[18px]" strokeWidth={1.6} /></Link>
-                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
-                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setFocus(true)} data-tip="Focus mode (F)" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
-                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <Link href={`/song/${song.id}`} className="btn btn-ghost btn-icon max-sm:hidden" data-tip="About this song" data-tip-pos="below" aria-label="About this song"><Info className="h-[18px] w-[18px]" strokeWidth={1.6} /></Link>
+                <button className="btn btn-ghost btn-icon" onClick={() => setEditing(true)} data-tip="Fix notes or words (E)" data-tip-pos="below" aria-label="Fix notes or words"><Pencil className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setFocus(true)} data-tip="Focus mode (F)" data-tip-pos="below" aria-label="Focus mode"><Maximize2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className="btn btn-ghost btn-icon max-sm:hidden" onClick={() => setHelpOpen(true)} data-tip="How to read the screen (?)" data-tip-pos="below" aria-label="Help"><HelpCircle className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <span className="max-sm:hidden"><ThemeToggle /></span>
-                <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
+                <button className={`btn btn-icon ${settingsOpen ? "bg-hover" : ""}`} onClick={() => setSettingsOpen((v) => !v)} data-tip="Settings" data-tip-pos="below" aria-label="Settings" aria-expanded={settingsOpen}><SlidersHorizontal className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
               </div>
             )}
           </motion.header>
@@ -503,7 +503,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           {toast && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} className="floating absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 text-sm" role="status">{toast}</motion.div>}
         </AnimatePresence>
         {focus && (
-          <button className="btn btn-ghost btn-icon absolute right-4 top-4 opacity-40 hover:opacity-100 focus-visible:opacity-100" onClick={() => setFocus(false)} data-tip="Leave focus mode (F)" aria-label="Leave focus mode"><Minimize2 className="h-5 w-5" /></button>
+          <button className="btn btn-ghost btn-icon absolute right-4 top-4 opacity-40 hover:opacity-100 focus-visible:opacity-100" onClick={() => setFocus(false)} data-tip="Leave focus mode (F)" data-tip-pos="below" aria-label="Leave focus mode"><Minimize2 className="h-5 w-5" /></button>
         )}
         {showFingering && !editing && (
           <div className="absolute bottom-3 left-3 hidden sm:block">
