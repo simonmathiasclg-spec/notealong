@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Check, HelpCircle, Info, Loader2, Maximize2, Minimize2, Music2, Pencil, Redo2, SlidersHorizontal, Type, Undo2 } from "lucide-react";
 import { Suspense } from "react";
-import { api, isCatalogSong } from "@/lib/api";
+import { api, formatTime, isCatalogSong } from "@/lib/api";
 import { AudioEngine, type EngineState } from "@/lib/audio";
 import { buildDisplayLines, currentLineIndex, unsureLines, type DisplayLine } from "@/lib/display";
 import { extendLoopToLine, linesInLoop, loopForLines, LOOP_LEAD } from "@/lib/loop";
@@ -30,7 +30,8 @@ import { SettingsPanel } from "./SettingsPanel";
 import { HelpOverlay } from "./HelpOverlay";
 import { FingeringHint } from "./FingeringHint";
 import { usePref } from "@/lib/prefs";
-import { NotePopover, WordPopover, type Anchor } from "./EditPopover";
+import { FlagPopover, NotePopover, WordPopover, type Anchor } from "./EditPopover";
+import { flagNote, readFlags } from "@/lib/flags";
 import * as noteEdit from "@/lib/noteedit";
 import { SetlistBar } from "./SetlistBar";
 import { FavouriteButton } from "../Favourite";
@@ -361,6 +362,28 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     if (t < loop[0] || t > loop[1]) engineRef.current?.seek(loop[0]);
   }, [lines, cursor.line, session.loop, song.duration, update, dismissLoopHint]);
 
+  // ---- "this note sounds wrong" ----------------------------------------
+  const [flagTick, setFlagTick] = useState(0);
+  const [flagAnchor, setFlagAnchor] = useState<(Anchor & { id: string }) | null>(null);
+  const flagged = useMemo(() => {
+    void flagTick;                                    // the list lives in the browser; re-read after each mark
+    const mine = readFlags().filter((f) => f.song_id === song.id);
+    return new Set(song.notes.filter((n) => mine.some((f) => Math.abs(f.start - n.start) < 0.011)).map((n) => n.id));
+  }, [song.id, song.notes, flagTick]);
+  const markWrong = useCallback((id?: string | null) => {
+    const t = engineRef.current?.currentTime ?? 0;
+    // no note named: the one sounding now, else the last one that started (you react a moment after you hear it)
+    const note = id ? song.notes.find((n) => n.id === id)
+      : song.notes.find((n) => n.id === cursor.note) ?? [...song.notes].reverse().find((n) => n.start <= t && t - n.start < 3);
+    if (!note) { setToast("No note here to mark."); return; }
+    const word = note.word ? song.words.find((w) => w.id === note.word)?.text ?? null : null;
+    const on = flagNote({ song_id: song.id, start: note.start, end: note.end, midi: note.midi, line: note.line, time: Math.round(t * 100) / 100,
+      word, melody: song.settings?.melody ?? null, pipeline: (song.quality as { pipeline?: number } | undefined)?.pipeline ?? null });
+    setFlagTick((v) => v + 1);
+    const name = noteInfo.get(note.id)?.label ?? "note";
+    setToast(on ? `Marked ${name}${word ? ` on "${word}"` : ""} at ${formatTime(note.start)} as sounding wrong. Mark it again to undo.` : `Mark on ${name} at ${formatTime(note.start)} removed.`);
+  }, [song, cursor.note, noteInfo]);
+
   // ---- keyboard shortcuts ---------------------------------------------
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -378,6 +401,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         case "f": case "F": setFocus((f) => !f); break;
         case "h": case "H": toggleHear(); break;
         case "e": case "E": setEditing((v) => !v); break;
+        case "w": case "W": if (!e.metaKey && !e.ctrlKey && !e.altKey) markWrong(); break;
         case "v": case "V": if (!e.metaKey && !e.ctrlKey && !e.altKey) setViewPref(view === "sheet" ? "letters" : "sheet"); break;
         case "?": setHelpOpen((v) => !v); break;
         case "Escape":
@@ -390,7 +414,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, session.loop, helpOpen, settingsOpen, toggleHear, view, setViewPref]);
+  }, [togglePlay, skipLine, loopCurrentLine, update, session.key_shift, session.loop, helpOpen, settingsOpen, toggleHear, view, setViewPref, markWrong]);
 
   // ---- editing -------------------------------------------------------
   const [noteAnchor, setNoteAnchor] = useState<(Anchor & { id: string }) | null>(null);
@@ -599,6 +623,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
           noteInfo={noteInfo} script={session.script} editing={editing}
           timing={timing} cue={cursor} beat={beat} getTime={getSmoothTime}
           onNoteClick={(id, el) => { setWordAnchor(null); setNoteAnchor({ id, el }); }}
+          onNoteTap={(id, el) => setFlagAnchor({ id, el })} flagged={flagged}
           onWordClick={(word, el) => { setNoteAnchor(null); setWordAnchor({ word, el }); }}
           onAddNote={addNote}
           onLineClick={clickLine}
@@ -697,7 +722,10 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
         onDelete={() => noteAnchor && deleteNote(noteAnchor.id)} onClose={() => setNoteAnchor(null)}
         onRetime={(a, b) => noteAnchor && retimeNote(noteAnchor.id, a, b)} onNudge={(d) => noteAnchor && nudgeNote(noteAnchor.id, d)}
         onSplit={() => noteAnchor && splitNote(noteAnchor.id)} onJoin={() => noteAnchor && joinNote(noteAnchor.id)}
-        onShiftLine={(d) => noteAnchor && shiftNoteLine(noteAnchor.id, d)} />
+        onShiftLine={(d) => noteAnchor && shiftNoteLine(noteAnchor.id, d)}
+        flagged={!!noteAnchor && flagged.has(noteAnchor.id)} onFlag={() => noteAnchor && markWrong(noteAnchor.id)} />
+      <FlagPopover anchor={flagAnchor} flagged={!!flagAnchor && flagged.has(flagAnchor.id)}
+        onFlag={() => { if (flagAnchor) markWrong(flagAnchor.id); setFlagAnchor(null); }} onClose={() => setFlagAnchor(null)} />
       <WordPopover anchor={wordAnchor} value={wordAnchor?.word.text ?? ""} onSave={(t) => wordAnchor && editWord(wordAnchor.word.id, t)}
         onAddNote={() => wordAnchor && addNote(wordAnchor.word.id, wordAnchor.word.line)} onClose={() => setWordAnchor(null)} />
     </div>

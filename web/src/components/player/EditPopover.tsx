@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Link2, Plus, Scissors, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Flag, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Link2, Plus, Scissors, Trash2 } from "lucide-react";
 
 export type Anchor = { el: HTMLElement } | null;
 
@@ -53,9 +53,9 @@ function TimingStrip({ t, onRetime }: { t: NoteTiming; onRetime: (start: number,
   );
 }
 
-export function NotePopover({ anchor, label, timing, onUp, onDown, onDelete, onClose, onRetime, onNudge, onSplit, onJoin, onShiftLine }: {
+export function NotePopover({ anchor, label, timing, onUp, onDown, onDelete, onClose, onRetime, onNudge, onSplit, onJoin, onShiftLine, flagged, onFlag }: {
   anchor: Anchor; label: string; timing?: NoteTiming | null; onUp: () => void; onDown: () => void; onDelete: () => void; onClose: () => void;
-  onRetime?: (start: number, end: number) => void; onNudge?: (delta: number) => void; onSplit?: () => void; onJoin?: () => void; onShiftLine?: (delta: number) => void;
+  onRetime?: (start: number, end: number) => void; onNudge?: (delta: number) => void; onSplit?: () => void; onJoin?: () => void; onShiftLine?: (delta: number) => void; flagged?: boolean; onFlag?: () => void;
 }) {
   const pos = usePosition(anchor);
   const ref = useRef<HTMLDivElement>(null);
@@ -88,6 +88,7 @@ export function NotePopover({ anchor, label, timing, onUp, onDown, onDelete, onC
         {onSplit && <button className="btn btn-ghost btn-icon" onClick={onSplit} data-tip="Split in two (S)" aria-label="Split in two"><Scissors className="h-4 w-4" /></button>}
         {onJoin && <button className="btn btn-ghost btn-icon" onClick={onJoin} data-tip="Join with the next note (J)" aria-label="Join with the next note"><Link2 className="h-4 w-4" /></button>}
         <span className="flex-1" />
+        {onFlag && <button className={`btn btn-ghost btn-icon ${flagged ? "text-danger" : ""}`} onClick={onFlag} aria-pressed={!!flagged} data-tip={flagged ? "Marked as sounding wrong (W to undo)" : "This note sounds wrong (W)"} aria-label="This note sounds wrong"><Flag className="h-4 w-4" /></button>}
         <button className="btn btn-ghost btn-icon text-danger" onClick={onDelete} data-tip="Remove (Delete)" aria-label="Remove"><Trash2 className="h-4 w-4" /></button>
       </div>
       {timing && onRetime && (
@@ -109,6 +110,29 @@ export function NotePopover({ anchor, label, timing, onUp, onDown, onDelete, onC
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Outside "fix notes": a tap on a note offers one thing, to mark it as sounding wrong. */
+export function FlagPopover({ anchor, flagged, onFlag, onClose }: { anchor: Anchor; flagged: boolean; onFlag: () => void; onClose: () => void }) {
+  const pos = usePosition(anchor);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!anchor) return;
+    const onDoc = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node) && !anchor.el.contains(e.target as Node)) onClose(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("mousedown", onDoc);
+    window.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); window.removeEventListener("keydown", onKey); };
+  }, [anchor, onClose]);
+  if (!anchor || !pos) return null;
+  return (
+    <div ref={ref} role="dialog" aria-label="Mark this note" className="floating fixed z-50 p-1.5" style={{ left: pos.left, top: pos.top + 8 }}>
+      <button className="btn btn-ghost btn-sm gap-2" onClick={onFlag} autoFocus>
+        <Flag className={`h-4 w-4 ${flagged ? "text-danger" : ""}`} />
+        {flagged ? "Remove the mark" : "This note sounds wrong"}
+      </button>
     </div>
   );
 }

@@ -10,6 +10,8 @@
 set -e
 cd "$(dirname "$0")"
 ROOT=$PWD
+# refuse to deploy if internal test material could ship
+python3 service/scripts/check_no_test_material.py
 ENVF=$ROOT/.env.cloud
 SUPA_ORG=${SUPA_ORG:-tbmibpkmyuntvywispqj}
 SUPA_REGION=${SUPA_REGION:-us-east-1}

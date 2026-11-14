@@ -10,6 +10,7 @@ const KEYS: [string, string][] = [
   ["V", "Switch between letters and sheet music"],
   ["F", "Focus mode: hide everything but the words"],
   ["E", "Fix notes and words"],
+  ["W", "Mark the note you just heard as sounding wrong (or tap the note)"],
   ["↑ / ↓", "With a note selected while fixing: a semitone higher or lower"],
   ["← / →", "With a note selected: move it earlier or later (Shift for small steps)"],
   ["[ / ]", "With a note selected: move its whole line earlier or later"],

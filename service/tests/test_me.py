@@ -42,3 +42,15 @@ def test_search_index_has_lyrics_and_ranges(tmp_path, monkeypatch):
     lo, hi = grace["range"]
     assert 50 < lo < hi < 85
     assert all(r["kind"] in ("catalog", "upload") for r in rows)
+
+
+def test_a_note_marked_as_sounding_wrong_is_kept_once_and_can_be_unmarked(tmp_path, monkeypatch):
+    c = client(tmp_path, monkeypatch)
+    flag = {"song_id": "my-song", "start": 38.05, "end": 38.4, "midi": 64, "line": 7, "time": 38.2, "word": "be", "melody": "sax", "pipeline": 7}
+    assert c.post("/api/me/flags", json=flag).json()["count"] == 1
+    assert c.post("/api/me/flags", json=flag).json()["count"] == 1                     # the same note again: still one mark
+    assert c.post("/api/me/flags", json={**flag, "start": 40.0}).json()["count"] == 2
+    got = c.get("/api/me/flags").json()["flags"]
+    assert [(f["song_id"], f["start"], f["midi"], f["line"], f["word"]) for f in got] == [("my-song", 38.05, 64, 7, "be"), ("my-song", 40.0, 64, 7, "be")]
+    assert c.post("/api/me/flags", json={**flag, "on": False}).json()["count"] == 1
+    assert c.post("/api/me/flags", json={**flag, "song_id": "../x"}).status_code == 400

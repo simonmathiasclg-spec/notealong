@@ -353,6 +353,33 @@ def put_favourite(song_id: str, body: FavouriteBody):
         raise HTTPException(400, "Bad song id")
 
 
+class FlagBody(BaseModel):
+    song_id: str
+    start: float
+    end: float = 0.0
+    midi: int = 0
+    line: int = 0
+    time: float = 0.0
+    word: str | None = None
+    melody: str | None = None
+    pipeline: int | None = None
+    on: bool = True
+
+
+@app.get("/api/me/flags")
+def get_flags():
+    """The notes marked "this note sounds wrong", for the Melody Lab."""
+    return {"flags": me_store.flags()}
+
+
+@app.post("/api/me/flags")
+def post_flag(body: FlagBody):
+    try:
+        return {"count": len(me_store.set_flag(body.model_dump(), body.on))}
+    except ValueError:
+        raise HTTPException(400, "Bad song id")
+
+
 @app.post("/api/songs/{song_id}/played")
 def song_played(song_id: str):
     """Called once when a song really starts playing; drives "Most played" and "Jump back in"."""

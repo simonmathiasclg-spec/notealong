@@ -133,3 +133,24 @@ def forget_song(song_id: str) -> None:
         for row in all_:
             row["songs"] = [s for s in row.get("songs", []) if s != song_id]
         _write("setlists.json", all_)
+
+
+# ---- "this note sounds wrong" -------------------------------------------------
+def flags() -> list[dict]:
+    """Notes the player marked as sounding wrong, oldest first (scripts/lab/flags_to_cases.py reads them)."""
+    return [f for f in _read("flags.json", []) if isinstance(f, dict)]
+
+
+def set_flag(entry: dict, on: bool) -> list[dict]:
+    """Adds the mark, or takes it away again: one mark per song and note start."""
+    song_id = _valid_id(str(entry.get("song_id", "")))
+    start = round(float(entry.get("start", 0.0)), 2)
+    with _lock:
+        rest = [f for f in flags() if not (f.get("song_id") == song_id and abs(float(f.get("start", -9)) - start) < 0.011)]
+        if on:
+            rest.append({"song_id": song_id, "start": start, "end": round(float(entry.get("end", start)), 2), "midi": int(entry.get("midi", 0)),
+                         "line": int(entry.get("line", 0)), "time": round(float(entry.get("time", start)), 2),
+                         "word": str(entry.get("word") or "")[:80] or None, "melody": str(entry.get("melody") or "")[:20] or None,
+                         "pipeline": entry.get("pipeline"), "at": _now()})
+        _write("flags.json", rest[-5000:])
+        return rest

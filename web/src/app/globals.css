@@ -226,6 +226,7 @@ input[type="range"] { accent-color: var(--fg); width: 100%; height: 1.25rem; }
   100% { filter: brightness(1); }
 }
 .note-chip[data-state="past"] { opacity: .38; }
+.note-chip[data-flagged] { text-decoration: underline wavy var(--danger); text-decoration-thickness: .07em; text-underline-offset: .16em; }
 .note-chip[data-range="out"] { border-color: var(--danger); color: var(--danger); border-style: dashed; background: transparent; }
 .note-chip[data-range="out"][data-state="current"] { background: var(--danger); border-color: var(--danger); color: #fff; }
 .acc { display: inline-block; width: .5em; height: .82em; margin-left: .02em; align-self: flex-start; margin-top: -.05em; }

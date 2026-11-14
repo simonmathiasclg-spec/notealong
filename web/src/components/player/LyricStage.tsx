@@ -25,6 +25,10 @@ export type StageProps = {
   beat: number;
   getTime: () => number;
   onNoteClick?: (noteId: string, el: HTMLElement) => void;
+  /** A tap on a note while not fixing notes: offers "This note sounds wrong". */
+  onNoteTap?: (noteId: string, el: HTMLElement) => void;
+  /** Ids of the notes marked as sounding wrong. */
+  flagged?: Set<string>;
   onWordClick?: (word: Word, el: HTMLElement) => void;
   onAddNote?: (wordId: string | null, lineIndex: number) => void;
   onLineClick?: (line: DisplayLine) => void;
@@ -134,8 +138,8 @@ function LineRow({ line, role, ...p }: StageProps & { line: DisplayLine; role: "
                   const chip = (
                     <NoteChip key={n.id} note={info} state={st} size={chipSize}
                       cue={p.timing && role === "current" && p.cue.cue === n.id && st === "future"}
-                      onClick={p.editing ? (e) => p.onNoteClick?.(n.id, e.currentTarget) : undefined}
-                      title={p.editing ? "Click to change this note" : undefined}
+                      onClick={p.editing ? (e) => p.onNoteClick?.(n.id, e.currentTarget) : p.onNoteTap ? (e) => { e.stopPropagation(); p.onNoteTap?.(n.id, e.currentTarget); } : undefined}
+                      title={p.editing ? "Click to change this note" : undefined} flagged={p.flagged?.has(n.id)}
                     />
                   );
                   const cell = cells.get(n.id);
