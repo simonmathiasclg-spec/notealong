@@ -1,4 +1,4 @@
-"""Melody Lab, internal testing only: find and fetch, per song, the original recording and three solo
+"""Melody Lab, internal testing only: find and fetch, per song, the original recording and up to six solo
 instrument covers of the vocal melody from YouTube into the gitignored test-recordings/lab/.
 
     .venv/bin/python scripts/lab/collect.py [slug ...]
@@ -18,6 +18,7 @@ LAB = ROOT / "test-recordings" / "lab"
 SONGS = json.loads((Path(__file__).parent / "songs.json").read_text())
 INSTRUMENTS = [("saxophone", r"sax"), ("violin", r"violin|violín|fiddle"), ("flute", r"flute|flauta"),
                ("trumpet", r"trumpet|trompet"), ("clarinet", r"clarinet"), ("cello", r"cello")]
+WANT = 6          # candidates per song; the answer key keeps the ones that fit the singer (keys.py)
 BAD = re.compile(r"karaoke|tutorial|lesson|how to|sheet music|backing track|play.?along|1 hour|hour|loop|piano|guitar|"
                  r"duet|quartet|ensemble|orchestra|band|live|reaction|medley|mashup|slowed|8d|remix|lyrics? video|easy|beginner|notes", re.I)
 BAD_ORIGINAL = re.compile(r"karaoke|cover|live|remix|reaction|instrumental|slowed|sped|8d|tutorial|concert", re.I)
@@ -59,13 +60,14 @@ def main() -> int:
                 if 110 <= dur <= 400 and not BAD_ORIGINAL.search(title) and fetch(vid, d / "original.m4a"):
                     m["original"], m["duration"], length = {"id": vid, "title": title}, dur, dur
                     break
-        if s.get("popular") and len(list((ROOT / "test-recordings" / "popular" / slug / "covers").glob("*.m4a"))) >= 3 and slug != "wonderwall":
+        if s.get("popular") and len(list((ROOT / "test-recordings" / "popular" / slug / "covers").glob("*.m4a"))) >= 3 and slug != "wonderwall" or slug == "despacito":
             mpath.write_text(json.dumps(manifest, indent=1))
             continue
         for name, pat in INSTRUMENTS:
-            if len(m["covers"]) >= 3:
+            if len(m["covers"]) >= WANT:
                 break
-            if any(c["instrument"] == name for c in m["covers"].values()):
+            have = sum(c["instrument"] == name for c in m["covers"].values())
+            if have >= 2:
                 continue
             for vid, dur, title in search(f"{s['title']} {s['artist']} {name} cover", 10):
                 if vid in m["covers"] or not re.search(pat, title, re.I) or BAD.search(title):
@@ -74,7 +76,9 @@ def main() -> int:
                     continue
                 if fetch(vid, d / "covers" / f"{vid}.m4a"):
                     m["covers"][vid] = {"instrument": name, "title": title, "duration": dur}
-                    break
+                    have += 1
+                    if have >= 2 or len(m["covers"]) >= WANT:
+                        break
         print(slug, "original" in m or bool(s.get("upload") or s.get("popular")), [c["instrument"] for c in m["covers"].values()], flush=True)
         mpath.write_text(json.dumps(manifest, indent=1))
     return 0

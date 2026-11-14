@@ -43,3 +43,55 @@ def old_module(commit: str):
     sys.modules[spec.name] = mod
     spec.loader.exec_module(mod)
     return mod
+
+
+def combo(params: dict | None = None, d_min: float = 0.12, resume: float = 0.15, in_key: bool = True):
+    """Two methods vote: the Sax-friendly notes, plus every Detailed note that the Sax-friendly melody holds
+    straight through on another pitch (a note it swallowed), if it lasts `d_min` and is in the key."""
+    base = sax(params)
+
+    def run(slug: str) -> list[dict]:
+        S = sorted((dict(n) for n in base(slug)), key=lambda n: n["start"])
+        key = load_song(slug).get("key") or {}
+        scale = {(key.get("tonic", 0) + s) % 12 for s in (sm.MINOR_SCALE if key.get("mode") == "minor" else sm.MAJOR_SCALE)}
+        out = list(S)
+        for dn in sorted(detailed(slug), key=lambda n: n["start"]):
+            if dn["end"] - dn["start"] < d_min or (in_key and dn["midi"] % 12 not in scale):
+                continue
+            if any(abs(n["start"] - dn["start"]) <= 0.12 for n in out):
+                continue
+            host = next((n for n in out if n["start"] < dn["start"] < n["end"] - 0.03), None)
+            if host is None or (host["midi"] - dn["midi"]) % 12 == 0:
+                continue
+            end = host["end"]
+            host["end"] = dn["start"]
+            new = {"start": dn["start"], "end": min(dn["end"], end), "midi": dn["midi"], "word": host.get("word"), "syl": host.get("syl")}
+            out.append(new)
+            if end - new["end"] >= resume:
+                out.append({**host, "start": new["end"], "end": end})
+            out.sort(key=lambda n: n["start"])
+        return out
+    return run
+
+
+def pruned(params: dict | None = None, shortest: float = 0.0, need_support: float = 0.0):
+    """The Sax-friendly notes with (a) notes shorter than `shortest` taken out (their time goes to the note
+    before), and (b) notes shorter than `need_support` kept only if the Detailed transcription has the same
+    note name within 200 ms: the second method's vote on the doubtful ones."""
+    base = sax(params)
+
+    def run(slug: str) -> list[dict]:
+        S = sorted((dict(n) for n in base(slug)), key=lambda n: n["start"])
+        D = sorted(detailed(slug), key=lambda n: n["start"]) if need_support else []
+        out: list[dict] = []
+        for i, n in enumerate(S):
+            sounding = (S[i + 1]["start"] if i + 1 < len(S) else n["end"]) - n["start"]
+            dur = min(n["end"] - n["start"], sounding)
+            drop = dur < shortest or (dur < need_support and not any(abs(d["start"] - n["start"]) <= 0.2 and (d["midi"] - n["midi"]) % 12 == 0 for d in D))
+            if drop:
+                if out and abs(out[-1]["end"] - n["start"]) < 0.02:
+                    out[-1]["end"] = n["end"]
+                continue
+            out.append(n)
+        return out
+    return run

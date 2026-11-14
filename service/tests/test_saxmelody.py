@@ -118,10 +118,20 @@ def test_a_syllable_is_not_held_across_a_silence_into_the_next_entry():
     assert notes[0]["end"] < 1.8                                   # a real rest, not a note held through it
 
 
-def test_a_short_higher_note_a_syllable_lands_on_is_kept_but_a_scoop_from_below_is_not():
-    midi, conf, db = curve([(1.0, 1.25, 67), (1.25, 2.3, 64), (4.0, 4.25, 62), (4.25, 5.3, 64)])
+def test_a_pitch_held_for_a_moment_is_a_note_but_a_slide_through_it_is_not():
+    # Melody Lab: on 49 songs the old rule (a second pitch must be held up to half a second) swallowed real
+    # notes. A pitch the voice sits on for 0.15 s is a note; one it only passes through (0.06 s) is not.
+    midi, conf, db = curve([(1.0, 1.15, 67), (1.15, 2.3, 64), (4.0, 4.06, 62), (4.06, 5.3, 64)])
     notes = sax_notes(midi, conf, db, words(("be", 1.0, 2.3), ("be", 4.0, 5.3)), key=C_MAJOR)
     assert [n["midi"] for n in notes] == [67, 64, 64]
+
+
+def test_a_note_after_a_silence_is_long_enough_to_be_heard():
+    # "Let it be": the first note was 0.1 s long and could not be heard. It starts earlier, into the silence.
+    midi, conf, db = curve([(2.0, 2.1, 64), (2.1, 2.5, 62), (2.5, 3.5, 60)])
+    notes = sax_notes(midi, conf, db, words(("let", 1.9, 2.1), ("it", 2.1, 2.5), ("be", 2.5, 3.5)), key=C_MAJOR)
+    assert [n["midi"] for n in notes] == [64, 62, 60]
+    assert notes[1]["start"] - notes[0]["start"] >= 0.19 and notes[0]["end"] == notes[1]["start"]
 
 
 def test_notes_keep_the_sung_timing_and_are_not_moved_onto_the_beat():

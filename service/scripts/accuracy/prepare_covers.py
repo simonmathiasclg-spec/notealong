@@ -105,16 +105,22 @@ def main(argv: list[str]) -> int:
         t0 = time.time()
         stems = demucs4(src, out / "stems")
         if a.tracker == "lead":
-            # a solo instrument over an accompaniment: both stems it can land in, mixed, and only pitches from F3
-            # up, so the tracker follows the lead and not the piano or guitar under it (Melody Lab)
+            # a solo instrument over an accompaniment: a one-voice tracker follows whichever is louder, so the notes
+            # sounding are found with Basic Pitch and the top voice through them is the lead (Melody Lab)
             import soundfile as sf
+            from notealong.pipeline import hooks
             mix = sum(load_mono(stems[n], sr=16000)[0] for n in ("vocals", "other"))
             best = "vocals+other"
             tmp = out / "_lead.wav"
             sf.write(str(tmp), mix, 16000)
-            midi, per = crepe(tmp, model="tiny", fmin=175, fmax=2100)
-            y, sr = mix, 16000
+            act = hooks.note_activations(tmp, 0.0, len(mix) / 16000 + 1.0)
             tmp.unlink()
+            lead, strength = hooks.lead_path(act)
+            n = int(np.ceil(len(mix) / 160))
+            ix = np.minimum((np.arange(n) * HOP * len(act) / (len(mix) / 16000)).astype(int), len(lead) - 1)
+            midi = np.nan_to_num(lead[ix], nan=0.0)
+            per = np.where(midi > 0, np.clip(0.5 + strength[ix], 0.0, 1.0), 0.0)
+            y, sr = mix, 16000
         else:
             # pitch-track only the louder of the two stems a sax can land in
             lvl = {n: float(np.sqrt(np.mean(load_mono(stems[n], sr=16000)[0] ** 2))) for n in ("vocals", "other")}

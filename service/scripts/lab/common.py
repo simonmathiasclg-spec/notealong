@@ -14,7 +14,7 @@ BY_SLUG = {s["slug"]: s for s in SONGS}
 
 def song_dir(slug: str) -> Path:
     s = BY_SLUG[slug]
-    return ROOT / "library" / s["upload"] if s.get("upload") else TEST / "library" / slug
+    return ROOT / "library" / s["upload"] if s.get("upload") else TEST / "library" / s.get("song_id", slug)
 
 
 def cover_files(slug: str) -> list[Path]:
@@ -22,8 +22,8 @@ def cover_files(slug: str) -> list[Path]:
     if BY_SLUG[slug].get("popular") and slug != "wonderwall":
         out += sorted((TEST / "popular" / slug / "covers").glob("*.m4a"))
     if slug == "despacito":
-        out += [p for p in sorted((TEST / "youtube").glob("*.m4a")) if (p.with_suffix("") / "stems").exists()]
-    return out
+        out += sorted((TEST / "youtube").glob("*.m4a"))
+    return list({p.stem: p for p in out}.values())
 
 
 def load_song(slug: str) -> dict:

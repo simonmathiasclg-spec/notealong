@@ -2,10 +2,10 @@
 
     .venv/bin/python scripts/lab/keys.py [slug ...]        -> test-recordings/lab/keys/<slug>.json
 
-1. every cover: key difference undone (chroma, all 12 transpositions), octave moved to the singer's
-   register, time-aligned to the original (chroma DTW of the two mixes);
-   and, separately, its melody line aligned straight to the singer's pitch line (DTW on note names);
-   whichever of the two fits the singer better is used;
+1. every cover: its lead line (lead.py) aligned straight to the singer's pitch line (DTW on note names,
+   tried in the three most likely keys, which also undoes a key change); as a second opinion the two mixes
+   are aligned by their harmony (chroma DTW); whichever fits the singer better is used. The octave is
+   moved to the singer's register;
 2. then lined up finely with the original's VOCAL stem: in 8 s windows the cover's pitch line is slid up to
    0.6 s either way to where it agrees best with the singer's pitch line (note names only). Windows
    where it never agrees are cut: an intro, a solo, a verse the cover leaves out or adds;
@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "accuracy"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import answer_key as ak  # noqa: E402
-from common import KEYS, SONGS, cover_files, load_song, song_dir  # noqa: E402
+from common import KEYS, LAB, SONGS, cover_files, load_song, song_dir  # noqa: E402
 from notealong.pipeline import saxmelody as sm  # noqa: E402
 from notealong.pipeline.syllables import count_syllables  # noqa: E402
 
@@ -114,6 +114,37 @@ def line_on_song(cov: Path, k: int, tc: np.ndarray, ts: np.ndarray, n: int) -> n
     return line
 
 
+def segment_lead(midi: np.ndarray, onset: np.ndarray, struck: float = 0.75) -> list[dict]:
+    """Notes of a cover's lead line (lead.py: whole semitones, 0 = silent): a note starts where the pitch
+    changes, after a silence, or where the same pitch is very clearly struck again (Basic Pitch's onset at that
+    pitch). Measured on Let It Be: a lower bar (0.45 to 0.6) also cuts held notes in two, so only clear
+    re-strikes count and the scorer does not judge repeats of a held pitch at all (score.py)."""
+    notes, n = [], len(midi)
+    i = 0
+    while i < n:
+        if midi[i] <= 0:
+            i += 1
+            continue
+        j = i + 1
+        while j < n:
+            if midi[j] != midi[i]:
+                # a hole of up to 3 frames inside one pitch is bridged
+                h = j
+                while h < n and h - j < 3 and midi[h] <= 0:
+                    h += 1
+                if h < n and h > j and midi[h] == midi[i]:
+                    j = h
+                    continue
+                break
+            if j - i >= 10 and onset[j] >= struck and onset[j] >= onset[j - 1] and onset[j] > onset[min(n - 1, j + 1)]:
+                break                                        # the same note struck again
+            j += 1
+        if j - i >= 6:
+            notes.append({"start": i * HOP, "end": j * HOP, "midi": int(midi[i])})
+        i = j
+    return notes
+
+
 def pc_match(a: np.ndarray, b: np.ndarray) -> float:
     both = ~np.isnan(a) & ~np.isnan(b)
     if both.sum() < 60:
@@ -147,7 +178,7 @@ def lags(line: np.ndarray, voice: np.ndarray, win: float = 8.0, hop: float = 2.0
 def build(slug: str, verbose: bool = True) -> dict | None:
     d = song_dir(slug)
     covers = list({c.stem: c for c in cover_files(slug) if (c.with_suffix("") / ak.F0_NAME).exists()}.values())
-    if len(covers) < 2 or not (d / "song.json").exists():
+    if len(covers) < 2 or not (d / "song.json").exists() or not (d / "pitch.npz").exists() or '"status": "ready"' not in (d / "song.json").read_text():
         return None
     song = load_song(slug)
     mix = next(iter(sorted(d.glob("original.*"))))
@@ -158,24 +189,18 @@ def build(slug: str, verbose: bool = True) -> dict | None:
     per = {}
     for cov in covers:
         try:
-            k, costs = ak.best_shift(cov, mix)
-            # the key by the singer's pitch line as well: the transposition whose notes the singer sings most
-            line, tc, ts = cover_on_song(cov, song_c, k, n)
-            alt = {}
-            for sh in range(-6, 6):
-                alt[sh] = pc_match(line - sh, voice)
-            sh = max(alt, key=alt.get)
-            if sh != 0 and alt[sh] > alt[0] + 0.15:
-                k += sh
-                line, tc, ts = cover_on_song(cov, song_c, k, n)
+            # the melody aligned straight to the singer's pitch line (this also finds the key difference) ...
+            k, tc, ts = melody_map(cov, voice)
+            line = line_on_song(cov, k, tc, ts, n)
             cen, lag, sc = lags(line, voice)
-            how = "mix"
-            k2, tc2, ts2 = melody_map(cov, voice)
-            line2 = line_on_song(cov, k2, tc2, ts2, n)
+            how = "melody"
+            # ... and the two mixes aligned by their harmony, in the same key; the one that fits the singer better is used
+            line2, tc2, ts2 = cover_on_song(cov, song_c, k, n)
             cen2, lag2, sc2 = lags(line2, voice)
             if len(sc2) and (not len(sc) or float(np.mean(sc2)) > float(np.mean(sc)) + 0.03):
-                k, tc, ts, cen, lag, sc, how = k2, tc2, ts2, cen2, lag2, sc2, "melody"
-            notes = ak.segment(*(np.load(cov.with_suffix("") / ak.F0_NAME)[q] for q in ("midi", "periodicity", "db")))
+                tc, ts, cen, lag, sc, how = tc2, ts2, cen2, lag2, sc2, "mix"
+            z = np.load(cov.with_suffix("") / ak.F0_NAME)
+            notes = segment_lead(z["midi"], z["onset"])
         except Exception as e:  # noqa: BLE001
             print(f"  {cov.stem}: failed ({e})")
             continue
@@ -296,6 +321,8 @@ def build(slug: str, verbose: bool = True) -> dict | None:
            "scored_lines": len(good), "scored_notes": sum(ln["notes"] for ln in good)}
     if len(good) < 6 or key["scored_notes"] < 40:
         key["dropped"] = "too few lines where the covers agree"
+    (LAB / "cover-notes").mkdir(parents=True, exist_ok=True)
+    (LAB / "cover-notes" / f"{slug}.json").write_text(json.dumps({c: [{"start": round(x["start"], 3), "end": round(x["end"], 3), "midi": x["midi"]} for x in per[c]["notes"]] for c in used}))
     if verbose:
         print(f"  {slug}: {len(clean)} notes, {len(good)}/{len(lines)} lines kept ({sum(1 for g in good if g['confidence'] == 'high')} high), "
               f"{key['scored_notes']} notes scored{'  DROPPED' if key.get('dropped') else ''}", flush=True)

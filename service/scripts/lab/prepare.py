@@ -3,7 +3,7 @@
     .venv/bin/python scripts/lab/prepare.py [slug ...]
 
 For every song: the original through the upload pipeline into test-recordings/library/<slug> (unless it is
-an upload or already there), then every cover split and pitch-tracked (CREPE tiny from F3 up on the vocals and other stems mixed, 10 ms).
+an upload or already there), The covers need no heavy job: scripts/lab/lead.py.
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from common import BY_SLUG, LAB, ROOT, SONGS, cover_files, song_dir  # noqa: E402
+from common import BY_SLUG, LAB, ROOT, SONGS, song_dir  # noqa: E402
 
 SERVICE = ROOT / "service"
 
@@ -44,10 +44,7 @@ def main() -> int:
             if not orig.exists():
                 print(slug, "no original, skipped", flush=True)
                 continue
-            heavy([".venv/bin/python", "scripts/accuracy/process_test_song.py", str(orig), slug, "--title", s["title"]])
-        todo = [c for c in cover_files(slug) if not (c.with_suffix("") / "f0_lead.npz").exists()]
-        for c in todo:
-            heavy([".venv/bin/python", "scripts/accuracy/prepare_covers.py", str(c), "--tracker", "lead"])
+            heavy([".venv/bin/python", "scripts/accuracy/process_test_song.py", str(orig), s.get("song_id", slug), "--title", s["title"]])
         print(f"{slug}: done in {time.time() - t0:.0f} s", flush=True)
     return 0
 
