@@ -22,6 +22,12 @@ export async function POST(req: Request) {
     });
     if (error) {
       console.error("sign-in email failed", error.message);
+      // Supabase's built-in sender only mails the project's own team; until an email sender (or Google) is set up
+      if (/not authori[sz]ed/i.test(error.message)) {
+        throw new HttpError(503, process.env.NEXT_PUBLIC_GOOGLE_AUTH === "1"
+          ? "Sign-in by email isn't open yet. Continue with Google instead."
+          : "New accounts aren't open just yet. Every built-in song is free to play in the meantime.");
+      }
       if (/captcha/i.test(error.message)) throw new HttpError(400, "The check above the button didn't go through. Try it again.");
       if (/rate|seconds|limit/i.test(error.message)) throw new HttpError(429, "Too many sign-in emails were sent just now. Try again in a few minutes, or continue with Google.");
       throw new HttpError(500, "The sign-in email could not be sent. Try again in a minute, or continue with Google.");

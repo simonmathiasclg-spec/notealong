@@ -1,4 +1,10 @@
-# NoteAlong (Phase 1 prototype)
+# NoteAlong
+
+**Live: [notealong.vercel.app](https://notealong.vercel.app)** (no sign-in needed to play the built-in songs)
+
+- **What it does:** upload a song and NoteAlong splits the voice from the backing track, transcribes the sung melody, and lines the notes up above each lyric syllable, transposed for your instrument (sax, trumpet, clarinet, flute, violin and more), so you can play the tune over the real band.
+- **Stack:** Next.js (Vercel), Supabase (sign-in, Postgres with row-level security, storage), Modal GPU workers running Demucs (voice separation), Basic Pitch with a pitch-curve refinement (notes) and Whisper (word timings).
+- **Measured accuracy** ([docs/ACCURACY_REPORT.md](docs/ACCURACY_REPORT.md)): against solo instrument covers of nine popular songs, 83% of notes have the right note name, with a median note-start error of 53 ms; on clean solo singing (Vocadito, 40 excerpts) 84% of pitches are right and 0.9% are off by more than a semitone.
 
 Turn any song into a play-along screen for melody instruments. Drop in a song you love (an audio file or a
 video); NoteAlong
@@ -16,7 +22,7 @@ notealong/
 │   └── LICENSES.md  every sound source used (instrument recordings, soundfonts) and its licence
 ├── library/     Your own songs: library/<song-id>/{original.mp3, vocals.mp3, backing.mp3, song.json, …}
 ├── supabase/    The online version's database: migrations (tables, row-level security, storage), sign-in email, privacy check
-├── deploy.sh    Puts the online version (private beta) up, or updates it: Supabase, Modal, Vercel
+├── deploy.sh    Puts the online version up, or updates it: Supabase, Modal, Vercel (SUPA_ORG=<personal org> ./deploy.sh)
 ├── docs/        Design (design/REDESIGN.md, PRINCIPLES.md), screenshots, OVERNIGHT_REPORT.md, NEXT_REPORT.md, ACCURACY_REPORT.md (the rounds of work),
 │                listening-samples/ (backing tracks and "Hear it played" demos to judge by ear)
 └── REPORT.md    Results on three real songs, what works, where transcription is weakest, thresholds to tune first
@@ -267,13 +273,13 @@ instrument's written range. Playback (`lib/audio.ts`) uses two `<audio>` element
 with `preservesPitch` for speed changes; key changes swap in pitch-shifted renders made by the service
 with Rubber Band (`GET /api/songs/{id}/audio/backing?shift=-2`), cached per song, neighbours pre-rendered.
 
-## The online version (private beta)
+## The online version
 
-The same app can run online for invited testers. Locally nothing changes: without the Supabase settings the web
+The same app runs online at [notealong.vercel.app](https://notealong.vercel.app). Locally nothing changes: without the Supabase settings the web
 app talks to the processing service on this Mac (`./start.sh`), exactly as before.
 
 ```
-browser ──► Vercel (web/, Next.js) ──────────► Supabase: sign-in (email link), Postgres, Storage
+browser ──► Vercel (web/, Next.js) ──────────► Supabase: sign-in (Google, email link), Postgres, Storage
    │            │  /api/cloud/* routes                       ▲   every table and bucket has row-level security:
    │            ▼  (service role, always per user)          │   each user reaches only their own rows and files
    │        Modal: dispatch ─► gpu_job (T4: voice, notes, words)   cpu_job (key renders, trims, pasted lyrics)
@@ -284,25 +290,30 @@ browser ──► Vercel (web/, Next.js) ──────────► Supab
 - **Web app** (`web/`, Vercel): `NEXT_PUBLIC_SUPABASE_URL` switches it to the online version
   (`src/lib/cloud/`). Reads and simple changes (titles, note fixes, player settings, favourites, setlists) go
   straight to Supabase as the signed-in user; uploads, processing, key changes, deleting and the owner's
-  overview go through the routes in `src/app/api/cloud/`. `src/proxy.ts` sends signed-out visitors to `/sign-in`.
+  overview go through the routes in `src/app/api/cloud/`. `src/proxy.ts` lets guests open Discover, the search
+  and any built-in song; everything private sends them to `/sign-in`.
 - **Database** (`supabase/migrations/`): songs (the same song.json in a `data` column), edits to built-in songs,
-  favourites, plays, setlists, jobs (status, progress, errors, processing and GPU seconds), the beta list
-  (`allowlist`), the `waitlist`, and monthly totals without names. Storage: `uploads` (private, per user folder)
+  favourites, plays, setlists, jobs (status, progress, errors, processing and GPU seconds), the testers
+  (`allowlist`), the `waitlist` (`kind` = paid: interest in paid plans), each account's lifetime count of new
+  songs (`upload_counts`), and monthly totals without names. Storage: `uploads` (private, per user folder)
   and `catalog` (public: the built-in songs and their key renders).
 - **Processing** (`service/modal_app.py`, `service/notealong/cloud/`): the web app adds a row to `jobs` and calls
   the dispatcher, which starts a GPU or CPU function. The worker copies the song into a scratch folder, runs the
   same pipeline as the local service, writes the files and the song back, and records the time it took. It keeps
   running when the tab is closed; the song page reads the progress from the job row.
-- **Beta rules**: only emails on the beta list can make an account (a database trigger checks); 10 new songs per
-  user per 24 hours; files up to 50 MB and 12 minutes; the same file or recording again opens the song already
+- **Who can do what**: a guest (not signed in) plays every built-in song; anyone can make an account, which
+  converts one song of its own, for good; testers (emails on `allowlist`) and the owner add up to 10 a day. The
+  database enforces it on the inserts that make a new song (`check_new_song`, `count_new_song`); deleting the
+  song doesn't give it back, and a deleted account leaves only a salted hash of its email if it used its free
+  song. Files up to 50 MB and 12 minutes; the same file or recording again opens the song already
   there (looked for only among that user's songs). `/admin` is for the owner (`ADMIN_EMAIL`). `/terms` and
   `/privacy` are drafts for a lawyer to review. "Delete my account" removes every row and file.
 
 ### Put it online, or update it
 
 ```bash
-supabase login && vercel login && pip install modal && modal setup     # once
-./deploy.sh
+supabase login && vercel login && service/.venv/bin/pip install modal && service/.venv/bin/modal setup  # once
+SUPA_ORG=<your personal Supabase organization id> ./deploy.sh
 ```
 
 `deploy.sh` creates the Supabase project if `.env.cloud` names none, applies the migrations, uploads the built-in
@@ -316,15 +327,16 @@ and the owner's checklist.
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | the Supabase project (public values) |
 | `SUPABASE_SERVICE_ROLE_KEY` | server-only key for the routes (never sent to browsers) |
 | `PROCESSING_URL`, `WORKER_SECRET` | the Modal dispatcher's address and the shared secret it checks |
-| `ADMIN_EMAIL` | who may open `/admin` (comma-separated); unset means nobody |
+| `ADMIN_EMAIL` | who may open `/admin` (comma-separated); unset means nobody. deploy.sh also makes them testers |
+| `NEXT_PUBLIC_GOOGLE_AUTH` | `1` shows "Continue with Google" (set by deploy.sh when `GOOGLE_CLIENT_ID` is in `.env.cloud`) |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile on the email form (set when `TURNSTILE_SITE_KEY` is in `.env.cloud`) |
 
 Modal reads `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `WORKER_SECRET` from its secret `notealong-supabase`.
 
-### Invite a tester
+### Make someone a tester
 
-Open `/admin` while signed in as `ADMIN_EMAIL` and add their email (or add a row to `allowlist` in Supabase's
-Table editor; emails in lower case). Tell them the address of the site: they enter their email on the sign-in page
-and get a link. People who aren't invited can join the waitlist there; `/admin` lists them with an Invite button.
+Anyone can sign up. To give someone the testers' 10 songs a day, open `/admin` while signed in as `ADMIN_EMAIL`
+and add their email (or add a row to `allowlist` in Supabase's Table editor; emails in lower case).
 
 ### Try the online version on this Mac
 
@@ -336,7 +348,7 @@ supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,postgres
 cd service && .venv/bin/python scripts/cloud/upload_catalog.py --env ../.env.cloud.local
 .venv/bin/python -m notealong.cloud.dispatch            # stands in for Modal: jobs run here, one heavy job at a time
 cd web && (set -a; source .env.cloud-test; set +a; npx next dev -p 3100)
-node ../supabase/tests/privacy_check.mjs                # with SUPABASE_URL/ANON/SERVICE_ROLE set: 29 privacy checks
+node ../supabase/tests/privacy_check.mjs                # with SUPABASE_URL/ANON/SERVICE_ROLE set: 60 checks (64 with WEB_URL)
 ```
 
 Sign-in emails land in the local mail viewer at http://127.0.0.1:54324.
@@ -360,5 +372,5 @@ from the backing track, and `web/scripts/render-hear-demo.mjs` renders the sampl
 
 - **MP4 karaoke export**: `components/player/LyricStage.tsx` renders purely from `(lines, time, settings)`,
   so it can be driven frame by frame by Remotion or captured headlessly.
-- **Accounts / cloud**: built as the private beta (see "The online version" above).
+- **Accounts / cloud**: live with a free tier (see "The online version" above); payments are not built yet.
 - **Fingering diagrams** for saxophone can hang off the written MIDI number in `NoteChip`.
