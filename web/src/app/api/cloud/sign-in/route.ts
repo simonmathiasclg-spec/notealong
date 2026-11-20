@@ -29,7 +29,11 @@ export async function POST(req: Request) {
           : "New accounts aren't open just yet. Every built-in song is free to play in the meantime.");
       }
       if (/captcha/i.test(error.message)) throw new HttpError(400, "The check above the button didn't go through. Try it again.");
-      if (/rate|seconds|limit/i.test(error.message)) throw new HttpError(429, "Too many sign-in emails were sent just now. Try again in a few minutes, or continue with Google.");
+      if (/rate|seconds|limit/i.test(error.message)) {
+        throw new HttpError(429, process.env.NEXT_PUBLIC_GOOGLE_AUTH === "1"
+          ? "Too many sign-in emails were sent just now. Continue with Google, or try the email link again later."
+          : "Too many sign-in emails were sent just now. Try again in an hour. Every built-in song is free to play meanwhile.");
+      }
       throw new HttpError(500, "The sign-in email could not be sent. Try again in a minute, or continue with Google.");
     }
     return Response.json({ ok: true });
