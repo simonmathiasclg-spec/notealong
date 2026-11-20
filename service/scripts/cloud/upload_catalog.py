@@ -50,6 +50,20 @@ def safe(path: Path) -> Path:
     return p
 
 
+def put(supa, bucket: str, key: str, data: bytes, ctype: str, cache_seconds: int, tries: int = 5) -> None:
+    """One upload, tried again after a dropped connection (a long upload over home internet sometimes is)."""
+    import time
+    for i in range(tries):
+        try:
+            supa.upload(bucket, key, data, ctype, cache_seconds=cache_seconds)
+            return
+        except Exception as e:  # noqa: BLE001
+            if i == tries - 1:
+                raise
+            print(f"  {key}: {type(e).__name__}, trying again", flush=True)
+            time.sleep(2 * (i + 1))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--env", default=str(ROOT / ".env.cloud"))
@@ -82,10 +96,12 @@ def main() -> int:
                 skipped += 1
                 continue
             if supa:
-                supa.upload("catalog", key, data, ctype, cache_seconds=86400)
+                put(supa, "catalog", key, data, ctype, cache_seconds=86400)
             manifest[key] = h
             sent += 1
         print(f"{s['id']}: ok", flush=True)
+        if supa and sent and sent % 40 == 0:      # keep what is done, so a stopped run carries on from here
+            put(supa, "catalog", "manifest.json", json.dumps(manifest).encode(), "application/json", cache_seconds=60)
     public_index = {**index, "songs": songs}
     extras = {
         "index.json": json.dumps(public_index, ensure_ascii=False).encode(),
@@ -93,9 +109,9 @@ def main() -> int:
     }
     for name, data in extras.items():
         if supa:
-            supa.upload("catalog", name, data, "application/json", cache_seconds=300)
+            put(supa, "catalog", name, data, "application/json", cache_seconds=300)
     if supa:
-        supa.upload("catalog", "manifest.json", json.dumps(manifest).encode(), "application/json", cache_seconds=60)
+        put(supa, "catalog", "manifest.json", json.dumps(manifest).encode(), "application/json", cache_seconds=60)
     print(f"{len(songs)} songs, {total / 1e6:.0f} MB in all: {sent} files sent, {skipped} unchanged"
           + (" (dry run: nothing sent)" if a.dry_run else ""))
     return 0

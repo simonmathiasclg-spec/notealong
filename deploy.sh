@@ -62,7 +62,8 @@ if [ -z "$SUPABASE_PROJECT_REF" ]; then
   [ -n "$SUPABASE_DB_PASSWORD" ] || { setvar SUPABASE_DB_PASSWORD "$(python3 -c 'import secrets,string;a=string.ascii_letters+string.digits;print("".join(secrets.choice(a) for _ in range(32)))')"; load; }
   out=$(supabase projects create notealong --org-id "$SUPA_ORG" --db-password "$SUPABASE_DB_PASSWORD" --region "$SUPA_REGION" -o json 2>&1) || {
     echo "$out" | grep -v -i password; echo "Could not create the Supabase project (see above). If the free plan's limit of 2 projects is the reason, pause one project or upgrade, then run ./deploy.sh again."; exit 1; }
-  ref=$(echo "$out" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('id') or d.get('ref'))")
+  # the CLI may print a notice (a newer version, say) around the JSON: read from the first brace
+  ref=$(echo "$out" | python3 -c "import json,sys; t=sys.stdin.read(); d=json.loads(t[t.index('{'):t.rindex('}')+1]); print(d.get('id') or d.get('ref'))")
   setvar SUPABASE_PROJECT_REF "$ref"; load
   echo "created project $SUPABASE_PROJECT_REF; waiting for it to start"
   for i in {1..60}; do
@@ -99,14 +100,22 @@ if [ -n "$ADMIN_EMAIL" ]; then
 fi
 
 say "Built-in songs to storage (catalog/ only)"
-service/.venv/bin/python service/scripts/cloud/upload_catalog.py --env "$ENVF" | tail -1
+service/.venv/bin/python service/scripts/cloud/upload_catalog.py --env "$ENVF" > "$ROOT/logs/catalog-upload.log" 2>&1 || { tail -3 "$ROOT/logs/catalog-upload.log"; echo "The built-in songs didn't all upload (see logs/catalog-upload.log). Run ./deploy.sh again: it carries on where it stopped."; exit 1; }
+tail -1 "$ROOT/logs/catalog-upload.log"
 
 say "Processing on Modal"
 modal secret create notealong-supabase SUPABASE_URL="$SUPABASE_URL" SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY" WORKER_SECRET="$WORKER_SECRET" --force >/dev/null
-url=$(cd service && modal deploy modal_app.py 2>&1 | tee /dev/stderr | grep -o 'https://[a-zA-Z0-9.-]*dispatch[a-zA-Z0-9.-]*modal.run' | head -1)
-[ -n "$url" ] || { echo "Could not find the dispatch URL in Modal's output."; exit 1; }
-setvar PROCESSING_URL "$url"; load
-curl -sf "$PROCESSING_URL/health" >/dev/null && echo "dispatch is answering"
+url=$(cd service && modal deploy modal_app.py 2>&1 | tee "$ROOT/logs/modal-deploy.log" | grep -o 'https://[a-zA-Z0-9.-]*dispatch[a-zA-Z0-9.-]*modal.run' | head -1)
+if [ -n "$url" ]; then
+  setvar PROCESSING_URL "$url"; load
+  curl -sf "$PROCESSING_URL/health" >/dev/null && echo "dispatch is answering"
+else
+  # the site still goes up (guests and the built-in songs need no processing); converting songs stays off,
+  # and says so, until Modal deploys and this script is run again
+  grep -i "error" "$ROOT/logs/modal-deploy.log" | tail -2
+  echo "Modal did not deploy, so converting songs stays switched off on the site for now. Fix the error above and run ./deploy.sh again."
+  PROCESSING_URL=""
+fi
 
 say "Web app on Vercel"
 cd web
@@ -118,7 +127,7 @@ putenv() {  # putenv NAME VALUE: production environment variable on Vercel, valu
 putenv NEXT_PUBLIC_SUPABASE_URL "$SUPABASE_URL"
 putenv NEXT_PUBLIC_SUPABASE_ANON_KEY "$SUPABASE_ANON_KEY"
 putenv SUPABASE_SERVICE_ROLE_KEY "$SUPABASE_SERVICE_ROLE_KEY"
-putenv PROCESSING_URL "$PROCESSING_URL"
+if [ -n "$PROCESSING_URL" ]; then putenv PROCESSING_URL "$PROCESSING_URL"; else vercel env rm PROCESSING_URL production --yes --scope "$VERCEL_SCOPE" >/dev/null 2>&1 || true; fi
 putenv WORKER_SECRET "$WORKER_SECRET"
 [ -n "$ADMIN_EMAIL" ] && putenv ADMIN_EMAIL "$ADMIN_EMAIL"
 # Google is the main way to sign in once its OAuth client is in Supabase (GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET

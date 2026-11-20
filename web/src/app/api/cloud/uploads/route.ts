@@ -26,6 +26,10 @@ export async function POST(req: Request) {
       if (same) return Response.json({ song: same.data, duplicate_of: (same.data as { id: string }).id });
     }
 
+    // processing isn't set up on this site (yet): say so before anything is created, so no free song is used up
+    if (!process.env.PROCESSING_URL || !process.env.WORKER_SECRET) {
+      throw new HttpError(503, "Converting your own songs is switched off for a little while. Your free song is still there; try again later. The built-in songs all play.");
+    }
     const { data: allowance, error: allowanceError } = await db.rpc("upload_allowance", { p_user: user.id });
     if (allowanceError) throw allowanceError;
     const a = allowance as { plan: "free" | "beta"; remaining: number; limit: number };
