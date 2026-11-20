@@ -4,7 +4,7 @@
 
 - **Live: https://notealong.vercel.app**. Anyone can open it, browse the 208 built-in songs and play any of them in the player, with no account.
 - **Hosting:** Supabase project "notealong" (us-east-1) in the personal organization "Simon Personal" (zchrxexblzgmuwtjowqv), Modal (profile simon-mathiasclg, T4 GPU), Vercel project "notealong" (scope simonmathiasclg-9145s-projects). Nothing was created in the employer's organization; `deploy.sh` now refuses it outright.
-- **Sign-up is open: "Continue with Google".** Since 20 November 2026 anyone with a Google account can create an account in one click and convert their free song. Google is the main button on the sign-in page; the email link is second, and when Supabase's built-in sender refuses or limits it, the page says "Sign-in by email is limited for now. Please use Continue with Google above." Email sign-up for everyone needs your own sender (to-do 3).
+- **Sign-up is open: "Continue with Google".** Since 20 November 2026 (Google consent screen published, "In production") anyone with a Google account can create an account in one click and convert their free song. Google is the main button on the sign-in page; the email link is second, and when Supabase's built-in sender refuses or limits it, the page says "Sign-in by email is limited for now. Please use Continue with Google above." Email sign-up for everyone needs your own sender (to-do 2).
 - **Real cost per song:** about 98 GPU-seconds on a T4 for a 2:32 song, about **$0.016**, or about **$0.026** when the GPU machine then sits idle for its 60-second wait. Details below.
 
 ## Who can do what
@@ -24,22 +24,21 @@ How the free song is enforced:
 
 ## Your to-dos, in order
 
-1. **Check that Google sign-in is published.** Open https://console.cloud.google.com/auth/audience?project=notealong-515321. Under "Publishing status" it must say "In production". If it says "Testing", click "Publish app" and confirm; until then only the test users listed there can sign in with Google.
-2. **Cloudflare Turnstile (blocks automated sign-ups; works on notealong.vercel.app, no custom domain needed).**
+1. **Cloudflare Turnstile (blocks automated sign-ups; works on notealong.vercel.app, no custom domain needed).**
    1. Create a free account at https://dash.cloudflare.com, open Turnstile, click "Add widget".
    2. Name it NoteAlong, add the hostname `notealong.vercel.app`, choose "Managed", create it.
    3. Copy the Site key and the Secret key.
    4. Send me the Site key (it is public), or add these two lines to `.env.cloud` yourself: `TURNSTILE_SITE_KEY=...` and `TURNSTILE_SECRET_KEY=...`. Then I run `./deploy.sh`, which puts the site key on Vercel and switches captcha on in Supabase together. Don't switch captcha on in Supabase alone: until the site shows the check, email sign-in would stop working. (Google sign-in isn't affected by captcha.)
-3. **A real email sender (Resend), for email-link sign-ups beyond a handful.** It needs a domain you own: without one, Resend only sends to your own address.
+2. **A real email sender (Resend), for email-link sign-ups beyond a handful.** It needs a domain you own: without one, Resend only sends to your own address.
    1. Sign up at https://resend.com, open Domains, add your domain, and add the DNS records it shows at your domain registrar.
    2. Open API Keys and create a key with "Sending access".
    3. In Supabase: Authentication, then Emails, then SMTP Settings. Switch on custom SMTP: host `smtp.resend.com`, port `465`, username `resend`, password = the API key, sender email `noreply@<your domain>`, sender name NoteAlong. Save.
    4. In Supabase: Authentication, then Rate Limits: raise "emails sent per hour" (for example to 100).
    5. Add `SMTP_HOST=smtp.resend.com` to `.env.cloud` and run `./deploy.sh` (or ask me): with your own sender, the NoteAlong email template is used too, and its link also works when opened on another device.
-4. **The owner's overview (`/admin`)**: `ADMIN_EMAIL` is still unset. To use it, add `ADMIN_EMAIL=<your email>` to `.env.cloud` and run `SUPA_ORG=zchrxexblzgmuwtjowqv ./deploy.sh`: you get `/admin` and the testers' 10 songs a day.
-5. **Later:**
+3. **The owner's overview (`/admin`)**: `ADMIN_EMAIL` is still unset. To use it, add `ADMIN_EMAIL=<your email>` to `.env.cloud` and run `SUPA_ORG=zchrxexblzgmuwtjowqv ./deploy.sh`: you get `/admin` and the testers' 10 songs a day.
+4. **Later:**
    - Google's account picker says "to continue to npnjprtmiknqtdmzdgji.supabase.co" rather than NoteAlong. Showing your own name there needs a Supabase custom domain (a paid add-on on Supabase Pro).
-   - Your own Google account was used for the live test, so its free song now counts as used (a salted hash of the email is kept, as for any deleted account). Signing in with it after `ADMIN_EMAIL` is set (to-do 4) gives you the owner's 10 songs a day anyway.
+   - Your own Google account was used for the live test, so its free song now counts as used (a salted hash of the email is kept, as for any deleted account). Signing in with it after `ADMIN_EMAIL` is set (to-do 3) gives you the owner's 10 songs a day anyway.
    - Vercel's free Hobby plan is for non-commercial use: move to Vercel Pro before you charge anyone.
    - A lawyer should review `/terms` and `/privacy` and fill in the contact email, the governing law and the age limit.
    - Supabase's free plan pauses a project after a week with no activity; a visit wakes it, but the first page can then take a minute. Supabase Pro ($25 a month) avoids that and raises storage from 1 GB (the built-in songs use 638 MB).
