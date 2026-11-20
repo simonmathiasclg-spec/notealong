@@ -205,17 +205,20 @@ anonymous_users = 30
 # Number of sessions that can be refreshed in a 5 minute interval per IP address.
 token_refresh = 150
 # Number of sign up and sign-in requests that can be made in a 5 minute interval per IP address (excludes anonymous users).
-sign_in_sign_ups = 30
+# NoteAlong: sign-up is open to anyone, so this is kept low (deploy.sh pushes it to the hosted project).
+sign_in_sign_ups = 15
 # Number of OTP / Magic link verifications that can be made in a 5 minute interval per IP address.
 token_verifications = 30
 # Number of Web3 logins that can be made in a 5 minute interval per IP address.
 web3 = 30
 
 # Configure one of the supported captcha providers: `hcaptcha`, `turnstile`.
+# NoteAlong: deploy.sh switches Cloudflare Turnstile on for the hosted project when TURNSTILE_SECRET_KEY is in
+# .env.cloud (and NEXT_PUBLIC_TURNSTILE_SITE_KEY goes to Vercel). Off here, so local tests need no key.
 # [auth.captcha]
 # enabled = true
-# provider = "hcaptcha"
-# secret = ""
+# provider = "turnstile"
+# secret = "env(TURNSTILE_SECRET_KEY)"
 
 [auth.email]
 # Allow/disallow new user signups via email to your project.

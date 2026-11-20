@@ -5,16 +5,17 @@ export const metadata: Metadata = { title: "Privacy · NoteAlong" };
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy" updated="10 November 2026">
+    <LegalPage title="Privacy" updated="19 November 2026">
       <p>NoteAlong keeps as little about you as it can, and what you add is visible only to you.</p>
 
       <h2>What we keep</h2>
       <ul>
-        <li>Your email address, to sign you in.</li>
+        <li>Your email address, to sign you in. If you sign in with Google, Google tells us your email and name; nothing else from your Google account.</li>
         <li>The songs you add and what is made from them: the backing track, the voice on its own, the notes, the words, and the cover picture.</li>
         <li>What you change and choose: note fixes, player settings, favourites, how often you play a song, and setlists.</li>
         <li>A record of each processing job: when it ran, how long it took, and any error, so we can fix problems and know what the service costs.</li>
-        <li>If you join the waitlist: your email and the note you leave.</li>
+        <li>If you ask to hear when paid plans open: your email, on that list.</li>
+        <li>Whether your account has used its free song, and how many songs it has added.</li>
       </ul>
 
       <h2>What we don&apos;t do</h2>
@@ -39,6 +40,7 @@ export default function PrivacyPage() {
         <li>Your songs stay until you delete them. Deleting a song removes its files and its data at once.</li>
         <li>Deleting your account (on the account page) removes your account, every song and file, your edits, favourites, setlists and job records. Our providers&apos; backups can hold copies for a short time after that. [The exact backup period is to be confirmed for the plan in use.]</li>
         <li>Monthly totals of processing time are kept without any link to a person.</li>
+        <li>One thing stays after you delete your account, and only if you used your free song: a scrambled form of your email address (a salted SHA-256 hash). It can&apos;t be turned back into your email. It only lets us see that a new account with the same email has already had its free song, so the free song can&apos;t be claimed again and again. It is linked to nothing else: no songs, no files, no activity.</li>
       </ul>
 
       <h2>Your rights</h2>

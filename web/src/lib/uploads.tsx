@@ -60,7 +60,10 @@ export function UploadsProvider({ children }: { children: React.ReactNode }) {
         patch(id, { status: "processing", songId: song.id, title: song.title, progress: 0, step: "Starting" });
         if (single) router.push(`/songs/${song.id}`);
       } catch (e) {
-        patch(id, { status: "failed", error: (e as Error).message });
+        const message = (e as Error).message;
+        // the server says the free song is used (another tab, or a deleted song): show the panel, not an error
+        if (/used your free song/i.test(message)) { setUploads((u) => u.filter((x) => x.id !== id)); showPaidPanel(); break; }
+        patch(id, { status: "failed", error: message });
       }
     }
     refreshAllowance();

@@ -8,6 +8,7 @@ import { Modal } from "@/components/Modal";
 import { api } from "@/lib/api";
 import { CLOUD } from "@/lib/cloud/config";
 import type { Entitlements } from "@/lib/types";
+import { PaidInterestButton } from "@/components/cloud/Prompts";
 
 export default function AccountPage() {
   const [me, setMe] = useState<{ email: string; admin: boolean; created_at: string } | null>(null);
@@ -48,11 +49,20 @@ export default function AccountPage() {
                 </div>
                 <form action="/auth/sign-out" method="post"><button className="btn btn-outline" type="submit"><LogOut className="h-4 w-4" strokeWidth={1.7} /> Sign out</button></form>
               </div>
-              <div className="border-b border-border py-5">
-                <div className="text-sm text-muted">Songs added in the last 24 hours</div>
-                <div className="font-display text-[1.6rem] font-extrabold tracking-[-0.02em]">{plan ? `${plan.uploads.used} of ${plan.uploads.limit}` : "…"}</div>
-                <p className="mt-1 text-sm text-muted">The beta allows {plan?.uploads.limit ?? 10} new songs a day. Built-in songs are unlimited.</p>
-              </div>
+              {plan?.plan === "beta" ? (
+                <div className="border-b border-border py-5">
+                  <div className="text-sm text-muted">Tester: songs added in the last 24 hours</div>
+                  <div className="font-display text-[1.6rem] font-extrabold tracking-[-0.02em]">{`${plan.uploads.used} of ${plan.uploads.limit}`}</div>
+                  <p className="mt-1 text-sm text-muted">Testers can add {plan.uploads.limit} new songs a day. Built-in songs are unlimited.</p>
+                </div>
+              ) : (
+                <div className="border-b border-border py-5">
+                  <div className="text-sm text-muted">Free account</div>
+                  <div className="font-display text-[1.6rem] font-extrabold tracking-[-0.02em]">{!plan ? "…" : (plan.uploads.remaining ?? 0) > 0 ? "1 free song to convert" : "Free song used"}</div>
+                  <p className="mt-1 text-sm text-muted">One song of your own, converted free, for good. Built-in songs are unlimited.{plan && (plan.uploads.remaining ?? 0) <= 0 ? " Paid plans are coming soon." : ""}</p>
+                  {plan && (plan.uploads.remaining ?? 0) <= 0 && <PaidInterestButton className="mt-4" />}
+                </div>
+              )}
               {me?.admin && (
                 <div className="border-b border-border py-5"><Link className="btn btn-outline" href="/admin"><ShieldCheck className="h-4 w-4" strokeWidth={1.7} /> Owner&apos;s overview</Link></div>
               )}
@@ -60,7 +70,7 @@ export default function AccountPage() {
 
             <div>
               <h2 className="display-md text-[1.5rem]">Delete my account</h2>
-              <p className="mt-1 text-sm leading-relaxed text-muted">Removes your account and everything in it for good: your uploaded songs and their files, your note fixes, favourites, setlists and settings. This can&apos;t be undone.</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">Removes your account and everything in it for good: your uploaded songs and their files, your note fixes, favourites, setlists and settings. This can&apos;t be undone. If you used your free song, a new account with the same email won&apos;t get another one (see <Link href="/privacy" className="underline underline-offset-2">Privacy</Link>).</p>
               <button className="btn btn-outline mt-4 !text-danger" onClick={() => setAsking(true)}><Trash2 className="h-4 w-4" strokeWidth={1.7} /> Delete my account</button>
             </div>
             <p className="flex gap-5 text-sm text-faint"><Link href="/terms" className="hover:text-fg">Terms</Link><Link href="/privacy" className="hover:text-fg">Privacy</Link></p>

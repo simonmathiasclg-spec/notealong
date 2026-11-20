@@ -24,7 +24,7 @@ export async function GET() {
       db.from("jobs").select("user_id,kind,status,gpu_seconds,processing_seconds,params").gte("created_at", month.toISOString()),
       db.from("jobs").select("created_at,kind,error,user_id").eq("status", "failed").order("created_at", { ascending: false }).limit(25),
       db.from("allowlist").select("email,note,added_at").order("added_at", { ascending: false }),
-      db.from("waitlist").select("email,note,created_at").order("created_at", { ascending: false }).limit(200),
+      db.from("waitlist").select("email,note,kind,created_at").order("created_at", { ascending: false }).limit(200),
       db.from("usage_monthly").select("*").order("month", { ascending: false }).limit(6),
     ]);
     const emails = new Map((users.data?.users ?? []).map((u) => [u.id, u.email ?? ""]));

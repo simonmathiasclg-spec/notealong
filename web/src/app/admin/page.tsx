@@ -10,7 +10,7 @@ type Stats = {
   users: { email: string; created_at: string; last_sign_in_at: string | null; uploads: number; ready: number; jobs: number; failed: number; gpu: number }[];
   failures: { at: string; kind: string; error: string | null; email: string }[];
   allowlist: { email: string; note: string | null; added_at: string }[];
-  waitlist: { email: string; note: string | null; created_at: string }[];
+  waitlist: { email: string; note: string | null; kind?: "beta" | "paid"; created_at: string }[];
 };
 
 const day = (s?: string | null) => (s ? new Date(s).toLocaleDateString(undefined, { day: "numeric", month: "short" }) : "never");
@@ -85,9 +85,10 @@ export default function AdminPage() {
 
             <section className="grid gap-6 lg:grid-cols-2">
               <div>
-                <h2 className="font-semibold">Beta list ({stats.allowlist.length})</h2>
+                <h2 className="font-semibold">Testers ({stats.allowlist.length})</h2>
+                <p className="mt-1 text-sm text-muted">10 new songs a day instead of one free song.</p>
                 <form className="mt-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); act("invite", email); }}>
-                  <input className="field min-w-0 flex-1" type="email" required placeholder="Invite an email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <input className="field min-w-0 flex-1" type="email" required placeholder="Make an email a tester" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <button className="btn btn-primary" type="submit">Invite</button>
                 </form>
                 <p className="mt-2 text-xs text-faint">Invited people sign in on the sign-in page with this email. Nothing is sent until they do.</p>
@@ -101,13 +102,13 @@ export default function AdminPage() {
                 </ul>
               </div>
               <div>
-                <h2 className="font-semibold">Waitlist ({stats.waitlist.length})</h2>
+                <h2 className="font-semibold">Interested in paid plans ({stats.waitlist.filter((w) => w.kind === "paid").length}) and the old waitlist ({stats.waitlist.filter((w) => w.kind !== "paid").length})</h2>
                 <ul className="mt-3 divide-y divide-border border-y border-border">
                   {stats.waitlist.length === 0 && <li className="px-3 py-2 text-sm text-muted">Nobody yet.</li>}
                   {stats.waitlist.map((w) => (
-                    <li key={w.email} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
-                      <span className="min-w-0"><span className="block truncate">{w.email}</span>{w.note && <span className="block truncate text-muted">{w.note}</span>}</span>
-                      <button className="btn btn-sm" onClick={() => act("invite", w.email)}>Invite</button>
+                    <li key={`${w.kind}:${w.email}`} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
+                      <span className="min-w-0"><span className="block truncate">{w.email}</span><span className="block truncate text-muted">{w.kind === "paid" ? "Paid plans" : "Beta waitlist"}{w.note ? `: ${w.note}` : ""}</span></span>
+                      <button className="btn btn-sm" onClick={() => act("invite", w.email)}>Make tester</button>
                     </li>
                   ))}
                 </ul>

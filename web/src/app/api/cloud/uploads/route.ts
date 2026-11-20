@@ -1,6 +1,9 @@
-// Starts an upload: checks the daily limit and the file, then hands the browser a one-time link to put the file
-// straight into the user's private folder in storage (it never passes through this server).
-import { AUDIO_EXT, MAX_UPLOAD_MB, PROTECTED_EXT, UPLOADS_PER_DAY, VIDEO_EXT } from "@/lib/cloud/config";
+// Starts an upload: checks the file and what this account may still add, then hands the browser a one-time link
+// to put the file straight into the user's private folder in storage (it never passes through this server).
+// A free account converts one song of its own, for good; testers and the owner (emails on `allowlist`) add up to
+// 10 a day. The database enforces the same rules on the insert (check_new_song), so this route can't be bypassed.
+import { AUDIO_EXT, MAX_UPLOAD_MB, PROTECTED_EXT, VIDEO_EXT } from "@/lib/cloud/config";
+import { FREE_SONG_USED, limitError } from "@/lib/cloud/jobs";
 import { adminClient, HttpError, requireUser, route, userClient } from "@/lib/cloud/server";
 import { guessTitle, newSongData, newSongId } from "@/lib/cloud/songdata";
 
@@ -23,20 +26,18 @@ export async function POST(req: Request) {
       if (same) return Response.json({ song: same.data, duplicate_of: (same.data as { id: string }).id });
     }
 
-    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-    const { count } = await db.from("jobs").select("id", { count: "exact", head: true })
-      .eq("user_id", user.id).eq("kind", "process").eq("params->>new", "true").gte("created_at", since);
-    const { count: pending } = await db.from("songs").select("id", { count: "exact", head: true })
-      .eq("user_id", user.id).eq("status", "uploading").gte("created_at", since);
-    if ((count ?? 0) + (pending ?? 0) >= UPLOADS_PER_DAY) {
-      throw new HttpError(429, `You've added ${UPLOADS_PER_DAY} songs in the last 24 hours, the most the beta allows. You can add more tomorrow.`);
+    const { data: allowance, error: allowanceError } = await db.rpc("upload_allowance", { p_user: user.id });
+    if (allowanceError) throw allowanceError;
+    const a = allowance as { plan: "free" | "beta"; remaining: number; limit: number };
+    if (a.remaining <= 0) {
+      throw a.plan === "free" ? new HttpError(403, FREE_SONG_USED) : new HttpError(429, `You've added ${a.limit} songs in the last 24 hours, the most testers can. You can add more tomorrow.`);
     }
 
     const { title, artist } = guessTitle(filename);
     const id = newSongId(title);
     const data = newSongData({ id, title, artist, filename, ext, instrument: body.instrument, detail_level: body.detail_level, titleFromName: true });
     const { error } = await db.from("songs").insert({ id, user_id: user.id, title, artist, status: "uploading", data, content_hash: hash });
-    if (error) throw error;
+    if (error) throw limitError(error) ?? error;
     const { data: link, error: linkError } = await db.storage.from("uploads").createSignedUploadUrl(`${user.id}/${id}/original.${ext}`, { upsert: true });
     if (linkError || !link) throw linkError ?? new Error("no upload link");
     return Response.json({ song: data, upload: { url: link.signedUrl } });

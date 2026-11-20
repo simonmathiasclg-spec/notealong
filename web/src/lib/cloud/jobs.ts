@@ -8,9 +8,20 @@ import { SIGNED_URL_SECONDS } from "./songdata";
 export type JobKind = "process" | "trim" | "lyrics" | "render";
 export type JobRow = { id: string; status: string; kind: JobKind; params: Record<string, unknown>; snapshot: unknown; error: string | null; created_at: string };
 
+/** The database refuses a new song past the account's allowance (supabase/migrations, check_new_song and
+ *  count_new_song); this turns its refusal into what the person is told. */
+export const FREE_SONG_USED = "You've used your free song. Paid plans are coming soon.";
+export function limitError(error: { message?: string } | null | undefined): HttpError | null {
+  const m = error?.message ?? "";
+  if (m.includes("FREE_SONG_USED")) return new HttpError(403, FREE_SONG_USED);
+  if (m.includes("FREE_SONG_PENDING")) return new HttpError(409, "Your free song is already on its way. Open it in My songs to finish it, or delete it there to choose another file.");
+  if (m.includes("DAILY_LIMIT")) return new HttpError(429, "You've added 10 songs in the last 24 hours, the most testers can. You can add more tomorrow.");
+  return null;
+}
+
 export async function createJob(userId: string, songId: string, kind: JobKind, params: Record<string, unknown>): Promise<string> {
   const { data, error } = await adminClient().from("jobs").insert({ user_id: userId, song_id: songId, kind, params }).select("id").single();
-  if (error) throw error;
+  if (error) throw limitError(error) ?? error;
   return data.id as string;
 }
 

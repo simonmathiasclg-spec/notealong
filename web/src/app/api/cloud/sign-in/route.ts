@@ -1,24 +1,30 @@
-// Sends a sign-in link, but only to emails on the beta list. The answer is the same either way, so this page
-// can't be used to find out who is invited.
-import { adminClient, HttpError, route, userClient } from "@/lib/cloud/server";
+// Sends a sign-in link by email. Anyone can create an account; the answer is the same whether or not the email
+// already has one, so this page can't be used to find out who uses NoteAlong. Abuse protection: Supabase's own
+// rate limits, and Cloudflare Turnstile when it is switched on (the browser's token is passed to Supabase,
+// which checks it with the secret set in its captcha settings).
+import { HttpError, route, userClient } from "@/lib/cloud/server";
 
 export async function POST(req: Request) {
   return route(async () => {
-    const body = (await req.json()) as { email?: string; next?: string };
+    const body = (await req.json()) as { email?: string; next?: string; captchaToken?: string };
     const email = String(body.email ?? "").trim().toLowerCase();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 320) throw new HttpError(400, "That doesn't look like an email address.");
     const next = typeof body.next === "string" && body.next.startsWith("/") && !body.next.startsWith("//") ? body.next : "/";
-    const { data: invited } = await adminClient().from("allowlist").select("email").eq("email", email).maybeSingle();
-    if (invited) {
-      const origin = new URL(req.url).origin;
-      const { error } = await (await userClient()).auth.signInWithOtp({
-        email, options: { shouldCreateUser: true, emailRedirectTo: `${origin}/auth/confirm?next=${encodeURIComponent(next)}` },
-      });
-      if (error) {
-        console.error("sign-in email failed", error.message);
-        if (/rate|seconds/i.test(error.message)) throw new HttpError(429, "A link was sent a moment ago. Check your email, or try again in a minute.");
-        throw new HttpError(500, "The sign-in email could not be sent. Try again in a minute.");
-      }
+    if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !body.captchaToken) throw new HttpError(400, "Please complete the check above the button, then try again.");
+    const origin = new URL(req.url).origin;
+    const { error } = await (await userClient()).auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${origin}/auth/confirm?next=${encodeURIComponent(next)}`,
+        captchaToken: body.captchaToken || undefined,
+      },
+    });
+    if (error) {
+      console.error("sign-in email failed", error.message);
+      if (/captcha/i.test(error.message)) throw new HttpError(400, "The check above the button didn't go through. Try it again.");
+      if (/rate|seconds|limit/i.test(error.message)) throw new HttpError(429, "Too many sign-in emails were sent just now. Try again in a few minutes, or continue with Google.");
+      throw new HttpError(500, "The sign-in email could not be sent. Try again in a minute, or continue with Google.");
     }
     return Response.json({ ok: true });
   });

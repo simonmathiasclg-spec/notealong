@@ -1,52 +1,60 @@
 "use client";
-// Online version: sign in with a link by email (invited people only), or join the waitlist.
+// Online version: sign in, or create a free account, with Google (the main way) or a link by email.
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Check, Loader2, Mail } from "lucide-react";
+import { Loader2, Mail, Play } from "lucide-react";
 import { Logo, ThemeToggle } from "@/components/AppHeader";
+import { TURNSTILE_SITE_KEY, Turnstile } from "@/components/cloud/Turnstile";
 import { supabase } from "@/lib/cloud/browser";
 import { CLOUD, TRY_SONG_ID } from "@/lib/cloud/config";
 import { api } from "@/lib/api";
+
+const GOOGLE = process.env.NEXT_PUBLIC_GOOGLE_AUTH === "1";
+
+function GoogleMark() {
+  return (
+    <svg viewBox="0 0 18 18" className="h-[18px] w-[18px]" aria-hidden="true">
+      <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" />
+      <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z" />
+      <path fill="#FBBC05" d="M3.97 10.72A5.41 5.41 0 0 1 3.68 9c0-.6.1-1.18.29-1.72V4.95H.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.05l3.01-2.33z" />
+      <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z" />
+    </svg>
+  );
+}
 
 function SignIn() {
   const params = useSearchParams();
   const next = params.get("next") ?? "/";
   const expired = params.get("link") === "expired";
+  const forUpload = next.startsWith("/my-songs");
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState<string | null>(null);
-  const [wEmail, setWEmail] = useState("");
-  const [wNote, setWNote] = useState("");
-  const [wState, setWState] = useState<"idle" | "saving" | "saved">("idle");
-  const [wError, setWError] = useState<string | null>(null);
+  const [captcha, setCaptcha] = useState("");
+  const [captchaReset, setCaptchaReset] = useState(0);
+  const [googleBusy, setGoogleBusy] = useState(false);
+  const [showEmail, setShowEmail] = useState(!GOOGLE);
 
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setState("sending");
     try {
-      const res = await fetch("/api/cloud/sign-in", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, next }) });
+      const res = await fetch("/api/cloud/sign-in", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, next, captchaToken: captcha }) });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail ?? "The link could not be sent. Try again.");
       setState("sent");
     } catch (err) {
       setError((err as Error).message);
       setState("idle");
+      setCaptchaReset((n) => n + 1);       // a captcha token works once
     }
   };
 
   const google = async () => {
-    await supabase().auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/auth/confirm?next=${encodeURIComponent(next)}` } });
-  };
-
-  const join = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setWError(null);
-    setWState("saving");
-    const { error: err } = await supabase().from("waitlist").insert({ email: wEmail.trim(), note: wNote.trim() || null });
-    // the same email twice is fine: it is already on the list
-    if (err && err.code !== "23505") { setWError("That didn't save. Check the email address and try again."); setWState("idle"); return; }
-    setWState("saved");
+    setGoogleBusy(true);
+    const { error: err } = await supabase().auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/auth/confirm?next=${encodeURIComponent(next)}` } });
+    if (err) { setError("Google sign-in isn't available right now. Use the email link instead."); setShowEmail(true); setGoogleBusy(false); }
   };
 
   if (!CLOUD) {
@@ -59,10 +67,10 @@ function SignIn() {
         <h1 className="display-hero text-red text-[clamp(4rem,11vw,8.5rem)]">Play along</h1>
         <p className="display-wide mt-4 text-[clamp(0.85rem,1.5vw,1.1rem)]">The note for every word</p>
         <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
-          NoteAlong turns a song into a part you can play on sax, flute, trumpet or violin, with the note above every word while the band plays. The beta is open to invited players.
+          NoteAlong turns a song into a part you can play on sax, flute, trumpet or violin, with the note above every word while the band plays.
         </p>
         <div className="mt-8">
-          <Link href={`/songs/${TRY_SONG_ID}`} className="btn btn-lg">Try it: no sign-in needed</Link>
+          <Link href={`/songs/${TRY_SONG_ID}`} className="btn btn-lg">Try it: no sign-in needed <Play className="h-4 w-4 fill-current" strokeWidth={0} /></Link>
           <p className="mt-2 text-[13px] text-muted">Opens a song in the player. Every built-in song is free to play.</p>
         </div>
         <div className="relative mt-12 hidden h-64 w-full max-w-md sm:block" aria-hidden="true">
@@ -76,45 +84,40 @@ function SignIn() {
 
       <section className="space-y-6">
         <div className="border-t border-border pt-6">
-          <h2 className="display-lg text-[2rem]">Sign in</h2>
+          <h2 className="display-lg text-[2rem]">{forUpload ? "Sign up free to convert your song" : "Sign in or sign up free"}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">A free account converts one song of your own, for good. It also keeps your favourites, setlists and note fixes.</p>
           {expired && <p className="mt-3 text-sm text-danger">That sign-in link has expired or was already used. Ask for a new one below.</p>}
+
+          {GOOGLE && (
+            <button type="button" className="btn btn-lg mt-5 w-full gap-3 bg-[var(--fg)] text-[var(--bg)] hover:opacity-90" onClick={google} disabled={googleBusy}>
+              {googleBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleMark />} Continue with Google
+            </button>
+          )}
+
           {state === "sent" ? (
-            <div className="mt-4 flex gap-3">
+            <div className="mt-5 flex gap-3">
               <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--pill)] text-[var(--pill-fg)]"><Mail className="h-4 w-4" strokeWidth={1.8} /></span>
               <div>
                 <p className="font-medium">Check your email</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted">If {email} is on the beta list, a sign-in link is on its way. It works once, within an hour, on any device.</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted">A sign-in link is on its way to {email}. It works once, within an hour, on any device. No email after a few minutes? Look in spam{GOOGLE ? ", or continue with Google" : ""}.</p>
                 <button className="btn btn-ghost btn-sm mt-3 -ml-3" onClick={() => setState("idle")}>Use another email</button>
               </div>
             </div>
+          ) : !showEmail ? (
+            <button type="button" className="btn btn-ghost mt-3 w-full" onClick={() => setShowEmail(true)}><Mail className="h-4 w-4" strokeWidth={1.8} /> Use an email link instead</button>
           ) : (
-            <form onSubmit={send} className="mt-4 space-y-3">
-              <label className="block text-sm text-muted" htmlFor="email">The email you were invited with</label>
-              <input id="email" type="email" required autoComplete="email" inputMode="email" className="field w-full" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <form onSubmit={send} className="mt-5 space-y-3">
+              {GOOGLE && <p className="text-center text-xs text-faint">or get a sign-in link by email</p>}
+              <label className="block text-sm text-muted" htmlFor="email">Your email</label>
+              <input id="email" type="email" required autoComplete="email" inputMode="email" className="field w-full" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus={GOOGLE} />
+              <Turnstile onToken={setCaptcha} resetKey={captchaReset} />
               {error && <p className="text-sm text-danger">{error}</p>}
-              <button className="btn btn-red btn-lg w-full" type="submit" disabled={state === "sending"}>
+              <button className={`btn btn-lg w-full ${GOOGLE ? "" : "btn-red"}`} type="submit" disabled={state === "sending" || (!!TURNSTILE_SITE_KEY && !captcha)}>
                 {state === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : null} Email me a sign-in link
               </button>
-              {process.env.NEXT_PUBLIC_GOOGLE_AUTH === "1" && (
-                <button type="button" className="btn w-full" onClick={google}>Continue with Google</button>
-              )}
             </form>
           )}
-        </div>
-
-        <div className="border-t border-border pt-6">
-          <h2 className="display-md text-[1.4rem]">Not invited yet?</h2>
-          {wState === "saved" ? (
-            <p className="mt-3 flex items-center gap-2 text-sm text-muted"><Check className="h-4 w-4 text-ok" /> You&apos;re on the waitlist. We&apos;ll email you when there&apos;s room.</p>
-          ) : (
-            <form onSubmit={join} className="mt-3 space-y-3">
-              <p className="text-sm leading-relaxed text-muted">Leave your email and we&apos;ll let you know when there&apos;s a place in the beta.</p>
-              <input type="email" required autoComplete="email" className="field w-full" placeholder="you@example.com" aria-label="Email for the waitlist" value={wEmail} onChange={(e) => setWEmail(e.target.value)} />
-              <input className="field w-full" maxLength={300} placeholder="What do you play? (optional)" aria-label="What you play" value={wNote} onChange={(e) => setWNote(e.target.value)} />
-              {wError && <p className="text-sm text-danger">{wError}</p>}
-              <button className="btn btn-outline" type="submit" disabled={wState === "saving"}>Join the waitlist</button>
-            </form>
-          )}
+          <p className="mt-6 text-xs leading-relaxed text-faint">By continuing you agree to the <Link href="/terms" className="underline underline-offset-2 hover:text-fg">Terms</Link> and the <Link href="/privacy" className="underline underline-offset-2 hover:text-fg">Privacy</Link> notes.</p>
         </div>
       </section>
     </div>
