@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Check, Loader2, Mail } from "lucide-react";
 import { Logo, ThemeToggle } from "@/components/AppHeader";
 import { supabase } from "@/lib/cloud/browser";
-import { CLOUD } from "@/lib/cloud/config";
+import { CLOUD, TRY_SONG_ID } from "@/lib/cloud/config";
 import { api } from "@/lib/api";
 
 function SignIn() {
@@ -61,6 +61,10 @@ function SignIn() {
         <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
           NoteAlong turns a song into a part you can play on sax, flute, trumpet or violin, with the note above every word while the band plays. The beta is open to invited players.
         </p>
+        <div className="mt-8">
+          <Link href={`/songs/${TRY_SONG_ID}`} className="btn btn-lg">Try it: no sign-in needed</Link>
+          <p className="mt-2 text-[13px] text-muted">Opens a song in the player. Every built-in song is free to play.</p>
+        </div>
         <div className="relative mt-12 hidden h-64 w-full max-w-md sm:block" aria-hidden="true">
           {["the-water-is-wide", "las-mananitas", "silent-night"].map((id, i) => (
             // eslint-disable-next-line @next/next/no-img-element

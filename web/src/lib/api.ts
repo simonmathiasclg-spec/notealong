@@ -68,6 +68,9 @@ const localApi = {
   updateSetlist: (id: string, body: Partial<Pick<Setlist, "name" | "songs" | "gap_seconds">>) => fetch(`${API}/api/me/setlists/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(j<Setlist>),
   deleteSetlist: (id: string) => fetch(`${API}/api/me/setlists/${id}`, { method: "DELETE" }).then(j<{ ok: boolean }>),
   /** Ask the service to render the keys one step up and down from `shift` now, so the next key change is instant. */
+  /** Online, a guest can only use keys that are already rendered; here every key can be made. */
+  keyReady: async (id: string, shift: number): Promise<boolean> => { void id; void shift; return true; },
+  joinPaidInterest: async () => ({ ok: true }),
   prepareKeys: (id: string, shift: number) => fetch(`${API}/api/songs/${id}/prepare?shift=${shift}`, { method: "POST" }).then(j<{ queued: number }>),
   progressSnapshot: (id: string) => fetch(`${API}/api/songs/${id}/progress/snapshot`, { cache: "no-store" }).then(j<ProgressSnapshot>),
   audioUrl: (id: string, stem: "backing" | "backing_hooks" | "vocals" | "original", shift = 0) => `${API}/api/songs/${id}/audio/${stem}${shift ? `?shift=${shift}` : ""}`,

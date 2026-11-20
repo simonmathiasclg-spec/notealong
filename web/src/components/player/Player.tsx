@@ -59,7 +59,11 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
   const [busy, setBusy] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [ended, setEnded] = useState(0);
-  const { recordPlay } = useMe();
+  const { recordPlay, signedIn, nudge } = useMe();
+  const guestRef = useRef(false);
+  useEffect(() => { guestRef.current = signedIn === false; }, [signedIn]);
+  // a guest fixing notes: it works, but nothing is kept
+  useEffect(() => { if (editing && signedIn === false) nudge("Your fixes last until you leave this page. Sign in to keep them."); }, [editing, signedIn, nudge]);
   const playRecorded = useRef(false);
   const [keyLoading, setKeyLoading] = useState(false);
   const [fingeringPref, setFingeringPref] = usePref("na.fingering", "0");
@@ -164,7 +168,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
 
   // ---- persist the session (debounced) ---------------------------------
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const update = useCallback((patch: Partial<UserSession>) => {
+  const apply = useCallback((patch: Partial<UserSession>) => {
     setSession((s) => {
       const next = { ...s, ...patch };
       if (patch.instrument) setInstrumentPref(patch.instrument);
@@ -173,6 +177,19 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
       return next;
     });
   }, [song.id, setInstrumentPref]);
+  const update = useCallback((patch: Partial<UserSession>) => {
+    // a guest can use a built-in song's keys that are already made; making a new one needs an account
+    if (guestRef.current && patch.key_shift !== undefined && patch.key_shift !== 0) {
+      const { key_shift: want, ...rest } = patch;
+      if (Object.keys(rest).length) apply(rest);
+      api.keyReady(song.id, want).then((ok) => {
+        if (ok) apply({ key_shift: want });
+        else nudge("Sign in to change key. A new key is made for you on our servers.");
+      });
+      return;
+    }
+    apply(patch);
+  }, [song.id, apply, nudge]);
   // remember the position every few seconds while playing
   useEffect(() => {
     if (!engineState.playing) return;

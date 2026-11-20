@@ -4,7 +4,11 @@ export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 export const CLOUD = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
-export const UPLOADS_PER_DAY = 10;
+export const UPLOADS_PER_DAY = 10;      // beta testers (emails on the allowlist) and the owner
+export const FREE_SONGS = 1;             // everyone else: one song of their own, for the life of the account
+
+/** The built-in song "Try it: no sign-in needed" opens in the player. */
+export const TRY_SONG_ID = "amazing-grace";
 export const MAX_UPLOAD_MB = 50;
 export const MAX_MINUTES = 12;
 

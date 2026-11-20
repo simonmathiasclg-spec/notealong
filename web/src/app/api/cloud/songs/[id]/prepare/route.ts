@@ -2,12 +2,13 @@
 // ones of all three), so the next key change is instant.
 import type { NextRequest } from "next/server";
 import { createJob, dispatch, isCatalogId } from "@/lib/cloud/jobs";
-import { adminClient, HttpError, requireUser, route, userClient } from "@/lib/cloud/server";
+import { adminClient, currentUser, HttpError, route, userClient } from "@/lib/cloud/server";
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   return route(async () => {
     const { id } = await ctx.params;
-    const user = await requireUser();
+    const user = await currentUser();
+    if (!user) return Response.json({ queued: 0 });          // guests use the keys that are already made
     const shift = Math.max(-6, Math.min(6, Math.round(Number(req.nextUrl.searchParams.get("shift") ?? 0) || 0)));
     const catalog = await isCatalogId(id);
     if (!catalog) {

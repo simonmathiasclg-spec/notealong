@@ -3,6 +3,8 @@
 // widgets and the ways to browse. "See all" and the browse lists open the full search (/browse).
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { Play } from "lucide-react";
+import { CLOUD, TRY_SONG_ID } from "@/lib/cloud/config";
 import { AppHeader, MobileSearch } from "@/components/AppHeader";
 import { Welcome } from "@/components/Welcome";
 import { PageDropZone } from "@/components/UploadZone";
@@ -52,7 +54,7 @@ export default function DiscoverPage() {
   const [instrumentId, setInstrument, loaded] = useInstrumentPref();
   const instrument = getInstrument(instrumentId);
   const { addFiles } = useUploads();
-  const { favourites, plays } = useMe();
+  const { favourites, plays, signedIn } = useMe();
 
   useEffect(() => {
     api.catalog().then((c) => { setSongs(c.songs); setServiceDown(false); }).catch(() => { setSongs([]); setServiceDown(true); });
@@ -116,6 +118,12 @@ export default function DiscoverPage() {
               : <><b className="font-semibold text-fg">{all.length || 208} songs</b> · free to play right now</>}
           </p>
         </div>
+        {CLOUD && signedIn === false && (
+          <div className="-mt-2 mb-10 flex flex-col items-center gap-2 text-center sm:mb-12">
+            <Link href={`/songs/${TRY_SONG_ID}`} className="btn btn-red btn-lg">Try it: no sign-in needed <Play className="h-4 w-4 fill-current" strokeWidth={0} /></Link>
+            <p className="text-[13px] text-muted">Opens a song in the player with the notes above the words. Every built-in song is free to play.</p>
+          </div>
+        )}
         <MobileSearch />
 
         {serviceDown && <div className="mb-8"><ServiceDown what="the song library" /></div>}

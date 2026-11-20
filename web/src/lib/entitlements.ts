@@ -1,25 +1,28 @@
 "use client";
-// What the current user may do (plan, upload limit). No accounts yet: the
-// service answers "local plan, no limits". See service/notealong/entitlements.py.
-import { useEffect, useState } from "react";
-import { api } from "./api";
+// What the current person may upload. On this computer: no limits. Online: a guest uploads nothing, a free
+// account converts one song of its own (for good), testers and the owner have a daily limit. The database
+// decides (supabase/migrations, public.my_allowance); this only shows it.
+import { useMe } from "./me";
 import type { Entitlements } from "./types";
 
 export const LOCAL_PLAN: Entitlements = { plan: "local", uploads: { used: 0, limit: null, remaining: null }, catalog: "free" };
 
-export function useEntitlements(deps: unknown[] = []): Entitlements {
-  const [e, setE] = useState<Entitlements>(LOCAL_PLAN);
-  useEffect(() => {
-    let alive = true;
-    api.me().then((v) => { if (alive) setE(v); }).catch(() => undefined);
-    return () => { alive = false; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
-  return e;
+/** null while it is being checked. It refreshes itself after uploads (lib/uploads.tsx). */
+export function useEntitlements(): Entitlements | null {
+  return useMe().allowance;
 }
 
-export function uploadsLeftText(e: Entitlements): string | null {
-  if (e.uploads.limit === null) return null;
+/** True when an upload would be turned away: a guest, or a free account whose song is used. */
+export function cannotUpload(e: Entitlements | null): "guest" | "used" | null {
+  if (!e) return null;
+  if (e.plan === "guest") return "guest";
+  if (e.plan === "free" && (e.uploads.remaining ?? 0) <= 0) return "used";
+  return null;
+}
+
+export function uploadsLeftText(e: Entitlements | null): string | null {
+  if (!e || e.uploads.limit === null || e.plan === "guest") return null;
   const n = e.uploads.remaining ?? 0;
-  return n === 0 ? "You've used your free uploads. Built-in songs are always free." : `${n} free upload${n === 1 ? "" : "s"} left`;
+  if (e.plan === "free") return n > 0 ? "1 free song to convert" : "You've used your free song. Built-in songs are always free";
+  return n === 0 ? `You've added ${e.uploads.limit} songs in the last 24 hours. You can add more tomorrow` : `${n} of ${e.uploads.limit} songs left today`;
 }

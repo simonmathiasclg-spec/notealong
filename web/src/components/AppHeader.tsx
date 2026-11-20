@@ -6,6 +6,9 @@ import { motion } from "framer-motion";
 import { Moon, Plus, Sun } from "lucide-react";
 import { useTheme } from "@/lib/prefs";
 import { useUploads } from "@/lib/uploads";
+import { useMe } from "@/lib/me";
+import { cannotUpload } from "@/lib/entitlements";
+import { signInHref } from "./cloud/Prompts";
 import { UploadButton } from "./UploadZone";
 import { HeaderSearch } from "./HeaderSearch";
 import { AccountButton } from "./cloud/AccountButton";
@@ -64,6 +67,8 @@ export function MainNav({ className = "flex", id = "main" }: { className?: strin
  */
 export function AppHeader({ right, nav = true, search = true, children }: { right?: React.ReactNode; nav?: boolean; search?: boolean; children?: React.ReactNode }) {
   const { addFiles } = useUploads();
+  const { allowance, showPaidPanel } = useMe();
+  const blocked = cannotUpload(allowance);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 8);
@@ -79,7 +84,13 @@ export function AppHeader({ right, nav = true, search = true, children }: { righ
         <div className="flex min-w-0 items-center gap-1 sm:gap-1.5">
           {children}
           {search && <Suspense><HeaderSearch className="hidden w-56 xl:block" /></Suspense>}
-          {right ?? <UploadButton onFiles={addFiles} label="Add a song" icon={<Plus className="h-4 w-4" strokeWidth={2} />} variant="red" className="max-sm:w-10 max-sm:px-0" labelClassName="max-sm:sr-only" />}
+          {right ?? (blocked === "guest" ? (
+            <Link href={signInHref("/my-songs?add=1")} className="btn btn-red max-sm:px-3.5" aria-label="Sign up free to convert your own song" data-tip="Convert one song of your own, free" data-tip-pos="below">Sign up free</Link>
+          ) : blocked === "used" ? (
+            <button className="btn btn-red max-sm:w-10 max-sm:px-0" onClick={showPaidPanel} aria-label="Add a song"><Plus className="h-4 w-4" strokeWidth={2} /> <span className="max-sm:sr-only">Add a song</span></button>
+          ) : (
+            <UploadButton onFiles={addFiles} label="Add a song" icon={<Plus className="h-4 w-4" strokeWidth={2} />} variant="red" className="max-sm:w-10 max-sm:px-0" labelClassName="max-sm:sr-only" />
+          ))}
           <ThemeToggle />
           <AccountButton />
         </div>

@@ -96,7 +96,9 @@ export type CatalogEntry = {
 export type Catalog = { version: number; songs: CatalogEntry[] };
 
 /** The current plan (no accounts yet; mirrors service/notealong/entitlements.py). */
-export type Entitlements = { plan: string; uploads: { used: number; limit: number | null; remaining: number | null }; catalog: "free" };
+/** What this person may do. "local": this computer, no limits. Online: "guest" (not signed in: built-in songs only),
+ *  "free" (one song of their own for the life of the account), "beta" (testers and the owner: a daily limit). */
+export type Entitlements = { plan: "local" | "guest" | "free" | "beta"; uploads: { used: number; limit: number | null; remaining: number | null; period?: "day" | "lifetime" | null }; catalog: "free" };
 
 /** How an upload becomes notes: "sax" is one held note per syllable (the default); "detailed" is the literal transcription. */
 export type MelodyMode = "sax" | "detailed";

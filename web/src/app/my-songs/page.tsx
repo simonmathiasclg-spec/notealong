@@ -1,6 +1,7 @@
 "use client";
 // My songs: what you added yourself. Built-in songs live on Discover.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { AlertCircle, Loader2, Trash2 } from "lucide-react";
 import { FavouriteButton } from "@/components/Favourite";
@@ -26,7 +27,7 @@ export default function LibraryPage() {
   const { uploads, addFiles: onFiles } = useUploads();
   const [sort, setSort] = useState<"recent" | "title">("recent");
   const [instrument] = useInstrumentPref();
-  const entitlements = useEntitlements([songs?.length]);
+  const entitlements = useEntitlements();
   const uploadsLeft = uploadsLeftText(entitlements);
 
   const refresh = useCallback(async () => {
@@ -62,7 +63,7 @@ export default function LibraryPage() {
         {songs === null ? (
           <div className="space-y-3 pt-6" aria-busy="true">{Array.from({ length: 5 }).map((_, i) => <div key={i} className="skel h-16 w-full rounded-2xl" />)}</div>
         ) : songs.length === 0 ? (
-          !serviceDown && <EmptyState />
+          !serviceDown && <Suspense><EmptyState /></Suspense>
         ) : (
           <>
             <div className="mb-10 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 pt-2 sm:mb-14">
@@ -101,7 +102,14 @@ export default function LibraryPage() {
 }
 
 function EmptyState() {
-  return <div className="py-2 sm:py-6"><DropHero firstRun /></div>;
+  // after "Sign up free to convert your own song", the visitor lands here to pick the file
+  const params = useSearchParams();
+  return (
+    <div className="py-2 sm:py-6">
+      {params.get("add") === "1" && <p className="mb-6 text-[15px] text-fg">You&apos;re signed in. Choose the song you want to convert.</p>}
+      <DropHero firstRun />
+    </div>
+  );
 }
 
 

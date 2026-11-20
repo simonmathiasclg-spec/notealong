@@ -4,8 +4,8 @@
 // the app's own routes under /api/cloud.
 import type { Catalog, CatalogEntry, Entitlements, MelodyMode, MyLibrary, Note, Line, ProgressSnapshot, Setlist, Song, SongSummary, UserSession, Word } from "../types";
 import type { SearchRow } from "../search";
-import { supabase, userId } from "./browser";
-import { AUDIO_EXT, MAX_MINUTES, MAX_UPLOAD_MB, PROTECTED_EXT, SUPABASE_ANON_KEY, UPLOADS_PER_DAY, VIDEO_EXT, catalogFile } from "./config";
+import { hasSession, supabase, userId } from "./browser";
+import { AUDIO_EXT, MAX_MINUTES, MAX_UPLOAD_MB, PROTECTED_EXT, SUPABASE_ANON_KEY, VIDEO_EXT, catalogFile } from "./config";
 import { CATALOG_OVERLAY, snapshotFromSong } from "./songdata";
 
 type Patch = Partial<{ title: string; artist: string; words: Word[]; notes: Note[]; lines: Line[]; user: UserSession; language_override: string }>;
@@ -70,13 +70,19 @@ function withEdits(base: Song, entry: CatalogEntry, edits: CatalogEdits | null):
   return song;
 }
 
+// A guest's changes to a built-in song (player settings, note fixes) last until the tab is closed; nothing is saved.
+const guestEdits = new Map<string, CatalogEdits>();
+
 async function catalogSong(entry: CatalogEntry): Promise<Song> {
   const [base, edits] = await Promise.all([
     catalogBaseSong(entry.id),
-    supabase().from("catalog_edits").select("data,updated_at").eq("song_id", entry.id).maybeSingle().then(check),
+    hasSession().then((on) => (on ? supabase().from("catalog_edits").select("data,updated_at").eq("song_id", entry.id).maybeSingle().then(check) : guestEdits.get(entry.id) ?? null)),
   ]);
   return withEdits(base, entry, edits as CatalogEdits | null);
 }
+
+/** The name of a key render of a built-in song in the public catalog bucket (the same name the server uses). */
+const renderFile = (id: string, stem: "backing" | "vocals", shift: number) => `renders/${id}/shift_${stem}_${shift > 0 ? "+" : ""}${shift}.mp3`;
 
 // ---- uploads -------------------------------------------------------------------------------------
 type SongRow = { id: string; status: string; data: Song; created_at: string; updated_at: string };
@@ -142,6 +148,7 @@ export const cloudApi = {
   health: async () => ({ ok: true }),
 
   listSongs: async (): Promise<SongSummary[]> => {
+    if (!(await hasSession())) return [];
     const rows = check(await supabase().from("songs").select(SUMMARY).order("created_at", { ascending: false })) as unknown as (Record<string, unknown> & { search: { word_count?: number; note_count?: number } | null })[];
     return rows.map((r) => {
       const { search, dstatus, ...rest } = r;
@@ -152,16 +159,32 @@ export const cloudApi = {
   },
 
   catalog: async (): Promise<Catalog> => {
-    const [c, plays] = await Promise.all([catalogIndex(), supabase().from("plays").select("song_id,last")]);
+    const signedIn = await hasSession();
+    const [c, plays] = await Promise.all([catalogIndex(), signedIn ? supabase().from("plays").select("song_id,last") : Promise.resolve({ data: [] })]);
     const last = new Map(((plays.data ?? []) as { song_id: string; last: string }[]).map((p) => [p.song_id, p.last]));
     return { ...c, songs: c.songs.map((s) => ({ ...s, last_played: last.get(s.id) ?? null })) };
   },
 
   me: async (): Promise<Entitlements> => {
-    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-    const r = await supabase().from("jobs").select("id", { count: "exact", head: true }).eq("kind", "process").eq("params->>new", "true").gte("created_at", since);
-    const used = r.count ?? 0;
-    return { plan: "beta", uploads: { used, limit: UPLOADS_PER_DAY, remaining: Math.max(0, UPLOADS_PER_DAY - used) }, catalog: "free" };
+    if (!(await hasSession())) return { plan: "guest", uploads: { used: 0, limit: 0, remaining: 0, period: null }, catalog: "free" };
+    // the database decides (public.my_allowance): testers and the owner get a daily limit, everyone else one song for good
+    const r = check(await supabase().rpc("my_allowance")) as { plan: "free" | "beta"; used: number; limit: number; remaining: number };
+    return { plan: r.plan, uploads: { used: r.used, limit: r.limit, remaining: r.remaining, period: r.plan === "beta" ? "day" : "lifetime" }, catalog: "free" };
+  },
+
+  /** Paid plans are coming: leave this account's email on the interest list (once). */
+  joinPaidInterest: async (): Promise<{ ok: boolean }> => {
+    check(await supabase().rpc("join_paid_interest"));
+    return { ok: true };
+  },
+
+  /** Whether this key of a song can be played now. A guest can use a built-in song's keys that are already rendered;
+   *  a key that would need a new render (processing) needs an account. */
+  keyReady: async (id: string, shift: number): Promise<boolean> => {
+    if (shift === 0 || (await hasSession())) return true;
+    const head = (stem: "backing" | "vocals") => fetch(catalogFile(renderFile(id, stem, shift)), { method: "HEAD" }).then((r) => r.ok).catch(() => false);
+    const [b, v] = await Promise.all([head("backing"), head("vocals")]);
+    return b && v;
   },
 
   coverUrl: (id: string) => catalogFile(`${id}/cover.webp`),
@@ -211,6 +234,15 @@ export const cloudApi = {
 
   patchSong: async (id: string, patch: Patch): Promise<Song> => {
     const entry = await catalogEntry(id).catch(() => null);
+    if (entry && !(await hasSession())) {
+      const base = await catalogBaseSong(id);
+      const data: Partial<Song> = { ...(guestEdits.get(id)?.data ?? {}) };
+      if (patch.user !== undefined) data.user = patch.user;
+      for (const k of ["notes", "words", "lines"] as const) if (patch[k] !== undefined) (data as Record<string, unknown>)[k] = patch[k];
+      const edits = { data, updated_at: new Date().toISOString() };
+      guestEdits.set(id, edits);
+      return withEdits(base, entry, edits);
+    }
     if (entry) {
       const [base, prev] = await Promise.all([
         catalogBaseSong(id),
@@ -241,7 +273,8 @@ export const cloudApi = {
   deleteSong: async (id: string) => {
     const entry = await catalogEntry(id).catch(() => null);
     if (entry) {
-      check(await supabase().from("catalog_edits").delete().eq("song_id", id));
+      guestEdits.delete(id);
+      if (await hasSession()) check(await supabase().from("catalog_edits").delete().eq("song_id", id));
       return { ok: true };
     }
     return call<{ ok: boolean }>(`/api/cloud/songs/${id}`, { method: "DELETE" });
@@ -279,6 +312,7 @@ export const cloudApi = {
   },
 
   myLibrary: async (): Promise<MyLibrary> => {
+    if (!(await hasSession())) return { favourites: [], plays: {}, setlists: [] };
     const [favs, plays, sets] = await Promise.all([
       myFavourites(),
       supabase().from("plays").select("song_id,count,last"),
@@ -290,12 +324,14 @@ export const cloudApi = {
   },
 
   setFavourite: async (id: string, on: boolean) => {
+    if (!(await hasSession())) return { favourites: [] as string[] };      // guests are asked to sign in instead (lib/me.tsx)
     if (on) check(await supabase().from("favourites").upsert({ user_id: await userId(), song_id: id }, { ignoreDuplicates: true }));
     else check(await supabase().from("favourites").delete().eq("song_id", id));
     return { favourites: await myFavourites() };
   },
 
   played: async (id: string) => {
+    if (!(await hasSession())) return { count: 0, last: new Date().toISOString() };     // a guest's plays aren't kept
     const r = check(await supabase().rpc("record_play", { p_song_id: id })) as { count: number; last: string };
     return { count: r.count, last: r.last };
   },
@@ -313,7 +349,7 @@ export const cloudApi = {
     return { ok: true };
   },
 
-  prepareKeys: (id: string, shift: number) => call<{ queued: number }>(`/api/cloud/songs/${id}/prepare?shift=${shift}`, { method: "POST" }),
+  prepareKeys: async (id: string, shift: number) => ((await hasSession()) ? call<{ queued: number }>(`/api/cloud/songs/${id}/prepare?shift=${shift}`, { method: "POST" }) : { queued: 0 }),
 
   progressSnapshot: async (id: string): Promise<ProgressSnapshot> => {
     const [row, job] = await Promise.all([

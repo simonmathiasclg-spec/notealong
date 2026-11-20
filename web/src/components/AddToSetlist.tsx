@@ -6,7 +6,7 @@ import { Check, ListMusic, Plus } from "lucide-react";
 import { useMe } from "@/lib/me";
 
 export function AddToSetlistButton({ songId, title, variant = "icon" }: { songId: string; title: string; variant?: "icon" | "button" }) {
-  const { setlists, addToSetlist, createSetlist } = useMe();
+  const { setlists, addToSetlist, createSetlist, signedIn, nudge } = useMe();
   const [open, setOpen] = useState(false);
   const [naming, setNaming] = useState(false);
   const [name, setName] = useState("");
@@ -19,6 +19,7 @@ export function AddToSetlistButton({ songId, title, variant = "icon" }: { songId
     window.addEventListener("mousedown", close); window.addEventListener("keydown", esc);
     return () => { window.removeEventListener("mousedown", close); window.removeEventListener("keydown", esc); };
   }, [open]);
+  const toggle = () => { if (signedIn === false) { nudge("Sign in to make setlists."); return; } setOpen((o) => !o); };
   const add = (id: string, setName: string) => { addToSetlist(id, songId); setDone(setName); setTimeout(() => { setOpen(false); setDone(null); }, 900); };
   const create = async () => {
     const n = name.trim() || "My setlist";
@@ -28,8 +29,8 @@ export function AddToSetlistButton({ songId, title, variant = "icon" }: { songId
   return (
     <div ref={box} className="relative">
       {variant === "icon"
-        ? <button className="btn btn-ghost btn-icon" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={`Add ${title} to a setlist`} data-tip="Add to a setlist" data-tip-pos="below"><ListMusic className="h-[18px] w-[18px]" /></button>
-        : <button className="btn" onClick={() => setOpen((o) => !o)} aria-expanded={open}><ListMusic className="h-4 w-4" /> Add to setlist</button>}
+        ? <button className="btn btn-ghost btn-icon" onClick={toggle} aria-expanded={open} aria-label={`Add ${title} to a setlist`} data-tip="Add to a setlist" data-tip-pos="below"><ListMusic className="h-[18px] w-[18px]" /></button>
+        : <button className="btn" onClick={toggle} aria-expanded={open}><ListMusic className="h-4 w-4" /> Add to setlist</button>}
       {open && (
         <div className="floating absolute right-0 top-full z-50 mt-2 w-64 p-1.5 text-sm" role="menu">
           {done ? (

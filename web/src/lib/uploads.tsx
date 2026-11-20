@@ -6,6 +6,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { useRouter } from "next/navigation";
 import { api } from "./api";
 import { useInstrumentPref } from "./prefs";
+import { useMe } from "./me";
+import { cannotUpload } from "./entitlements";
 import type { ProgressSnapshot } from "./types";
 
 export type UploadStatus = "uploading" | "processing" | "ready" | "failed" | "duplicate";
@@ -35,8 +37,15 @@ export function UploadsProvider({ children }: { children: React.ReactNode }) {
   const [instrument] = useInstrumentPref();
   const router = useRouter();
   const patch = useCallback((id: number, p: Partial<Upload>) => setUploads((u) => u.map((x) => (x.id === id ? { ...x, ...p } : x))), []);
+  const { allowance, refreshAllowance, showPaidPanel } = useMe();
 
-  const addFiles = useCallback(async (files: File[]) => {
+  const addFiles = useCallback(async (picked: File[]) => {
+    // online: a guest signs up first and comes back to add the song; a free account that used its song sees the
+    // paid-plans panel. (The server and the database refuse these too; this only saves a pointless upload.)
+    const blocked = cannotUpload(allowance);
+    if (blocked === "guest") { router.push(`/sign-in?next=${encodeURIComponent("/my-songs?add=1")}`); return; }
+    if (blocked === "used") { showPaidPanel(); return; }
+    const files = allowance?.plan === "free" ? picked.slice(0, Math.max(1, allowance.uploads.remaining ?? 1)) : picked;
     const single = files.length === 1;
     for (const file of files) {
       const id = nextId++;
@@ -54,7 +63,8 @@ export function UploadsProvider({ children }: { children: React.ReactNode }) {
         patch(id, { status: "failed", error: (e as Error).message });
       }
     }
-  }, [instrument, router, patch]);
+    refreshAllowance();
+  }, [instrument, router, patch, allowance, refreshAllowance, showPaidPanel]);
 
   // Follow the songs that are processing; a snapshot every couple of seconds is plenty for a queue.
   const following = uploads.filter((u) => u.status === "processing" && u.songId).map((u) => [u.id, u.songId!] as const);

@@ -11,6 +11,12 @@ export function supabase(): SupabaseClient {
   return client;
 }
 
+/** Whether someone is signed in in this browser (guests can browse and play the built-in songs). */
+export async function hasSession(): Promise<boolean> {
+  const { data } = await supabase().auth.getSession();
+  return !!data.session;
+}
+
 /** The signed-in user's id (from the session kept in this browser). */
 export async function userId(): Promise<string> {
   const { data } = await supabase().auth.getSession();
