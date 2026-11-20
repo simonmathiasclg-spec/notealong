@@ -4,7 +4,7 @@
 
 - **Live: https://notealong.vercel.app**. Anyone can open it, browse the 208 built-in songs and play any of them in the player, with no account.
 - **Hosting:** Supabase project "notealong" (us-east-1) in the personal organization "Simon Personal" (zchrxexblzgmuwtjowqv), Modal (profile simon-mathiasclg, T4 GPU), Vercel project "notealong" (scope simonmathiasclg-9145s-projects). Nothing was created in the employer's organization; `deploy.sh` now refuses it outright.
-- **Not open yet: new accounts.** Supabase's built-in email sender refuses addresses outside the project team and allows about 2 emails an hour, and Google sign-in needs an OAuth client only you can create. Until one of them is set up, strangers can browse and play but can't sign up. The steps are in "Your to-dos" below.
+- **Sign-up is open: "Continue with Google".** Since 20 November 2026 anyone with a Google account can create an account in one click and convert their free song. Google is the main button on the sign-in page; the email link is second, and when Supabase's built-in sender refuses or limits it, the page says "Sign-in by email is limited for now. Please use Continue with Google above." Email sign-up for everyone needs your own sender (to-do 3).
 - **Real cost per song:** about 98 GPU-seconds on a T4 for a 2:32 song, about **$0.016**, or about **$0.026** when the GPU machine then sits idle for its 60-second wait. Details below.
 
 ## Who can do what
@@ -24,15 +24,7 @@ How the free song is enforced:
 
 ## Your to-dos, in order
 
-1. **Google sign-in (makes sign-up work for everyone).**
-   1. Go to https://console.cloud.google.com with your personal Google account and create a project called NoteAlong.
-   2. Open "Google Auth Platform" (or "APIs and Services", then "OAuth consent screen"). Set the app name to NoteAlong, pick your email as the support and contact email, choose "External", and publish the app.
-   3. Open "Clients", click "Create client", choose "Web application", name it NoteAlong.
-      - Authorized JavaScript origins: `https://notealong.vercel.app`
-      - Authorized redirect URIs: `https://npnjprtmiknqtdmzdgji.supabase.co/auth/v1/callback`
-   4. Click Create and copy the Client ID and the Client secret.
-   5. In Supabase (https://supabase.com/dashboard, project "notealong"): Authentication, then Sign In / Providers, then Google. Switch it on, paste the Client ID and Client secret, and save.
-   6. Tell me "Google is on". I'll then switch on the "Continue with Google" button (`NEXT_PUBLIC_GOOGLE_AUTH=1` on Vercel) and redeploy. It becomes the main way to sign in, with the email link second.
+1. **Check that Google sign-in is published.** Open https://console.cloud.google.com/auth/audience?project=notealong-515321. Under "Publishing status" it must say "In production". If it says "Testing", click "Publish app" and confirm; until then only the test users listed there can sign in with Google.
 2. **Cloudflare Turnstile (blocks automated sign-ups; works on notealong.vercel.app, no custom domain needed).**
    1. Create a free account at https://dash.cloudflare.com, open Turnstile, click "Add widget".
    2. Name it NoteAlong, add the hostname `notealong.vercel.app`, choose "Managed", create it.
@@ -46,6 +38,8 @@ How the free song is enforced:
    5. Add `SMTP_HOST=smtp.resend.com` to `.env.cloud` and run `./deploy.sh` (or ask me): with your own sender, the NoteAlong email template is used too, and its link also works when opened on another device.
 4. **The owner's overview (`/admin`)**: `ADMIN_EMAIL` is still unset. To use it, add `ADMIN_EMAIL=<your email>` to `.env.cloud` and run `SUPA_ORG=zchrxexblzgmuwtjowqv ./deploy.sh`: you get `/admin` and the testers' 10 songs a day.
 5. **Later:**
+   - Google's account picker says "to continue to npnjprtmiknqtdmzdgji.supabase.co" rather than NoteAlong. Showing your own name there needs a Supabase custom domain (a paid add-on on Supabase Pro).
+   - Your own Google account was used for the live test, so its free song now counts as used (a salted hash of the email is kept, as for any deleted account). Signing in with it after `ADMIN_EMAIL` is set (to-do 4) gives you the owner's 10 songs a day anyway.
    - Vercel's free Hobby plan is for non-commercial use: move to Vercel Pro before you charge anyone.
    - A lawyer should review `/terms` and `/privacy` and fill in the contact email, the governing law and the age limit.
    - Supabase's free plan pauses a project after a week with no activity; a visit wakes it, but the first page can then take a minute. Supabase Pro ($25 a month) avoids that and raises storage from 1 GB (the built-in songs use 638 MB).
@@ -68,6 +62,7 @@ Locally (Supabase in Docker, the worker on this Mac in place of Modal), then liv
 | Guest, local and live | Discover and "Try it: no sign-in needed" open Amazing Grace in the player in two clicks (choose your instrument, then Try it). It plays, and the note for each word lights up over the lyrics. A new key, favourites and setlists show the sign-in prompt; a note fix works on the page and says "Changed on this page only". My songs, setlists, account and admin, and any id that isn't a built-in song, send a guest to sign in. |
 | Free account, local | Sign-up from "Sign up free to convert your own song" lands back on the upload ("You're signed in. Choose the song you want to convert."). Uploaded a Creative Commons song (Eternity, David Crowe, CC BY 3.0). It processed, played, changed key and saved a favourite. The second upload showed the paid-plans panel, and "Tell me when paid plans open" saved. |
 | Free account, live (throwaway account, then deleted) | Uploaded the same CC song from its public archive.org copy and converted it on Modal: 195 notes, 87 words, key A minor; it plays. The second upload showed the panel, and the upload route answered 403 with the same message. "Delete my account" removed the account, every row and the files (after the fix below). |
+| Google sign-up, live (20 November 2026) | Signed out, clicked "Continue with Google" on notealong.vercel.app, chose a Google account that had never used NoteAlong, and landed back on the site signed in, with "1 free song to convert". Uploaded the CC song Eternity from its public archive.org copy: it converted on Modal in about 2 minutes and played, with the notes above the lyrics. My songs then said "You've used your free song", and "Add a song" opened the "Paid plans are coming soon" panel. "Delete my account" then left 0 users, 0 songs, 0 jobs and no files for that song. |
 | Tester, local | Two songs added, "8 of 10 songs left today"; the account page shows "2 of 10". |
 | Phone (375 px) | Discover (guest and free song used), sign-in, My songs and the player fit with no sideways scrolling. |
 | Suites and builds | Python: 119 passed. Web: 133 passed. Lint unchanged (the same 12 known problems, none new). Production builds of the local and online versions pass, including the check that no test material can ship. |
