@@ -134,7 +134,10 @@ putenv WORKER_SECRET "$WORKER_SECRET"
 # in .env.cloud); Turnstile guards the email form once its keys are there. Both are optional.
 [ -n "$GOOGLE_CLIENT_ID" ] && putenv NEXT_PUBLIC_GOOGLE_AUTH 1
 [ -n "$TURNSTILE_SITE_KEY" ] && putenv NEXT_PUBLIC_TURNSTILE_SITE_KEY "$TURNSTILE_SITE_KEY"
-site=$(vercel deploy --prod --yes --scope "$VERCEL_SCOPE" 2>&1 | tee /dev/stderr | grep -o "https://$VERCEL_PROJECT[a-zA-Z0-9-]*\.vercel\.app" | tail -1)
+out=$(vercel deploy --prod --yes --scope "$VERCEL_SCOPE" 2>&1 | tee /dev/stderr)
+# the production address is the alias ("Aliased https://notealong.vercel.app"); the per-deployment address is private
+site=$(echo "$out" | grep -i "aliased" | grep -o "https://[a-zA-Z0-9.-]*\.vercel\.app" | tail -1)
+[ -n "$site" ] || site=$(echo "$out" | grep -o "https://${VERCEL_PROJECT}[a-zA-Z0-9-]*\.vercel\.app" | tail -1)
 cd "$ROOT"
 [ -n "$SITE_URL" ] || setvar SITE_URL "${site:-https://$VERCEL_PROJECT.vercel.app}"
 load
@@ -149,6 +152,10 @@ t = open(path).read()
 t = re.sub(r'site_url = ".*"', f'site_url = "{site}"', t, count=1)
 t = re.sub(r'additional_redirect_urls = \[.*\]', f'additional_redirect_urls = ["{site}/**", "http://localhost:3001/**"]', t, count=1)
 t = t.replace("enable_confirmations = false", "enable_confirmations = true")
+# a custom email template needs your own email sender (SMTP) on the free plan: until SMTP_HOST is set, Supabase's
+# own template is used (its link signs people in on the same browser), and the rest of these settings still apply
+if not os.environ.get("SMTP_HOST"):
+    t = re.sub(r'\n\[auth\.email\.template\.[a-z_]+\]\n(?:[^\[\n][^\n]*\n)*', '\n', t)
 if os.environ.get("TURNSTILE_SECRET_KEY"):
     t = t.replace('# [auth.captcha]\n# enabled = true\n# provider = "turnstile"\n# secret = "env(TURNSTILE_SECRET_KEY)"',
                   '[auth.captcha]\nenabled = true\nprovider = "turnstile"\nsecret = "env(TURNSTILE_SECRET_KEY)"')

@@ -103,8 +103,10 @@ class JobRun:
         return True
 
     def stopped(self) -> bool:
+        # a job whose row is gone belongs to an account that was deleted while it ran: it must stop, and
+        # write nothing more (its files were just removed with the account)
         row = self.supa.one("jobs", {"id": f"eq.{self.job_id}"}, "status")
-        return bool(row and row["status"] == "stopped")
+        return not row or row["status"] == "stopped"
 
     def check_stop(self, force: bool = False) -> None:
         now = time.time()
@@ -156,6 +158,7 @@ class JobRun:
 
     def push_files(self, *, drop_renders: bool = False) -> None:
         """Uploads new and changed files, and removes from storage the files the pipeline deleted."""
+        self.check_stop(force=True)
         prefix = f"{self.uid}/{self.song_id}"
         here = {p.name for p in self.dir.iterdir() if p.is_file() and p.name not in KEEP_LOCAL and ".tmp" not in p.name}
         for name in sorted(here):
@@ -393,6 +396,7 @@ def run_render(run: JobRun) -> None:
                 sources[stem] = src
             out = work / name
             audio_mod.pitch_shift_file(sources[stem], out, shift, fine=fine, formant=(stem == "vocals"))
+            run.check_stop(force=True)          # stopped, or the account deleted, while it rendered: keep nothing
             run.supa.upload(bucket, f"{renders}/{name}", out.read_bytes(), "audio/mpeg", cache_seconds=86400 if catalog else 3600)
             if fine:
                 run.supa.upload(bucket, f"{renders}/{name}.fine", b"", "text/plain")

@@ -36,6 +36,9 @@ base = (
     modal.Image.debian_slim(python_version="3.11")
     .apt_install("ffmpeg", "rubberband-cli", "libsndfile1", "libchromaprint-tools")
     .pip_install_from_requirements("requirements-cloud.txt")
+    # On Linux, basic-pitch also installs TensorFlow, built for NumPy 1; with NumPy 2 it fails to import and takes
+    # basic-pitch down with it. Without TensorFlow, basic-pitch uses its ONNX model, as it does on the Mac.
+    .run_commands("pip uninstall -y tensorflow tensorflow-cpu tf-keras keras tensorflow-io-gcs-filesystem tensorboard || true")
     .env({
         "NOTEALONG_LIBRARY": "/tmp/notealong-library",
         "NOTEALONG_CATALOG": "/tmp/notealong-no-catalog",
