@@ -5,7 +5,12 @@ import { userClient } from "@/lib/cloud/server";
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl;
-  const raw = url.searchParams.get("next") ?? "/";
+  // `back` (from the email): the address the sign-in was asked from, whose own `next` is where to go afterwards
+  let raw = url.searchParams.get("next") ?? "/";
+  const back = url.searchParams.get("back");
+  if (back) {
+    try { raw = new URL(back).searchParams.get("next") ?? "/"; } catch { raw = "/"; }
+  }
   const next = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
   const sb = await userClient();
   const tokenHash = url.searchParams.get("token_hash");

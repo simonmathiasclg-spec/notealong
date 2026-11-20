@@ -595,7 +595,7 @@ export function Player({ initial, reload, colors = null }: { initial: Song; relo
             </div>
             {editing ? (
               <div className="flex items-center gap-1">
-                <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? "Saving…" : saveState === "saved" ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span> : view === "sheet" ? "Click a note to change it. Words are fixed in the Letters view" : "Click a note to move it, or a word to fix it"}</span>
+                <span className="mr-2 hidden text-[13px] text-muted sm:inline" aria-live="polite">{saveState === "saving" ? (signedIn === false ? "" : "Saving…") : saveState === "saved" ? (signedIn === false ? "Changed on this page only" : <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Saved</span>) : view === "sheet" ? "Click a note to change it. Words are fixed in the Letters view" : "Click a note to move it, or a word to fix it"}</span>
                 <button className="btn btn-ghost btn-icon" onClick={undo} disabled={undoStack.current.length === 0} aria-label="Undo" data-tip="Undo" data-tip-pos="below"><Undo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-ghost btn-icon" onClick={redo} disabled={redoStack.current.length === 0} aria-label="Redo" data-tip="Redo" data-tip-pos="below"><Redo2 className="h-[18px] w-[18px]" strokeWidth={1.6} /></button>
                 <button className="btn btn-primary" onClick={() => { setEditing(false); setNoteAnchor(null); setWordAnchor(null); }}><Check className="h-4 w-4" /> Done</button>
